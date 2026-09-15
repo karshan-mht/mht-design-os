@@ -1,0 +1,74 @@
+{
+  "pointAndEdit": {
+    "priorityPaths": {
+      "prefer": [
+        "visitor/index.html",
+        "subscriber/index.html",
+        "logged-in-member/index.html",
+        "logged-out-member/index.html",
+        "entry-points/facebook-ad.html",
+        "entry-points/google-search.html",
+        "entry-points/gmail-inbox.html",
+        "index.html",
+        "main.css",
+        "main.js"
+      ],
+      "deprioritize": [],
+      "exclude": [
+        "assets/**",
+        ".figma/**",
+        ".claude/**",
+        ".git/**",
+        "**/*.md",
+        "foundation/**",
+        "domains/**"
+      ]
+    },
+    "libraryPaths": {
+      "local": [],
+      "external": []
+    },
+    "pathClassification": {
+      "classifier": "sonnet"
+    },
+    "exclusions": [
+      {
+        "glob": "assets/**",
+        "reason": "Static image and SVG assets (photos, icons, decorative blobs) are referenced by HTML/CSS but own no rendered UI logic and are not valid point-and-edit source anchors."
+      },
+      {
+        "glob": ".figma/**",
+        "reason": "Figma Make tooling configuration files are not UI source anchors."
+      },
+      {
+        "glob": ".claude/**",
+        "reason": "Claude Code harness configuration and permission files are not rendered UI source and must never be selected as a point-and-edit anchor."
+      },
+      {
+        "glob": ".git/**",
+        "reason": "Git internals are not source files of any kind."
+      },
+      {
+        "glob": "**/*.md",
+        "reason": "Markdown files are design and domain documentation; they contain no rendered UI source."
+      },
+      {
+        "glob": "foundation/**",
+        "reason": "Foundation documentation files describe system design decisions and contain no rendered UI source."
+      },
+      {
+        "glob": "domains/**",
+        "reason": "Domain documentation files describe product intent and contain no rendered UI source."
+      }
+    ],
+    "generated": {
+      "schemaVersion": 2,
+      "source": "setup-agent.point-and-edit-path-classifier",
+      "prompt": "same-turn-setup-subagent-v5",
+      "model": "claude-sonnet-4-6",
+      "createdAt": "2026-09-14T00:00:00Z",
+      "confidence": 0.98,
+      "explanation": "Repository is a fully self-contained vanilla HTML/CSS/JS prototype with no framework, build system, or node_modules; all rendered UI is enumerable across exactly 10 files (8 HTML screens, main.css, main.js), making the complete source anchor set deterministic with very high confidence."
+    }
+  }
+}
