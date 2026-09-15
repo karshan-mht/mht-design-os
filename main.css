@@ -2294,8 +2294,13 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 }
 .launcher__grid {
   display: grid;
-  grid-template-columns: 1fr;   /* stacked single column */
+  grid-template-columns: repeat(2, 1fr);   /* two columns — titles & text are short */
   gap: 16px;
+}
+@media (max-width: 560px) {
+  .launcher__grid {
+    grid-template-columns: 1fr;   /* stack on narrow screens */
+  }
 }
 .launcher__grid + .launcher__section-title {
   margin-top: 40px;
