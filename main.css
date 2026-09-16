@@ -780,7 +780,7 @@ html.is-modal-open { overflow: hidden; }
   align-items: center;
 }
 .nav__left { gap: 2px; }   /* stacked logotype sits close to the menu icon */
-.nav__right { gap: 10px; }  /* more air between search / AI / Join (felt tight) */
+.nav__right { gap: 6px; }  /* tight enough that search + Ask pill + Join fit a 375px nav */
 
 .icon-btn {
   width: 44px;
@@ -804,8 +804,8 @@ html.is-modal-open { overflow: hidden; }
   position: relative;
   box-sizing: border-box;
   width: auto;
-  gap: 6px;
-  padding: 0 12px;
+  gap: 5px;
+  padding: 0 10px;
   border-radius: var(--radius-pill);
   background: transparent;
 }
@@ -1032,6 +1032,16 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   cursor: pointer;
 }
 .join-btn:active { filter: brightness(1.08); }
+
+/* Narrowest phones (< 375px): tighten the top-nav cluster so search + Ask pill +
+   Join/profile never overflow the right edge. Placed after the button rules so
+   these overrides win on source order. */
+@media (max-width: 374px) {
+  .nav__top { padding-inline: 8px; }
+  .nav__right { gap: 4px; }
+  .ai-btn { padding: 0 8px; gap: 4px; }
+  .join-btn { padding: 0 12px; }
+}
 
 .profile-btn {
   position: relative;

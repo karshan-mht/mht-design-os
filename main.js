@@ -609,7 +609,7 @@ function renderTopNav() {
         </div>
         <div class="nav__right">
           <button class="icon-btn" aria-label="Search">${icon("search")}</button>
-          <button class="icon-btn ai-btn" aria-label="Ask AI">${aiDuoStarsGradientSVG("ai-grad-nav", "ai-btn__stars")}<span class="ai-btn__label">AI</span></button>
+          <button class="icon-btn ai-btn" aria-label="Ask AI">${aiDuoStarsGradientSVG("ai-grad-nav", "ai-btn__stars")}<span class="ai-btn__label">Ask</span></button>
           ${right}
         </div>
       </div>
@@ -656,7 +656,7 @@ function renderDesktopHeader(screen) {
         <nav class="dnav__nav">${tabs}</nav>
         <div class="dnav__right">
           <button class="icon-btn" aria-label="Search">${icon("search")}</button>
-          <button class="icon-btn ai-btn" aria-label="Ask AI">${aiDuoStarsGradientSVG("ai-grad-nav", "ai-btn__stars")}<span class="ai-btn__label">AI</span></button>
+          <button class="icon-btn ai-btn" aria-label="Ask AI">${aiDuoStarsGradientSVG("ai-grad-nav", "ai-btn__stars")}<span class="ai-btn__label">Ask</span></button>
           ${right}
         </div>
       </div>
