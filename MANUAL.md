@@ -1,4 +1,4 @@
-# MHT — Manual
+# MHT Design OS — Manual
 
 The spec docs, as a flat index. Start with the root [README.md](README.md) for
 the project overview and quick start, or open `index.html` for the same map as

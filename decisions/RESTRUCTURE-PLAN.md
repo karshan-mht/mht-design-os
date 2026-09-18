@@ -104,10 +104,16 @@ site, and `tokens.css` never names a hue. Adding a site is one file.
    verification.
 4. **Brand scope is accent-only.** The six `--brand-*` hue tokens swap per
    site. Action blue, ink, surfaces, borders, type and layout are universal.
-5. **Repo renames to `mht-design-system`**, brand-neutral so it does not
-   favour Menopause over the Legacy sites. The local directory rename goes
-   **last** (it invalidates any running session's working directory); the
-   GitHub rename is yours to do.
+5. **Repo renames to `mht-design-os`**, brand-neutral so it does not favour
+   Menopause over the Legacy sites. It landed as `mht-design-system` first and
+   was renamed again after the Design OS handoff made the case: the design
+   system is one subsystem under `system/`, while `prototypes/`, `product/`,
+   `decisions/` and `evals/` are not design system at all. The local directory
+   rename goes **last** (it invalidates any running session's working
+   directory); the GitHub rename is yours to do.
+
+   Naming inside `system/` deliberately still says "design system" — that part
+   genuinely is one.
 6. **DECISIONS.md is not split by surface.** Its interleaved timeline is a
    deliberate design that explains cross-surface decisions; splitting destroys
    that. It gets `### YYYY-MM` sub-headings for retrieval instead, and moves
@@ -248,7 +254,7 @@ Verified:
 - `evals/lint-tokens.js` rescoped from directory names to exact relative paths
   and still passes.
 
-Not done: the local directory and GitHub repo rename to `mht-design-system`.
+Not done at the time: the local directory and GitHub repo rename (now `mht-design-os`).
 That is deliberately last — renaming the working directory invalidates any
 running session, and the GitHub rename is the user's to perform.
 
