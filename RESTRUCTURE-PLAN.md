@@ -1,6 +1,6 @@
 # TIM Repo Restructure — Plan
 
-Status: **Phase 0 complete.** Phases 1-6 not started.
+Status: **Phases 0 and 1 complete.** Phases 2-6 not started.
 
 Goal: turn this repo into a design system that is *executable context* for
 agents — a single source of truth for tokens, an addressable component layer,
@@ -202,11 +202,25 @@ Original steps, for reference:
 
 Exit criterion: exactly one `:root` colour/type declaration exists in the repo.
 
-### Phase 1 — Home shell
+### Phase 1 — Home shell — **DONE**
 
-Collapsible left sidebar replacing the flat launcher. Sections: Prototypes,
-Design System, Foundations, Components, Icons, Motion, Brand. Driven by
-`home/manifest.json`. Built on `tokens.css` so it dogfoods the system.
+Delivered:
+
+- `index.html` — collapsible sidebar over seven sections; state persisted.
+- `home/manifest.js` — all home content as data. Adding a prototype is one entry.
+- `home/home.css`, `home/home.js` — shell styles and rendering, no framework.
+- A live Menopause/Legacy theme switcher, reading swatch colours out of the
+  theme files rather than duplicating them.
+
+37 items catalogued across Prototypes, Foundations, Components, Icons &
+Graphics, Brand, Product and Decisions. `planned` items render as dashed,
+non-clickable cards so the roadmap shows without dead links.
+
+Verified in a browser: section routing and `#hash` deep links, collapse,
+theme switch, and a `file://` load with no server (7 sections, 13 cards).
+
+The manifest is `.js` not `.json` because Chrome blocks `fetch()` over
+`file://` — a `.json` would have broken the no-server invariant silently.
 
 ### Phase 2 — The move
 

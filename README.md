@@ -6,10 +6,15 @@ across four auth states — **Anonymous Visitor**, **Logged Out Member**,
 nav, slide-out panel, account dropdown) and the screens each persona can reach.
 No framework, no build step — just open a file in a browser.
 
-Start at the **launcher** (`index.html`) — a static picker that opens each
-persona flow on its own shareable page, plus a set of **Entry Points** that
-simulate arriving from an external source (search, social, a content email) on a
-specific starting screen.
+Start at the **home** (`index.html`) — the design system's front door. A
+collapsible left sidebar moves between Prototypes, Foundations, Components,
+Icons & Graphics, Brand, Product and Decisions. Everything opens in its own tab,
+so each prototype keeps a shareable URL.
+
+The home renders entirely from **`home/manifest.js`**. Adding a prototype or a
+doc is one entry in that file — never a markup edit. It also carries a live
+**site theme switcher** (Menopause / Legacy), which is the fastest way to see
+the token layer working.
 
 Design source: Figma **Global Navigation** file `42yas7Q9FfwhL6xUocjEAl`;
 per-surface Figma frames and the **MHT Style Guide** are cited in the `domains/`
@@ -47,7 +52,16 @@ real screen in that persona).
 ## Structure
 
 ```
-index.html                     Launcher — static picker linking to each flow
+index.html                     Home — collapsible sidebar over every section
+home/                          The home shell:
+  manifest.js                    ALL home content. Add a prototype here.
+  home.css  home.js              Shell styles and rendering
+system/tokens/                 The design system's token layer:
+  tokens.css                     Universal palette — single source of truth
+  themes/menopause.css           Purple hue family (production)
+  themes/legacy.css              Blue hue family (placeholder values)
+  themes/README.md               The theme contract; how to add site 81
+evals/lint-tokens.js           Drift lint — fails on hex outside the tokens
 main.css                       All styles (shared by every page)
 main.js                        All behavior — reads <body data-persona> and
                                renders the nav/panel/dropdown for that persona
@@ -86,14 +100,20 @@ not part of the repo — serve with `npx serve .` instead.)
 ## How it works
 
 Each flow lives in its own folder and is a thin shell that sets one attribute and
-loads the two shared files:
+loads the token layer, a site theme, then the two shared files:
 
 ```html
+<link rel="stylesheet" href="../system/tokens/tokens.css" />
+<link rel="stylesheet" href="../system/tokens/themes/menopause.css" />
+<link rel="stylesheet" href="../main.css" />
 <body data-persona="logged-in-member">
-  <link rel="stylesheet" href="../main.css" />
   <script src="../main.js"></script>
 </body>
 ```
+
+Colour never appears in `main.css` — it lives in `tokens.css`, and the hue comes
+from the theme file. Swapping that one link re-skins the page. Run
+`node evals/lint-tokens.js` to check nothing has drifted back.
 
 `main.js` reads `data-persona` and renders that persona's nav/panel/dropdown and
 screens — no framework, no build step, no persona switcher. The app is a **real
@@ -111,6 +131,8 @@ four personas — is in **[foundation/system.md](foundation/system.md)**.
 
 ## Docs
 
+- **[RESTRUCTURE-PLAN.md](RESTRUCTURE-PLAN.md)** — the six-phase restructure,
+  its findings and current status.
 - **[MANUAL.md](MANUAL.md)** — index of the spec docs (start here).
 - **[DECISIONS.md](DECISIONS.md)** — the chronological decisions log.
 - **[foundation/](foundation/)** — system & behavior: system, design, navigation.
