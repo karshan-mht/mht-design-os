@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TIM Prototype — Logged Out Member</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,600;0,700;1,400&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+<!-- Design system: universal tokens, then the site hue family, then styles.
+     Swap the theme file to re-skin this page. See ../system/tokens/themes/README.md -->
+<link rel="stylesheet" href="../../../system/tokens/tokens.css" />
+<link rel="stylesheet" href="../../../system/tokens/themes/menopause.css" />
+<link rel="stylesheet" href="../main.css" />
+<!-- Maze usability testing snippet -->
+<script>
+(function (m, a, z, e) {
+  var s, t, u, v;
+  try {
+    t = m.sessionStorage.getItem('maze-us');
+  } catch (err) {}
+
+  if (!t) {
+    t = new Date().getTime();
+    try {
+      m.sessionStorage.setItem('maze-us', t);
+    } catch (err) {}
+  }
+
+  u = document.currentScript || (function () {
+    var w = document.getElementsByTagName('script');
+    return w[w.length - 1];
+  })();
+  v = u && u.nonce;
+
+  s = a.createElement('script');
+  s.src = z + '?apiKey=' + e;
+  s.async = true;
+  if (v) s.setAttribute('nonce', v);
+  a.getElementsByTagName('head')[0].appendChild(s);
+  m.mazeUniversalSnippetApiKey = e;
+})(window, document, 'https://snippet.maze.co/maze-universal-loader.js', 'aaf57ba9-336f-48ec-951c-ab901a458447');
+</script>
+</head>
+<body data-persona="logged-out-member">
+
+  <main class="stage">
+    <div class="phone" id="phone" role="group" aria-label="Mobile prototype screen"></div>
+  </main>
+
+  <!-- Icon registry, generated from system/icons/ui/*.svg. Must load BEFORE
+     main.js, which reads window.MHT_ICONS.ui at parse time. -->
+<script src="../../../system/icons/registry-ui.js"></script>
+<script src="../main.js"></script>
+</body>
+</html>

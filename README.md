@@ -1,18 +1,38 @@
-# TIM — Navigation Prototype
+# MHT Design OS
 
-A plain HTML/CSS/JS prototype of the **This Is Menopause** mobile experience
-across four auth states — **Anonymous Visitor**, **Logged Out Member**,
-**Logged In Member**, and **Subscriber**. It covers the global navigation (top
-nav, slide-out panel, account dropdown) and the screens each persona can reach.
-No framework, no build step — just open a file in a browser.
+The durable design workspace for **ThisIsMenopause** and the Legacy condition
+sites: the design system, the product knowledge, the prototypes built from
+both, the decisions behind them, and the checks that keep them honest.
 
-Start at the **launcher** (`index.html`) — a static picker that opens each
-persona flow on its own shareable page, plus a set of **Entry Points** that
-simulate arriving from an external source (search, social, a content email) on a
-specific starting screen.
+The design system is one subsystem inside it, under `system/`. Prototypes,
+product context, decisions and verification are the rest — which is why this is
+a Design OS rather than a design system repo.
+
+Plain HTML/CSS/JS. No framework, no build step — open a file in a browser.
+
+Start at the **launcher** (`index.html`) — the front door. A
+collapsible left sidebar moves between Prototypes, Foundations, Components,
+Icons & Graphics, Brand, Product and Decisions. Everything opens in its own tab,
+so each prototype keeps a shareable URL.
+
+("Launcher", never "Home" — the product has its own Member Home surface, and
+reusing the word for two different things confuses both people and agents.)
+
+The launcher renders entirely from **`launcher/manifest.js`**. Adding a
+prototype or a doc is one entry in that file — never a markup edit.
+
+The system currently covers two sites: **ThisIsMenopause** (purple hue family,
+production) and the **Legacy condition sites** (blue hue family, placeholder
+values). Components are identical across both; only the hue differs. See
+Foundations → Sites in the launcher, or
+[system/tokens/themes/README.md](system/tokens/themes/README.md).
+
+The flagship prototype is the **global navigation** across four auth states —
+Anonymous Visitor, Logged Out Member, Logged In Member and Subscriber — in
+`prototypes/navigation/`.
 
 Design source: Figma **Global Navigation** file `42yas7Q9FfwhL6xUocjEAl`;
-per-surface Figma frames and the **MHT Style Guide** are cited in the `domains/`
+per-surface Figma frames and the **MHT Style Guide** are cited in the `product/`
 docs.
 
 ## Quick start
@@ -32,14 +52,15 @@ npx serve .              # then visit the printed URL
 ```
 
 Then open the four flows from the launcher, or directly:
-`visitor/`, `logged-out-member/`, `logged-in-member/`, `subscriber/`.
+`prototypes/navigation/visitor/`, `.../logged-out-member/`,
+`.../logged-in-member/`, `.../subscriber/`.
 
 The launcher has a second section, **Entry Points** — four specific traffic
 sources, each starting from a mocked-up external page (a Google search result
 page, a Facebook ad, a Gmail inbox) that clicks through into a persona flow on a
 specific starting screen instead of its default home: Paid Social (a specific
 article), Organic + Paid Search (article variant and home variant), and a
-member opening a content email. The external mocks live in `entry-points/`;
+member opening a content email. The external mocks live in `prototypes/entry-points/`;
 the click-through uses a `?start=<screen-id>` query param read by `main.js` at
 boot (falls back to the normal home if the param is missing or doesn't match a
 real screen in that persona).
@@ -47,37 +68,67 @@ real screen in that persona).
 ## Structure
 
 ```
-index.html                     Launcher — static picker linking to each flow
-main.css                       All styles (shared by every page)
-main.js                        All behavior — reads <body data-persona> and
-                               renders the nav/panel/dropdown for that persona
-assets/                        Real assets exported from Figma (flat folder):
-                               logotype.png/.svg + logomark.svg (logos),
-                               placeholder_profile.svg, privacy-choices.png,
-                               listicles_*.svg (splash listicle icons),
-                               hero-rings-*.svg / factoid-blob-*.svg /
-                               closing-blob.svg (splash decorative graphics)
-                               (nav/UI icons are inlined in main.js, not files)
-visitor/index.html             Anonymous Visitor flow
-logged-out-member/index.html   Logged Out Member flow
-logged-in-member/index.html    Logged In Member flow (has the dropdown)
-subscriber/index.html          Subscriber flow
-entry-points/                  Standalone mock external pages (Google search,
-                               Facebook ad, Gmail inbox) that click through into
-                               a persona flow — self-contained, no main.css/js
-MANUAL.md                      Index of the spec docs (start here)
-DECISIONS.md                   Chronological decisions log + "on the horizon"
-foundation/                    System & behavior (the how):
-  system.md                      Architecture & persona model (render, screens, device)
-  design.md                      Design language (tokens, type, tinting, chrome assets)
-  navigation.md                  Global-nav chrome (top nav, panel, level-up, footer)
-domains/                       Product surfaces (the what):
+index.html                     Launcher — collapsible sidebar over every section
+launcher/                      The launcher shell:
+  manifest.js                    ALL launcher content. Add a prototype here.
+  launcher.css  launcher.js      Shell styles and rendering
+
+system/                        The design system
+  tokens/
+    tokens.css                   Universal palette — single source of truth
+    tokens.md                    Token roles, implementation-agnostic
+    reference.html               Live token sheet (colour ramps, type scale)
+    themes/menopause.css         Purple hue family (production)
+    themes/legacy.css            Blue hue family (placeholder values)
+    themes/README.md             The two sites; how to add site 81
+  foundation/design.md         Design language (type, tinting, chrome assets)
+  patterns/navigation.md       Global-nav chrome (top nav, panel, footer)
+  components/
+    INDEX.md                     Generated index of all 79 CSS blocks
+    README.md                    Tiers, how to add a contract, known gaps
+    _TEMPLATE.md                 Component contract schema
+    <block>/docs.md              Hand-written contracts
+  AUTHORITY.md                 Authority model + preference grammar
+  icons/
+    sheet.html                   Specimen page for both sets
+    editorial/*.svg              112 graphical line icons (display sizes)
+    ui/*.svg                     28 solid glyphs for interface chrome
+    categories.js                Authored grouping + display names
+    registry-*.js                GENERATED inline registries
+  motion/ai-pulse-spec.html    Ask AI pulse motion study
+  brand/                       Brand strategy, voice, style guide PDF
+  assets/                      Real assets exported from Figma (flat folder):
+                               logotype/logomark, advisor headshots, listicle
+                               icons, splash decoration. Nav/UI icons are
+                               inlined in main.js, not files.
+
+prototypes/                    Working prototypes, built on the system
+  navigation/                  The four-persona global-nav prototype
+    main.css  main.js            Styles and behaviour (shared by its pages)
+    ARCHITECTURE.md              Render model, screen types, persona model
+    visitor/ subscriber/ logged-in-member/ logged-out-member/
+  entry-points/                Mock external pages (Google, Facebook, Gmail)
+                               that click through into a persona flow
+  community/                   Standalone Community surface
+
+product/                       Product surfaces (the what):
   landing.md                     Splash Landing (modules + deep-links + assets)
-  advisors.md                    Medical Advisory Committee page (splash deep-link)
-  library.md                     Library / "Resources" (topic pages, Topic Center, Article)
-  community.md                   Community (list + detail screens, icons)
+  advisors.md                    Medical Advisory Committee page
+  library.md                     Library / "Resources"
+  community.md                   Community (list + detail screens)
+  topic-hub.md                   Per-concern Topic Hub
   account.md                     Account (profile dropdown + its screens)
   onboarding.md                  Onboarding (Sign Up Start, Registration Step)
+
+decisions/
+  DECISIONS.md                 Chronological decisions log + "on the horizon"
+  RESTRUCTURE-PLAN.md          The six-phase restructure and its status
+evals/
+  lint-tokens.js               Fails on hex outside the tokens; audits rgba()
+  lint-links.js                Fails on an internal reference that does not resolve
+  gen-component-index.js       Regenerates system/components/INDEX.md (--check)
+  gen-icon-registry.js         Regenerates the icon registries (--check)
+MANUAL.md                      Index of the spec docs
 ```
 
 (A local `.claude/` folder holds an optional preview helper; it's gitignored and
@@ -86,14 +137,20 @@ not part of the repo — serve with `npx serve .` instead.)
 ## How it works
 
 Each flow lives in its own folder and is a thin shell that sets one attribute and
-loads the two shared files:
+loads the token layer, a site theme, then the two shared files:
 
 ```html
+<link rel="stylesheet" href="../../../system/tokens/tokens.css" />
+<link rel="stylesheet" href="../../../system/tokens/themes/menopause.css" />
+<link rel="stylesheet" href="../main.css" />
 <body data-persona="logged-in-member">
-  <link rel="stylesheet" href="../main.css" />
   <script src="../main.js"></script>
 </body>
 ```
+
+Colour never appears in `main.css` — it lives in `tokens.css`, and the hue comes
+from the theme file. Swapping that one link re-skins the page. Run
+`node evals/lint-tokens.js` to check nothing has drifted back.
 
 `main.js` reads `data-persona` and renders that persona's nav/panel/dropdown and
 screens — no framework, no build step, no persona switcher. The app is a **real
@@ -107,12 +164,16 @@ resizing the browser switches between mobile and desktop. Navigation happens via
 self-contained.
 
 The full architecture — render model, screen types, responsive layout, and the
-four personas — is in **[foundation/system.md](foundation/system.md)**.
+four personas — is in **[prototypes/navigation/ARCHITECTURE.md](prototypes/navigation/ARCHITECTURE.md)**.
 
 ## Docs
 
+- **[system/AUTHORITY.md](system/AUTHORITY.md)** — the authority model (which
+  source wins about what) and the preference grammar used across component docs.
+- **[RESTRUCTURE-PLAN.md](decisions/RESTRUCTURE-PLAN.md)** — the six-phase restructure,
+  its findings and current status.
 - **[MANUAL.md](MANUAL.md)** — index of the spec docs (start here).
-- **[DECISIONS.md](DECISIONS.md)** — the chronological decisions log.
-- **[foundation/](foundation/)** — system & behavior: system, design, navigation.
-- **[domains/](domains/)** — the product surfaces: landing, advisors, library,
+- **[decisions/DECISIONS.md](decisions/DECISIONS.md)** — the chronological decisions log.
+- **[system/](system/foundation/)** — system & behavior: system, design, navigation.
+- **[product/](product/)** — the product surfaces: landing, advisors, library,
   community, account, onboarding.

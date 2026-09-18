@@ -1,0 +1,310 @@
+<title>Shared Icon Set</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --menopause:#A440BC; --legacy:#3F7EC1; --brand:var(--menopause);
+  --bg:#FAF8FB; --surface:#FFFFFF; --well:#F7F4F9; --ink:#20191F; --muted:#6C6274;
+  --line:#E5DEE9; --line-strong:#D2C8D8; --guide:#B9A8C4;
+  --sans:"Lato",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --size:128px; --sw:3.4; --r:10px;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#141118; --surface:#1D1822; --ink:#EEE8F2; --muted:#9A8FA5;
+    --line:#312A38; --line-strong:#463D4E; --guide:#7A6A85;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141118; --surface:#1D1822; --ink:#EEE8F2; --muted:#9A8FA5;
+  --line:#312A38; --line-strong:#463D4E; --guide:#7A6A85;
+}
+:root[data-brand="legacy"]{ --brand:var(--legacy); }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55;margin:0;padding:0 24px 80px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1140px;margin:0 auto}
+
+header{padding:48px 0 0}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--brand);margin:0 0 14px}
+h1{font-size:clamp(34px,5.2vw,50px);font-weight:700;letter-spacing:-.025em;line-height:1.03;margin:0 0 14px;text-wrap:balance}
+.lede{max-width:60ch;color:var(--muted);margin:0 0 30px;font-size:16px}
+
+.spec{display:flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);overflow:hidden;margin:0 0 34px}
+.spec div{flex:1 1 130px;padding:13px 16px;border-right:1px solid var(--line)}
+.spec div:last-child{border-right:none}
+.spec dt{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin:0 0 4px}
+.spec dd{font-family:var(--mono);font-size:14px;font-weight:500;margin:0;font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:6px}
+.dot{width:9px;height:9px;border-radius:2px;flex:none}
+
+.bar{position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;align-items:center;gap:10px 20px;padding:12px 16px;margin:0 -16px 34px;background:var(--bg);border-bottom:1px solid var(--line)}
+.ctl{display:flex;align-items:center;gap:9px}
+.ctl>span,.toggle span{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.chips{display:flex;gap:4px;background:var(--well);padding:3px;border-radius:7px}
+:root[data-theme="dark"] .chips,:root:not([data-theme="light"]) .chips{background:var(--surface)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) .chips{background:#F0EBF3}}
+.chip{font-family:var(--mono);font-size:12px;padding:4px 10px;border:none;border-radius:5px;cursor:pointer;background:none;color:var(--muted);transition:background .14s,color .14s;display:flex;align-items:center;gap:6px}
+.chip:hover{color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.06)}
+:root[data-theme="dark"] .chip[aria-pressed="true"],:root:not([data-theme="light"]) .chip[aria-pressed="true"]{background:var(--bg)}
+.chip .dot{border-radius:50%}
+input[type=range]{-webkit-appearance:none;appearance:none;width:96px;height:3px;border-radius:2px;background:var(--line-strong);cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--brand);cursor:pointer;border:2px solid var(--surface)}
+input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--brand);cursor:pointer;border:2px solid var(--surface)}
+.val{font-family:var(--mono);font-size:12.5px;color:var(--ink);min-width:24px;font-variant-numeric:tabular-nums}
+.reset{font-family:var(--mono);font-size:10px;letter-spacing:.06em;border:none;background:none;color:var(--brand);cursor:pointer;padding:2px 4px;display:none}
+.reset.on{display:inline}
+.toggle{display:flex;align-items:center;gap:7px;cursor:pointer;user-select:none}
+.toggle input{accent-color:var(--brand);width:14px;height:14px;cursor:pointer;margin:0}
+.ghost{font-family:var(--mono);font-size:11px;letter-spacing:.06em;padding:6px 12px;border:1px solid var(--line-strong);border-radius:6px;background:var(--surface);color:var(--ink);cursor:pointer;transition:border-color .14s,color .14s}
+.ghost:hover{border-color:var(--brand);color:var(--brand)}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:4px}
+
+section{margin-bottom:44px}
+.shead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:0 0 4px}
+.shead h2{font-size:21px;font-weight:600;letter-spacing:-.015em;margin:0}
+.count{font-family:var(--mono);font-size:11px;color:var(--brand);letter-spacing:.06em}
+.snote{color:var(--muted);font-size:13.5px;margin:0 0 20px;max-width:66ch}
+
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(168px,1fr))}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 12px 13px;display:flex;flex-direction:column;align-items:center;gap:10px;position:relative;transition:border-color .16s}
+.tile:hover{border-color:var(--line-strong)}
+.wellbox{height:136px;display:grid;place-items:center;width:100%}
+.well{width:var(--size);height:var(--size);max-width:100%;display:grid;place-items:center;border-radius:8px;background:var(--well);position:relative}
+.well::after{content:"";position:absolute;inset:18.75%;border:1px dashed var(--guide);border-radius:2px;opacity:0;transition:opacity .15s;pointer-events:none}
+body.guides .well::after{opacity:.85}
+.ic{width:100%;height:100%;color:var(--brand);display:block;stroke-width:calc(var(--sw) * 1px)}
+.name{font-size:12.5px;font-weight:600;line-height:1.3;text-align:center;overflow-wrap:anywhere}
+.copy{position:absolute;top:8px;right:8px;z-index:3;font-family:var(--mono);font-size:9px;letter-spacing:.07em;padding:3px 7px;border:1px solid var(--line-strong);border-radius:5px;background:var(--surface);color:var(--muted);cursor:pointer;opacity:0;transition:opacity .14s,color .14s,border-color .14s}
+.tile:hover .copy,.copy:focus-visible{opacity:1}
+.copy:hover{color:var(--brand);border-color:var(--brand)}
+.copy.done{opacity:1;color:var(--brand);border-color:var(--brand)}
+
+footer{border-top:1px solid var(--line);padding-top:26px;color:var(--muted);font-size:13.5px}
+.notes{display:grid;gap:26px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));max-width:100%}
+footer h3{font-size:12.5px;font-weight:600;color:var(--ink);margin:0 0 6px}
+footer p{margin:0 0 10px}
+code{font-family:var(--mono);font-size:12.5px;color:var(--ink);background:var(--well);padding:1px 5px;border-radius:4px}
+:root[data-theme="dark"] code,:root:not([data-theme="light"]) code{background:var(--surface)}
+pre{font-family:var(--mono);font-size:12px;line-height:1.7;background:var(--surface);border:1px solid var(--line);color:var(--ink);padding:11px 13px;border-radius:8px;overflow-x:auto;margin:0 0 10px}
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,14px);background:var(--ink);color:var(--bg);font-family:var(--mono);font-size:12px;padding:9px 16px;border-radius:7px;opacity:0;pointer-events:none;transition:opacity .18s,transform .18s;z-index:50}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (max-width:620px){body{padding:0 16px 64px}.bar{margin:0 -16px 26px;gap:10px 14px}.spec div{flex-basis:50%}}
+</style>
+
+<div class="wrap">
+<header>
+  <p class="eyebrow">Menopause &amp; Legacy</p>
+  <h1>Shared icon set</h1>
+  <p class="lede">Two sets in one place. The <strong>line icons</strong> are editorial: graphical, detailed, drawn on a 128 grid for display sizes. The <strong>UI glyphs</strong> at the end are solid shapes for interface chrome at 16&ndash;44px — a separate system, deliberately not merged. Both carry <code>currentColor</code>, so the same file renders purple on Menopause and blue on Legacy. Names describe what each icon shows rather than the condition it illustrates, so nothing is tied to one site. Switch themes in the bar to check either. Every tile is rendered from the SVG files under <code>system/icons/</code> — this page is a specimen of them, not a second copy.</p>
+  <dl class="spec">
+    <div><dt>viewBox</dt><dd>0 0 128 128</dd></div>
+    <div><dt>Stroke</dt><dd>3.4</dd></div>
+    <div><dt>Caps / joins</dt><dd>round</dd></div>
+    <div><dt>Safe area</dt><dd>24 &rarr; 104</dd></div>
+    <div><dt>Menopause</dt><dd><span class="dot" style="background:#A440BC"></span>A440BC</dd></div>
+    <div><dt>Legacy</dt><dd><span class="dot" style="background:#3F7EC1"></span>3F7EC1</dd></div>
+  </dl>
+</header>
+
+<div class="bar">
+  <div class="ctl"><span>Theme</span>
+    <div class="chips" id="brands">
+      <button class="chip" data-brand="menopause" aria-pressed="true"><span class="dot" style="background:#A440BC"></span>Menopause</button>
+      <button class="chip" data-brand="legacy" aria-pressed="false"><span class="dot" style="background:#3F7EC1"></span>Legacy</button>
+    </div>
+  </div>
+  <div class="ctl"><span>Size</span>
+    <div class="chips" id="sizes">
+      <button class="chip" data-size="128" aria-pressed="true">128</button>
+      <button class="chip" data-size="64" aria-pressed="false">64</button>
+      <button class="chip" data-size="48" aria-pressed="false">48</button>
+      <button class="chip" data-size="32" aria-pressed="false">32</button>
+      <button class="chip" data-size="24" aria-pressed="false">24</button>
+    </div>
+  </div>
+  <div class="ctl"><span>Stroke</span>
+    <input type="range" id="sw" min="2.2" max="4.6" step="0.1" value="3.4" aria-label="Preview stroke width">
+    <span class="val" id="swVal">3.4</span>
+    <button class="reset" id="swReset" type="button">RESET</button>
+  </div>
+  <label class="toggle"><input type="checkbox" id="guides"><span>Safe area</span></label>
+  <button class="ghost" id="copyAll">Copy all</button>
+</div>
+
+<div id="sections"></div>
+
+<footer>
+  <div class="notes">
+    <div>
+      <h3>Using an icon</h3>
+      <p>Every shape carries <code>stroke="currentColor"</code>, so an icon inherits the colour of whatever it sits in and re-skins with the site theme.</p>
+      <p>That puts the attribute on the shape, so a recolouring rule has to reach the shape as well &mdash; a rule on the <code>&lt;svg&gt;</code> alone will not take:</p>
+      <pre>.icon path { stroke: #A440BC; }  /* Menopause */
+.icon path { stroke: #3F7EC1; }  /* Legacy */</pre>
+      <p>Design tools are the exception: Figma and Illustrator drop inherited paint on import and leave paths with no stroke. COPY handles that — it bakes the current literal hex onto every shape before copying, so what lands in a design tool is already coloured.</p>
+    </div>
+    <div>
+      <h3>Weight and size</h3>
+      <p>Stroke sits on the <code>&lt;svg&gt;</code> element rather than per path, so one attribute changes a whole icon. <code>3.4</code> is measured against the 128 grid and scales proportionally — the size chips only change render size, never the spec.</p>
+      <p>The slider is a preview for comparing options. It always starts at 3.4 and is not remembered between visits.</p>
+    </div>
+    <div>
+      <h3>Safe area</h3>
+      <p>Artwork stays inside <code>24&ndash;104</code> on the 128 grid, measured on the path centerline &mdash; so with a 3.4 stroke the outermost ink lands at 22.3 and 105.7. Toggle <em>Safe area</em> in the bar to see the box.</p>
+      <p>Keep new icons inside it so everything sits on a common optical margin when set in a row.</p>
+    </div>
+  </div>
+</footer>
+</div>
+
+<div class="toast" id="toast">Copied</div>
+
+<script src="categories.js"></script>
+<script src="registry-editorial.js"></script>
+<script src="registry-ui.js"></script>
+<script>
+/* Render every tile from the generated registries. The SVG files under
+   system/icons/ are the source of truth; this page is a specimen of them,
+   not a third copy. Runs before the controls script below, so the tiles
+   exist by the time it binds to them. */
+(function () {
+  var host = document.getElementById("sections");
+  var cats = window.MHT_ICON_CATEGORIES || {};
+  var notes = window.MHT_ICON_CATEGORY_NOTES || {};
+  var names = window.MHT_ICON_NAMES || {};
+  var ed = (window.MHT_ICONS && window.MHT_ICONS.editorial) || {};
+  var ui = (window.MHT_ICONS && window.MHT_ICONS.ui) || {};
+
+  function label(slug) {
+    return names[slug] || slug.replace(/-/g, " ").replace(/^./, function (c) { return c.toUpperCase(); });
+  }
+  function tile(slug, svg, cls) {
+    var name = label(slug);
+    return '<div class="tile" data-slug="' + slug + '">' +
+      '<button class="copy" type="button" aria-label="Copy ' + name + ' SVG">COPY</button>' +
+      '<div class="wellbox"><div class="well">' + svg.replace("<svg", '<svg class="' + cls + '"') + '</div></div>' +
+      '<div class="name">' + name + '</div></div>';
+  }
+  function section(title, note, count, body) {
+    return '<section><div class="shead"><h2>' + title + '</h2>' +
+      '<span class="count">' + count + ' icons</span></div>' +
+      (note ? '<p class="snote">' + note + '</p>' : "") +
+      '<div class="grid">' + body + '</div></section>';
+  }
+
+  var html = "";
+  Object.keys(cats).forEach(function (cat) {
+    var slugs = cats[cat].filter(function (s) { return ed[s]; });
+    html += section(cat, notes[cat], slugs.length,
+      slugs.map(function (s) { return tile(s, ed[s], "ic"); }).join(""));
+  });
+
+  /* The UI glyphs are a different system: solid shapes drawn for interface
+     chrome at 16-44px, not line art on a 128 grid. Shown here so the two
+     sets are visible in one place, but they are deliberately not merged. */
+  var uiKeys = Object.keys(ui);
+  html += section("UI glyphs", "Solid shapes for interface chrome \u2014 nav, tabs, actions, hub markers. A separate system from the line icons above: drawn small, filled rather than stroked, and tinted by <code>currentColor</code>. The size and stroke controls do not apply to them.", uiKeys.length,
+    uiKeys.map(function (k) { return tile(k, ui[k], "ic ic--ui"); }).join(""));
+
+  host.innerHTML = html;
+})();
+</script>
+<script>
+(function(){
+  var root=document.documentElement, body=document.body;
+  var toast=document.getElementById('toast'), tTimer;
+  function say(m){toast.textContent=m;toast.classList.add('on');clearTimeout(tTimer);tTimer=setTimeout(function(){toast.classList.remove('on');},1500);}
+  function store(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+  function read(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+
+  function chipGroup(id,attr,apply){
+    var g=document.getElementById(id);
+    g.addEventListener('click',function(e){
+      var b=e.target.closest('.chip'); if(!b) return;
+      g.querySelectorAll('.chip').forEach(function(c){c.setAttribute('aria-pressed',String(c===b));});
+      apply(b.dataset[attr]);
+    });
+    return g;
+  }
+
+  var brands=chipGroup('brands','brand',function(v){root.setAttribute('data-brand',v);store('icons.brand',v);});
+  var sizes=chipGroup('sizes','size',function(v){root.style.setProperty('--size',v+'px');store('icons.size',v);});
+
+  var sw=document.getElementById('sw'), swVal=document.getElementById('swVal'), swReset=document.getElementById('swReset');
+  function applySw(v){
+    root.style.setProperty('--sw',v);
+    swVal.textContent=v;
+    swReset.classList.toggle('on', parseFloat(v)!==3.4);
+  }
+  sw.addEventListener('input',function(){applySw(sw.value);});
+  swReset.addEventListener('click',function(){sw.value='3.4';applySw('3.4');});
+
+  var g=document.getElementById('guides');
+  g.addEventListener('change',function(){body.classList.toggle('guides',g.checked);store('icons.guides',g.checked?'1':'0');});
+
+  var b=read('icons.brand'); if(b){var bb=brands.querySelector('[data-brand="'+b+'"]'); if(bb) bb.click();}
+  else root.setAttribute('data-brand','menopause');
+  var s=read('icons.size'); if(s){var sb=sizes.querySelector('[data-size="'+s+'"]'); if(sb) sb.click();}
+  if(read('icons.guides')==='1'){g.checked=true;body.classList.add('guides');}
+
+  function hexOf(el){
+    var m=getComputedStyle(el).color.match(/\d+/g);
+    if(!m) return '#000000';
+    return '#'+m.slice(0,3).map(function(v){return ('0'+(+v).toString(16)).slice(-2);}).join('').toUpperCase();
+  }
+
+  /* Paint goes on every shape, not just the root. Figma and Illustrator drop
+     inherited presentation attributes on import, and currentColor has nothing
+     to resolve against once the markup leaves this page. */
+  function serialise(svg){
+    var c=svg.cloneNode(true);
+    c.removeAttribute('class');
+    c.setAttribute('width','128'); c.setAttribute('height','128');
+    var hex=hexOf(svg), w=String(parseFloat(sw.value));
+    c.setAttribute('stroke',hex);
+    c.setAttribute('stroke-width',w);
+    Array.prototype.forEach.call(c.querySelectorAll('path,circle,rect,ellipse,line,polyline,polygon'),function(n){
+      var f=n.getAttribute('fill');
+      if(f==='currentColor'||(f&&f!=='none')){
+        n.setAttribute('fill',hex); n.setAttribute('stroke','none');
+      } else {
+        n.setAttribute('fill','none');
+        n.setAttribute('stroke',hex);
+        n.setAttribute('stroke-width',w);
+        n.setAttribute('stroke-linecap','round');
+        n.setAttribute('stroke-linejoin','round');
+      }
+    });
+    return new XMLSerializer().serializeToString(c).replace(/></g,'>\n  <').replace(/\n  <\/svg>/,'\n</svg>');
+  }
+  function write(text,label){
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){say(label);},function(){say('Copy blocked by browser');});
+    }else{
+      var ta=document.createElement('textarea');
+      ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+      document.body.appendChild(ta);ta.select();
+      try{document.execCommand('copy');say(label);}catch(e){say('Copy blocked by browser');}
+      document.body.removeChild(ta);
+    }
+  }
+  document.querySelectorAll('.copy').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var t=btn.closest('.tile');
+      write(serialise(t.querySelector('svg')),'Copied '+t.querySelector('.name').textContent);
+      btn.textContent='\u2713'; btn.classList.add('done');
+      setTimeout(function(){btn.textContent='COPY';btn.classList.remove('done');},1400);
+    });
+  });
+  document.getElementById('copyAll').addEventListener('click',function(){
+    var parts=[];
+    document.querySelectorAll('.tile').forEach(function(t){
+      parts.push('<!-- '+t.dataset.slug+'.svg -->\n'+serialise(t.querySelector('svg')));
+    });
+    write(parts.join('\n\n'),'Copied all '+parts.length);
+  });
+})();
+</script>

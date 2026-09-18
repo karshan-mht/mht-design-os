@@ -2,30 +2,49 @@
   "pointAndEdit": {
     "priorityPaths": {
       "prefer": [
-        "visitor/index.html",
-        "subscriber/index.html",
-        "logged-in-member/index.html",
-        "logged-out-member/index.html",
-        "entry-points/facebook-ad.html",
-        "entry-points/google-search.html",
-        "entry-points/gmail-inbox.html",
         "index.html",
-        "main.css",
-        "main.js"
+        "launcher/launcher.js",
+        "launcher/launcher.css",
+        "launcher/manifest.js",
+        "system/tokens/tokens.css",
+        "system/tokens/themes/menopause.css",
+        "system/tokens/themes/legacy.css",
+        "system/motion/ai-pulse-spec.html",
+        "system/icons/sheet.html",
+        "system/tokens/reference.html",
+        "prototypes/navigation/main.js",
+        "prototypes/navigation/main.css",
+        "prototypes/navigation/visitor/index.html",
+        "prototypes/navigation/subscriber/index.html",
+        "prototypes/navigation/logged-in-member/index.html",
+        "prototypes/navigation/logged-out-member/index.html",
+        "prototypes/entry-points/facebook-ad.html",
+        "prototypes/entry-points/google-search.html",
+        "prototypes/entry-points/gmail-inbox.html",
+        "prototypes/community/index.html",
+        "prototypes/community/styles.css",
+        "prototypes/community/script.js",
+        "prototypes/community/feat-cards.html",
+        "prototypes/community/feat-cards.css"
       ],
       "deprioritize": [],
       "exclude": [
-        "assets/**",
+        "system/assets/**",
+        "system/icons/icons/**",
         ".figma/**",
         ".claude/**",
         ".git/**",
         "**/*.md",
-        "foundation/**",
-        "domains/**"
+        "product/**",
+        "decisions/**",
+        "evals/**"
       ]
     },
     "libraryPaths": {
-      "local": [],
+      "local": [
+        "system/tokens/tokens.css",
+        "system/tokens/themes/*.css"
+      ],
       "external": []
     },
     "pathClassification": {
@@ -33,8 +52,12 @@
     },
     "exclusions": [
       {
-        "glob": "assets/**",
-        "reason": "Static image and SVG assets (photos, icons, decorative blobs) are referenced by HTML/CSS but own no rendered UI logic and are not valid point-and-edit source anchors."
+        "glob": "system/assets/**",
+        "reason": "Static image and SVG assets (photos, illustrations, logotypes) are referenced by HTML/CSS but contain no rendered UI logic and are not valid point-and-edit source anchors."
+      },
+      {
+        "glob": "system/icons/icons/**",
+        "reason": "Raw SVG icon source files are static assets; they are not UI source anchors — the icon sheet HTML is the renderable artifact."
       },
       {
         "glob": ".figma/**",
@@ -42,23 +65,27 @@
       },
       {
         "glob": ".claude/**",
-        "reason": "Claude Code harness configuration and permission files are not rendered UI source and must never be selected as a point-and-edit anchor."
+        "reason": "Claude Code harness configuration and permission files contain no rendered UI source."
       },
       {
         "glob": ".git/**",
-        "reason": "Git internals are not source files of any kind."
+        "reason": "Git internal objects and metadata are not source files of any kind."
       },
       {
         "glob": "**/*.md",
-        "reason": "Markdown files are design and domain documentation; they contain no rendered UI source."
+        "reason": "Markdown files are design, brand, product and decision documentation; they contain no rendered UI source."
       },
       {
-        "glob": "foundation/**",
-        "reason": "Foundation documentation files describe system design decisions and contain no rendered UI source."
+        "glob": "product/**",
+        "reason": "Product surface documentation files describe intent and contain no rendered UI source."
       },
       {
-        "glob": "domains/**",
-        "reason": "Domain documentation files describe product intent and contain no rendered UI source."
+        "glob": "decisions/**",
+        "reason": "Decision logs and restructure plans contain no rendered UI source."
+      },
+      {
+        "glob": "evals/**",
+        "reason": "Token and link lint scripts are developer tooling; they are not rendered UI source anchors."
       }
     ],
     "generated": {
@@ -66,9 +93,9 @@
       "source": "setup-agent.point-and-edit-path-classifier",
       "prompt": "same-turn-setup-subagent-v5",
       "model": "claude-sonnet-4-6",
-      "createdAt": "2026-09-14T00:00:00Z",
-      "confidence": 0.98,
-      "explanation": "Repository is a fully self-contained vanilla HTML/CSS/JS prototype with no framework, build system, or node_modules; all rendered UI is enumerable across exactly 10 files (8 HTML screens, main.css, main.js), making the complete source anchor set deterministic with very high confidence."
+      "createdAt": "2026-09-18T00:00:00Z",
+      "confidence": 0.97,
+      "explanation": "Repository is a self-contained vanilla HTML/CSS/JS design system with no framework or build step; all rendered UI lives in the launcher shell, the token layer, and the prototype folders, making classification unambiguous with only a small number of files to consider."
     }
   }
 }
