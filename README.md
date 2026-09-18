@@ -75,6 +75,12 @@ system/                        The design system
     themes/README.md             The two sites; how to add site 81
   foundation/design.md         Design language (type, tinting, chrome assets)
   patterns/navigation.md       Global-nav chrome (top nav, panel, footer)
+  components/
+    INDEX.md                     Generated index of all 79 CSS blocks
+    README.md                    Tiers, how to add a contract, known gaps
+    _TEMPLATE.md                 Component contract schema
+    <block>/docs.md              Hand-written contracts
+  AUTHORITY.md                 Authority model + preference grammar
   icons/
     sheet.html                   Icon sheet — search, size, stroke controls
     icons/*.svg                  112 line icons
@@ -107,8 +113,9 @@ decisions/
   DECISIONS.md                 Chronological decisions log + "on the horizon"
   RESTRUCTURE-PLAN.md          The six-phase restructure and its status
 evals/
-  lint-tokens.js               Drift lint — fails on hex outside the tokens
+  lint-tokens.js               Fails on hex outside the tokens; audits rgba()
   lint-links.js                Fails on an internal reference that does not resolve
+  gen-component-index.js       Regenerates system/components/INDEX.md (--check)
 MANUAL.md                      Index of the spec docs
 ```
 
@@ -149,6 +156,8 @@ four personas — is in **[prototypes/navigation/ARCHITECTURE.md](prototypes/nav
 
 ## Docs
 
+- **[system/AUTHORITY.md](system/AUTHORITY.md)** — the authority model (which
+  source wins about what) and the preference grammar used across component docs.
 - **[RESTRUCTURE-PLAN.md](decisions/RESTRUCTURE-PLAN.md)** — the six-phase restructure,
   its findings and current status.
 - **[MANUAL.md](MANUAL.md)** — index of the spec docs (start here).

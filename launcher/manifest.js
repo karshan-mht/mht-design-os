@@ -134,6 +134,19 @@ window.LAUNCHER_MANIFEST =
       "blurb": "The universal layer every site and prototype shares — colour, type, space and motion — plus the hue family that distinguishes each site.",
       "groups": [
         {
+          "title": "Conventions",
+          "note": "How to read the rest of the system: who is authoritative about what, and the grammar used to document usage.",
+          "items": [
+            {
+              "title": "Authority & preference",
+              "desc": "Which source wins when artifacts disagree, and the Preferred / Allowed / Avoid / Prohibited grammar.",
+              "href": "system/AUTHORITY.md",
+              "kind": "doc",
+              "status": "live"
+            }
+          ]
+        },
+        {
           "title": "Sites",
           "note": "One universal palette, one hue family per site. Components are identical everywhere — only the hue differs. Adding a site is one file in system/tokens/themes/ and nothing else.",
           "items": [
@@ -224,22 +237,61 @@ window.LAUNCHER_MANIFEST =
       "id": "components",
       "title": "Components",
       "icon": "box",
-      "blurb": "Component specimens with variants, usage and accessibility notes, each mapped to its Figma counterpart.",
+      "blurb": "The monolith made addressable. A generated index of every CSS block, plus hand-written contracts for the ones that earn one.",
       "groups": [
         {
-          "title": "Not built yet",
-          "note": "Phase 3. There is no component layer today — styles live in a 99KB main.css and behaviour in a 284KB main.js, so nothing is addressable yet. These land as they are extracted.",
+          "title": "Index",
+          "note": "Generated from main.css by evals/gen-component-index.js, so it cannot drift from the code.",
           "items": [
             {
               "title": "Component index",
-              "desc": "Map of component name to its location in the monolith. The first step.",
-              "href": null,
-              "kind": "page",
-              "status": "planned"
+              "desc": "All 79 blocks by tier, with parts, variants and contract status.",
+              "href": "system/components/INDEX.md",
+              "kind": "doc",
+              "status": "live"
             },
             {
-              "title": "Figma ↔ code parity",
-              "desc": "parity.json — Figma node, component, CSS class, doc.",
+              "title": "How components work here",
+              "desc": "What the tiers mean, how to add a contract, and the known gaps.",
+              "href": "system/components/README.md",
+              "kind": "doc",
+              "status": "live"
+            },
+            {
+              "title": "Contract template",
+              "desc": "The schema for a component contract, using the preference grammar.",
+              "href": "system/components/_TEMPLATE.md",
+              "kind": "doc",
+              "status": "live"
+            }
+          ]
+        },
+        {
+          "title": "Contracts",
+          "note": "Written by hand. Authoritative about intent, not about CSS values.",
+          "items": [
+            {
+              "title": "Ask AI button",
+              "desc": "The assistant entry point — states, pulse motion, reduced-motion and accessibility.",
+              "href": "system/components/ai-btn/docs.md",
+              "kind": "doc",
+              "status": "live"
+            },
+            {
+              "title": "More contracts",
+              "desc": "Buttons, the level-up pill and icon-btn are the next candidates.",
+              "href": null,
+              "kind": "doc",
+              "status": "planned"
+            }
+          ]
+        },
+        {
+          "title": "Figma parity",
+          "items": [
+            {
+              "title": "parity.json",
+              "desc": "Figma node, component, CSS class, doc — machine-checkable mapping.",
               "href": null,
               "kind": "page",
               "status": "planned"

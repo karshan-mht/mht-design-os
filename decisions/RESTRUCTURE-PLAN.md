@@ -1,6 +1,6 @@
 # TIM Repo Restructure — Plan
 
-Status: **Phases 0, 1 and 2 complete.** Phases 3-6 not started.
+Status: **Phases 0-2 complete. Phase 3 in progress.** Phases 4-6 not started.
 
 Goal: turn this repo into a design system that is *executable context* for
 agents — a single source of truth for tokens, an addressable component layer,
@@ -252,12 +252,41 @@ Not done: the local directory and GitHub repo rename to `mht-design-system`.
 That is deliberately last — renaming the working directory invalidates any
 running session, and the GitHub rename is the user's to perform.
 
-### Phase 3 — Components
+### Phase 3 — Components — **IN PROGRESS**
 
-Start with an **index** mapping component names to their location in the
-monolith; extract opportunistically rather than in one pass. Resolve the two
-icon systems — either the prototype consumes `system/icons/`, or the sheet is
-declared a separate legacy set and marked as such.
+Done:
+
+- `system/AUTHORITY.md` — the authority model and preference grammar, folded in
+  from the Design OS handoff. Replaces the old "code always wins" line.
+- `system/components/INDEX.md` — all 79 CSS blocks by tier, **generated** from
+  the stylesheet by `evals/gen-component-index.js` so it cannot drift.
+  `--check` fails when it is stale.
+- `system/components/_TEMPLATE.md` + `README.md` — the contract schema and how
+  to use it.
+- `system/components/ai-btn/docs.md` — the first real contract.
+- **Brand marks now theme.** The inlined logos carried baked `fill="#A440BC"`,
+  which is why the wordmark stayed purple under the Legacy hue. The paths are
+  now classed `.logo-accent` / `.logo-ink` and driven from the tokens.
+  Verified in a browser: the wordmark goes blue with the theme.
+- **Ask AI pulse now themes.** Its keyframes baked the accent as `rgba(...)`,
+  which the hex-only lint never saw. Converted to
+  `rgb(from var(--color-accent) …)`; `lint-tokens` now audits `rgba()` too, as
+  an advisory tier.
+- **Keyboard focus, repo-wide.** Writing the first contract surfaced that the
+  prototype had *no* focus styling at all — zero `:focus` rules across 64
+  rendered buttons. Added one `:focus-visible` rule plus a pill-radius variant.
+  This was a blocker, found by the act of documenting.
+- Removed the dead legacy launcher CSS (13 rules) left behind by Phase 1.
+
+Still to do:
+
+- More contracts: `.mod-btn-primary` / `.mod-btn-secondary`, `.uplevel`,
+  `.icon-btn`.
+- Resolve the two icon systems — the prototype inlines its own set while
+  `system/icons/` holds 112 files nothing consumes.
+- The remaining 24 SVG and 36 `rgba()` audit warnings.
+- De-duplicate the `.launcher-hotspot` markup copied into the three
+  entry-point pages.
 
 ### Phase 4 — Figma parity
 

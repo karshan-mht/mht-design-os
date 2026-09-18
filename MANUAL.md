@@ -63,6 +63,12 @@ and how it behaves. **`prototypes/`** is what was built with both.
 - **[RESTRUCTURE-PLAN.md](decisions/RESTRUCTURE-PLAN.md)** — the six-phase restructure,
   its findings and current status.
 
-Code (`system/tokens/`, `prototypes/navigation/main.css`, `main.js`) is the
-source of truth if it ever disagrees with a doc — correct the doc, don't erase
-the stale entry.
+## Conventions
+
+- **[system/AUTHORITY.md](system/AUTHORITY.md)** — which source is authoritative
+  about what when artifacts disagree, and the Preferred / Allowed / Avoid /
+  Prohibited / Exception / Rationale grammar used to document usage.
+
+Code is authoritative about what *behaves* this way today, but not
+automatically about what was *intended* — see AUTHORITY.md before resolving a
+disagreement by editing the nearest file.
