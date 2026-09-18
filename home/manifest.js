@@ -17,28 +17,28 @@ window.HOME_MANIFEST =
             {
               "title": "Anonymous Visitor",
               "desc": "Someone browsing without an account.",
-              "href": "visitor/index.html",
+              "href": "prototypes/navigation/visitor/index.html",
               "kind": "page",
               "status": "live"
             },
             {
               "title": "Subscriber",
               "desc": "Someone who's started signing up but hasn't finished.",
-              "href": "subscriber/index.html",
+              "href": "prototypes/navigation/subscriber/index.html",
               "kind": "page",
               "status": "live"
             },
             {
               "title": "Logged In Member",
               "desc": "A member signed in to their account.",
-              "href": "logged-in-member/index.html",
+              "href": "prototypes/navigation/logged-in-member/index.html",
               "kind": "page",
               "status": "live"
             },
             {
               "title": "Logged Out Member",
               "desc": "A member with an account who isn't currently signed in.",
-              "href": "logged-out-member/index.html",
+              "href": "prototypes/navigation/logged-out-member/index.html",
               "kind": "page",
               "status": "live"
             }
@@ -51,28 +51,28 @@ window.HOME_MANIFEST =
             {
               "title": "Paid Social — Article",
               "desc": "A Facebook ad opens straight into an Article Show.",
-              "href": "entry-points/facebook-ad.html",
+              "href": "prototypes/entry-points/facebook-ad.html",
               "kind": "page",
               "status": "live"
             },
             {
               "title": "Search — Article",
               "desc": "A Google result opens straight into an Article Show.",
-              "href": "entry-points/google-search.html?highlight=article",
+              "href": "prototypes/entry-points/google-search.html?highlight=article",
               "kind": "page",
               "status": "live"
             },
             {
               "title": "Search — Home",
               "desc": "A Google result opens on the Splash Landing home.",
-              "href": "entry-points/google-search.html?highlight=home",
+              "href": "prototypes/entry-points/google-search.html?highlight=home",
               "kind": "page",
               "status": "live"
             },
             {
               "title": "Content Email — Article",
               "desc": "A Gmail message opens a member into an Article Show.",
-              "href": "entry-points/gmail-inbox.html",
+              "href": "prototypes/entry-points/gmail-inbox.html",
               "kind": "page",
               "status": "live"
             }
@@ -85,21 +85,21 @@ window.HOME_MANIFEST =
             {
               "title": "Assistant — Pulse",
               "desc": "Just the AI pill pulsing in the top nav.",
-              "href": "visitor/index.html?flow=pulse",
+              "href": "prototypes/navigation/visitor/index.html?flow=pulse",
               "kind": "page",
               "status": "live"
             },
             {
               "title": "Assistant — Greeting Nudge",
               "desc": "A first-time welcome on the Splash Landing.",
-              "href": "visitor/index.html?flow=assistant&reset=1",
+              "href": "prototypes/navigation/visitor/index.html?flow=assistant&reset=1",
               "kind": "page",
               "status": "live"
             },
             {
               "title": "Assistant — Question Nudge",
               "desc": "A suggested question on an Article.",
-              "href": "visitor/index.html?flow=assistant&start=article",
+              "href": "prototypes/navigation/visitor/index.html?flow=assistant&start=article",
               "kind": "page",
               "status": "live"
             }
@@ -112,7 +112,7 @@ window.HOME_MANIFEST =
             {
               "title": "Community",
               "desc": "The Community page body — no nav, no footer. Data-driven from script.js.",
-              "href": "community-standalone/index.html",
+              "href": "prototypes/community/index.html",
               "kind": "page",
               "status": "live"
             },
@@ -174,7 +174,7 @@ window.HOME_MANIFEST =
             {
               "title": "Token reference",
               "desc": "The live MHT token sheet — colour ramps, type scale, spacing.",
-              "href": "design-system/MHT-Design-Tokens.html",
+              "href": "system/tokens/reference.html",
               "kind": "page",
               "status": "draft"
             },
@@ -188,7 +188,7 @@ window.HOME_MANIFEST =
             {
               "title": "Design language",
               "desc": "Colour tokens, type scale, tinting, chrome asset provenance.",
-              "href": "foundation/design.md",
+              "href": "system/foundation/design.md",
               "kind": "doc",
               "status": "live"
             }
@@ -200,7 +200,7 @@ window.HOME_MANIFEST =
             {
               "title": "Ask AI pulse",
               "desc": "Motion study for the assistant pill — timing, easing, scope.",
-              "href": "assistant/ai-pulse-spec.html",
+              "href": "system/motion/ai-pulse-spec.html",
               "kind": "page",
               "status": "live"
             }
@@ -212,7 +212,7 @@ window.HOME_MANIFEST =
             {
               "title": "Global navigation",
               "desc": "Top nav, slide-out panel, level-up pill, footer.",
-              "href": "foundation/navigation.md",
+              "href": "system/patterns/navigation.md",
               "kind": "doc",
               "status": "live"
             }
@@ -260,7 +260,7 @@ window.HOME_MANIFEST =
             {
               "title": "Line icon sheet",
               "desc": "112 line icons with search, size and stroke controls.",
-              "href": "line-icons/icon-sheet.html",
+              "href": "system/icons/sheet.html",
               "kind": "page",
               "status": "live"
             }
@@ -273,7 +273,7 @@ window.HOME_MANIFEST =
             {
               "title": "Asset folder",
               "desc": "53 files — logotype, logomark, hero rings, factoid blobs, listicle icons.",
-              "href": "assets/",
+              "href": "system/assets/",
               "kind": "page",
               "status": "draft"
             }
@@ -293,21 +293,21 @@ window.HOME_MANIFEST =
             {
               "title": "Brand source of truth",
               "desc": "Positioning, values, voice pillars, tone spectrum, messaging architecture.",
-              "href": "design-system/thisismenopause_brand_source_of_truth_outline.md",
+              "href": "system/brand/brand-source-of-truth.md",
               "kind": "doc",
               "status": "live"
             },
             {
               "title": "Site design language",
               "desc": "thisismenopause.com — colour roles, components, layout rules.",
-              "href": "design-system/thisismenopause.com-DESIGN.md",
+              "href": "system/brand/site-design-language.md",
               "kind": "doc",
               "status": "live"
             },
             {
               "title": "MHT Style Guide v1",
               "desc": "The originating Figma style guide, as a PDF.",
-              "href": "design-system/MHT Style Guide v1.pdf",
+              "href": "system/brand/MHT-Style-Guide-v1.pdf",
               "kind": "pdf",
               "status": "live"
             }
@@ -327,49 +327,49 @@ window.HOME_MANIFEST =
             {
               "title": "Landing",
               "desc": "Splash Landing — six content modules and its deep-links.",
-              "href": "domains/landing.md",
+              "href": "product/landing.md",
               "kind": "doc",
               "status": "live"
             },
             {
               "title": "Library / Resources",
               "desc": "Topic pages, Topic Center, Article Show.",
-              "href": "domains/library.md",
+              "href": "product/library.md",
               "kind": "doc",
               "status": "live"
             },
             {
               "title": "Community",
               "desc": "Posts, Q&A, Groups, Meet-Others and their detail screens.",
-              "href": "domains/community.md",
+              "href": "product/community.md",
               "kind": "doc",
               "status": "live"
             },
             {
               "title": "Topic Hub",
               "desc": "Per-concern hub aggregating Q&A, conversations, groups, resources.",
-              "href": "domains/topic-hub.md",
+              "href": "product/topic-hub.md",
               "kind": "doc",
               "status": "live"
             },
             {
               "title": "Advisors",
               "desc": "Medical Advisory Committee page.",
-              "href": "domains/advisors.md",
+              "href": "product/advisors.md",
               "kind": "doc",
               "status": "live"
             },
             {
               "title": "Account",
               "desc": "Profile dropdown and its destination screens.",
-              "href": "domains/account.md",
+              "href": "product/account.md",
               "kind": "doc",
               "status": "live"
             },
             {
               "title": "Onboarding",
               "desc": "Sign Up Start and Registration Step.",
-              "href": "domains/onboarding.md",
+              "href": "product/onboarding.md",
               "kind": "doc",
               "status": "live"
             }
@@ -381,7 +381,7 @@ window.HOME_MANIFEST =
             {
               "title": "System & persona model",
               "desc": "The data-persona render model, screen types, responsive layout.",
-              "href": "foundation/system.md",
+              "href": "prototypes/navigation/ARCHITECTURE.md",
               "kind": "doc",
               "status": "live"
             }
@@ -401,14 +401,14 @@ window.HOME_MANIFEST =
             {
               "title": "Decisions log",
               "desc": "Every design and build decision, interleaved in time order.",
-              "href": "DECISIONS.md",
+              "href": "decisions/DECISIONS.md",
               "kind": "doc",
               "status": "live"
             },
             {
               "title": "Restructure plan",
               "desc": "The six-phase plan this home is part of, with findings and status.",
-              "href": "RESTRUCTURE-PLAN.md",
+              "href": "decisions/RESTRUCTURE-PLAN.md",
               "kind": "doc",
               "status": "live"
             },
