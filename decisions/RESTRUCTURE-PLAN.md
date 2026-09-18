@@ -288,8 +288,11 @@ Still to do:
 
 - More contracts: `.mod-btn-primary` / `.mod-btn-secondary`, `.uplevel`,
   `.icon-btn`.
-- Resolve the two icon systems — the prototype inlines its own set while
-  `system/icons/` holds 112 files nothing consumes.
+- ~~Resolve the two icon systems~~ **done**: they were never rival versions —
+  editorial (112, display-sized line art) and UI glyphs (28, interface chrome)
+  are separate systems with 2 overlapping names. Files are now the source of
+  truth for both, with generated registries; the sheet renders from them
+  instead of holding a third copy.
 - The remaining 24 SVG and 36 `rgba()` audit warnings.
 - De-duplicate the `.launcher-hotspot` markup copied into the three
   entry-point pages.

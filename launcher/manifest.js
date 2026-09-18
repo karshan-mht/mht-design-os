@@ -304,16 +304,38 @@ window.LAUNCHER_MANIFEST =
       "id": "icons",
       "title": "Icons & Graphics",
       "icon": "shapes",
-      "blurb": "Every icon and graphic in one place. Some are not used by a prototype yet — that is expected; they land as pages are built.",
+      "blurb": "Two icon systems with different jobs, plus the graphics. The SVG files are the source of truth; the sheet and the prototype both render from them.",
       "groups": [
         {
           "title": "Icons",
+          "note": "Editorial icons are graphical and detailed, drawn for display sizes. UI glyphs are solid shapes for interface chrome at 16-44px. Deliberately not merged — below ~44px the line icons render as hairlines.",
           "items": [
             {
-              "title": "Line icon sheet",
-              "desc": "112 line icons with search, size and stroke controls.",
+              "title": "Icon sheet",
+              "desc": "All 140 icons, both sets, with theme/size/stroke controls and copy-for-design-tool.",
               "href": "system/icons/sheet.html",
               "kind": "page",
+              "status": "live"
+            },
+            {
+              "title": "Editorial icons",
+              "desc": "112 line icons — symptoms, anatomy, care, support, living. Source files.",
+              "href": "system/icons/editorial/",
+              "kind": "page",
+              "status": "live"
+            },
+            {
+              "title": "UI glyphs",
+              "desc": "28 solid glyphs for nav, tabs, actions and hub markers. Source files.",
+              "href": "system/icons/ui/",
+              "kind": "page",
+              "status": "live"
+            },
+            {
+              "title": "Categories",
+              "desc": "Authored grouping and display names. Coverage is checked — no icon can go uncategorised.",
+              "href": "system/icons/categories.js",
+              "kind": "code",
               "status": "live"
             }
           ]
