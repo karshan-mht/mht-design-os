@@ -1,12 +1,16 @@
-# TIM — Navigation Prototype
+# MHT Design OS
 
-A plain HTML/CSS/JS prototype of the **This Is Menopause** mobile experience
-across four auth states — **Anonymous Visitor**, **Logged Out Member**,
-**Logged In Member**, and **Subscriber**. It covers the global navigation (top
-nav, slide-out panel, account dropdown) and the screens each persona can reach.
-No framework, no build step — just open a file in a browser.
+The durable design workspace for **ThisIsMenopause** and the Legacy condition
+sites: the design system, the product knowledge, the prototypes built from
+both, the decisions behind them, and the checks that keep them honest.
 
-Start at the **launcher** (`index.html`) — the design system's front door. A
+The design system is one subsystem inside it, under `system/`. Prototypes,
+product context, decisions and verification are the rest — which is why this is
+a Design OS rather than a design system repo.
+
+Plain HTML/CSS/JS. No framework, no build step — open a file in a browser.
+
+Start at the **launcher** (`index.html`) — the front door. A
 collapsible left sidebar moves between Prototypes, Foundations, Components,
 Icons & Graphics, Brand, Product and Decisions. Everything opens in its own tab,
 so each prototype keeps a shareable URL.
@@ -22,6 +26,10 @@ production) and the **Legacy condition sites** (blue hue family, placeholder
 values). Components are identical across both; only the hue differs. See
 Foundations → Sites in the launcher, or
 [system/tokens/themes/README.md](system/tokens/themes/README.md).
+
+The flagship prototype is the **global navigation** across four auth states —
+Anonymous Visitor, Logged Out Member, Logged In Member and Subscriber — in
+`prototypes/navigation/`.
 
 Design source: Figma **Global Navigation** file `42yas7Q9FfwhL6xUocjEAl`;
 per-surface Figma frames and the **MHT Style Guide** are cited in the `product/`
