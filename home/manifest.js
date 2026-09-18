@@ -3,10 +3,6 @@ window.HOME_MANIFEST =
   "_comment": "The home shell renders entirely from this file. Adding a prototype or a doc is one entry here - never a markup edit. Paths are relative to the repo root. kind: page|doc|pdf|code. status: live|draft|planned (planned renders disabled, so the roadmap is visible without dead links). This is a .js rather than a .json because Chrome blocks fetch() of local files over file://, and this repo must keep working from file:// with no server. It is still pure data - nothing here is executable.",
   "title": "MHT Design System",
   "subtitle": "Design system, documentation and prototypes for ThisIsMenopause and the Legacy condition sites.",
-  "themes": [
-    { "id": "menopause", "label": "Menopause" },
-    { "id": "legacy", "label": "Legacy" }
-  ],
   "sections": [
     {
       "id": "prototypes",
@@ -135,8 +131,42 @@ window.HOME_MANIFEST =
       "id": "foundations",
       "title": "Foundations",
       "icon": "grid",
-      "blurb": "The universal layer every site and prototype shares. Colour, type, space and motion.",
+      "blurb": "The universal layer every site and prototype shares — colour, type, space and motion — plus the hue family that distinguishes each site.",
       "groups": [
+        {
+          "title": "Sites",
+          "note": "One universal palette, one hue family per site. Components are identical everywhere — only the hue differs. Adding a site is one file in system/tokens/themes/ and nothing else.",
+          "items": [
+            {
+              "title": "Site & theme guide",
+              "desc": "What each site is, what belongs in a theme, and how to add site 81.",
+              "href": "system/tokens/themes/README.md",
+              "kind": "doc",
+              "status": "live"
+            },
+            {
+              "title": "ThisIsMenopause",
+              "desc": "Purple hue family. Production values, Figma-confirmed. The theme every prototype here is built against.",
+              "href": "system/tokens/themes/menopause.css",
+              "kind": "code",
+              "status": "live"
+            },
+            {
+              "title": "Legacy condition sites",
+              "desc": "Blue hue family for the 80+ existing condition sites, migrating onto Menopause styling. Placeholder values — only the accent is sourced.",
+              "href": "system/tokens/themes/legacy.css",
+              "kind": "code",
+              "status": "draft"
+            },
+            {
+              "title": "Legacy site template",
+              "desc": "A prototype shell running the Legacy hue end to end. Not built yet.",
+              "href": null,
+              "kind": "page",
+              "status": "planned"
+            }
+          ]
+        },
         {
           "title": "Tokens",
           "note": "One source of truth. Every page links tokens.css, then a theme, then its own styles.",
@@ -153,13 +183,6 @@ window.HOME_MANIFEST =
               "desc": "The universal palette. Source of truth; names no hue.",
               "href": "system/tokens/tokens.css",
               "kind": "code",
-              "status": "live"
-            },
-            {
-              "title": "Theme contract",
-              "desc": "How a site hue family works, and how to add site 81.",
-              "href": "system/tokens/themes/README.md",
-              "kind": "doc",
               "status": "live"
             },
             {
