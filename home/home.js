@@ -45,20 +45,6 @@
     });
   }
 
-  // Theme list is data (manifest). The swatch colour is NOT duplicated here —
-  // it is read back out of the loaded theme files, so a hue change in
-  // system/tokens/themes/ is picked up automatically and can never drift.
-  var THEMES = M.themes || [];
-  (function readAccents() {
-    var root = document.documentElement;
-    var restore = root.getAttribute('data-theme');
-    THEMES.forEach(function (t) {
-      root.setAttribute('data-theme', t.id);
-      t.dot = getComputedStyle(root).getPropertyValue('--brand-accent').trim();
-    });
-    if (restore) root.setAttribute('data-theme', restore); else root.removeAttribute('data-theme');
-  })();
-
   // --- build the rail -------------------------------------------------------
   function countLive(sec) {
     var n = 0;
@@ -75,26 +61,6 @@
       '<span class="rail__count">' + countLive(s) + '</span>' +
       '</button>';
   }).join('');
-
-  // --- theme switcher (dogfoods the Phase 0 theme layer) --------------------
-  var themer = document.getElementById('themer');
-  themer.innerHTML = THEMES.map(function (t) {
-    return '<button class="themer__btn" type="button" data-theme="' + t.id + '" aria-pressed="false" ' +
-      'title="' + esc(t.label) + ' theme">' +
-      '<span class="themer__dot" style="background:' + t.dot + '"></span><span>' + esc(t.label) + '</span></button>';
-  }).join('');
-
-  function applyTheme(id) {
-    document.documentElement.setAttribute('data-theme', id);
-    Array.prototype.forEach.call(themer.children, function (b) {
-      b.setAttribute('aria-pressed', String(b.dataset.theme === id));
-    });
-    set('home.theme', id);
-  }
-  themer.addEventListener('click', function (e) {
-    var b = e.target.closest('[data-theme]');
-    if (b) applyTheme(b.dataset.theme);
-  });
 
   // --- render a section -----------------------------------------------------
   var main = document.getElementById('main-inner');
@@ -178,7 +144,6 @@
   });
 
   // --- boot -----------------------------------------------------------------
-  applyTheme(get('home.theme', 'menopause'));
   setRail(get('home.rail', 'expanded'));
   render(location.hash.slice(1) || get('home.section', 'prototypes'));
 })();

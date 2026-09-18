@@ -148,52 +148,13 @@ body[data-rail="collapsed"] .rail__toggle svg { transform: rotate(180deg); }
 }
 .rail__link[aria-current="true"] .rail__count { background: var(--color-accent-soft-solid); color: var(--color-accent); }
 
-.rail__foot { padding: 12px; border-top: 1px solid var(--color-border); }
-
-.rail__foot-label {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-  margin: 0 0 8px 2px;
-  white-space: nowrap;
-}
-
-.themer { display: flex; gap: 6px; }
-
-.themer__btn {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 7px 9px;
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  background: var(--color-surface);
-  font: inherit;
-  font-size: 12px;
-  color: var(--color-text-secondary);
-  cursor: pointer;
-  white-space: nowrap;
-  transition: border-color 0.14s, color 0.14s;
-}
-.themer__btn:hover { border-color: var(--color-accent); color: var(--color-text); }
-.themer__btn:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 1px; }
-.themer__btn[aria-pressed="true"] { border-color: var(--color-accent); color: var(--color-text); font-weight: 600; }
-.themer__dot { flex: 0 0 11px; width: 11px; height: 11px; border-radius: 50%; }
-
 /* Collapsed rail: hide every label, centre the glyphs. */
 body[data-rail="collapsed"] .rail__name,
 body[data-rail="collapsed"] .rail__label,
-body[data-rail="collapsed"] .rail__count,
-body[data-rail="collapsed"] .rail__foot-label,
-body[data-rail="collapsed"] .themer__btn span { display: none; }
+body[data-rail="collapsed"] .rail__count { display: none; }
 body[data-rail="collapsed"] .rail__head { padding: 18px 0; justify-content: center; flex-wrap: wrap; gap: 8px; }
 body[data-rail="collapsed"] .rail__toggle { margin: 0; }
 body[data-rail="collapsed"] .rail__link { justify-content: center; padding: 10px 0; }
-body[data-rail="collapsed"] .themer { flex-direction: column; }
-body[data-rail="collapsed"] .themer__btn { justify-content: center; padding: 8px 0; }
 
 /* --- Main ----------------------------------------------------------------- */
 
@@ -293,14 +254,14 @@ a.card:hover .card__ext { color: var(--color-accent); }
   .rail__nav { display: flex; gap: 4px; overflow-x: auto; padding: 8px 10px; }
   .rail__link { width: auto; margin: 0; }
   .rail__toggle { display: none; }
-  /* The collapsed state is a desktop affordance — never hide labels on mobile,
-     where the rail is a horizontal scroller and the glyphs alone read as noise. */
+  /* The collapsed state is a desktop affordance. On mobile the rail is a
+     horizontal scroller, where glyphs alone read as noise — so labels stay
+     visible regardless of the persisted collapse state. */
   body[data-rail="collapsed"] .rail__name,
   body[data-rail="collapsed"] .rail__label,
-  body[data-rail="collapsed"] .themer__btn span { display: initial; }
+  body[data-rail="collapsed"] .rail__count { display: initial; }
   body[data-rail="collapsed"] .rail__link { justify-content: flex-start; padding: 9px 10px; }
   body[data-rail="collapsed"] .rail__head { padding: 18px 16px; justify-content: flex-start; }
-  body[data-rail="collapsed"] .themer { flex-direction: row; }
   .main { padding: 28px var(--content-gutter) 56px; }
 }
 

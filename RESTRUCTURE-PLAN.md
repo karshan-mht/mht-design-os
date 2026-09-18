@@ -209,15 +209,19 @@ Delivered:
 - `index.html` — collapsible sidebar over seven sections; state persisted.
 - `home/manifest.js` — all home content as data. Adding a prototype is one entry.
 - `home/home.css`, `home/home.js` — shell styles and rendering, no framework.
-- A live Menopause/Legacy theme switcher, reading swatch colours out of the
-  theme files rather than duplicating them.
+- A Sites group documenting both hue families, with the missing Legacy site
+  template listed as `planned` rather than left implied.
 
 37 items catalogued across Prototypes, Foundations, Components, Icons &
 Graphics, Brand, Product and Decisions. `planned` items render as dashed,
 non-clickable cards so the roadmap shows without dead links.
 
 Verified in a browser: section routing and `#hash` deep links, collapse,
-theme switch, and a `file://` load with no server (7 sections, 13 cards).
+mobile reflow, and a `file://` load with no server (7 sections, 13 cards).
+
+A theme switcher was built and then removed — it demonstrated the token layer
+but did not serve the page, and there is no Legacy site template to switch to
+yet. The two sites are documented instead.
 
 The manifest is `.js` not `.json` because Chrome blocks `fetch()` over
 `file://` — a `.json` would have broken the no-server invariant silently.

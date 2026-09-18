@@ -12,9 +12,13 @@ Icons & Graphics, Brand, Product and Decisions. Everything opens in its own tab,
 so each prototype keeps a shareable URL.
 
 The home renders entirely from **`home/manifest.js`**. Adding a prototype or a
-doc is one entry in that file — never a markup edit. It also carries a live
-**site theme switcher** (Menopause / Legacy), which is the fastest way to see
-the token layer working.
+doc is one entry in that file — never a markup edit.
+
+The system currently covers two sites: **ThisIsMenopause** (purple hue family,
+production) and the **Legacy condition sites** (blue hue family, placeholder
+values). Components are identical across both; only the hue differs. See
+Foundations → Sites on the home, or
+[system/tokens/themes/README.md](system/tokens/themes/README.md).
 
 Design source: Figma **Global Navigation** file `42yas7Q9FfwhL6xUocjEAl`;
 per-surface Figma frames and the **MHT Style Guide** are cited in the `domains/`

@@ -10,14 +10,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,600;0,700;1,400&family=DM+Serif+Display&display=swap" rel="stylesheet" />
 
-<!-- Design system: universal tokens, then every site hue family, then the
-     shell's own styles. This page loads BOTH themes because it carries a live
-     theme switcher — per system/tokens/themes/README.md, a switcher page must
-     set data-theme explicitly (done on <html> above) rather than relying on
-     link order to pick a default. -->
+<!-- Design system: universal tokens, then this site's hue family, then the
+     shell's own styles. The home is a Menopause-themed page like any other; it
+     documents the sites rather than switching between them. -->
 <link rel="stylesheet" href="system/tokens/tokens.css" />
 <link rel="stylesheet" href="system/tokens/themes/menopause.css" />
-<link rel="stylesheet" href="system/tokens/themes/legacy.css" />
 <link rel="stylesheet" href="home/home.css" />
 
 <!-- Maze usability testing snippet (carried over from the previous launcher) -->
@@ -70,11 +67,6 @@
     </div>
 
     <div class="rail__nav" id="rail-nav" role="tablist" aria-label="Sections"></div>
-
-    <div class="rail__foot">
-      <p class="rail__foot-label">Site theme</p>
-      <div class="themer" id="themer" role="group" aria-label="Site theme"></div>
-    </div>
   </nav>
 
   <main class="main" id="main" tabindex="-1">
