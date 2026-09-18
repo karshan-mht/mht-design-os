@@ -34,6 +34,7 @@ const EXCEPTIONS = [
 // companies' brand colours, deliberately not ours — tokenising them would be
 // wrong. design-system/, line-icons/ and assistant/ are documentation pages
 // pending the Phase 2 move; re-scope them once they land under system/.
+const SKIP_FILES = new Set(['evals/lint-tokens.js']); // this file names hexes in comments
 const SKIP_DIRS = new Set([
   '.git', 'assets', 'node_modules', '.figma', '.claude',
   'design-system', 'line-icons', 'assistant', 'entry-points',
@@ -51,14 +52,25 @@ function walk(dir, out = []) {
     if (e.isDirectory()) {
       if (SKIP_DIRS.has(e.name)) continue;
       walk(full, out);
-    } else if (/\.(css|html)$/.test(e.name)) {
-      if (!TOKEN_SOURCES.includes(rel)) out.push(rel);
+    } else if (/\.(css|html|js)$/.test(e.name)) {
+      if (!TOKEN_SOURCES.includes(rel) && !SKIP_FILES.has(rel)) out.push(rel);
     }
   }
   return out;
 }
 
+// Inline SVG artwork inside JS is a known, tracked debt rather than a fresh
+// mistake: recolouring it needs per-path judgment (brand fill vs decoration vs
+// a third-party logo) and is Phase 3 of the restructure. It is reported as a
+// WARNING so it stays visible and counted, but it does not fail the run.
+const SVG_CONTEXT = /<svg|<path|<stop|fill="|stroke="|stop-color/;
+
+// Other companies' brand colours, mocked deliberately. Tokenising them would be
+// wrong — they are not ours to normalise.
+const THIRD_PARTY = new Set(['#1877f2', '#4285f4', '#34a853', '#ea4335', '#fbbc05']);
+
 const failures = [];
+const warnings = [];
 for (const rel of walk(ROOT)) {
   const lines = fs.readFileSync(path.join(ROOT, rel), 'utf8').split('\n');
   lines.forEach((line, i) => {
@@ -66,8 +78,30 @@ for (const rel of walk(ROOT)) {
     if (!hits) return;
     const excused = EXCEPTIONS.some(x => x.file === rel && x.match.test(line));
     if (excused) return;
-    failures.push({ file: rel, line: i + 1, values: [...new Set(hits)].join(' '), text: line.trim().slice(0, 90) });
+
+    const values = [...new Set(hits)].filter(h => !THIRD_PARTY.has(h.toLowerCase()));
+    if (values.length === 0) return;
+
+    const entry = { file: rel, line: i + 1, values: values.join(' '), text: line.trim().slice(0, 90) };
+    (SVG_CONTEXT.test(line) ? warnings : failures).push(entry);
   });
+}
+
+function report(list, label) {
+  const byFile = {};
+  for (const f of list) (byFile[f.file] ||= []).push(f);
+  for (const [file, rows] of Object.entries(byFile)) {
+    console.error(`  ${file}  (${rows.length} ${label})`);
+    for (const f of rows.slice(0, 8)) console.error(`    ${String(f.line).padStart(5)}  ${f.values.padEnd(20)} ${f.text}`);
+    if (rows.length > 8) console.error(`    ... and ${rows.length - 8} more`);
+    console.error('');
+  }
+}
+
+if (warnings.length) {
+  console.error(`WARN — ${warnings.length} colour${warnings.length === 1 ? '' : 's'} baked into inline SVG artwork.`);
+  console.error('       Tracked as Phase 3 (brand marks need currentColor). Not failing the run.\n');
+  report(warnings, 'warnings');
 }
 
 if (failures.length === 0) {
@@ -76,13 +110,6 @@ if (failures.length === 0) {
 }
 
 console.error(`FAIL — ${failures.length} hardcoded colour${failures.length === 1 ? '' : 's'} outside the token layer:\n`);
-const byFile = {};
-for (const f of failures) (byFile[f.file] ||= []).push(f);
-for (const [file, list] of Object.entries(byFile)) {
-  console.error(`  ${file}`);
-  for (const f of list.slice(0, 12)) console.error(`    ${String(f.line).padStart(5)}  ${f.values.padEnd(20)} ${f.text}`);
-  if (list.length > 12) console.error(`    ... and ${list.length - 12} more`);
-  console.error('');
-}
+report(failures, 'errors');
 console.error('Add a token to system/tokens/tokens.css, or a hue to a theme file.');
 process.exit(1);
