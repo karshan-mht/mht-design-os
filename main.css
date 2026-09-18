@@ -1,71 +1,16 @@
-:root {
-  --color-primary: #0f57a8;
-  --color-primary-soft: #dee5f1;
-  --color-navy: #2b2b68;
-  --color-text: #0d1b29;
-  --color-text-secondary: #626b74;
-  --color-text-muted: rgba(13, 27, 41, 0.7);
-  --color-border: #dbdddf;
-  --color-badge: #ff741d;                 /* notification badge / chip — orange */
-  --color-badge-soft: rgba(255, 116, 29, 0.05); /* Notifications chip background */
-  --color-magenta: #a440bc;              /* Library / Community icon tint */
-  --color-magenta-soft: rgba(164, 65, 188, 0.08); /* pink circle behind icons */
-  --color-magenta-soft-solid: #f8f0fa;   /* opaque equivalent of --color-magenta-soft over white — used for the rollover so nothing alpha-stacks */
-  /* Splash Landing sections (Figma Mobile_Splash_Landing, node 4101:3) */
-  --color-purple-light: #d483cf;         /* "not imagining it" headline highlight, Factoid section */
-  --color-bg-purple-soft: #f6eff8;       /* Listicles / Community section background */
-  --color-bg-cool: #fafcff;              /* Articles section background */
-  --color-bg-blue-soft: #edf3f9;         /* Experts section background (solid, Figma 4122:332) */
-  --color-card-border: rgba(13, 27, 41, 0.15);
-  --color-pill-border: rgba(13, 27, 41, 0.44);
-  --radius-pill: 999px;
-  --radius-card: 16px;
-  --font-body: "Lato", sans-serif;
-  --font-display: "DM Serif Display", serif;
-  /* DM Serif Display responsive type scale — mobile-first; desktop values in
-     the @media (min-width:1024px) :root override below. Line-height is always
-     size+8; tracking is -0.75px across every tier. See foundation/design.md. */
-  --display-hero-size: 40px;
-  --display-hero-lh: 48px;
-  --display-section-size: 32px;
-  --display-section-lh: 40px;
-  --display-title-size: 28px;
-  --display-title-lh: 36px;
-  /* These two are both "24px" but otherwise unrelated — named separately so
-     the number is never used as an identifier for either one. */
-  --display-subhead-size: 24px;  /* DM Serif Display sub-heading tier: art-conv/answered/keep titles, advisors watch-head. Figma-confirmed (Entry-Points file, nodes 49:1845/49:1855/49:1890). */
-  --display-subhead-lh: 32px;    /* size+8, same rule as every other DM Serif Display tier */
-  --display-tracking: -0.75px;
-  --quote-size: 24px;            /* Lato SemiBold quote text (.mod-quote-card__text) only — unrelated to --display-subhead-size above */
-  --quote-lh: 30px;               /* matches the Figma Lato "Headline" 24px swatch exactly (node 40:260) */
-  /* (Device-frame tokens removed — the app is now frameless/responsive.) */
-  /* Responsive layout — real product, no device frame. Content is capped and
-     centered with fluid gutters (NOT fully fluid): fluid up to the cap, then
-     centered with growing side margin beyond it. */
-  --content-max: 1000px;     /* the single desktop content width — nav + all sections align to this */
-  --content-column: 728px;   /* reading column — articles and other content pages */
-  --content-gutter: clamp(16px, 5vw, 40px); /* minimum side gutter before the 1000px box centers */
-  /* One shared inline padding used by the header, every full-bleed section, and
-     the footer so their content edges line up exactly: fluid gutter until the
-     viewport exceeds the 1000px box, then symmetric margin that centers it. */
-  --content-pad: max(var(--content-gutter), calc((100% - var(--content-max)) / 2));
-  --mobile-max: 480px;       /* mobile layout column cap below the desktop breakpoint */
-}
+/* =============================================================================
+   TIM navigation prototype — styles
+   =============================================================================
+   Tokens live in system/tokens/tokens.css; the hue family comes from a theme
+   file in system/tokens/themes/. This file declares NO :root colour or type
+   values. Pages must link all three, in order:
 
-/* DM Serif Display desktop type scale (foundation/design.md:98-147). Only size
-   and line-height change per breakpoint; tracking/weight are constant. */
-@media (min-width: 1024px) {
-  :root {
-    --display-hero-size: 52px;
-    --display-hero-lh: 60px;
-    --display-section-size: 36px;
-    --display-section-lh: 44px;
-    --display-title-size: 32px;
-    --display-title-lh: 40px;
-    --display-subhead-size: 28px;
-    --display-subhead-lh: 36px;
-  }
-}
+     system/tokens/tokens.css  ->  system/tokens/themes/<theme>.css  ->  main.css
+
+   Never hardcode a colour here. evals/lint-tokens.js fails the build on any
+   hex literal outside tokens.css (the two -webkit-mask values below are the
+   documented exception: mask luminance, not colour).
+   ========================================================================== */
 
 * { box-sizing: border-box; }
 
@@ -77,7 +22,7 @@ body {
   margin: 0;
   font-family: var(--font-body);
   color: var(--color-text);
-  background: #f3f4f6;
+  background: var(--color-surface-sunken);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -103,14 +48,14 @@ html.is-modal-open { overflow: hidden; }
   max-width: var(--mobile-max);
   margin-inline: auto;
   min-height: 100vh;
-  background: #fff;
+  background: var(--color-surface);
 }
 
 .screen {
   position: relative;
   width: 100%;
   min-height: 100vh;
-  background: #fff;
+  background: var(--color-surface);
   display: flex;
   flex-direction: column;
 }
@@ -146,7 +91,7 @@ html.is-modal-open { overflow: hidden; }
   position: sticky;
   top: 0;
   z-index: 10;
-  background: #fff;
+  background: var(--color-surface);
   transition: transform 0.28s ease;
 }
 .screen__nav.is-hidden { transform: translateY(-100%); }
@@ -158,7 +103,7 @@ html.is-modal-open { overflow: hidden; }
   justify-content: space-between;
   gap: 4px;
   padding: 8px 16px;
-  background: #fff;
+  background: var(--color-surface);
   box-shadow: inset 0 -1px 0 0 var(--color-border);
   overflow-x: auto;
 }
@@ -241,7 +186,7 @@ html.is-modal-open { overflow: hidden; }
   isolation: isolate;      /* stacking context so the z-index:-1 rings sit above the gradient */
   overflow: hidden;
   background: linear-gradient(184deg, var(--color-navy) 6%, var(--color-magenta) 94%);
-  color: #fff;
+  color: var(--color-text-inverse);
   padding: 48px 12px;
 }
 /* Decorative concentric-ring graphics (Figma), behind the content. */
@@ -274,7 +219,7 @@ html.is-modal-open { overflow: hidden; }
   padding: 0 24px;
   border: none;
   border-radius: var(--radius-pill);
-  background: #fff;
+  background: var(--color-surface);
   color: var(--color-primary);
   font-family: var(--font-body);
   font-size: 16px;
@@ -291,7 +236,7 @@ html.is-modal-open { overflow: hidden; }
   padding: 20px 16px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
-  background: #fff;
+  background: var(--color-surface);
   cursor: pointer;
   font-family: var(--font-body);
   font-size: 16px;
@@ -307,7 +252,7 @@ html.is-modal-open { overflow: hidden; }
   padding: 20px 16px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
-  background: #fff;
+  background: var(--color-surface);
   cursor: pointer;
   font-family: var(--font-body);
   transition: border-color 0.15s ease, transform 0.15s ease;
@@ -341,15 +286,15 @@ html.is-modal-open { overflow: hidden; }
   height: 24px;
   border-radius: 50%;
   object-fit: cover;   /* real community photos (advisor headshots) */
-  background-color: #e9ebee;
-  border: 2px solid #6b3794;   /* Figma ring colour — lighter than navy so it doesn't read as a dark border on the gradient */
+  background-color: var(--color-placeholder);
+  border: 2px solid var(--color-accent-strong);   /* Figma ring colour — lighter than navy so it doesn't read as a dark border on the gradient */
   margin-left: -8px;
 }
 .mod-hero__avatars .mod-hero__avatar:first-child { margin-left: 0; }
-.mod-hero__count { font-size: 14px; color: #fff; }
+.mod-hero__count { font-size: 14px; color: var(--color-text-inverse); }
 
 .mod-checker-card {
-  background: #fff;
+  background: var(--color-surface);
   border: 0.5px solid var(--color-border);
   border-radius: var(--radius-card);
   box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.3);
@@ -377,14 +322,14 @@ html.is-modal-open { overflow: hidden; }
   border-radius: var(--radius-pill);
   font-size: 16px;
   color: var(--color-text);
-  background: #fff;
+  background: var(--color-surface);
 }
 .mod-checker-card__cta {
   height: 52px;
   border: none;
   border-radius: var(--radius-pill);
   background: var(--color-primary);
-  color: #fff;
+  color: var(--color-text-inverse);
   font-family: var(--font-body);
   font-size: 18px;
   font-weight: 400;
@@ -451,7 +396,7 @@ html.is-modal-open { overflow: hidden; }
   padding: 16px;
   border: 1px solid var(--color-card-border);
   border-radius: var(--radius-card);
-  background: #fff;
+  background: var(--color-surface);
 }
 .mod-listicle-card__icon {
   width: 80px;
@@ -482,7 +427,7 @@ html.is-modal-open { overflow: hidden; }
   padding: 0 20px;
   border: 0.5px solid var(--color-primary);
   border-radius: var(--radius-pill);
-  background: #fff;
+  background: var(--color-surface);
   color: var(--color-primary);
   font-family: var(--font-body);
   font-size: 16px;
@@ -525,7 +470,7 @@ html.is-modal-open { overflow: hidden; }
   border-radius: var(--radius-card);
   /* Simple placeholder pattern (no real article images yet) — neutral gray
      with a faint diagonal hatch so it clearly reads as a placeholder. */
-  background-color: #e9ebee;
+  background-color: var(--color-placeholder);
   background-image: repeating-linear-gradient(45deg, rgba(13, 27, 41, 0.06) 0, rgba(13, 27, 41, 0.06) 10px, transparent 10px, transparent 20px);
 }
 .mod-article-card__title { padding-inline: 12px; display: flex; align-items: flex-start; gap: 8px; font-size: 18px; line-height: 1.3; color: var(--color-navy); }
@@ -550,7 +495,7 @@ html.is-modal-open { overflow: hidden; }
   padding: 16px;
   border: 1px solid var(--color-card-border);
   border-radius: var(--radius-card);
-  background: #fff;
+  background: var(--color-surface);
 }
 .mod-expert-card__avatar {
   flex: 0 0 auto;
@@ -558,7 +503,7 @@ html.is-modal-open { overflow: hidden; }
   height: 61px;
   border-radius: 50%;
   object-fit: cover;
-  background-color: #e9ebee;
+  background-color: var(--color-placeholder);
 }
 .mod-expert-card__info { display: flex; flex-direction: column; gap: 4px; }
 .mod-expert-card__name { font-weight: 600; font-size: 18px; letter-spacing: -0.25px; color: var(--color-navy); }
@@ -569,7 +514,7 @@ html.is-modal-open { overflow: hidden; }
 .mod-factoid {
   background: linear-gradient(180deg, var(--color-navy) 0%, var(--color-magenta) 100%);
   padding: 48px 12px;
-  color: #fff;
+  color: var(--color-text-inverse);
 }
 .mod-factoid__title {
   margin: 0 0 24px;
@@ -585,7 +530,7 @@ html.is-modal-open { overflow: hidden; }
   position: relative;
   z-index: 0;              /* stacking context so the graphic sits above the card bg, below text */
   overflow: hidden;        /* clip the decorative graphic that bleeds off the top */
-  background: #fff;
+  background: var(--color-surface);
   border: 1px solid var(--color-card-border);
   border-radius: var(--radius-card);
   padding: 24px;
@@ -603,7 +548,7 @@ html.is-modal-open { overflow: hidden; }
   color: var(--color-magenta);
 }
 .mod-stat-card__text { margin: 0; font-size: 18px; line-height: 1.45; color: var(--color-text); }
-.mod-factoid__source { margin: 0; padding-left: 12px; font-size: 14px; line-height: 1.5; color: #fff; opacity: 0.9; }
+.mod-factoid__source { margin: 0; padding-left: 12px; font-size: 14px; line-height: 1.5; color: var(--color-text-inverse); opacity: 0.9; }
 
 /* ---- Community — quote carousel + closing CTA, Figma "Community" section ---- */
 
@@ -621,7 +566,7 @@ html.is-modal-open { overflow: hidden; }
   width: 250px;
   border: 0.5px solid var(--color-border);
   border-radius: var(--radius-card);
-  background: #fff;
+  background: var(--color-surface);
   padding: 24px;
   display: flex;
   flex-direction: column;
@@ -644,7 +589,7 @@ html.is-modal-open { overflow: hidden; }
   background: var(--color-navy);
   border-radius: var(--radius-card);
   padding: 32px 24px;
-  color: #fff;
+  color: var(--color-text-inverse);
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -678,9 +623,9 @@ html.is-modal-open { overflow: hidden; }
   letter-spacing: -0.25px;
   cursor: pointer;
 }
-.mod-btn-primary { border: none; background: #fff; color: #151515; }
+.mod-btn-primary { border: none; background: var(--color-surface); color: var(--color-text); }
 .mod-btn-primary:active { filter: brightness(0.97); }
-.mod-btn-secondary { border: 1px solid rgba(255, 255, 255, 0.35); background: transparent; color: #fff; }
+.mod-btn-secondary { border: 1px solid rgba(255, 255, 255, 0.35); background: transparent; color: var(--color-text-inverse); }
 .mod-btn-secondary:active { background: rgba(255, 255, 255, 0.08); }
 
 .mod-disclaimer-note {
@@ -694,7 +639,7 @@ html.is-modal-open { overflow: hidden; }
 /* ---- Advisors — Medical Advisory Committee page (Figma Medical Advisors 2:43) ---- */
 
 .mod-advisors { padding: 32px 12px 8px; }
-.mod-advisors__intro { display: flex; flex-direction: column; gap: 16px; padding-bottom: 24px; border-bottom: 1px solid #e5e5e5; }
+.mod-advisors__intro { display: flex; flex-direction: column; gap: 16px; padding-bottom: 24px; border-bottom: 1px solid var(--color-divider); }
 .mod-advisors__title {
   margin: 0;
   font-family: var(--font-display);
@@ -705,7 +650,7 @@ html.is-modal-open { overflow: hidden; }
   color: var(--color-navy);
 }
 .mod-advisors__lede { margin: 0; font-weight: 400; font-size: 18px; line-height: 26px; color: var(--color-text); }
-.mod-advisors__body { margin: 0; font-size: 18px; line-height: 26px; color: #1a1a1a; }
+.mod-advisors__body { margin: 0; font-size: 18px; line-height: 26px; color: var(--color-text); }
 .mod-advisors__body--italic { font-style: italic; font-weight: 600; color: var(--color-text); }
 
 .mod-advisors__list { list-style: none; margin: 0; padding: 0; }
@@ -716,7 +661,7 @@ html.is-modal-open { overflow: hidden; }
   flex-direction: column;
   gap: 12px;
   padding: 28px 0;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid var(--color-divider);
 }
 .mod-advisors__list .advisor-card:last-child { border-bottom: 0; }
 .advisor-card__photo {
@@ -725,14 +670,14 @@ html.is-modal-open { overflow: hidden; }
   flex-shrink: 0;
   border-radius: 50%;
   object-fit: cover;
-  background: #e9ebee;
+  background: var(--color-placeholder);
 }
 .advisor-card__text { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
 .advisor-card__identity { display: flex; flex-direction: column; gap: 2px; }
 .advisor-card__name { margin: 0; font-weight: 600; font-size: 20px; line-height: 28px; letter-spacing: -0.75px; color: var(--color-text); }
 .advisor-card__role { margin: 0; font-weight: 400; font-size: 16px; line-height: 22px; color: var(--color-magenta); }
-.advisor-card__org { margin: 0; font-size: 14px; line-height: 22px; color: #6b6b6b; }
-.advisor-card__bio { margin: 0; font-size: 16px; line-height: 24px; color: #1a1a1a; }
+.advisor-card__org { margin: 0; font-size: 14px; line-height: 22px; color: var(--color-text-secondary); }
+.advisor-card__bio { margin: 0; font-size: 16px; line-height: 24px; color: var(--color-text); }
 .advisor-card__link { font-weight: 400; font-size: 16px; color: var(--color-primary); }
 
 .mod-advisors__watch { display: flex; flex-direction: column; gap: 16px; padding: 24px 0 8px; }
@@ -748,21 +693,21 @@ html.is-modal-open { overflow: hidden; }
 .mod-advisors__watch-card {
   aspect-ratio: 16 / 9;   /* proper video ratio at any width (mobile + 728px desktop) */
   width: 100%;
-  border: 1px solid #e5e5e5;
+  border: 1px solid var(--color-divider);
   border-radius: 12px;
   /* Placeholder pattern (neutral gray + faint diagonal hatch) until a real
      video thumbnail asset is added. */
-  background-color: #e9ebee;
+  background-color: var(--color-placeholder);
   background-image: repeating-linear-gradient(45deg, rgba(13, 27, 41, 0.06) 0, rgba(13, 27, 41, 0.06) 10px, transparent 10px, transparent 20px);
 }
-.mod-advisors__watch-title { margin: 0; font-size: 16px; line-height: 24px; letter-spacing: -0.25px; color: #6b6b6b; }
+.mod-advisors__watch-title { margin: 0; font-size: 16px; line-height: 24px; letter-spacing: -0.25px; color: var(--color-text-secondary); }
 
 /* ---- Top nav ---- */
 
 .nav {
   position: relative;
   width: 100%;
-  background: #fff;
+  background: var(--color-surface);
   box-shadow: inset 0 -1px 0 0 var(--color-border);
   flex-shrink: 0;  /* fixed chrome; the scroll area is below it */
 }
@@ -916,7 +861,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   /* White interior with a blue→magenta gradient border (matches the AI ring). */
   border: 1.5px solid transparent;
   background:
-    linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
     linear-gradient(45deg, var(--color-primary) 0%, var(--color-magenta) 100%) border-box;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(13, 27, 41, 0.16), 0 2px 8px rgba(13, 27, 41, 0.08);
@@ -1025,7 +970,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   border-radius: var(--radius-pill);
   border: none;
   background: var(--color-primary);
-  color: #fff;
+  color: var(--color-text-inverse);
   font-family: var(--font-body);
   font-size: 16px;
   letter-spacing: -0.25px;
@@ -1071,7 +1016,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   height: 11px;
   border-radius: 50%;
   background: var(--color-badge);
-  border: 2px solid #fff;   /* white ring so it reads as sitting on top */
+  border: 2px solid var(--color-text-inverse);   /* white ring so it reads as sitting on top */
   z-index: 1;
 }
 
@@ -1086,9 +1031,9 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   gap: 8px;
   padding: 6px 12px;
   height: 34px;
-  border: 1px solid #d6e2f1;
+  border: 1px solid var(--color-border-primary-soft);
   border-radius: 48px;
-  background: var(--color-bg-blue-soft);   /* opaque #EDF3F9 (Figma) — the idle floating pill */
+  background: var(--color-bg-blue-soft);   /* opaque var(--color-bg-blue-soft) (Figma) — the idle floating pill */
   cursor: pointer;
   font-family: var(--font-body);
   color: var(--color-primary);
@@ -1127,7 +1072,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   padding: 16px;
   border: 1px solid var(--color-card-border);
   border-radius: var(--radius-card);
-  background: #f6f7f9;
+  background: var(--color-surface-neutral);
 }
 /* Inside an Article Show (above Key Takeaways) it flows with the art body gap. */
 .art__body .collection-callout { margin: 0; }
@@ -1180,7 +1125,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   padding: 16px;
   border: 1px solid var(--color-card-border);
   border-radius: var(--radius-card);
-  background: #fff;
+  background: var(--color-surface);
   text-align: left;
   cursor: pointer;
   font-family: var(--font-body);
@@ -1202,7 +1147,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   font-size: 14px;
   font-weight: 400;
   color: var(--color-text-secondary);
-  background: #eef0f3;
+  background: var(--color-surface-muted);
   border-radius: var(--radius-pill);
   padding: 1px 8px;
 }
@@ -1217,7 +1162,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 .comm-preview__banner {
   position: relative;
   overflow: hidden;
-  background: #fbf7f3;
+  background: var(--color-bg-warm);
   padding: 24px 12px;
 }
 .comm-preview__banner-inner {
@@ -1247,8 +1192,8 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   height: 24px;
   border-radius: 50%;
   object-fit: cover;
-  background-color: #e9ebee;
-  border: 2px solid #fbf7f3;   /* banner-coloured ring, matching Figma */
+  background-color: var(--color-placeholder);
+  border: 2px solid var(--color-bg-warm);   /* banner-coloured ring, matching Figma */
   margin-left: -8px;
 }
 .comm-preview__avatars .comm-preview__avatar:first-child { margin-left: 0; }
@@ -1290,7 +1235,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   padding: 16px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
-  background: #fff;
+  background: var(--color-surface);
   text-align: left;
   cursor: pointer;
   font-family: var(--font-body);
@@ -1303,7 +1248,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 .comm-card__icon { display: block; width: 80px; height: 80px; flex-shrink: 0; }
 .comm-card__icon svg { display: block; width: 100%; height: 100%; }
 .comm-card__text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-.comm-card__title { font-weight: 600; font-size: 18px; line-height: 24px; color: #000; }
+.comm-card__title { font-weight: 600; font-size: 18px; line-height: 24px; color: var(--color-text); }
 .comm-card__stat { font-size: 18px; line-height: 26px; color: var(--color-text-secondary); }
 .comm-card__member { color: var(--color-magenta); }
 .comm-card__chevron { display: block; width: 24px; height: 24px; flex-shrink: 0; }
@@ -1322,7 +1267,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   padding: 32px 24px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
-  background: #fff;
+  background: var(--color-surface);
 }
 .comm-upsell__graphic { position: absolute; z-index: -1; width: 280px; pointer-events: none; }
 .comm-upsell__graphic--tr { top: -73px; right: -155px; transform: scaleY(-1); }
@@ -1350,7 +1295,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   white-space: nowrap;     /* "Check symptoms first" stays on one line */
   cursor: pointer;
 }
-.comm-upsell__btn--primary { border: none; background: var(--color-primary); color: #fff; }
+.comm-upsell__btn--primary { border: none; background: var(--color-primary); color: var(--color-text-inverse); }
 .comm-upsell__btn--primary:active { filter: brightness(0.97); }
 .comm-upsell__btn--secondary { border: 1px solid var(--color-primary); background: transparent; color: var(--color-primary); }
 .comm-upsell__btn--secondary:active { background: rgba(15, 87, 168, 0.06); }
@@ -1390,7 +1335,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   padding: 16px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
-  background: #fff;
+  background: var(--color-surface);
   text-align: left;
   cursor: pointer;
   font-family: var(--font-body);
@@ -1467,7 +1412,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   padding: 16px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
-  background: #fff;
+  background: var(--color-surface);
 }
 .feat-pair-card__panel { position: absolute; z-index: 0; bottom: -24px; right: -76px; width: 280px; pointer-events: none; }
 .feat-pair-card__illo { position: absolute; z-index: 1; top: 2px; right: 2px; width: 112px; height: 112px; pointer-events: none; }
@@ -1482,7 +1427,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 .feat-pair__avatar { flex-shrink: 0; width: 52px; height: 52px; border-radius: 50%; overflow: hidden; background: var(--color-bg-purple-soft); }
 .feat-pair__avatar img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .feat-pair__person-text { display: flex; flex-direction: column; min-width: 0; }
-.feat-pair__person-name { font-weight: 600; font-size: 18px; line-height: 24px; letter-spacing: -0.25px; color: #000; }
+.feat-pair__person-name { font-weight: 600; font-size: 18px; line-height: 24px; letter-spacing: -0.25px; color: var(--color-text); }
 .feat-pair__person-role { font-size: 18px; line-height: 26px; letter-spacing: -0.25px; color: var(--color-text-secondary); }
 
 /* Guidelines preview (checklist). */
@@ -1599,7 +1544,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   padding: 16px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
-  background: #fff;
+  background: var(--color-surface);
 }
 .comm-reminder__graphic { position: absolute; z-index: -1; width: 280px; pointer-events: none; }
 .comm-reminder__graphic--tr { top: -73px; right: -110px; transform: scaleY(-1); }
@@ -1621,7 +1566,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   border: none;
   border-radius: var(--radius-pill);
   background: var(--color-primary);
-  color: #fff;
+  color: var(--color-text-inverse);
   font-family: var(--font-body);
   font-weight: 600;
   font-size: 18px;
@@ -1638,7 +1583,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   padding: 16px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
-  background: #fff;
+  background: var(--color-surface);
   text-align: left;
   cursor: pointer;
   font-family: var(--font-body);
@@ -1671,7 +1616,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   padding: 16px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
-  background: #fff;
+  background: var(--color-surface);
   text-align: left;
   cursor: pointer;
   font-family: var(--font-body);
@@ -1711,7 +1656,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   padding: 16px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
-  background: #fff;
+  background: var(--color-surface);
   text-align: left;
   cursor: pointer;
   font-family: var(--font-body);
@@ -1722,7 +1667,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 .comm-group__left { display: flex; align-items: center; gap: 16px; min-width: 0; }
 .comm-group__icon { flex-shrink: 0; width: 80px; height: 80px; border-radius: 50%; background: var(--color-bg-purple-soft); }
 .comm-group__text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-.comm-group__name { font-weight: 600; font-size: 18px; line-height: 24px; color: #000; }
+.comm-group__name { font-weight: 600; font-size: 18px; line-height: 24px; color: var(--color-text); }
 .comm-group__meta { font-size: 18px; line-height: 26px; color: var(--color-text-secondary); }
 .comm-group__check { flex-shrink: 0; width: 24px; height: 24px; }
 .comm-group__check svg { display: block; width: 100%; height: 100%; }
@@ -1739,7 +1684,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   padding: 16px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
-  background: #fff;
+  background: var(--color-surface);
   text-align: left;
   cursor: pointer;
   font-family: var(--font-body);
@@ -1750,7 +1695,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 .comm-person__avatar { flex-shrink: 0; width: 80px; height: 80px; border-radius: 50%; overflow: hidden; background: var(--color-bg-purple-soft); }
 .comm-person__avatar img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .comm-person__text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-.comm-person__name { font-weight: 600; font-size: 18px; line-height: 24px; color: #000; }
+.comm-person__name { font-weight: 600; font-size: 18px; line-height: 24px; color: var(--color-text); }
 .comm-person__meta { font-size: 18px; line-height: 26px; color: var(--color-text-secondary); }
 .comm-person__add { flex-shrink: 0; width: 24px; height: 24px; }
 .comm-person__add svg { display: block; width: 100%; height: 100%; }
@@ -1771,7 +1716,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   position: relative;
   width: 100%;
   max-width: 460px;
-  background: #fff;
+  background: var(--color-surface);
   border-radius: var(--radius-card);
   padding: 32px 28px;
   box-shadow: 0 8px 40px rgba(13, 27, 41, 0.25);
@@ -1820,7 +1765,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   padding: 14px 24px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-pill);
-  background: #fff;
+  background: var(--color-surface);
   cursor: pointer;
   font-family: var(--font-body);
   text-align: left;
@@ -1863,7 +1808,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   font-size: 14px;
   font-weight: 400;
   color: var(--color-text-secondary);
-  background: #eef0f3;
+  background: var(--color-surface-muted);
   border-radius: var(--radius-pill);
   padding: 2px 10px;
 }
@@ -1876,7 +1821,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   padding: 16px;
   border: 1px solid var(--color-card-border);
   border-radius: var(--radius-card);
-  background: #fff;
+  background: var(--color-surface);
   text-align: left;
   cursor: pointer;
   font-family: var(--font-body);
@@ -1898,15 +1843,15 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 .topic-hub-mod__preview span {
   height: 12px;
   border-radius: 4px;
-  background: repeating-linear-gradient(90deg, #e9ebee 0, #e9ebee 60%, #f3f4f6 60%, #f3f4f6 100%);
-  background-color: #e9ebee;
+  background: repeating-linear-gradient(90deg, var(--color-placeholder) 0, var(--color-placeholder) 60%, var(--color-surface-sunken) 60%, var(--color-surface-sunken) 100%);
+  background-color: var(--color-placeholder);
 }
 .topic-hub-mod__preview span:first-child { width: 92%; }
 .topic-hub-mod__preview span:last-child { width: 68%; }
 /* Disabled module (no destination yet) */
 .topic-hub-mod--disabled {
   cursor: default;
-  background: #f6f7f9;
+  background: var(--color-surface-neutral);
   border-style: dashed;
   opacity: 0.7;
 }
@@ -1914,7 +1859,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   font-size: 12px;
   font-weight: 400;
   color: var(--color-text-secondary);
-  background: #e3e6ea;
+  background: var(--color-placeholder-shade);
   border-radius: var(--radius-pill);
   padding: 1px 8px;
 }
@@ -1937,7 +1882,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 .panel {
   width: 300px;
   height: 100%;
-  background: #fff;
+  background: var(--color-surface);
   padding: 24px;
   display: flex;
   flex-direction: column;
@@ -2025,7 +1970,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   background: var(--color-navy);
   border-radius: var(--radius-card);
   padding: 24px;
-  color: #fff;
+  color: var(--color-text-inverse);
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -2051,7 +1996,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   height: 48px;
   border: none;
   border-radius: var(--radius-pill);
-  background: #fff;
+  background: var(--color-surface);
   color: var(--color-primary);
   font-family: var(--font-body);
   font-size: 16px;
@@ -2061,7 +2006,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 .panel__promo-link {
   border: none;
   background: none;
-  color: #fff;
+  color: var(--color-text-inverse);
   font-family: var(--font-body);
   font-size: 14px;
   letter-spacing: -0.25px;
@@ -2121,7 +2066,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   top: 60px;
   right: 12px;
   width: 246px;
-  background: #fff;
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   box-shadow: 0 0 8px rgba(13, 27, 41, 0.1);
@@ -2228,7 +2173,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   cursor: pointer;
 }
 
-.footer__end { background: #f3f4f6; padding: 24px 12px; }
+.footer__end { background: var(--color-surface-sunken); padding: 24px 12px; }
 .footer__legal { margin: 0 0 16px; font-size: 14px; line-height: 1.9; }
 .footer__link--dark {
   color: var(--color-text);
@@ -2266,7 +2211,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 }
 .home-hotspot:hover {
   opacity: 1;
-  background: #fff;
+  background: var(--color-surface);
   box-shadow: 0 2px 8px rgba(13, 27, 41, 0.2);
 }
 .home-hotspot .icon { width: 20px; height: 20px; }
@@ -2322,7 +2267,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   border-radius: var(--radius-card);
   text-decoration: none;
   color: var(--color-text);
-  background: #fff;
+  background: var(--color-surface);
   transition: border-color 0.15s ease, transform 0.15s ease;
 }
 .launcher__card:hover {
@@ -2377,7 +2322,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 
 /* Collapsed body: white fade + "Read full article" link */
 .art-collapse { position: relative; padding-bottom: 4px; }
-.art-collapse::after { content: ""; position: absolute; left: 0; right: 0; bottom: 38px; height: 72px; background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff); pointer-events: none; }
+.art-collapse::after { content: ""; position: absolute; left: 0; right: 0; bottom: 38px; height: 72px; background: linear-gradient(to bottom, rgba(255, 255, 255, 0), var(--color-surface)); pointer-events: none; }
 .art-collapse__link { position: relative; z-index: 1; align-self: center; margin: 4px auto 0; display: inline-flex; align-items: center; gap: 4px; border: none; background: none; font: inherit; font-size: 16px; letter-spacing: -0.25px; color: var(--color-primary); cursor: pointer; }
 .art-collapse__link .art__ic { width: 24px; height: 24px; }
 
@@ -2387,16 +2332,16 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 .art-conv__title, .art-answered__title { display: flex; align-items: center; gap: 8px; margin: 0; font-family: var(--font-display); font-weight: 400; font-size: var(--display-subhead-size); line-height: var(--display-subhead-lh); letter-spacing: -0.75px; }
 .art-conv__title { color: var(--color-navy); }
 .art-conv__title .art__ic { width: 24px; height: 24px; color: var(--color-navy); }
-.art-conv__input { display: flex; align-items: center; height: 56px; padding: 0 24px; border-radius: 36px; border: 1px solid var(--color-card-border); background: #fff; font-size: 18px; letter-spacing: -0.25px; color: var(--color-text-secondary); }
+.art-conv__input { display: flex; align-items: center; height: 56px; padding: 0 24px; border-radius: 36px; border: 1px solid var(--color-card-border); background: var(--color-surface); font-size: 18px; letter-spacing: -0.25px; color: var(--color-text-secondary); }
 
 /* Menopause, answered */
 .art-answered__stars { width: 24px; height: 24px; flex-shrink: 0; }
 /* Gradient text (blue → magenta) for the "Menopause, answered" heading. */
-.art-answered__label { background: linear-gradient(45deg, #0f57a8 0%, #a441bc 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+.art-answered__label { background: linear-gradient(45deg, var(--color-primary) 0%, var(--color-accent) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
 .art-answered__q { display: flex; align-items: center; gap: 16px; text-align: left; padding: 16px 24px; border: none; border-radius: var(--radius-pill); background: rgba(15, 87, 168, 0.08); font: inherit; font-size: 18px; line-height: 24px; letter-spacing: -0.25px; color: var(--color-primary); cursor: pointer; }
 .art-answered__q .art__arrow { width: 24px; height: 24px; margin-left: auto; flex-shrink: 0; }
 .art-answered__q:active { background: rgba(15, 87, 168, 0.14); }
-.art-answered__ask { align-self: flex-start; padding: 12px 24px; border: none; border-radius: var(--radius-pill); background: var(--color-primary); color: #fff; font: inherit; font-size: 18px; line-height: 24px; letter-spacing: -0.25px; cursor: pointer; }
+.art-answered__ask { align-self: flex-start; padding: 12px 24px; border: none; border-radius: var(--radius-pill); background: var(--color-primary); color: var(--color-text-inverse); font: inherit; font-size: 18px; line-height: 24px; letter-spacing: -0.25px; cursor: pointer; }
 .art-answered__ask:active { filter: brightness(0.94); }
 /* Tag pills reuse the splash checker pill (.mod-pill) — same white / 0.5px pill-border look. */
 .art-answered__tags { display: flex; flex-wrap: wrap; gap: 12px 8px; }
@@ -2405,7 +2350,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 .art-keep__h { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: var(--display-subhead-size); line-height: var(--display-subhead-lh); letter-spacing: -0.75px; color: var(--color-navy); }
 .art-keep__scroll { display: flex; gap: 16px; overflow-x: auto; margin: 0 -12px; padding: 0 12px; }
 .art-keep__card { flex: 0 0 auto; width: 324px; display: flex; flex-direction: column; gap: 12px; padding: 0; border: none; background: none; text-align: left; cursor: pointer; font-family: var(--font-body); }
-.art-keep__thumb { width: 324px; height: 170px; border-radius: var(--radius-card); background: repeating-linear-gradient(45deg, #eef1f7, #eef1f7 10px, #dfe5f1 10px, #dfe5f1 20px); }
+.art-keep__thumb { width: 324px; height: 170px; border-radius: var(--radius-card); background: repeating-linear-gradient(45deg, var(--color-placeholder-cool), var(--color-placeholder-cool) 10px, var(--color-primary-soft) 10px, var(--color-primary-soft) 20px); }
 .art-keep__title { font-size: 18px; line-height: 1.3; letter-spacing: -0.25px; color: var(--color-navy); }
 .art-keep__card:active { transform: scale(0.99); }
 
@@ -2426,7 +2371,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
     position: sticky;
     top: 0;
     z-index: 10;
-    background: #fff;
+    background: var(--color-surface);
     box-shadow: inset 0 -1px 0 0 var(--color-border);
   }
   /* Three-column bar: left cluster | centered nav | right controls. The 1fr

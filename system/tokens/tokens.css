@@ -1,0 +1,140 @@
+/* =============================================================================
+   MHT Design System — universal tokens
+   =============================================================================
+   The single source of truth for colour, type and layout tokens. Every page in
+   this repo loads this file; nothing else declares a :root colour or type
+   value.
+
+   Load order matters. A page links three stylesheets, in this order:
+
+     <link rel="stylesheet" href="system/tokens/tokens.css">          1. universal
+     <link rel="stylesheet" href="system/tokens/themes/menopause.css"> 2. site hue
+     <link rel="stylesheet" href="main.css">                           3. styles
+
+   The theme file supplies the per-site hue family (see themes/README.md).
+   tokens.css is hue-agnostic: it never hardcodes an accent colour, it only
+   consumes --brand-* from the theme.
+
+   NAMING RULE (from foundation/design.md): name tokens by ROLE, never by value.
+   "--color-magenta" is a value name and breaks the moment a site is blue. Role
+   names are canonical; the value names below are kept only as deprecated
+   aliases so existing CSS keeps working.
+   ========================================================================== */
+
+:root {
+  /* --- Action ------------------------------------------------------------ */
+  --color-primary: #0f57a8;              /* primary action — buttons, links */
+  --color-primary-soft: #dee5f1;         /* soft primary tint — hover/rollover */
+  --color-navy: #2b2b68;                 /* dark gradient anchor, display headlines */
+
+  /* --- Ink --------------------------------------------------------------- */
+  --color-text: #0d1b29;                 /* primary ink */
+  --color-text-secondary: #626b74;       /* secondary / label text */
+  --color-text-muted: rgba(13, 27, 41, 0.7);
+  --color-text-inverse: #ffffff;         /* ink on dark or accent surfaces */
+
+  /* --- Surfaces ---------------------------------------------------------- */
+  --color-surface: #ffffff;              /* default card / panel surface */
+  --color-surface-muted: #eef0f3;        /* muted neutral surface */
+  --color-surface-neutral: #f6f7f9;      /* neutral section surface */
+  --color-surface-sunken: #f3f4f6;       /* recessed surface — footer end, wells */
+  --color-bg-warm: #fbf7f3;              /* warm banner background */
+  --color-bg-cool: #fafcff;              /* cool neutral section background */
+  --color-bg-blue-soft: #edf3f9;         /* soft blue section background — Experts (Figma 4122:332) */
+
+  /* --- Lines ------------------------------------------------------------- */
+  --color-border: #dbdddf;               /* standard hairline */
+  --color-divider: #e5e5e5;              /* lighter rule between list rows */
+  --color-card-border: rgba(13, 27, 41, 0.15);
+  --color-pill-border: rgba(13, 27, 41, 0.44);
+  --color-border-primary-soft: #d6e2f1;  /* soft primary-tinted border */
+
+  /* --- Media placeholders ------------------------------------------------ */
+  /* Grey fills standing in for un-exported imagery. Not content colours —
+     these disappear as real assets land. */
+  --color-placeholder: #e9ebee;
+  --color-placeholder-alt: var(--color-surface-sunken);
+  --color-placeholder-cool: #eef1f7;
+  --color-placeholder-shade: #e3e6ea;
+  --color-placeholder-photo: #c6c0c8;    /* warm grey standing in for a portrait/photo */
+
+  /* --- Status ------------------------------------------------------------ */
+  --color-badge: #ff741d;                /* notification badge / chip — orange */
+  --color-badge-soft: rgba(255, 116, 29, 0.05);
+
+  /* --- Brand accent (resolved by the theme file) ------------------------- */
+  /* Role names. The theme sets --brand-accent*; these expose it to components
+     so no component ever names a hue. */
+  --color-accent: var(--brand-accent);
+  --color-accent-soft: var(--brand-accent-soft);
+  --color-accent-soft-solid: var(--brand-accent-soft-solid);
+  --color-accent-strong: var(--brand-accent-strong);
+  --color-accent-light: var(--brand-accent-light);
+  --color-accent-pale: var(--brand-accent-pale);   /* AA-safe accent on dark scrims — the full accent sits at ~2.4:1 there and fails */
+  --color-bg-accent-soft: var(--brand-bg-accent-soft);
+  --color-scrim: var(--brand-scrim);               /* dark backdrop behind a COLOR-blended photo */
+
+  /* --- DEPRECATED value-named aliases ------------------------------------ */
+  /* Kept so existing rules keep working after the token consolidation. Do not
+     use in new code; prefer the --color-accent* roles above. Removed once the
+     component layer lands (Phase 3). */
+  --color-magenta: var(--color-accent);
+  --color-magenta-soft: var(--color-accent-soft);
+  --color-magenta-soft-solid: var(--color-accent-soft-solid);
+  --color-purple-light: var(--color-accent-light);
+  --color-bg-purple-soft: var(--color-bg-accent-soft);
+  --color-magenta-pale: var(--color-accent-pale);
+
+  /* --- Radius ------------------------------------------------------------ */
+  --radius-pill: 999px;
+  --radius-card: 16px;
+
+  /* --- Type families ----------------------------------------------------- */
+  --font-body: "Lato", sans-serif;
+  --font-display: "DM Serif Display", serif;
+
+  /* --- Display type scale (DM Serif Display) ----------------------------- */
+  /* Mobile-first; desktop overrides in the media query below. Line-height is
+     always size+8; tracking is -0.75px across every tier. See
+     foundation/design.md. */
+  --display-hero-size: 40px;
+  --display-hero-lh: 48px;
+  --display-section-size: 32px;
+  --display-section-lh: 40px;
+  --display-title-size: 28px;
+  --display-title-lh: 36px;
+  /* These two are both "24px" but otherwise unrelated — named separately so
+     the number is never used as an identifier for either one. */
+  --display-subhead-size: 24px;  /* DM Serif Display sub-heading tier. Figma-confirmed (Entry-Points file, nodes 49:1845/49:1855/49:1890). */
+  --display-subhead-lh: 32px;    /* size+8, same rule as every other tier */
+  --display-tracking: -0.75px;
+  --quote-size: 24px;            /* Lato SemiBold quote text only — unrelated to --display-subhead-size */
+  --quote-lh: 30px;              /* matches the Figma Lato "Headline" 24px swatch (node 40:260) */
+
+  /* --- Responsive layout -------------------------------------------------- */
+  /* Real product, no device frame. Content is capped and centered with fluid
+     gutters (NOT fully fluid): fluid up to the cap, then centered with growing
+     side margin beyond it. */
+  --content-max: 1000px;     /* the single desktop content width — nav + all sections align to this */
+  --content-column: 728px;   /* reading column — articles and other content pages */
+  --content-gutter: clamp(16px, 5vw, 40px); /* minimum side gutter before the 1000px box centers */
+  /* One shared inline padding used by the header, every full-bleed section, and
+     the footer so their content edges line up exactly. */
+  --content-pad: max(var(--content-gutter), calc((100% - var(--content-max)) / 2));
+  --mobile-max: 480px;       /* mobile layout column cap below the desktop breakpoint */
+}
+
+/* DM Serif Display desktop type scale (foundation/design.md:98-147). Only size
+   and line-height change per breakpoint; tracking/weight are constant. */
+@media (min-width: 1024px) {
+  :root {
+    --display-hero-size: 52px;
+    --display-hero-lh: 60px;
+    --display-section-size: 36px;
+    --display-section-lh: 44px;
+    --display-title-size: 32px;
+    --display-title-lh: 40px;
+    --display-subhead-size: 28px;
+    --display-subhead-lh: 36px;
+  }
+}

@@ -1,0 +1,34 @@
+/* =============================================================================
+   Theme — Legacy condition sites (blue hue family)   ** PLACEHOLDER VALUES **
+   =============================================================================
+   The 80+ existing condition sites, migrating onto Menopause styling with a
+   blue hue family instead of purple. Components are identical across every
+   site; only this file differs.
+
+   STATUS: provisional. The only sourced value is --brand-accent (#3f7ec1),
+   which comes from line-icons/icon-sheet.html. The other five are derived from
+   it using the same relationships the Menopause theme uses, so the system is
+   coherent today and the real palette is a one-file swap later.
+
+   Derivation used (matches Menopause exactly):
+     *-soft        = accent at 8% alpha
+     *-soft-solid  = that 8% composited over white
+     *-strong      = deeper accent for rings/edges
+     *-light       = lighter accent for emphasis on dark
+     bg-*-soft     = very light section wash
+
+   Replace with real values when defined; do not derive further tokens from
+   these placeholders in the meantime.
+   ========================================================================== */
+
+:root,
+:root[data-theme="legacy"] {
+  --brand-accent: #3f7ec1;                          /* sourced — icon-sheet.html */
+  --brand-accent-soft: rgba(63, 126, 193, 0.08);    /* derived */
+  --brand-accent-soft-solid: #f0f5fa;               /* derived — 8% over white */
+  --brand-accent-strong: #2a5a8f;                   /* derived — placeholder */
+  --brand-accent-light: #7fb2e0;                    /* derived — placeholder */
+  --brand-accent-pale: #d5e3f1;                     /* derived — placeholder; NOT contrast-checked */
+  --brand-scrim: #1e2a42;                           /* derived — placeholder */
+  --brand-bg-accent-soft: #eff4f9;                  /* derived — placeholder */
+}
