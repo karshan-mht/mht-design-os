@@ -6,10 +6,14 @@
    hotspot was built in a JS template literal, so a grep over HTML href/src
    never saw it and it silently pointed at a path that no longer existed.
 
-   This checks three places a path can hide:
+   This checks four places a path can hide:
      1. href/src attributes in HTML
      2. url(...) in CSS
      3. string literals in JS that look like relative paths
+     4. markdown links
+
+   decisions/DECISIONS.md is skipped: it is append-only, so paths inside older
+   entries are historical records and must not be "fixed".
 
    Zero dependencies: `node evals/lint-links.js`
    ========================================================================== */
@@ -59,6 +63,9 @@ function refsIn(rel, text) {
   }
   if (/\.(css|html)$/.test(rel)) {
     for (const m of text.matchAll(/url\(\s*['"]?([^'")]+)['"]?\s*\)/g)) add(m[1], lineOf(m.index));
+  }
+  if (/\.md$/.test(rel)) {
+    for (const m of text.matchAll(/\[[^\]]*\]\(([^)\s]+)\)/g)) add(m[1], lineOf(m.index));
   }
   if (/\.js$/.test(rel)) {
     // String literals that look like a path. A bare filename with no slash

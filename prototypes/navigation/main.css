@@ -14,6 +14,29 @@
 
 * { box-sizing: border-box; }
 
+/* ---- Keyboard focus -------------------------------------------------------
+   The prototype had no focus styling at all: 64 rendered <button> elements and
+   not one :focus rule, so keyboard users had no idea where they were. The
+   launcher already did this properly; the prototype did not.
+
+   :focus-visible (not :focus) so it appears for keyboard and assistive-tech
+   navigation but never on a mouse click. One rule for every interactive
+   element, using the action colour so it reads as deliberate. Offset keeps it
+   clear of rounded pills.
+
+   Preferred: inherit this. Allowed: override the offset where a control is
+   flush to an edge. Prohibited: outline:none without an equivalent indicator. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+/* Pills and circular controls keep their own silhouette. */
+:where(.ai-btn, .join-btn, .icon-btn, .uplevel, .mod-pill, .mod-btn-primary,
+       .mod-btn-secondary, .profile-btn, .launcher-hotspot):focus-visible {
+  border-radius: var(--radius-pill);
+}
+
 /* Hide scrollbars everywhere — scrolling still works, just no visible bar. */
 * { scrollbar-width: none; -ms-overflow-style: none; }
 *::-webkit-scrollbar { width: 0; height: 0; display: none; }
@@ -826,20 +849,25 @@ body[data-flow]:not(.assistant-quiet):not(.assistant-onepulse) .ai-btn {
 body[data-flow="assistant"].assistant-onepulse .ai-btn {
   animation: ai-pulse 2.6s ease-in-out 1;
 }
-/* A strong, obvious pulse: a short interval, then a double ring (magenta + blue)
+/* A strong, obvious pulse: a short interval, then a double ring (accent + blue)
    expands wide while the pill gives a little throb. The 100%→0% boundary is at
-   rest (transparent, scale 1) so JS can show the nudge there, never mid-ripple. */
+   rest (transparent, scale 1) so JS can show the nudge there, never mid-ripple.
+
+   The ring colours are derived from the tokens with relative colour syntax
+   (rgb(from …)), not baked as rgba, so the pulse re-skins with the site. Before
+   this the ring stayed purple on a blue site — the same class of bug as the
+   baked logo fills. Needs Chrome 119+ / Safari 16.4+. */
 @keyframes ai-pulse {
   0%, 18% {
-    box-shadow: 0 0 0 0 rgba(164, 64, 188, 0), 0 0 0 0 rgba(15, 87, 168, 0);
+    box-shadow: 0 0 0 0 rgb(from var(--color-accent) r g b / 0), 0 0 0 0 rgb(from var(--color-primary) r g b / 0);
     transform: scale(1);
   }
   38% {
-    box-shadow: 0 0 0 0 rgba(164, 64, 188, 0.65), 0 0 0 0 rgba(15, 87, 168, 0.45);
+    box-shadow: 0 0 0 0 rgb(from var(--color-accent) r g b / 0.65), 0 0 0 0 rgb(from var(--color-primary) r g b / 0.45);
     transform: scale(1.08);
   }
   100% {
-    box-shadow: 0 0 0 32px rgba(164, 64, 188, 0), 0 0 0 20px rgba(15, 87, 168, 0);
+    box-shadow: 0 0 0 32px rgb(from var(--color-accent) r g b / 0), 0 0 0 20px rgb(from var(--color-primary) r g b / 0);
     transform: scale(1);
   }
 }
@@ -963,6 +991,14 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 .logo { display: block; width: auto; }
 .logo--full { height: 40px; }  /* stacked "this is Menopause" wordmark */
 .logo--mark { height: 40px; }  /* compact circular logomark */
+
+/* Brand mark colours come from the token layer, not from the SVG source. The
+   inlined logos in main.js carry no fill on these paths, so a theme swap
+   re-skins the wordmark along with everything else. A baked fill would leave
+   the logo purple on a blue site — which is exactly the bug this fixes.
+   Applies to every logo instance: nav, desktop header, panel and footer. */
+.logo-accent { fill: var(--color-accent); }
+.logo-ink    { fill: var(--color-navy); }
 
 .join-btn {
   height: 44px;   /* matches the AI / profile circles and search tap box */
@@ -2218,73 +2254,6 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 
 @media (max-width: 430px) {
   .launcher-hotspot { display: none; }  /* app is full-bleed here; avoid the hamburger */
-}
-
-/* ---------------- Legacy launcher page styles — the launcher now lives in
-   launcher/launcher.css and no longer uses these. Kept until confirmed dead. ---- */
-
-.launcher {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 64px 24px;
-}
-.launcher__title {
-  text-align: left;
-  margin-bottom: 40px;
-}
-.launcher__title h1 {
-  font-size: 24px;
-  margin: 0 0 8px;
-  letter-spacing: -0.25px;
-}
-.launcher__section-title {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-  margin: 40px 0 12px;
-}
-.launcher__title + .launcher__section-title {
-  margin-top: 0; /* first section sits right under the page title */
-}
-.launcher__grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);   /* two columns — titles & text are short */
-  gap: 16px;
-}
-@media (max-width: 560px) {
-  .launcher__grid {
-    grid-template-columns: 1fr;   /* stack on narrow screens */
-  }
-}
-.launcher__grid + .launcher__section-title {
-  margin-top: 40px;
-}
-.launcher__card {
-  display: block;
-  padding: 24px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-card);
-  text-decoration: none;
-  color: var(--color-text);
-  background: var(--color-surface);
-  transition: border-color 0.15s ease, transform 0.15s ease;
-}
-.launcher__card:hover {
-  border-color: var(--color-primary);
-  transform: translateY(-2px);
-}
-.launcher__card h2 {
-  margin: 0 0 6px;
-  font-size: 18px;
-  letter-spacing: -0.25px;
-}
-.launcher__card p {
-  margin: 0;
-  font-size: 14px;
-  color: var(--color-text-secondary);
-  line-height: 1.5;
 }
 
 /* ============================================================

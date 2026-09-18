@@ -9,8 +9,11 @@
         "system/tokens/tokens.css",
         "system/tokens/themes/menopause.css",
         "system/tokens/themes/legacy.css",
-        "prototypes/navigation/main.css",
+        "system/motion/ai-pulse-spec.html",
+        "system/icons/sheet.html",
+        "system/tokens/reference.html",
         "prototypes/navigation/main.js",
+        "prototypes/navigation/main.css",
         "prototypes/navigation/visitor/index.html",
         "prototypes/navigation/subscriber/index.html",
         "prototypes/navigation/logged-in-member/index.html",
@@ -27,6 +30,7 @@
       "deprioritize": [],
       "exclude": [
         "system/assets/**",
+        "system/icons/icons/**",
         ".figma/**",
         ".claude/**",
         ".git/**",
@@ -37,7 +41,10 @@
       ]
     },
     "libraryPaths": {
-      "local": [],
+      "local": [
+        "system/tokens/tokens.css",
+        "system/tokens/themes/*.css"
+      ],
       "external": []
     },
     "pathClassification": {
@@ -46,7 +53,11 @@
     "exclusions": [
       {
         "glob": "system/assets/**",
-        "reason": "Static image and SVG assets are referenced by HTML/CSS but own no rendered UI logic and are not valid point-and-edit source anchors."
+        "reason": "Static image and SVG assets (photos, illustrations, logotypes) are referenced by HTML/CSS but contain no rendered UI logic and are not valid point-and-edit source anchors."
+      },
+      {
+        "glob": "system/icons/icons/**",
+        "reason": "Raw SVG icon source files are static assets; they are not UI source anchors — the icon sheet HTML is the renderable artifact."
       },
       {
         "glob": ".figma/**",
@@ -54,27 +65,27 @@
       },
       {
         "glob": ".claude/**",
-        "reason": "Claude Code harness configuration and permission files are not rendered UI source."
+        "reason": "Claude Code harness configuration and permission files contain no rendered UI source."
       },
       {
         "glob": ".git/**",
-        "reason": "Git internals are not source files of any kind."
+        "reason": "Git internal objects and metadata are not source files of any kind."
       },
       {
         "glob": "**/*.md",
-        "reason": "Markdown files are design, product and brand documentation; they contain no rendered UI source."
+        "reason": "Markdown files are design, brand, product and decision documentation; they contain no rendered UI source."
       },
       {
         "glob": "product/**",
-        "reason": "Product surface documentation describes intent and contains no rendered UI source."
+        "reason": "Product surface documentation files describe intent and contain no rendered UI source."
       },
       {
         "glob": "decisions/**",
-        "reason": "Decision logs and plans contain no rendered UI source."
+        "reason": "Decision logs and restructure plans contain no rendered UI source."
       },
       {
         "glob": "evals/**",
-        "reason": "Lint and verification scripts are tooling, not rendered UI source."
+        "reason": "Token and link lint scripts are developer tooling; they are not rendered UI source anchors."
       }
     ],
     "generated": {
@@ -83,8 +94,8 @@
       "prompt": "same-turn-setup-subagent-v5",
       "model": "claude-sonnet-4-6",
       "createdAt": "2026-09-18T00:00:00Z",
-      "confidence": 0.98,
-      "explanation": "Repository is a self-contained vanilla HTML/CSS/JS design system with no framework or build system. Rendered UI lives in the launcher (index.html + launcher/), the token layer (system/tokens/), and the prototypes (prototypes/). Documentation, assets and tooling own no rendered UI."
+      "confidence": 0.97,
+      "explanation": "Repository is a self-contained vanilla HTML/CSS/JS design system with no framework or build step; all rendered UI lives in the launcher shell, the token layer, and the prototype folders, making classification unambiguous with only a small number of files to consider."
     }
   }
 }

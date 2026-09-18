@@ -59,6 +59,13 @@ const SKIP_PATHS = [
 const ENTITY = /&#\d+;/g;
 const HEX = /#[0-9a-fA-F]{3,8}\b/g;
 
+// rgb()/rgba() literals are colours too. A baked rgba slipped past the hex-only
+// check and left the Ask AI pulse ring purple on a blue site. This starts as
+// AUDIT-ONLY per system/AUTHORITY.md: new checks warn until they are shown
+// reliable, then graduate to blocking. Most remaining hits are universal ink
+// and white overlays, which are lower risk than brand hues.
+const RGB_FN = /\brgba?\(\s*\d+[^)]*\)/g;
+
 function walk(dir, out = []) {
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
     if (e.name.startsWith('.') && e.name !== '.') continue;
@@ -90,7 +97,17 @@ const warnings = [];
 for (const rel of walk(ROOT)) {
   const lines = fs.readFileSync(path.join(ROOT, rel), 'utf8').split('\n');
   lines.forEach((line, i) => {
-    const hits = line.replace(ENTITY, '').match(HEX);
+    const clean = line.replace(ENTITY, '');
+    const rgbHits = clean.match(RGB_FN);
+    if (rgbHits && !/rgb\(from /.test(line)) {
+      const excusedRgb = EXCEPTIONS.some(x => x.file === rel && x.match.test(line));
+      if (!excusedRgb) {
+        warnings.push({ file: rel, line: i + 1, values: [...new Set(rgbHits)].join(' ').slice(0, 20),
+                        text: line.trim().slice(0, 90), kind: 'rgb' });
+      }
+    }
+
+    const hits = clean.match(HEX);
     if (!hits) return;
     const excused = EXCEPTIONS.some(x => x.file === rel && x.match.test(line));
     if (excused) return;
@@ -114,10 +131,21 @@ function report(list, label) {
   }
 }
 
-if (warnings.length) {
-  console.error(`WARN — ${warnings.length} colour${warnings.length === 1 ? '' : 's'} baked into inline SVG artwork.`);
-  console.error('       Tracked as Phase 3 (brand marks need currentColor). Not failing the run.\n');
-  report(warnings, 'warnings');
+const svgWarnings = warnings.filter(w => w.kind !== 'rgb');
+const rgbWarnings = warnings.filter(w => w.kind === 'rgb');
+
+if (svgWarnings.length) {
+  console.error(`WARN — ${svgWarnings.length} colour${svgWarnings.length === 1 ? '' : 's'} baked into inline SVG artwork.`);
+  console.error('       Brand logos are fixed (classed .logo-accent/.logo-ink). These are the\n' +
+                '       remaining decorative and pre-tinted icons. Not failing the run.\n');
+  report(svgWarnings, 'warnings');
+}
+
+if (rgbWarnings.length) {
+  console.error(`WARN — ${rgbWarnings.length} rgb()/rgba() literal${rgbWarnings.length === 1 ? '' : 's'} outside the token layer.`);
+  console.error('       AUDIT-ONLY while this check proves out. Brand-hue cases are already\n' +
+                '       converted to rgb(from var(--token) …); the rest are ink and white.\n');
+  report(rgbWarnings, 'warnings');
 }
 
 if (failures.length === 0) {
