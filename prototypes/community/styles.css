@@ -1,0 +1,316 @@
+/* ==========================================================================
+   TIM — Community page (standalone)
+
+   Body only: no top navigation, no footer. Mirrors the mixed-system frames in
+   Figma Community (Desktop_Community — mixed system / Mobile_Community — mixed
+   system) on the "UX/UI – Version 1" page.
+
+   THREE CARD TYPES, and the rule behind them:
+     .card--ghost  line art ghosted into the bottom-right corner. The default.
+     .card--split  illustration given its own tinted panel. Used where the
+                   drawing teaches something the ghost treatment loses
+                   (Activity Feed's timeline, My Team's network).
+     .card--photo  full-bleed photo under a magenta duotone. Used only for
+                   modules whose subject is people (Stories, Meet Others).
+
+   GRID RULE: one 728px column. Cards are full width except two-up rows, and the
+   only two-up rows are the ones carrying something other than plain copy — so
+   the variation is earned rather than decorative.
+
+   Breakpoint is 1024px, matching the prototype's existing desktop breakpoint
+   (foundation/design.md). Below it everything stacks.
+   ========================================================================== */
+
+/* Component-level tokens only. Everything system-wide (colour, families,
+   radius, layout) now comes from system/tokens/tokens.css + a theme file,
+   linked ahead of this stylesheet in index.html. */
+:root {
+  /* Type. Line-height is always size + 8, per the design system's rule. The
+     Figma card spec pairs 28px with a 24px line-height, which clips descenders
+     once a headline wraps — corrected here. */
+  --card-title-size: 24px;
+  --card-title-lh: 32px;
+  --page-title-size: 32px;   /* fixed at both breakpoints, per Figma 184:689 */
+  --page-title-lh: 40px;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --card-title-size: 28px;
+    --card-title-lh: 36px;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Page shell ---------- */
+
+.community {
+  max-width: var(--content-column);
+  margin-inline: auto;
+  padding: 16px 12px 40px;
+}
+
+@media (min-width: 1024px) {
+  .community { padding: 40px 12px 64px; }
+}
+
+.community__header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-block: 8px 24px;
+}
+
+.community__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--page-title-size);
+  line-height: var(--page-title-lh);
+  letter-spacing: var(--display-tracking);
+  color: var(--color-text);
+}
+
+.community__sub {
+  margin: 0;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: -0.25px;
+  color: var(--color-text-secondary);
+}
+
+.community__list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media (min-width: 1024px) {
+  .community__list { gap: 24px; }
+}
+
+/* Two-up rows: stacked on mobile, side by side from 1024px. */
+.row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 1024px) {
+  .row { grid-template-columns: 1fr 1fr; gap: 24px; align-items: stretch; }
+}
+
+/* ---------- Card base ---------- */
+
+.card {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  font-family: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.12s ease, box-shadow 0.12s ease, transform 0.06s ease;
+}
+
+.card:hover { border-color: var(--color-magenta); }
+.card:active { transform: scale(0.995); }
+.card:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+
+.card__copy { display: flex; flex-direction: column; gap: 8px; }
+
+.card__eyebrow {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.25px;
+  text-transform: uppercase;
+  color: var(--color-magenta);
+}
+
+.card__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--card-title-size);
+  line-height: var(--card-title-lh);
+  letter-spacing: var(--display-tracking);
+  color: var(--color-text);
+}
+
+.card__desc {
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.25px;
+  color: var(--color-text);
+}
+
+@media (min-width: 1024px) {
+  .card__desc { font-size: 18px; line-height: 26px; }
+}
+
+/* ---------- Type 1: ghosted line art ---------- */
+
+.card--ghost { padding: 16px; }
+.card--ghost .card__copy { position: relative; z-index: 1; }
+
+/* Sized from the card, never taller than it, so only the deliberate bottom
+   bleed is clipped. Larger art gets sliced through the middle of a figure. */
+.card__art {
+  position: absolute;
+  right: -10px;
+  bottom: -8px;
+  z-index: 0;
+  width: 130px;
+  color: var(--color-magenta);
+  opacity: 0.22;   /* higher than a filled illustration needs — 3px strokes lay
+                      down a fraction of the ink and vanish at ~0.13 */
+  pointer-events: none;
+}
+
+.card__art svg { display: block; width: 100%; height: auto; }
+
+/* ---------- Type 2: split, illustration panel ---------- */
+
+.card--split { display: flex; align-items: stretch; }
+
+.card__panel {
+  flex: 0 0 116px;
+  display: grid;
+  place-items: center;
+  background: var(--color-bg-purple-soft);
+  color: var(--color-magenta);
+}
+
+.card__panel svg { display: block; width: 76px; height: 76px; }
+
+.card--split .card__copy {
+  flex: 1 1 auto;
+  justify-content: center;
+  gap: 6px;
+  padding: 16px;
+  min-width: 0;
+}
+
+@media (min-width: 1024px) {
+  .card__panel { flex-basis: 264px; }
+  .card__panel svg { width: 120px; height: 120px; }
+  .card--split .card__copy { gap: 8px; padding: 20px 24px; }
+}
+
+/* ---------- Type 3: full-bleed photo + duotone ---------- */
+
+.card--photo {
+  isolation: isolate;          /* keeps the blend inside the card */
+  display: flex;
+  align-items: flex-end;
+  min-height: 280px;
+  border: 0;
+  background: var(--color-scrim);  /* backdrop for the COLOR blend */
+}
+
+@media (min-width: 1024px) { .card--photo { min-height: 420px; } }
+
+/* Set --photo on the element to drop an image in:
+   <button class="card card--photo" style="--photo:url('me.jpg')"> */
+.card__photo {
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-placeholder-photo);
+  background-image: var(--photo, none);
+  background-size: cover;
+  background-position: center;
+}
+
+/* Magenta on COLOR blend takes hue and saturation from itself and luminance
+   from the photo, so any image lands on-palette without colour correction. */
+.card__duotone {
+  position: absolute;
+  inset: 0;
+  background: var(--color-magenta);
+  mix-blend-mode: color;
+  opacity: 0.9;
+}
+
+/* The scrim does the accessibility work: near-clear at the top so the image
+   reads, heavy at the bottom where the type sits. */
+.card__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(26, 8, 32, 0.93) 0%,
+    rgba(26, 8, 32, 0.76) 28%,
+    rgba(26, 8, 32, 0.34) 60%,
+    rgba(26, 8, 32, 0.10) 100%
+  );
+}
+
+.card--photo .card__copy {
+  position: relative;
+  z-index: 1;
+  gap: 6px;
+  padding: 20px;
+  width: 100%;
+}
+
+.card--photo .card__eyebrow { color: var(--color-magenta-pale); }
+.card--photo .card__title { color: var(--color-text-inverse); }
+
+/* ---------- Feature pair: people list + rule list ---------- */
+
+.card--feature { padding: 16px; }
+
+@media (min-width: 1024px) {
+  .card--feature { padding: 20px; }
+}
+
+.preview { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
+
+.person { display: flex; align-items: center; gap: 10px; }
+
+.person__avatar {
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--color-magenta);
+  border-radius: 50%;
+  background: var(--color-bg-purple-soft);
+  color: var(--color-magenta);
+}
+
+.person__avatar svg { display: block; width: 20px; height: 20px; }
+.person__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.person__name { font-weight: 600; font-size: 16px; line-height: 22px; letter-spacing: -0.25px; }
+
+/* Counts are always the literal [TBD] placeholder, never a fabricated number. */
+.person__meta { font-size: 14px; line-height: 20px; letter-spacing: -0.25px; color: var(--color-text-secondary); }
+
+.rule { display: flex; align-items: flex-start; gap: 10px; }
+.rule__icon { flex: 0 0 22px; color: var(--color-magenta); }
+.rule__icon svg { display: block; width: 22px; height: 22px; }
+.rule__text { font-size: 16px; line-height: 22px; letter-spacing: -0.25px; }
+
+/* ---------- Motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .card { transition: none; }
+  .card:active { transform: none; }
+}

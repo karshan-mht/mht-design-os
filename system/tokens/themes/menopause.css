@@ -1,0 +1,22 @@
+/* =============================================================================
+   Theme — ThisIsMenopause (purple hue family)
+   =============================================================================
+   Supplies the --brand-* hue family consumed by tokens.css. Load AFTER
+   tokens.css and BEFORE the page's own stylesheet.
+
+   These are the current, Figma-confirmed production values. Everything outside
+   this file (action blue, ink, surfaces, borders, type, layout) is universal
+   and shared with every other site.
+   ========================================================================== */
+
+:root,
+:root[data-theme="menopause"] {
+  --brand-accent: #a440bc;                          /* brand signature accent — logo lockup, featured highlights, secondary CTAs */
+  --brand-accent-soft: rgba(164, 65, 188, 0.08);    /* translucent tint behind icons */
+  --brand-accent-soft-solid: #f8f0fa;               /* opaque equivalent of the above over white — used for rollovers so nothing alpha-stacks */
+  --brand-accent-strong: #6b3794;                   /* deeper accent — avatar ring; lighter than navy so it doesn't read as a dark border */
+  --brand-accent-light: #d483cf;                    /* headline emphasis on dark backgrounds ("not imagining it", Factoid section) */
+  --brand-accent-pale: #ecc7f5;                     /* pale tint for text on dark photo scrims — hand-tuned to clear AA */
+  --brand-scrim: #3a1e42;                           /* deep plum backdrop for COLOR-blend photo cards */
+  --brand-bg-accent-soft: #f6eff8;                  /* soft accent section background — Listicles / Community */
+}

@@ -1,15 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="menopause">
 <head>
 <meta charset="UTF-8" />
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>TIM — Navigation Prototype</title>
+<title>MHT Design OS</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,600;0,700;1,400&family=DM+Serif+Display&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="main.css" />
-<!-- Maze usability testing snippet -->
+
+<!-- Design system: universal tokens, then this site's hue family, then the
+     shell's own styles. The home is a Menopause-themed page like any other; it
+     documents the sites rather than switching between them. -->
+<link rel="stylesheet" href="system/tokens/tokens.css" />
+<link rel="stylesheet" href="system/tokens/themes/menopause.css" />
+<link rel="stylesheet" href="launcher/launcher.css" />
+
+<!-- Maze usability testing snippet (carried over from the previous launcher) -->
 <script>
 (function (m, a, z, e) {
   var s, t, u, v;
@@ -39,69 +47,35 @@
 })(window, document, 'https://snippet.maze.co/maze-universal-loader.js', 'aaf57ba9-336f-48ec-951c-ab901a458447');
 </script>
 </head>
-<body>
 
-  <main class="launcher">
-    <div class="launcher__title">
-      <h1>TIM Global Navigation</h1>
+<body data-rail="expanded">
+<div class="shell">
+
+  <nav class="rail" aria-label="Design system sections">
+    <div class="rail__head">
+      <span class="rail__mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2 2 7l10 5 10-5-10-5ZM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+      </span>
+      <span class="rail__name">MHT<br />Design OS</span>
+      <button class="rail__toggle" id="rail-toggle" type="button" aria-expanded="true" aria-label="Collapse sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m15 18-6-6 6-6"/>
+        </svg>
+      </button>
     </div>
 
-    <h2 class="launcher__section-title">User Types</h2>
-    <div class="launcher__grid">
-      <a class="launcher__card" href="visitor/index.html">
-        <h2>Anonymous Visitor</h2>
-        <p>Someone browsing without an account.</p>
-      </a>
-      <a class="launcher__card" href="subscriber/index.html">
-        <h2>Subscriber</h2>
-        <p>Someone who&rsquo;s started signing up but hasn&rsquo;t finished.</p>
-      </a>
-      <a class="launcher__card" href="logged-in-member/index.html">
-        <h2>Logged In Member</h2>
-        <p>A member signed in to their account.</p>
-      </a>
-      <a class="launcher__card" href="logged-out-member/index.html">
-        <h2>Logged Out Member</h2>
-        <p>A member with an account who isn&rsquo;t currently signed in.</p>
-      </a>
-    </div>
+    <div class="rail__nav" id="rail-nav" role="tablist" aria-label="Sections"></div>
+  </nav>
 
-    <h2 class="launcher__section-title">Entry Points</h2>
-    <div class="launcher__grid">
-      <a class="launcher__card" href="entry-points/facebook-ad.html">
-        <h2>Paid Social &ndash; Article</h2>
-        <p>A Facebook ad opens straight into an Article Show.</p>
-      </a>
-      <a class="launcher__card" href="entry-points/google-search.html?highlight=article">
-        <h2>Organic + Paid Search &ndash; Article</h2>
-        <p>A Google search result opens straight into an Article Show.</p>
-      </a>
-      <a class="launcher__card" href="entry-points/google-search.html?highlight=home">
-        <h2>Organic + Paid Search &ndash; Home</h2>
-        <p>A Google search result opens on the Splash Landing home.</p>
-      </a>
-      <a class="launcher__card" href="entry-points/gmail-inbox.html">
-        <h2>Content Email &ndash; Article</h2>
-        <p>A Gmail message opens Logged In Member straight into an Article Show.</p>
-      </a>
-    </div>
-
-    <h2 class="launcher__section-title">Personal Assistant</h2>
-    <div class="launcher__grid">
-      <a class="launcher__card" href="visitor/index.html?flow=pulse">
-        <h2>Assistant &ndash; Pulse</h2>
-        <p>Just the AI pill pulsing in the top nav.</p>
-      </a>
-      <a class="launcher__card" href="visitor/index.html?flow=assistant&amp;reset=1">
-        <h2>Assistant &ndash; Greeting Nudge</h2>
-        <p>A first-time welcome on the Splash Landing.</p>
-      </a>
-      <a class="launcher__card" href="visitor/index.html?flow=assistant&amp;start=article">
-        <h2>Assistant &ndash; Question Nudge</h2>
-        <p>A suggested question on an Article.</p>
-      </a>
-    </div>
+  <main class="main" id="main" tabindex="-1">
+    <div class="main__inner" id="main-inner"></div>
   </main>
 
+</div>
+
+<script src="launcher/manifest.js"></script>
+<script src="launcher/launcher.js"></script>
 </body>
 </html>

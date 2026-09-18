@@ -1,0 +1,2642 @@
+/* =============================================================================
+   TIM navigation prototype — styles
+   =============================================================================
+   Tokens live in system/tokens/tokens.css; the hue family comes from a theme
+   file in system/tokens/themes/. This file declares NO :root colour or type
+   values. Pages must link all three, in order:
+
+     system/tokens/tokens.css  ->  system/tokens/themes/<theme>.css  ->  main.css
+
+   Never hardcode a colour here. evals/lint-tokens.js fails the build on any
+   hex literal outside tokens.css (the two -webkit-mask values below are the
+   documented exception: mask luminance, not colour).
+   ========================================================================== */
+
+* { box-sizing: border-box; }
+
+/* ---- Keyboard focus -------------------------------------------------------
+   The prototype had no focus styling at all: 64 rendered <button> elements and
+   not one :focus rule, so keyboard users had no idea where they were. The
+   launcher already did this properly; the prototype did not.
+
+   :focus-visible (not :focus) so it appears for keyboard and assistive-tech
+   navigation but never on a mouse click. One rule for every interactive
+   element, using the action colour so it reads as deliberate. Offset keeps it
+   clear of rounded pills.
+
+   Preferred: inherit this. Allowed: override the offset where a control is
+   flush to an edge. Prohibited: outline:none without an equivalent indicator. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+/* Pills and circular controls keep their own silhouette. */
+:where(.ai-btn, .join-btn, .icon-btn, .uplevel, .mod-pill, .mod-btn-primary,
+       .mod-btn-secondary, .profile-btn, .launcher-hotspot):focus-visible {
+  border-radius: var(--radius-pill);
+}
+
+/* Hide scrollbars everywhere — scrolling still works, just no visible bar. */
+* { scrollbar-width: none; -ms-overflow-style: none; }
+*::-webkit-scrollbar { width: 0; height: 0; display: none; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-surface-sunken);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Freeze the document scroll while a modal overlay (member gate) is open. */
+html.is-modal-open { overflow: hidden; }
+
+/* ---- Rig chrome (not part of the design system — just this harness) ---- */
+
+.stage {
+  display: block;
+  min-height: 100vh;
+}
+
+/* ---- App container (frameless, responsive) ----
+   No device bezel at any width. Below 1024px the mobile layout is capped to a
+   comfortable column and centered on the page background; at/above 1024px it
+   goes full-width and the desktop layout takes over. The document (not an inner
+   element) is the scroller, so the sticky nav sticks to the viewport — nothing
+   here may become a scroll container (no overflow:hidden/auto on these). */
+.phone {
+  position: relative;
+  width: 100%;
+  max-width: var(--mobile-max);
+  margin-inline: auto;
+  min-height: 100vh;
+  background: var(--color-surface);
+}
+
+.screen {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--color-surface);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Holds the sticky nav + level-up bar, body, footer. No longer scrolls itself —
+   the document scrolls (see attachAutoHide, which listens on window). */
+.screen__scroll {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Desktop: drop the mobile column cap and go full-width. */
+@media (min-width: 1024px) {
+  .phone { max-width: none; margin-inline: 0; }
+}
+
+/* Entry-point mock pages (the external Facebook / Google / Gmail simulations in
+   entry-points/) are responsive too — no device frame. Scoped via the .mock
+   child; they render as a centered feed-width column, full-bleed on mobile. */
+.phone:has(.mock) {
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+
+/* Nav and level-up bar are independent sticky elements. The nav auto-hides on
+   scroll-down (slides up) and returns on scroll-up. The level-up bar STAYS
+   pinned: while the nav shows, the bar pins just below it (its `top` is set to
+   the nav height by attachAutoHide); when the nav hides, the bar's top animates
+   to 0 so it docks to the very top edge. Nav sits above the bar (higher z). */
+.screen__nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--color-surface);
+  transition: transform 0.28s ease;
+}
+.screen__nav.is-hidden { transform: translateY(-100%); }
+
+/* Mobile sub-nav: the three sections under the top bar (like the live site).
+   Scrolls with the page (the top nav above it stays sticky / auto-hides). */
+.screen__subnav {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+  padding: 8px 16px;
+  background: var(--color-surface);
+  box-shadow: inset 0 -1px 0 0 var(--color-border);
+  overflow-x: auto;
+}
+.subnav__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.25px;
+  color: var(--color-text);
+  padding: 6px 10px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+.subnav__link .icon { width: auto; height: 16px; }
+.subnav__link .icon svg { width: auto; height: 16px; display: block; }
+.subnav__link.is-active { color: var(--color-primary); background: rgba(15, 87, 168, 0.08); }
+
+.screen__uplevel {
+  position: sticky;
+  top: 0; /* overridden inline to the nav height while the nav is visible */
+  z-index: 9;
+  padding: 12px 12px 8px;  /* inset the floating pill while idle at the top */
+  pointer-events: none;    /* only the pill/bar is interactive */
+  transition: top 0.28s ease, padding 0.2s ease;
+}
+/* On scroll the inset collapses so the control spans edge-to-edge as a bar. */
+.screen__uplevel.is-lifted { padding: 0; }
+
+.screen__body { flex: 1 0 auto; display: flex; flex-direction: column; }
+/* Label & gated screens fill a full viewport (100vh — a definite height, unlike
+   the old `100%` which didn't resolve against the flex parent). This pushes the
+   tall footer entirely below the fold; the placeholder itself sits high in the
+   upper third rather than dead-centre (see the --fill override below). Image /
+   module screens omit this and flow at natural height. */
+.screen__body--fill { min-height: 100vh; }
+
+.screen__placeholder {
+  margin: auto;              /* center within the flex body (flow pages) */
+  text-align: center;
+  padding: 24px;
+  font-size: 20px;
+  line-height: 1.3;
+  color: rgba(0, 0, 0, 0.35);
+  white-space: pre-line;
+}
+/* On the tall fill body, anchor the label in the upper third (not the vertical
+   centre of the full 100vh) so it reads high and the footer stays out of view.
+   Chromeless flow pages (--flow) have no footer, so they keep the centred label. */
+.screen__body--fill:not(.screen__body--flow) .screen__placeholder { margin-block: 22vh auto; }
+
+/* Chromeless flow pages (Sign Up Start / Registration Step): X to close, top-left. */
+.screen__body--flow { position: relative; }
+.flow-close {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  color: var(--color-text);
+  cursor: pointer;
+}
+.flow-close svg { display: block; width: 24px; height: 24px; }
+
+/* ---- Placeholder content modules (home screens) ---- */
+
+.mod-hero {
+  position: relative;
+  isolation: isolate;      /* stacking context so the z-index:-1 rings sit above the gradient */
+  overflow: hidden;
+  background: linear-gradient(184deg, var(--color-navy) 6%, var(--color-magenta) 94%);
+  color: var(--color-text-inverse);
+  padding: 48px 12px;
+}
+/* Decorative concentric-ring graphics (Figma), behind the content. */
+.mod-hero__ring { position: absolute; z-index: -1; pointer-events: none; }
+.mod-hero__ring--tl { top: -24px; left: -64px; width: 182px; }
+.mod-hero__ring--br { bottom: -48px; right: -24px; width: 265px; }
+/* Wrapper is transparent on mobile (children act as direct hero children); on
+   desktop it becomes the left column of a two-column hero. */
+.mod-hero__intro { display: contents; }
+
+/* Letter-spacing across the splash: -0.25px baseline on all module text
+   (inherited from each section), with headlines overriding to -0.75px. */
+.mod-hero,
+.mod-listicles,
+.mod-articles,
+.mod-experts,
+.mod-factoid,
+.mod-community { letter-spacing: -0.25px; }
+.mod-hero__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--display-hero-size);
+  line-height: var(--display-hero-lh);
+  letter-spacing: var(--display-tracking);
+  margin: 0 0 12px;
+}
+.mod-hero__sub { font-size: 20px; line-height: 1.4; letter-spacing: -0.75px; margin: 0 0 20px; opacity: 0.9; }
+.mod-hero__cta {
+  height: 48px;
+  padding: 0 24px;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  color: var(--color-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+}
+.mod-hero__cta:active { filter: brightness(0.97); }
+
+.mod-cards { display: flex; flex-direction: column; gap: 12px; }
+.mod-card {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 20px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--color-text);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.mod-card:active { border-color: var(--color-primary); transform: scale(0.99); }
+
+.mod-article {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 20px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.mod-article:active { border-color: var(--color-primary); transform: scale(0.99); }
+.mod-article__eyebrow {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-magenta);
+  margin-bottom: 6px;
+}
+.mod-article__title {
+  display: block;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-text);
+  margin-bottom: 8px;
+}
+.mod-article__meta { display: block; font-size: 14px; color: var(--color-text-secondary); }
+
+/* ---- Checker card (inside .mod-hero) — symptom pills + CTA, Figma 4101:30 ---- */
+
+.mod-hero__users { display: flex; align-items: center; gap: 8px; margin-bottom: 24px; }
+.mod-hero__avatars { display: flex; align-items: center; }
+.mod-hero__avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;   /* real community photos (advisor headshots) */
+  background-color: var(--color-placeholder);
+  border: 2px solid var(--color-accent-strong);   /* Figma ring colour — lighter than navy so it doesn't read as a dark border on the gradient */
+  margin-left: -8px;
+}
+.mod-hero__avatars .mod-hero__avatar:first-child { margin-left: 0; }
+.mod-hero__count { font-size: 14px; color: var(--color-text-inverse); }
+
+.mod-checker-card {
+  background: var(--color-surface);
+  border: 0.5px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.3);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.mod-checker-card__title {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: 600;   /* Lato SemiBold — title emphasis */
+  font-size: 20px;
+  line-height: 28px;
+  letter-spacing: -0.75px;
+  color: var(--color-navy);
+}
+.mod-checker-card__pills { display: flex; flex-wrap: wrap; gap: 12px 8px; margin: 0; }
+.mod-pill {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  padding: 8px 16px;
+  border: 0.5px solid var(--color-pill-border);
+  border-radius: var(--radius-pill);
+  font-size: 16px;
+  color: var(--color-text);
+  background: var(--color-surface);
+}
+.mod-checker-card__cta {
+  height: 52px;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: -0.25px;
+  cursor: pointer;
+}
+.mod-checker-card__cta:active { filter: brightness(0.97); }
+.mod-checker-card__action { display: flex; flex-direction: column; gap: 12px; }
+.mod-checker-card__note { margin: 0; text-align: center; font-size: 14px; color: var(--color-text-secondary); }
+
+/* ---- Shared section header (Listicles / Articles / Experts / Community) ---- */
+
+.mod-section-text { margin-bottom: 24px; }
+.mod-section-text__title {
+  margin: 0 0 16px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--display-section-size);
+  line-height: var(--display-section-lh);
+  letter-spacing: var(--display-tracking);
+  color: var(--color-navy);
+}
+.mod-section-text__title em { font-style: normal; color: var(--color-magenta); }
+.mod-section-text__sub { margin: 0; font-size: 20px; line-height: 1.4; letter-spacing: -0.75px; color: var(--color-navy); }
+
+.mod-view-all-link {
+  display: block;
+  margin-top: 16px;
+  padding: 0 0 0 12px;   /* 12px inset to align with card content */
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 20px;
+  letter-spacing: -0.75px;
+  color: var(--color-primary);
+}
+
+/* Carousel prev/next arrows — desktop only (mobile scrolls by touch/swipe). */
+.mod-carousel-arrows { display: none; }
+
+/* ---- Listicles — horizontal card carousel, Figma "Listicles" section ---- */
+
+.mod-listicles { background: var(--color-bg-purple-soft); padding: 48px 12px; }
+.mod-listicles__scroll {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  /* Bleed to the full device width so cards clip at the screen edges, not at
+     the section's 12px padding; inner padding keeps the first/last card inset. */
+  margin: 0 -12px;
+  padding: 0 12px 4px;
+  -webkit-overflow-scrolling: touch;
+}
+.mod-listicle-card {
+  flex: 0 0 auto;
+  width: 210px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+.mod-listicle-card__icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--color-magenta-soft-solid);
+  color: var(--color-magenta);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+/* Fill the circle — the SVGs carry their own padding inside a 128 viewBox
+   (artwork ~52% of the frame), so this lands the glyph at ~Figma's 46px. */
+.mod-listicle-card__icon img { width: 100%; height: 100%; object-fit: contain; }
+.mod-listicle-card__title {
+  margin: 0;
+  text-align: left;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.4;
+  letter-spacing: -0.75px;
+  color: var(--color-navy);
+}
+.mod-listicle-card__cta {
+  margin-top: auto;   /* cards are equal height; pin the button to the bottom so they align */
+  height: 40px;
+  padding: 0 20px;
+  border: 0.5px solid var(--color-primary);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  color: var(--color-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  letter-spacing: -0.25px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.mod-listicle-card__cta:active { background: var(--color-primary-soft); }
+
+/* ---- Articles — 2-up image + title grid, Figma "Articles" section ---- */
+
+.mod-articles { background: var(--color-bg-cool); padding: 48px 12px; }
+/* Horizontal carousel with edge peek, matching the Figma "Articles" carousel. */
+.mod-articles__scroll {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  margin: 0 -12px;
+  padding: 0 12px 4px;   /* full-bleed clip, first/last card stays inset */
+  -webkit-overflow-scrolling: touch;
+}
+.mod-article-card {
+  flex: 0 0 auto;
+  width: 324px;            /* Figma card/image width (node 4101:74) */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-body);
+  letter-spacing: -0.25px;
+}
+.mod-article-card__thumb {
+  display: block;
+  width: 100%;
+  aspect-ratio: 324 / 170;  /* Figma image dimensions 324×170 (node 4101:75) */
+  border-radius: var(--radius-card);
+  /* Simple placeholder pattern (no real article images yet) — neutral gray
+     with a faint diagonal hatch so it clearly reads as a placeholder. */
+  background-color: var(--color-placeholder);
+  background-image: repeating-linear-gradient(45deg, rgba(13, 27, 41, 0.06) 0, rgba(13, 27, 41, 0.06) 10px, transparent 10px, transparent 20px);
+}
+.mod-article-card__title { padding-inline: 12px; display: flex; align-items: flex-start; gap: 8px; font-size: 18px; line-height: 1.3; color: var(--color-navy); }
+.mod-article-card__title-text { flex: 1 1 auto; }
+/* Stack / "layers" glyph marking a card that belongs to a Collection. */
+.mod-article-card__stack { flex: 0 0 auto; color: var(--color-magenta); }
+.mod-article-card__stack svg { display: block; width: 20px; height: 20px; }
+/* Collection card: reserve two lines so the title + stack icon read as a set. */
+.mod-article-card--collection .mod-article-card__title-text { min-height: 2.6em; }
+
+/* ---- Experts — stacked advisor cards, Figma "Experts" section ---- */
+
+.mod-experts {
+  background: var(--color-bg-blue-soft);
+  padding: 48px 12px;
+}
+.mod-experts__list { display: flex; flex-direction: column; gap: 16px; margin-bottom: 16px; }
+.mod-expert-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 16px;
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+.mod-expert-card__avatar {
+  flex: 0 0 auto;
+  width: 61px;
+  height: 61px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: var(--color-placeholder);
+}
+.mod-expert-card__info { display: flex; flex-direction: column; gap: 4px; }
+.mod-expert-card__name { font-weight: 600; font-size: 18px; letter-spacing: -0.25px; color: var(--color-navy); }
+.mod-expert-card__role { font-size: 16px; color: var(--color-text); }
+
+/* ---- Factoid — dark gradient stat cards, Figma "Factoid" section ---- */
+
+.mod-factoid {
+  background: linear-gradient(180deg, var(--color-navy) 0%, var(--color-magenta) 100%);
+  padding: 48px 12px;
+  color: var(--color-text-inverse);
+}
+.mod-factoid__title {
+  margin: 0 0 24px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--display-section-size);
+  line-height: var(--display-section-lh);
+  letter-spacing: var(--display-tracking);
+}
+.mod-factoid__title em { font-style: normal; color: var(--color-purple-light); }
+.mod-factoid__stats { display: flex; flex-direction: column; gap: 16px; margin-bottom: 16px; }
+.mod-stat-card {
+  position: relative;
+  z-index: 0;              /* stacking context so the graphic sits above the card bg, below text */
+  overflow: hidden;        /* clip the decorative graphic that bleeds off the top */
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-card);
+  padding: 24px;
+}
+/* Decorative blob/dot graphic peeking from the top-right of each stat card. */
+.mod-stat-card__graphic { position: absolute; z-index: -1; top: -66px; right: -24px; width: 190px; pointer-events: none; }
+.mod-stat-card__graphic--wide { top: -105px; right: -39px; width: 280px; }
+.mod-stat-card__number {
+  margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 1.2;
+  letter-spacing: -0.75px;
+  color: var(--color-magenta);
+}
+.mod-stat-card__text { margin: 0; font-size: 18px; line-height: 1.45; color: var(--color-text); }
+.mod-factoid__source { margin: 0; padding-left: 12px; font-size: 14px; line-height: 1.5; color: var(--color-text-inverse); opacity: 0.9; }
+
+/* ---- Community — quote carousel + closing CTA, Figma "Community" section ---- */
+
+.mod-community { background: var(--color-bg-purple-soft); padding: 48px 12px; }
+.mod-quotes__scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  margin: 0 -12px 4px;
+  padding: 0 12px 4px;   /* full-bleed clip, first/last card stays inset */
+  -webkit-overflow-scrolling: touch;
+}
+.mod-quote-card {
+  flex: 0 0 auto;
+  width: 250px;
+  border: 0.5px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.mod-quote-card__text {
+  margin: 0;
+  font-weight: 400;
+  font-size: var(--quote-size);
+  line-height: var(--quote-lh);
+  letter-spacing: -0.75px;
+  color: var(--color-navy);
+}
+
+.mod-cta-card {
+  position: relative;
+  z-index: 0;              /* stacking context for the z-index:-1 decorative blobs */
+  overflow: hidden;        /* clip the blobs that bleed off the corners */
+  margin-top: 32px;
+  background: var(--color-navy);
+  border-radius: var(--radius-card);
+  padding: 32px 24px;
+  color: var(--color-text-inverse);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+/* Decorative magenta blob/dot graphic in opposite corners (Figma offsets, node
+   4101:141). One asset reused: top-right flipped vertically, bottom-left flipped
+   horizontally, so the two read as diagonal mirror-images. */
+.mod-cta-card__graphic { position: absolute; z-index: -1; width: 280px; pointer-events: none; }
+.mod-cta-card__graphic--tr { top: -72px; right: -156px; transform: scaleY(-1); }
+.mod-cta-card__graphic--bl { bottom: -96px; left: -154px; transform: scaleX(-1); }
+/* Transparent on mobile (title/sub act as direct card children); on desktop it
+   becomes the left column of the two-column CTA card. */
+.mod-cta-card__text { display: contents; }
+.mod-cta-card__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--display-section-size);
+  line-height: var(--display-section-lh);
+  letter-spacing: var(--display-tracking);
+}
+.mod-cta-card__sub { margin: 0; font-size: 18px; line-height: 1.45; opacity: 0.9; }
+.mod-cta-card__buttons { display: flex; flex-direction: column; gap: 16px; }
+.mod-btn-primary,
+.mod-btn-secondary {
+  height: 48px;
+  border-radius: 24px;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 18px;
+  letter-spacing: -0.25px;
+  cursor: pointer;
+}
+.mod-btn-primary { border: none; background: var(--color-surface); color: var(--color-text); }
+.mod-btn-primary:active { filter: brightness(0.97); }
+.mod-btn-secondary { border: 1px solid rgba(255, 255, 255, 0.35); background: transparent; color: var(--color-text-inverse); }
+.mod-btn-secondary:active { background: rgba(255, 255, 255, 0.08); }
+
+.mod-disclaimer-note {
+  margin: 16px 0 0;
+  padding-left: 12px;   /* inset to match card content / view-all links */
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+/* ---- Advisors — Medical Advisory Committee page (Figma Medical Advisors 2:43) ---- */
+
+.mod-advisors { padding: 32px 12px 8px; }
+.mod-advisors__intro { display: flex; flex-direction: column; gap: 16px; padding-bottom: 24px; border-bottom: 1px solid var(--color-divider); }
+.mod-advisors__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--display-title-size);
+  line-height: var(--display-title-lh);
+  letter-spacing: var(--display-tracking);
+  color: var(--color-navy);
+}
+.mod-advisors__lede { margin: 0; font-weight: 400; font-size: 18px; line-height: 26px; color: var(--color-text); }
+.mod-advisors__body { margin: 0; font-size: 18px; line-height: 26px; color: var(--color-text); }
+.mod-advisors__body--italic { font-style: italic; font-weight: 600; color: var(--color-text); }
+
+.mod-advisors__list { list-style: none; margin: 0; padding: 0; }
+/* Base (mobile): stacked — circular photo on top, text below (Figma
+   Mobile_Advisor, node 2:43). Desktop switches to photo-left / text-right. */
+.advisor-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--color-divider);
+}
+.mod-advisors__list .advisor-card:last-child { border-bottom: 0; }
+.advisor-card__photo {
+  width: 96px;
+  height: 96px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--color-placeholder);
+}
+.advisor-card__text { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.advisor-card__identity { display: flex; flex-direction: column; gap: 2px; }
+.advisor-card__name { margin: 0; font-weight: 600; font-size: 20px; line-height: 28px; letter-spacing: -0.75px; color: var(--color-text); }
+.advisor-card__role { margin: 0; font-weight: 400; font-size: 16px; line-height: 22px; color: var(--color-magenta); }
+.advisor-card__org { margin: 0; font-size: 14px; line-height: 22px; color: var(--color-text-secondary); }
+.advisor-card__bio { margin: 0; font-size: 16px; line-height: 24px; color: var(--color-text); }
+.advisor-card__link { font-weight: 400; font-size: 16px; color: var(--color-primary); }
+
+.mod-advisors__watch { display: flex; flex-direction: column; gap: 16px; padding: 24px 0 8px; }
+.mod-advisors__watch-head {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--display-subhead-size);
+  line-height: var(--display-subhead-lh);
+  letter-spacing: -0.75px;
+  color: var(--color-navy);
+}
+.mod-advisors__watch-card {
+  aspect-ratio: 16 / 9;   /* proper video ratio at any width (mobile + 728px desktop) */
+  width: 100%;
+  border: 1px solid var(--color-divider);
+  border-radius: 12px;
+  /* Placeholder pattern (neutral gray + faint diagonal hatch) until a real
+     video thumbnail asset is added. */
+  background-color: var(--color-placeholder);
+  background-image: repeating-linear-gradient(45deg, rgba(13, 27, 41, 0.06) 0, rgba(13, 27, 41, 0.06) 10px, transparent 10px, transparent 20px);
+}
+.mod-advisors__watch-title { margin: 0; font-size: 16px; line-height: 24px; letter-spacing: -0.25px; color: var(--color-text-secondary); }
+
+/* ---- Top nav ---- */
+
+.nav {
+  position: relative;
+  width: 100%;
+  background: var(--color-surface);
+  box-shadow: inset 0 -1px 0 0 var(--color-border);
+  flex-shrink: 0;  /* fixed chrome; the scroll area is below it */
+}
+
+.nav__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  height: 68px;
+}
+
+.nav__left, .nav__right {
+  display: flex;
+  align-items: center;
+}
+.nav__left { gap: 2px; }   /* stacked logotype sits close to the menu icon */
+.nav__right { gap: 6px; }  /* tight enough that search + Ask pill + Join fit a 375px nav */
+
+.icon-btn {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  border-radius: 50%;
+  color: var(--color-text);
+  cursor: pointer;
+}
+.icon-btn:active { background: rgba(13, 27, 41, 0.05); }
+
+/* "Ask AI" button — a pill holding the gradient duo-star + a gradient "AI" label,
+   inside a gradient RING (our blue→magenta, 45deg). The ring is an overlay
+   (::before) so it can animate independently of the icon. 44px tall, hugging its
+   content, to sit alongside the profile avatar and search. */
+.ai-btn {
+  position: relative;
+  box-sizing: border-box;
+  width: auto;
+  gap: 5px;
+  padding: 0 10px;
+  border-radius: var(--radius-pill);
+  background: transparent;
+}
+.ai-btn:active { transform: scale(0.95); }
+.ai-btn__stars { position: relative; z-index: 1; flex-shrink: 0; width: 22px; height: 22px; display: block; }
+.ai-btn__label {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1;
+  /* gradient text, matching the stars + ring */
+  background: linear-gradient(45deg, var(--color-primary) 0%, var(--color-magenta) 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+}
+
+/* Gradient ring overlay (masked so only the 2px edge shows) — always visible, in
+   both the normal nav and the assistant flow (at rest and while pulsing). */
+.ai-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-pill);
+  padding: 1px;   /* ring thickness */
+  background: linear-gradient(45deg, var(--color-primary) 0%, var(--color-magenta) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Sheen overlay — a bright arc masked to the same ring edge. Hidden at rest; it
+   fades in and rotates so the highlight travels around the ring while the
+   assistant is "typing" the nudge (see the .assistant-typing rule below). */
+.ai-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-pill);
+  padding: 1px;   /* same ring thickness as ::before */
+  background: conic-gradient(from 0deg, transparent 0deg, rgba(255, 255, 255, 0.85) 22deg, transparent 52deg, transparent 360deg);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+/* Travel the sheen around the ring while the assistant is typing the nudge. */
+body.assistant-typing .ai-btn::after {
+  opacity: 1;
+  animation: ai-sheen 2.4s linear infinite;
+}
+@keyframes ai-sheen {
+  to { transform: rotate(360deg); }
+}
+
+/* The "Ask AI" button pulses to advertise itself — a soft magenta ring breathing
+   outward via box-shadow, spaced out with an interval between ripples. Reserved
+   for the flow demos (<body data-flow>), so the pill sits static in the normal
+   nav: it runs continuously under ?flow=pulse, and in the assistant flow JS
+   toggles .assistant-quiet to pause/resume it (held until the user scrolls in,
+   paused during the greeting) plus .assistant-onepulse for the single farewell
+   pulse. The loop boundary lands on the rest, where JS shows the nudge (never
+   mid-ripple). */
+body[data-flow]:not(.assistant-quiet):not(.assistant-onepulse) .ai-btn {
+  animation: ai-pulse 2.6s ease-in-out infinite;
+}
+/* One farewell pulse after the greeting closes — runs once (JS then quiets it). */
+body[data-flow="assistant"].assistant-onepulse .ai-btn {
+  animation: ai-pulse 2.6s ease-in-out 1;
+}
+/* A strong, obvious pulse: a short interval, then a double ring (accent + blue)
+   expands wide while the pill gives a little throb. The 100%→0% boundary is at
+   rest (transparent, scale 1) so JS can show the nudge there, never mid-ripple.
+
+   The ring colours are derived from the tokens with relative colour syntax
+   (rgb(from …)), not baked as rgba, so the pulse re-skins with the site. Before
+   this the ring stayed purple on a blue site — the same class of bug as the
+   baked logo fills. Needs Chrome 119+ / Safari 16.4+. */
+@keyframes ai-pulse {
+  0%, 18% {
+    box-shadow: 0 0 0 0 rgb(from var(--color-accent) r g b / 0), 0 0 0 0 rgb(from var(--color-primary) r g b / 0);
+    transform: scale(1);
+  }
+  38% {
+    box-shadow: 0 0 0 0 rgb(from var(--color-accent) r g b / 0.65), 0 0 0 0 rgb(from var(--color-primary) r g b / 0.45);
+    transform: scale(1.08);
+  }
+  100% {
+    box-shadow: 0 0 0 32px rgb(from var(--color-accent) r g b / 0), 0 0 0 20px rgb(from var(--color-primary) r g b / 0);
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-btn { animation: none; }
+  .ai-btn::after { animation: none; opacity: 0; }
+}
+
+/* Assistant greeting nudge — a speech-bubble that fades in under the AI icon
+   once the user starts scrolling, lingers, then fades away. Positioned by JS
+   (top/right anchored to the icon). Lives at the body level (outside #phone) so
+   re-renders don't wipe it. */
+.assistant-nudge {
+  position: fixed;
+  z-index: 60;
+  box-sizing: border-box;   /* JS sets an explicit width; keep padding + border inside it */
+  padding: 16px 18px;
+  /* White interior with a blue→magenta gradient border (matches the AI ring). */
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
+    linear-gradient(45deg, var(--color-primary) 0%, var(--color-magenta) 100%) border-box;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(13, 27, 41, 0.16), 0 2px 8px rgba(13, 27, 41, 0.08);
+  /* Smooth slide-in: fades in while gliding down into place from just under the
+   nav, on a long decelerating curve so it eases to rest rather than popping.
+   The reverse plays on dismiss (see JS, which times removal to the full exit). */
+  transform-origin: top right;
+  opacity: 0;
+  transform: translateY(-18px);
+  transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;   /* a greeting: taps pass through (except the close button) */
+}
+.assistant-nudge.is-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Article bubble: the whole thing is the action ("See the answer"), so it's
+   tappable and lifts a touch on hover. */
+.assistant-nudge--tappable {
+  pointer-events: auto;
+  cursor: pointer;
+}
+.assistant-nudge--tappable:hover {
+  box-shadow: 0 14px 36px rgba(13, 27, 41, 0.22), 0 3px 10px rgba(13, 27, 41, 0.10);
+}
+/* Typewriter caret — a thin blinking bar shown while the message "types". */
+.assistant-nudge__caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.05em;
+  margin-left: 1px;
+  vertical-align: -2px;
+  background: currentColor;
+  animation: assistant-caret 1s steps(1, end) infinite;
+}
+@keyframes assistant-caret {
+  0%, 50%      { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .assistant-nudge__caret { display: none; }
+}
+.assistant-nudge__text {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.4;
+  color: var(--color-text);
+}
+/* "Start chatting" — styled as a link/action (in the primary link colour). */
+.assistant-nudge__cta {
+  color: var(--color-primary);
+  font-weight: 700;
+  white-space: nowrap;
+}
+/* Small dismiss button — floated top-right so the greeting text flows around it
+   on the first line and uses the full width below (keeps it to two lines). The
+   bubble is pointer-events:none so taps pass through; the button opts back in. */
+.assistant-nudge__close {
+  float: right;
+  width: 28px;
+  height: 28px;
+  margin: -3px -6px 2px 8px;
+  padding: 0;
+  border: none;
+  background: none;
+  border-radius: 50%;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+.assistant-nudge__close:hover { color: var(--color-text); background: rgba(13, 27, 41, 0.05); }
+.assistant-nudge__close svg { width: 18px; height: 18px; display: block; }
+
+@media (prefers-reduced-motion: reduce) {
+  .assistant-nudge { transition: opacity 0.3s ease; transform: none; }
+  .assistant-nudge.is-in { transform: none; }
+}
+
+/* Monochrome inline SVG icons (fill=currentColor), so each context's `color`
+   tints them — nav = ink, Library/Community = magenta, back chevron = blue,
+   dropdown = ink. Fixed square box; the SVG sits at natural size, centered
+   (like object-fit: contain). Inlined so it works over file:// too. */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+.icon svg { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; }
+
+/* Logo assets (full-colour raster wordmark / mark — kept as <img>, not tinted). */
+.logo-btn { display: flex; align-items: center; border: none; background: none; padding: 0; cursor: pointer; }
+.logo { display: block; width: auto; }
+.logo--full { height: 40px; }  /* stacked "this is Menopause" wordmark */
+.logo--mark { height: 40px; }  /* compact circular logomark */
+
+/* Brand mark colours come from the token layer, not from the SVG source. The
+   inlined logos in main.js carry no fill on these paths, so a theme swap
+   re-skins the wordmark along with everything else. A baked fill would leave
+   the logo purple on a blue site — which is exactly the bug this fixes.
+   Applies to every logo instance: nav, desktop header, panel and footer. */
+.logo-accent { fill: var(--color-accent); }
+.logo-ink    { fill: var(--color-navy); }
+
+.join-btn {
+  height: 44px;   /* matches the AI / profile circles and search tap box */
+  padding: 0 16px;
+  border-radius: var(--radius-pill);
+  border: none;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-family: var(--font-body);
+  font-size: 16px;
+  letter-spacing: -0.25px;
+  cursor: pointer;
+}
+.join-btn:active { filter: brightness(1.08); }
+
+/* Narrowest phones (< 375px): tighten the top-nav cluster so search + Ask pill +
+   Join/profile never overflow the right edge. Placed after the button rules so
+   these overrides win on source order. */
+@media (max-width: 374px) {
+  .nav__top { padding-inline: 8px; }
+  .nav__right { gap: 4px; }
+  .ai-btn { padding: 0 8px; gap: 4px; }
+  .join-btn { padding: 0 12px; }
+}
+
+.profile-btn {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: none;
+  padding: 0;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+/* Inner wrapper does the circular crop, so the badge (a sibling) can sit
+   outside/on top of the avatar instead of being clipped by it. */
+.profile-avatar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.profile-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.profile-btn .badge {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--color-badge);
+  border: 2px solid var(--color-text-inverse);   /* white ring so it reads as sitting on top */
+  z-index: 1;
+}
+
+/* ---- Uplevel pill (sticks to the top; replaces the old level-up bar) ----
+   A small blue-tinted pill that sits in-page top-left inside the sticky
+   .screen__uplevel container, so it pins below the nav / docks to the top edge
+   on scroll (attachAutoHide). Figma Global Navigation 7294:1952. */
+.uplevel {
+  pointer-events: auto;   /* re-enable clicks (container is pointer-events:none) */
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  height: 34px;
+  border: 1px solid var(--color-border-primary-soft);
+  border-radius: 48px;
+  background: var(--color-bg-blue-soft);   /* opaque var(--color-bg-blue-soft) (Figma) — the idle floating pill */
+  cursor: pointer;
+  font-family: var(--font-body);
+  color: var(--color-primary);
+  transition: height 0.2s ease, padding 0.2s ease, border-radius 0.2s ease,
+    background 0.2s ease, border-color 0.2s ease;
+}
+/* Once scrolled (is-lifted, toggled in attachAutoHide) the pill docks into a
+   full-width, 44px, slightly translucent bar — no pill shape, icon + label
+   left-aligned, page content scrolling faintly beneath it. */
+.screen__uplevel.is-lifted .uplevel {
+  display: flex;
+  width: 100%;
+  height: 44px;
+  padding: 0 12px;
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.8);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+.uplevel__icon { width: 16px; height: 16px; display: inline-flex; flex-shrink: 0; }
+.uplevel__icon svg { width: 16px; height: 16px; display: block; }
+.uplevel span {
+  font-weight: 400;        /* Lato Semibold */
+  font-size: 14px;
+  letter-spacing: -0.25px;
+  line-height: 22px;
+}
+
+/* In-page "collection" callout box (placeholder) — sits near the top of an
+   article that belongs to a Collection (rebranded old Topic Center — a curated
+   set of sponsored content), linking to the full collection. */
+.collection-callout {
+  margin: 16px 12px;        /* top of the body, inset from the device edges */
+  padding: 16px;
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-neutral);
+}
+/* Inside an Article Show (above Key Takeaways) it flows with the art body gap. */
+.art__body .collection-callout { margin: 0; }
+.collection-callout__label {
+  margin: 0 0 6px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+.collection-callout__text {
+  margin: 0 0 12px;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--color-text);
+}
+.collection-callout__link {
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--color-primary);
+}
+
+/* ---- Community Overview hub (orientation menu) ---- */
+/* Wireframe-level: outlined module boxes, no visual polish. */
+.comm-hub { padding: 16px 12px 24px; }
+.comm-hub__title {
+  margin: 0 0 16px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--display-title-size);
+  line-height: var(--display-title-lh);
+  letter-spacing: var(--display-tracking);
+  color: var(--color-navy);
+}
+.comm-hub__list { display: flex; flex-direction: column; gap: 12px; }
+/* Tappable cards: whole card navigates; press feedback via :active (this is a
+   mobile prototype — tap/press, not desktop hover). */
+.comm-mod {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  padding: 16px;
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-body);
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.12s ease, border-color 0.12s ease, transform 0.06s ease;
+}
+.comm-mod:active {
+  background: var(--color-primary-soft);
+  border-color: var(--color-primary);
+  transform: scale(0.99);
+}
+.comm-mod__head { display: flex; align-items: center; gap: 8px; }
+.comm-mod__title {
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--color-text);
+}
+.comm-mod__badge {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  background: var(--color-surface-muted);
+  border-radius: var(--radius-pill);
+  padding: 1px 8px;
+}
+.comm-mod__desc { font-size: 16px; line-height: 1.35; color: var(--color-text-secondary); }
+
+/* ---- Community preview (Visitor + Subscriber) — Figma Community 5:2 / 6:68 ---- */
+/* A "get a glimpse" content preview: a beige intro banner, four feature preview
+   cards, and a join upsell. Distinct from the wireframe hub above (members). */
+.comm-preview { display: flex; flex-direction: column; }
+
+/* Beige intro banner — full-bleed; its inner content caps to the reading column. */
+.comm-preview__banner {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-bg-warm);
+  padding: 24px 12px;
+}
+.comm-preview__banner-inner {
+  position: relative;
+  z-index: 1;              /* above the decorative graphic */
+  max-width: var(--content-column);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.comm-preview__head { display: flex; flex-direction: column; gap: 4px; }
+.comm-preview__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 32px;         /* Figma holds 32/40 across breakpoints (node 12:4) */
+  line-height: 40px;
+  letter-spacing: var(--display-tracking);
+  color: var(--color-navy);
+}
+.comm-preview__sub { margin: 0; font-size: 18px; line-height: 24px; color: var(--color-text-secondary); }
+.comm-preview__status { display: flex; align-items: center; gap: 10px; }
+.comm-preview__avatars { display: flex; align-items: center; }
+.comm-preview__avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: var(--color-placeholder);
+  border: 2px solid var(--color-bg-warm);   /* banner-coloured ring, matching Figma */
+  margin-left: -8px;
+}
+.comm-preview__avatars .comm-preview__avatar:first-child { margin-left: 0; }
+.comm-preview__count { font-size: 14px; line-height: 22px; color: var(--color-text-secondary); }
+/* Decorative graphic — top-right, aligned to the reading column's right edge (it
+   lives inside .comm-preview__banner-inner) and sits behind the text. The source
+   asset reads dots-left/square-right; Figma flips it horizontally so the square
+   sits on the left and the dots trail off to the right (node 26:515). */
+.comm-preview__banner-graphic {
+  position: absolute;
+  z-index: -1;             /* behind the header text */
+  width: 210px;
+  transform: scaleX(-1);   /* square left, dots right */
+  pointer-events: none;
+  /* Mobile: bleed the graphic off the right edge so only a corner shows and it
+     stays clear of the (left-aligned) text (Figma mobile, node 26:507). Desktop
+     pulls it back to the reading-column edge below. */
+  top: -2px;
+  right: -132px;
+}
+
+/* Card list — a centered reading column. */
+.comm-preview__list {
+  max-width: var(--content-column);
+  margin-inline: auto;
+  width: 100%;
+  padding: 24px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Feature preview card: icon + title/stat + chevron, then a summary line. */
+.comm-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-body);
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.12s ease, transform 0.06s ease;
+}
+.comm-card:active { border-color: var(--color-primary); transform: scale(0.99); }
+.comm-card__content { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.comm-card__left { display: flex; align-items: center; gap: 16px; min-width: 0; }
+.comm-card__icon { display: block; width: 80px; height: 80px; flex-shrink: 0; }
+.comm-card__icon svg { display: block; width: 100%; height: 100%; }
+.comm-card__text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.comm-card__title { font-weight: 600; font-size: 18px; line-height: 24px; color: var(--color-text); }
+.comm-card__stat { font-size: 18px; line-height: 26px; color: var(--color-text-secondary); }
+.comm-card__member { color: var(--color-magenta); }
+.comm-card__chevron { display: block; width: 24px; height: 24px; flex-shrink: 0; }
+.comm-card__chevron svg { display: block; width: 100%; height: 100%; }
+.comm-card__desc { font-size: 18px; line-height: 26px; color: var(--color-text); }
+
+/* Join upsell — a light card (distinct from the navy splash CTA). */
+.comm-upsell { display: flex; flex-direction: column; gap: 16px; }
+.comm-upsell__card {
+  position: relative;
+  z-index: 0;              /* stacking context for the decorative graphics */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 32px 24px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+.comm-upsell__graphic { position: absolute; z-index: -1; width: 280px; pointer-events: none; }
+.comm-upsell__graphic--tr { top: -73px; right: -155px; transform: scaleY(-1); }
+.comm-upsell__graphic--bl { bottom: -80px; left: -155px; }
+.comm-upsell__text { display: flex; flex-direction: column; gap: 8px; }
+.comm-upsell__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 40px;
+  letter-spacing: var(--display-tracking);
+  color: var(--color-navy);
+}
+.comm-upsell__sub { margin: 0; font-size: 18px; line-height: 26px; color: var(--color-text); }
+.comm-upsell__buttons { display: flex; flex-direction: column; gap: 16px; }
+.comm-upsell__btn {
+  padding: 14px 28px;
+  border-radius: 24px;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.2;
+  text-align: center;
+  white-space: nowrap;     /* "Check symptoms first" stays on one line */
+  cursor: pointer;
+}
+.comm-upsell__btn--primary { border: none; background: var(--color-primary); color: var(--color-text-inverse); }
+.comm-upsell__btn--primary:active { filter: brightness(0.97); }
+.comm-upsell__btn--secondary { border: 1px solid var(--color-primary); background: transparent; color: var(--color-primary); }
+.comm-upsell__btn--secondary:active { background: rgba(15, 87, 168, 0.06); }
+.comm-upsell__note { margin: 0; padding-left: 12px; font-size: 14px; line-height: 22px; color: var(--color-text); }
+
+/* ---- Community Features (Anonymous Visitor) — Figma 184:588 / 184:441 ---- */
+/* A "Community Features" tour: a heading over four feature cards, each with a
+   category eyebrow + serif title + description and a magenta line-art illustration
+   bleeding off the top-right over a faint blue panel. */
+.feat {
+  max-width: var(--content-column);
+  margin-inline: auto;
+  width: 100%;
+  padding: 24px 12px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.feat__heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--display-title-size);
+  line-height: var(--display-title-lh);
+  letter-spacing: var(--display-tracking);
+  color: var(--color-navy);
+}
+.feat__list { display: flex; flex-direction: column; gap: 16px; }
+
+.feat-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-body);
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.12s ease, transform 0.06s ease;
+}
+.feat-card:active { border-color: var(--color-primary); transform: scale(0.99); }
+/* Decorative blue panel + magenta illustration, top-right (illustration above). */
+.feat-card__panel {
+  position: absolute;
+  z-index: 0;
+  right: -44px;           /* bottom-right, bled a little further off the right */
+  bottom: -20px;          /* aligned to the card bottom, bled slightly off */
+  width: 200px;
+  pointer-events: none;
+}
+.feat-card__illo {
+  position: absolute;
+  z-index: 1;
+  top: 6px;
+  right: 6px;
+  width: 112px;
+  height: 112px;
+  pointer-events: none;
+}
+.feat-card__illo svg,
+.feat-pair-card__illo svg { display: block; width: 100%; height: 100%; }  /* inline art fills the box (viewBox keeps aspect) */
+.feat-card__panel svg,
+.feat-pair-card__panel svg { display: block; width: 100%; height: auto; }  /* inline panel: width-driven, height from viewBox */
+.feat-card__head {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 116px;   /* clear the top-right illustration on mobile */
+}
+.feat-card__cat {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.25px;
+  text-transform: uppercase;
+  color: var(--color-magenta);
+}
+.feat-card__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--display-title-size);
+  line-height: var(--display-title-lh);
+  letter-spacing: var(--display-tracking);
+  color: var(--color-navy);
+}
+.feat-card__desc {
+  margin: 0;              /* reset the <p> UA margin in the pair cards (it stacked on the flex gap) */
+  position: relative;
+  z-index: 2;
+  font-size: 18px;
+  line-height: 26px;
+  letter-spacing: -0.25px;
+  color: var(--color-text);
+}
+
+/* Feature pair — two richer cards below the four features (Figma 212:110):
+   stacked on mobile, side-by-side on desktop. Each previews content (people /
+   guidelines) and ends in a "View … →" link. */
+.feat-pair { display: flex; flex-direction: column; gap: 16px; }
+.feat-pair-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+.feat-pair-card__panel { position: absolute; z-index: 0; bottom: -24px; right: -76px; width: 280px; pointer-events: none; }
+.feat-pair-card__illo { position: absolute; z-index: 1; top: 2px; right: 2px; width: 112px; height: 112px; pointer-events: none; }
+.feat-pair-card__head { position: relative; z-index: 2; display: flex; flex-direction: column; gap: 8px; padding-right: 116px; }
+.feat-pair-card__preview,
+.feat-pair-card__link { position: relative; z-index: 2; }
+
+/* People preview (Ambassadors card). */
+.feat-pair-card__preview { display: flex; flex-direction: column; gap: 16px; }
+.feat-pair-card__preview--tight { gap: 8px; }   /* guidelines checklist is tighter (Figma 212:155) */
+.feat-pair__person { display: flex; align-items: center; gap: 16px; }
+.feat-pair__avatar { flex-shrink: 0; width: 52px; height: 52px; border-radius: 50%; overflow: hidden; background: var(--color-bg-purple-soft); }
+.feat-pair__avatar img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.feat-pair__person-text { display: flex; flex-direction: column; min-width: 0; }
+.feat-pair__person-name { font-weight: 600; font-size: 18px; line-height: 24px; letter-spacing: -0.25px; color: var(--color-text); }
+.feat-pair__person-role { font-size: 18px; line-height: 26px; letter-spacing: -0.25px; color: var(--color-text-secondary); }
+
+/* Guidelines preview (checklist). */
+.feat-pair__rule { display: flex; align-items: flex-start; gap: 16px; }
+.feat-pair__check { flex-shrink: 0; width: 22px; height: 22px; }
+.feat-pair__check svg { display: block; width: 100%; height: 100%; }
+.feat-pair__rule span { font-size: 16px; line-height: 22px; letter-spacing: -0.25px; color: var(--color-text); }
+
+/* "View … →" link. */
+.feat-pair-card__link {
+  align-self: flex-start;   /* flex (mobile): shrink to content, left */
+  justify-self: start;      /* grid (desktop subgrid): left, not stretched */
+  padding: 0;               /* flush-left with the title / blurb / list */
+  border: none;
+  background: none;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 28px;
+  letter-spacing: -0.75px;
+  color: var(--color-primary);
+  cursor: pointer;
+}
+.feat-pair-card__link span { font-weight: 400; }
+
+/* ---- Community feed (Logged-Out + Logged-In Members) — Figma 9:134 / 34:609 ---- */
+/* A real activity feed: reuses the .comm-preview__banner (title + count), then
+   four sections (Posts, Open Questions, Groups, People). Logged-out members see
+   the card content blurred (.comm-feed--gated) behind a login-reminder card. */
+.comm-feed { display: flex; flex-direction: column; }
+.comm-feed__body {
+  max-width: var(--content-column);
+  margin-inline: auto;
+  width: 100%;
+  padding: 24px 12px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+.comm-feed__section { display: flex; flex-direction: column; gap: 16px; }
+.comm-feed__header { display: flex; align-items: center; gap: 6px; }
+.comm-feed__title {
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 36px;
+  letter-spacing: var(--display-tracking);
+  color: var(--color-navy);
+}
+/* "Post" button — pencil + label, in the Trending Posts header. */
+.comm-feed__post-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 8px;
+  border: none;
+  background: none;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--color-primary);
+  cursor: pointer;
+}
+.comm-feed__post-btn svg { display: block; width: 20px; height: 20px; }
+.comm-feed__post-btn:active { background: var(--color-primary-soft); }
+/* "View all …" link (per section). */
+.comm-feed__link {
+  align-self: flex-start;
+  padding: 0 12px;
+  border: none;
+  background: none;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 26px;
+  color: var(--color-primary);
+  cursor: pointer;
+}
+/* Carousel arrows — desktop only (mobile carousels are swipe-only, like splash). */
+.comm-feed__arrows { display: none; }
+
+/* Card containers: vertical list by default; carousels switch to a horizontal
+   scroller (.comm-feed__scroll must come after so it wins the flex-direction). */
+.comm-feed__cards { display: flex; flex-direction: column; gap: 16px; }
+.comm-feed__scroll {
+  flex-direction: row;
+  gap: 15px;
+  overflow-x: auto;
+  margin: 0 -12px;          /* full-bleed the scroller on mobile */
+  padding: 2px 12px 6px;    /* room for the card focus ring / shadow */
+  scrollbar-width: none;
+}
+.comm-feed__scroll::-webkit-scrollbar { display: none; }
+
+/* Logged-out teaser: blur the card content, non-interactive (join to unlock). */
+.comm-feed--gated .comm-feed__cards {
+  filter: blur(4px);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Login reminder (logged-out only) — light card with decorative corner graphics. */
+.comm-reminder {
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+.comm-reminder__graphic { position: absolute; z-index: -1; width: 280px; pointer-events: none; }
+.comm-reminder__graphic--tr { top: -73px; right: -110px; transform: scaleY(-1); }
+.comm-reminder__graphic--bl { bottom: -80px; left: -146px; }
+.comm-reminder__text { display: flex; flex-direction: column; gap: 4px; }
+.comm-reminder__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: var(--display-tracking);
+  color: var(--color-navy);
+}
+.comm-reminder__sub { margin: 0; font-size: 18px; line-height: 26px; color: var(--color-text-muted); }
+.comm-reminder__cta {
+  align-self: stretch;
+  padding: 14px 28px;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 18px;
+  cursor: pointer;
+}
+.comm-reminder__cta:active { filter: brightness(0.97); }
+
+/* Post card — avatar + eyebrow + body. */
+.comm-post {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-body);
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.12s ease, transform 0.06s ease;
+}
+.comm-post:active { border-color: var(--color-primary); transform: scale(0.99); }
+.comm-post__avatar {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--color-bg-purple-soft);
+}
+.comm-post__avatar img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.comm-post__text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.comm-post__eyebrow { font-size: 12px; line-height: 20px; text-transform: uppercase; color: var(--color-text-secondary); }
+.comm-post__body { font-size: 18px; line-height: 24px; color: var(--color-text); }
+
+/* Question card (carousel). */
+.comm-q {
+  flex-shrink: 0;
+  width: 297px;
+  height: 132px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: border-color 0.12s ease;
+}
+.comm-q:active { border-color: var(--color-primary); }
+.comm-q__text {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  color: var(--color-text);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.comm-q__user { display: flex; align-items: center; gap: 6px; }
+.comm-q__by {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.comm-q__answers { display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0; font-size: 14px; color: rgba(13, 27, 41, 0.83); }
+.comm-q__answers svg { display: block; width: 20px; height: 20px; }
+
+/* Group card — icon + name/count + membership check, then a description. */
+.comm-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: border-color 0.12s ease, transform 0.06s ease;
+}
+.comm-group:active { border-color: var(--color-primary); transform: scale(0.99); }
+.comm-group__content { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.comm-group__left { display: flex; align-items: center; gap: 16px; min-width: 0; }
+.comm-group__icon { flex-shrink: 0; width: 80px; height: 80px; border-radius: 50%; background: var(--color-bg-purple-soft); }
+.comm-group__text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.comm-group__name { font-weight: 600; font-size: 18px; line-height: 24px; color: var(--color-text); }
+.comm-group__meta { font-size: 18px; line-height: 26px; color: var(--color-text-secondary); }
+.comm-group__check { flex-shrink: 0; width: 24px; height: 24px; }
+.comm-group__check svg { display: block; width: 100%; height: 100%; }
+.comm-group__desc { font-size: 18px; line-height: 26px; color: var(--color-text); }
+
+/* Person card (carousel). */
+.comm-person {
+  flex-shrink: 0;
+  width: 328px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: border-color 0.12s ease;
+}
+.comm-person:active { border-color: var(--color-primary); }
+.comm-person__left { display: flex; align-items: center; gap: 16px; min-width: 0; }
+.comm-person__avatar { flex-shrink: 0; width: 80px; height: 80px; border-radius: 50%; overflow: hidden; background: var(--color-bg-purple-soft); }
+.comm-person__avatar img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.comm-person__text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.comm-person__name { font-weight: 600; font-size: 18px; line-height: 24px; color: var(--color-text); }
+.comm-person__meta { font-size: 18px; line-height: 26px; color: var(--color-text-secondary); }
+.comm-person__add { flex-shrink: 0; width: 24px; height: 24px; }
+.comm-person__add svg { display: block; width: 100%; height: 100%; }
+
+/* ---- Member sign-up gate modal (locked community features, e.g. Posts) ---- */
+.gate-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 30;                        /* above panel / dropdown */
+  background: rgba(13, 27, 41, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: fadeIn 0.15s ease;
+}
+.gate {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  background: var(--color-surface);
+  border-radius: var(--radius-card);
+  padding: 32px 28px;
+  box-shadow: 0 8px 40px rgba(13, 27, 41, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.gate__close {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+.gate__close svg { display: block; width: 24px; height: 24px; pointer-events: none; }
+.gate__text { margin-top: 40px; display: flex; flex-direction: column; gap: 8px; }  /* clear the close button */
+.gate__headline {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--display-title-size);
+  line-height: var(--display-title-lh);
+  letter-spacing: var(--display-tracking);
+  color: var(--color-navy);
+}
+.gate__sub {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.4;
+  color: var(--color-text-secondary);   /* Lato gray, like the landing subheads */
+}
+.gate__options { display: flex; flex-direction: column; gap: 16px; }
+.gate__option {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  padding: 14px 24px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  cursor: pointer;
+  font-family: var(--font-body);
+  text-align: left;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+.gate__option:hover { background: rgba(13, 27, 41, 0.03); }
+.gate__option:active { background: rgba(13, 27, 41, 0.06); }
+.gate__option-icon { flex-shrink: 0; width: 28px; height: 28px; }
+.gate__option-icon svg { display: block; width: 100%; height: 100%; }
+.gate__option-label { font-size: 18px; color: var(--color-text); }
+.gate__footer { margin: 0; font-size: 18px; color: var(--color-text); }
+.gate__login {
+  border: none;
+  background: none;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: 18px;
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
+/* ---- Topic Hub (aggregates one patient concern across feature types) ---- */
+/* Wireframe-level, like the community hub, but modules can carry a content-
+   preview affordance (skeleton rows) — no fabricated content. */
+.topic-hub { padding: 16px 12px 24px; }
+.topic-hub__header { margin-bottom: 20px; }
+.topic-hub__name {
+  margin: 0 0 6px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--display-title-size);
+  line-height: var(--display-title-lh);
+  letter-spacing: var(--display-tracking);
+  color: var(--color-navy);
+}
+.topic-hub__desc { margin: 0 0 8px; font-size: 16px; line-height: 1.4; color: var(--color-text); }
+.topic-hub__stat {
+  margin: 0;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  background: var(--color-surface-muted);
+  border-radius: var(--radius-pill);
+  padding: 2px 10px;
+}
+.topic-hub__list { display: flex; flex-direction: column; gap: 12px; }
+.topic-hub-mod {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  padding: 16px;
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-body);
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.12s ease, border-color 0.12s ease, transform 0.06s ease;
+}
+/* Press feedback (mobile tap/press, not desktop hover). Disabled module excluded. */
+.topic-hub-mod:not(.topic-hub-mod--disabled):active {
+  background: var(--color-primary-soft);
+  border-color: var(--color-primary);
+  transform: scale(0.99);
+}
+.topic-hub-mod__head { display: flex; align-items: center; gap: 8px; }
+.topic-hub-mod__title { font-weight: 700; font-size: 18px; color: var(--color-text); }
+.topic-hub-mod__desc { font-size: 16px; line-height: 1.35; color: var(--color-text-secondary); }
+.topic-hub-mod__note { font-size: 12px; font-style: italic; color: var(--color-text-secondary); }
+/* Content-preview affordance: skeleton placeholder rows (no real content). */
+.topic-hub-mod__preview { display: flex; flex-direction: column; gap: 6px; }
+.topic-hub-mod__preview span {
+  height: 12px;
+  border-radius: 4px;
+  background: repeating-linear-gradient(90deg, var(--color-placeholder) 0, var(--color-placeholder) 60%, var(--color-surface-sunken) 60%, var(--color-surface-sunken) 100%);
+  background-color: var(--color-placeholder);
+}
+.topic-hub-mod__preview span:first-child { width: 92%; }
+.topic-hub-mod__preview span:last-child { width: 68%; }
+/* Disabled module (no destination yet) */
+.topic-hub-mod--disabled {
+  cursor: default;
+  background: var(--color-surface-neutral);
+  border-style: dashed;
+  opacity: 0.7;
+}
+.topic-hub-mod__soon {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  background: var(--color-placeholder-shade);
+  border-radius: var(--radius-pill);
+  padding: 1px 8px;
+}
+
+
+/* ---- Slide-out Panel ---- */
+
+.panel-overlay {
+  position: fixed;   /* cover the viewport regardless of document scroll */
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 20;
+  display: flex;
+  animation: fadeIn 0.2s ease;
+}
+/* Smooth dismiss: scrim fades and panel slides back out (slower ease-out). */
+.panel-overlay.is-closing { animation: fadeOut 0.32s ease-out forwards; }
+.panel-overlay.is-closing .panel { animation: slideOut 0.32s ease-out forwards; }
+
+.panel {
+  width: 300px;
+  height: 100%;
+  background: var(--color-surface);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow-y: auto;
+  animation: slideIn 0.24s ease-out;
+}
+
+.panel__top {
+  display: flex;
+  flex-direction: column;
+}
+
+.panel__brand {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.panel__logotype { height: 36px; width: auto; }  /* panel wordmark (overrides .logo--full) */
+
+/* Home / Resources / Community tab card (bordered, rounded) */
+.panel__tabs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  border: 1px solid rgba(98, 107, 116, 0.1);
+  border-radius: 16px;
+}
+.panel__tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 14px;
+  letter-spacing: -0.25px;
+  color: var(--color-text-secondary);
+  transition: color 0.18s ease;
+}
+.panel__tab:active { color: var(--color-text); }
+.panel__tab-icon { width: 44px; height: 44px; display: block; border-radius: 50%; }
+/* Press feedback matching the top-nav icons (light gray circle on tap). */
+.panel__tab:active .panel__tab-icon { background: rgba(13, 27, 41, 0.05); }
+
+/* Topic-hub list — the new primary entry point */
+.panel__hubs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+}
+.panel__hub {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  width: calc(100% + 24px);
+  margin: 0 -12px;          /* bleed the hover pill into the panel padding */
+  padding: 0 12px;
+  height: 44px;
+  border: none;
+  background: none;
+  border-radius: var(--radius-pill);
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 18px;
+  color: var(--color-text);
+  transition: background 0.18s ease;
+}
+.panel__hub:active { background: var(--color-magenta-soft-solid); }
+/* Hub icons: inline glyph (fill=currentColor) on a CSS-drawn pale circle, tinted magenta. */
+.panel__hub-icon { width: 44px; height: 44px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--color-bg-purple-soft); color: var(--color-magenta); }
+.panel__hub-icon svg { width: 44px; height: 44px; display: block; }
+
+/* ---- Anonymous / Subscriber panel: promo access card + TOPICS list ---- */
+.panel__promo {
+  position: relative;      /* stacking context (z-index:0) for the z-index:-1 blobs */
+  z-index: 0;
+  overflow: hidden;        /* clip the corner blobs that bleed off the card */
+  background: var(--color-navy);
+  border-radius: var(--radius-card);
+  padding: 24px;
+  color: var(--color-text-inverse);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+/* Decorative magenta blob/dot graphic in opposite corners (Figma card
+   7417:3673/3712) — one asset reused, top-right flipped vertically and
+   bottom-left flipped horizontally, so they read as diagonal mirror-images.
+   Same brand element as the splash closing CTA card. */
+.panel__promo-graphic { position: absolute; z-index: -1; width: 246px; pointer-events: none; }
+.panel__promo-graphic--tr { top: -64px; right: -150px; transform: scaleY(-1); }
+.panel__promo-graphic--bl { bottom: -83px; left: -76px; transform: scaleX(-1); }
+.panel__promo-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 1.15;
+  letter-spacing: -0.75px;
+}
+.panel__promo-sub { margin: 0; font-size: 16px; line-height: 1.4; letter-spacing: -0.25px; opacity: 0.92; }
+.panel__promo-cta {
+  margin-top: 4px;
+  height: 48px;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  color: var(--color-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  cursor: pointer;
+}
+.panel__promo-cta:active { filter: brightness(0.97); }
+.panel__promo-link {
+  border: none;
+  background: none;
+  color: var(--color-text-inverse);
+  font-family: var(--font-body);
+  font-size: 14px;
+  letter-spacing: -0.25px;
+  cursor: pointer;
+  padding: 2px;
+}
+.panel__topics { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+.panel__topics-label {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+.panel__topics .panel__hubs { width: 100%; }
+
+/* Explore (ToC) — outline pill below the hubs */
+.panel__explore {
+  align-self: flex-start;
+  height: 44px;
+  margin-top: 0;
+  padding: 0 24px;
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--color-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  letter-spacing: -0.25px;
+  cursor: pointer;
+  transition: background 0.18s ease;
+}
+.panel__explore:active { background: var(--color-primary-soft); }
+
+.panel__footer {
+  margin-top: auto;
+  font-size: 14px;
+  line-height: 1.5;  /* "Powered by" on line 1, company name wraps to line 2 */
+  color: var(--color-text-secondary);
+  letter-spacing: -0.25px;
+}
+
+/* ---- Profile dropdown ---- */
+
+.dropdown-overlay {
+  position: fixed;   /* cover the viewport regardless of document scroll */
+  inset: 0;
+  z-index: 20;
+}
+
+.dropdown {
+  position: absolute;
+  /* Fallback anchor; positionDropdown() overrides top/right inline each render so
+     the menu sits directly under the profile button in every layout (no
+     per-breakpoint override needed). */
+  top: 60px;
+  right: 12px;
+  width: 246px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: 0 0 8px rgba(13, 27, 41, 0.1);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: fadeIn 0.15s ease;
+}
+
+.dropdown__user {
+  display: flex;
+  flex-direction: column;
+  letter-spacing: -0.25px;
+  line-height: 28px; /* Figma: three 28px-tall rows, unhurried spacing at top */
+}
+.dropdown__user strong { font-size: 18px; }
+.dropdown__user span { font-size: 16px; color: var(--color-text-secondary); }
+.dropdown__user a {
+  font-size: 18px;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.dropdown__menu {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.dropdown__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 18px;
+  color: var(--color-text);
+  padding: 0;
+  text-align: left;
+}
+.dropdown__item .icon { width: 24px; height: 24px; }
+.dropdown__divider { border-top: 1px solid var(--color-border); padding-top: 16px; }
+
+/* Log out icon points right (arrow leaving the door), matching Figma. */
+.dropdown__item--logout .icon svg { transform: rotate(90deg); }
+
+/* Notifications is a distinct orange "chip" above the divider (matches Figma):
+   faint orange fill, rounded, orange bell + label. */
+.dropdown__item--notif {
+  background: var(--color-badge-soft);
+  color: var(--color-badge);
+  border-radius: 16px;
+  padding: 12px;
+}
+/* Notifications bell wiggles periodically to draw the eye to the unread count. */
+.dropdown__item--notif .icon svg {
+  transform-origin: 50% 18%;
+  animation: bell-wiggle 2.6s ease-in-out infinite;
+}
+@keyframes bell-wiggle {
+  0%, 14%, 100% { transform: rotate(0deg); }
+  2%  { transform: rotate(15deg); }
+  5%  { transform: rotate(-13deg); }
+  8%  { transform: rotate(9deg); }
+  11% { transform: rotate(-5deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dropdown__item--notif .icon svg { animation: none; }
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+@keyframes slideIn { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+@keyframes slideOut { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+
+/* ---- Global footer (bottom of every screen's scroll area) ---- */
+
+.footer {
+  flex-shrink: 0;
+  font-family: var(--font-body);
+  margin-top: 72px;   /* breathing room separating the footer from page content */
+  border-top: 1px solid var(--color-border);   /* thin divider line above the footer (Figma 6371:29) */
+}
+
+.footer__bar { padding: 28px 12px 24px; }
+.footer__brand { margin-bottom: 24px; }
+.footer__logo { display: block; height: 40px; width: auto; margin-bottom: 12px; }
+.footer__headline {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.75px;
+  color: var(--color-text);
+}
+.footer__links { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; }
+.footer__col { display: flex; flex-direction: column; gap: 12px; }
+.footer__link {
+  color: var(--color-primary);
+  font-size: 16px;
+  text-decoration: none;   /* blue nav links: no underline */
+  cursor: pointer;
+}
+
+.footer__end { background: var(--color-surface-sunken); padding: 24px 12px; }
+.footer__legal { margin: 0 0 16px; font-size: 14px; line-height: 1.9; }
+.footer__link--dark {
+  color: var(--color-text);
+  font-size: 14px;
+  text-decoration: underline;   /* legal / privacy links: underlined */
+}
+.footer__dot { color: var(--color-text-secondary); }
+.footer__privacy img { height: 14px; width: auto; vertical-align: middle; margin-right: 4px; }
+.footer__disclaimer,
+.footer__copyright {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text);   /* default dark ink */
+}
+.footer__disclaimer { margin-bottom: 16px; }
+
+/* ---- Hidden "back to all flows" hotspot (top-left of each flow page) ---- */
+
+.launcher-hotspot {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 50;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text);
+  background: transparent;
+  opacity: 0;                 /* invisible until hovered (still clickable) */
+  transition: opacity 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+.launcher-hotspot:hover {
+  opacity: 1;
+  background: var(--color-surface);
+  box-shadow: 0 2px 8px rgba(13, 27, 41, 0.2);
+}
+.launcher-hotspot .icon { width: 20px; height: 20px; }
+
+@media (max-width: 430px) {
+  .launcher-hotspot { display: none; }  /* app is full-bleed here; avoid the hamburger */
+}
+
+/* ============================================================
+   Article Show — skin-care article (renderArticle() in main.js),
+   rebuilt to match the Figma "Mobile_Article" frame. The top nav,
+   the "Skin-related Hub" uplevel pill, and the global footer come
+   from shared chrome; this styles the article body + end modules.
+   12px reading margins throughout.
+   ============================================================ */
+.art { font-family: var(--font-body); color: var(--color-text); letter-spacing: -0.25px; }  /* baseline tracking (like the splash); headings override to -0.75px */
+.art__body { display: flex; flex-direction: column; gap: 24px; padding: 8px 12px 0; }
+
+/* header */
+.art__head { display: flex; flex-direction: column; gap: 12px; }
+.art__title { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: var(--display-title-size); line-height: var(--display-title-lh); letter-spacing: var(--display-tracking); color: var(--color-navy); }
+.art__byline { margin: 0; font-size: 14px; line-height: 20px; letter-spacing: -0.25px; color: var(--color-text-secondary); }
+.art__strip { display: flex; align-items: center; justify-content: space-between; }
+.art__reaction { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; letter-spacing: -0.25px; color: var(--color-text-secondary); }
+.art__avatar { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+.art__save { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 400; letter-spacing: -0.25px; color: var(--color-primary); }
+.art__ic { width: 18px; height: 18px; flex-shrink: 0; }
+
+/* body copy — Lato 18 / DM Serif 26 headings */
+.art__lede { display: flex; flex-direction: column; gap: 8px; }
+.art__sec { display: flex; flex-direction: column; gap: 8px; }
+.art__h2 { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 26px; line-height: 34px; letter-spacing: -0.75px; color: var(--color-navy); }
+.art__lede p, .art__sec p { margin: 0; font-size: 18px; line-height: 26px; letter-spacing: -0.25px; color: var(--color-text); }
+
+/* Key Takeaways card */
+.art-note { display: flex; flex-direction: column; gap: 12px; padding: 16px; border-radius: var(--radius-card); border: 1px solid var(--color-card-border); }
+.art-note__title { margin: 0; font-size: 22px; font-weight: 600; line-height: 28px; letter-spacing: -0.75px; color: var(--color-text); }
+.art-note__item { display: flex; align-items: flex-start; gap: 8px; }
+.art-note__bullet { font-size: 18px; line-height: 26px; color: var(--color-text); }
+.art-note__text { margin: 0; font-size: 18px; line-height: 26px; letter-spacing: -0.25px; color: var(--color-text); }
+.art-note__link { align-self: flex-start; border: none; background: none; padding: 0; font: inherit; font-size: 18px; line-height: 26px; letter-spacing: -0.25px; color: var(--color-primary); cursor: pointer; }
+
+/* Collapsed body: white fade + "Read full article" link */
+.art-collapse { position: relative; padding-bottom: 4px; }
+.art-collapse::after { content: ""; position: absolute; left: 0; right: 0; bottom: 38px; height: 72px; background: linear-gradient(to bottom, rgba(255, 255, 255, 0), var(--color-surface)); pointer-events: none; }
+.art-collapse__link { position: relative; z-index: 1; align-self: center; margin: 4px auto 0; display: inline-flex; align-items: center; gap: 4px; border: none; background: none; font: inherit; font-size: 16px; letter-spacing: -0.25px; color: var(--color-primary); cursor: pointer; }
+.art-collapse__link .art__ic { width: 24px; height: 24px; }
+
+/* End modules (conversation, AI, keep reading, access) */
+.art__end { display: flex; flex-direction: column; gap: 32px; padding: 28px 12px 8px; }
+.art-conv, .art-answered, .art-keep { display: flex; flex-direction: column; gap: 16px; }
+.art-conv__title, .art-answered__title { display: flex; align-items: center; gap: 8px; margin: 0; font-family: var(--font-display); font-weight: 400; font-size: var(--display-subhead-size); line-height: var(--display-subhead-lh); letter-spacing: -0.75px; }
+.art-conv__title { color: var(--color-navy); }
+.art-conv__title .art__ic { width: 24px; height: 24px; color: var(--color-navy); }
+.art-conv__input { display: flex; align-items: center; height: 56px; padding: 0 24px; border-radius: 36px; border: 1px solid var(--color-card-border); background: var(--color-surface); font-size: 18px; letter-spacing: -0.25px; color: var(--color-text-secondary); }
+
+/* Menopause, answered */
+.art-answered__stars { width: 24px; height: 24px; flex-shrink: 0; }
+/* Gradient text (blue → magenta) for the "Menopause, answered" heading. */
+.art-answered__label { background: linear-gradient(45deg, var(--color-primary) 0%, var(--color-accent) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+.art-answered__q { display: flex; align-items: center; gap: 16px; text-align: left; padding: 16px 24px; border: none; border-radius: var(--radius-pill); background: rgba(15, 87, 168, 0.08); font: inherit; font-size: 18px; line-height: 24px; letter-spacing: -0.25px; color: var(--color-primary); cursor: pointer; }
+.art-answered__q .art__arrow { width: 24px; height: 24px; margin-left: auto; flex-shrink: 0; }
+.art-answered__q:active { background: rgba(15, 87, 168, 0.14); }
+.art-answered__ask { align-self: flex-start; padding: 12px 24px; border: none; border-radius: var(--radius-pill); background: var(--color-primary); color: var(--color-text-inverse); font: inherit; font-size: 18px; line-height: 24px; letter-spacing: -0.25px; cursor: pointer; }
+.art-answered__ask:active { filter: brightness(0.94); }
+/* Tag pills reuse the splash checker pill (.mod-pill) — same white / 0.5px pill-border look. */
+.art-answered__tags { display: flex; flex-wrap: wrap; gap: 12px 8px; }
+
+/* Keep Reading — full-bleed horizontal carousel */
+.art-keep__h { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: var(--display-subhead-size); line-height: var(--display-subhead-lh); letter-spacing: -0.75px; color: var(--color-navy); }
+.art-keep__scroll { display: flex; gap: 16px; overflow-x: auto; margin: 0 -12px; padding: 0 12px; }
+.art-keep__card { flex: 0 0 auto; width: 324px; display: flex; flex-direction: column; gap: 12px; padding: 0; border: none; background: none; text-align: left; cursor: pointer; font-family: var(--font-body); }
+.art-keep__thumb { width: 324px; height: 170px; border-radius: var(--radius-card); background: repeating-linear-gradient(45deg, var(--color-placeholder-cool), var(--color-placeholder-cool) 10px, var(--color-primary-soft) 10px, var(--color-primary-soft) 20px); }
+.art-keep__title { font-size: 18px; line-height: 1.3; letter-spacing: -0.25px; color: var(--color-navy); }
+.art-keep__card:active { transform: scale(0.99); }
+
+/* Access closing CTA reuses .mod-cta-card (overrides its splash margin) */
+.art-access { margin-top: 0; }
+
+/* ============================================================================
+   DESKTOP LAYOUT (>=1024px) — the frameless app reflows into a real desktop
+   product: a persistent horizontal header + content capped/centered with fluid
+   gutters. Built up phase by phase (header/footer, then splash, article, etc.).
+   ============================================================================ */
+@media (min-width: 1024px) {
+  /* Keep the hidden launcher hotspot in the top-left corner; the header content
+     is centered in the 1000px box so the corner is clear at desktop widths. */
+
+  /* ---- Persistent header (renderDesktopHeader) ---- */
+  .dnav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--color-surface);
+    box-shadow: inset 0 -1px 0 0 var(--color-border);
+  }
+  /* Three-column bar: left cluster | centered nav | right controls. The 1fr
+     side columns keep the nav centered in the whole bar regardless of cluster
+     widths. */
+  .dnav__bar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 16px;
+    padding: 12px var(--content-pad);
+    height: 68px;   /* 44px controls + 12px padding top/bottom (Figma) — matches the mobile nav */
+  }
+  .dnav__cluster { display: flex; align-items: center; gap: 8px; }  /* hamburger hugs the logo */
+  .dnav__logo { flex-shrink: 0; }
+  .dnav__logo .logo--full { height: 40px; }
+  .dnav__nav { justify-self: center; display: flex; align-items: center; gap: 8px; }
+  .dnav__link {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: -0.25px;
+    color: var(--color-text);
+    padding: 8px 14px;
+    border-radius: var(--radius-pill);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  /* Each tab icon's viewBox is cropped to its own artwork bbox, so sizing by a
+     shared height renders them all at an even 16px tall (natural widths). */
+  .dnav__link .icon { width: auto; height: 16px; }
+  .dnav__link .icon svg { width: auto; height: 16px; display: block; }
+  .dnav__link:hover { background: rgba(13, 27, 41, 0.05); }
+  .dnav__link.is-active { color: var(--color-primary); background: rgba(15, 87, 168, 0.08); }
+  .dnav__right { justify-self: end; display: flex; align-items: center; gap: 10px; }
+
+  /* Breadcrumb bar — replaces the mobile level-up pill on detail screens. */
+  .dnav__crumbbar {
+    border-top: 1px solid var(--color-border);
+  }
+  .dnav__crumb {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px var(--content-pad);
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--color-primary);
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 400;
+  }
+  .dnav__crumb svg { width: 18px; height: 18px; }
+
+  /* ---- Footer: constrain + center, keep the two-column link block ---- */
+  /* Keep clear space above the divider on desktop too, so content never crowds
+     the footer (the divider itself is the border-top set in the base rule). */
+  .footer { margin-top: 80px; }
+  .footer__bar {
+    padding: 48px var(--content-pad);
+    display: flex;
+    justify-content: space-between;
+    gap: 48px;
+  }
+  .footer__brand { margin-bottom: 0; max-width: 360px; }
+  .footer__links { gap: 12px 64px; }
+  .footer__end > .footer__legal,
+  .footer__end > .footer__disclaimer,
+  .footer__end > .footer__copyright {
+    padding-left: calc(var(--content-pad) + 12px);   /* +12px inset, matching the other captions */
+    padding-right: var(--content-pad);
+    box-sizing: border-box;
+  }
+  .footer__end { padding-inline: 0; }
+}
+
+/* ---- Splash landing reflow (Phase 3) ---- */
+@media (min-width: 1024px) {
+  /* Each section keeps its full-bleed background; inner content centers to
+     --content-wide with fluid gutters (fluid up to the cap, then centered). */
+  .mod-hero,
+  .mod-listicles,
+  .mod-articles,
+  .mod-experts,
+  .mod-factoid,
+  .mod-community {
+    padding-block: 72px;
+    padding-inline: var(--content-pad);
+  }
+
+  /* Hero → two columns: intro (headline / sub / community) + checker card.
+     Taller than the other sections so it reads as the landing moment. */
+  .mod-hero {
+    display: grid;
+    grid-template-columns: 1fr minmax(360px, 384px);
+    column-gap: 56px;
+    align-items: center;
+    padding-block: 104px;
+  }
+  .mod-hero__intro { display: flex; flex-direction: column; }
+  .mod-hero__sub { font-size: 22px; max-width: 34ch; }
+  /* Sized so the widest pill row (~317px) fills the card — the full-width button
+     then matches the pills/title with no dead space (no pill spreading). */
+  .mod-checker-card { margin: 0; padding: 28px; }
+
+  /* Cap section-header measure so intros don't run edge to edge. */
+  .mod-section-text { max-width: 640px; }
+
+  /* Carousels stay horizontal on desktop, aligned to the content-left edge
+     (drop the mobile full-bleed negative margin) and sized so the next card
+     peeks — a cue that there's more to scroll. */
+  .mod-listicles__scroll,
+  .mod-articles__scroll {
+    margin: 0;
+    padding: 0 0 8px;
+  }
+  /* Carousel arrows: top-right of the section, aligned with the title row. */
+  .mod-listicles, .mod-articles { position: relative; }
+  .mod-carousel-arrows {
+    display: flex;
+    gap: 12px;
+    position: absolute;
+    top: 130px;   /* aligned with the section subtitle row */
+    right: var(--content-pad);
+  }
+  /* Bare chevrons (no circle). Darker = can scroll that way, lighter = at the
+     end of the track. */
+  .mod-carousel-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    border: none;
+    background: none;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: color 0.15s ease;
+  }
+  .mod-carousel-arrow:not(.is-disabled):hover { color: var(--color-primary); }
+  .mod-carousel-arrow.is-disabled { color: rgba(13, 27, 41, 0.22); cursor: default; }
+  .mod-carousel-arrow svg { width: 32px; height: 32px; display: block; }
+  .mod-carousel-arrow svg path { stroke-width: 2.5; }   /* bolder chevron, matching Figma */
+  .mod-listicle-card { width: 216px; }   /* ~4 + a peek of the 5th in the 1000px box */
+  .mod-article-card { width: 448px; }    /* ~2 + a peek of the 3rd; larger images */
+  /* Quotes: static three-column grid (not a carousel). */
+  .mod-quotes__scroll {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    overflow: visible;
+    margin: 0 0 4px;
+    padding: 0;
+  }
+  .mod-quote-card { width: auto; }
+
+  /* Experts → 3-up row. */
+  .mod-experts__list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+  /* Factoid → 2-up stat cards. */
+  .mod-factoid__stats { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+  /* Closing CTA card: two columns — copy left (fills), buttons right (compact). */
+  .mod-cta-card {
+    flex-direction: row;
+    align-items: center;
+    gap: 48px;
+    padding: 48px;
+  }
+  .mod-cta-card__text { display: flex; flex-direction: column; gap: 12px; flex: 1 1 auto; }
+  .mod-cta-card__buttons { flex: 0 0 auto; width: 300px; flex-direction: column; }
+  .mod-btn-primary,
+  .mod-btn-secondary { padding: 0 28px; }
+  .mod-disclaimer-note { max-width: var(--content-column); text-align: left; }
+}
+
+/* ---- Article reading column (Phase 4) ---- */
+@media (min-width: 1024px) {
+  /* Article is a 728px reading page, centered in the viewport. */
+  .art { max-width: var(--content-column); margin-inline: auto; padding-inline: 12px; }
+  .art__body,
+  .art__end { max-width: none; padding-inline: 0; }
+  .art__body { padding-top: 24px; }
+  /* Keep-reading: align to the column (drop the mobile full-bleed) and show a
+     two-up row rather than a horizontal scroll. */
+  .art-keep__scroll {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: visible;
+    margin: 0;
+    padding: 0;
+  }
+  .art-keep__card,
+  .art-keep__thumb { width: auto; }
+  .art-keep__thumb { aspect-ratio: 324 / 170; height: auto; }
+}
+
+/* ---- Hubs + Advisors (Phase 5) ---- */
+@media (min-width: 1024px) {
+  /* Community + Topic hubs: align to the 1000px box; card lists go two-up. */
+  .comm-hub,
+  .topic-hub { padding-inline: var(--content-pad); padding-top: 40px; }
+  .comm-hub__list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+  /* Topic Hub keeps its single-column stack on desktop, capped to the 728px
+     reading column and centered so the cards don't stretch the full content
+     width. The header is capped/centered to match so it aligns with the cards. */
+  .topic-hub__header,
+  .topic-hub__list { max-width: 728px; margin-inline: auto; }
+  .topic-hub__list { gap: 16px; }
+
+  /* Community preview: full-bleed banner, 728px card column, and the upsell
+     card reflows to an even two-column split (copy left, buttons right). */
+  .comm-preview__banner { padding-block: 40px; }
+  /* Banner graphic sits at the reading column's right edge, bled slightly off. */
+  .comm-preview__banner-graphic { top: -24px; right: -48px; }
+  .comm-preview__list { padding-block: 24px 40px; }
+  .comm-upsell__card {
+    display: grid;
+    /* Left (copy) column widened so the headline wraps to 2 lines, not 3; buttons
+       take a fixed 270px and still fit "Check symptoms first". */
+    grid-template-columns: 1fr 270px;
+    align-items: center;
+    gap: 32px;
+    padding: 32px;
+  }
+  .comm-upsell__title { font-size: 36px; line-height: 44px; }  /* Figma desktop 76:3110 */
+  .comm-upsell__graphic--tr { right: -175px; }
+  .comm-upsell__graphic--bl { left: -157px; bottom: -95px; }
+
+  /* Community feed: show the carousel arrows; drop the mobile full-bleed scroller
+     so the carousels align to the 728px column and peek the next card. Login
+     reminder reflows to a row (copy left, button right). */
+  .comm-feed__arrows { display: flex; gap: 8px; }
+  .comm-feed__scroll { margin: 0; padding: 2px 0 6px; }
+  .comm-reminder { flex-direction: row; align-items: center; gap: 24px; padding: 16px 24px; }
+  .comm-reminder__text { flex: 1 1 auto; }
+  .comm-reminder__cta { align-self: auto; flex: 0 0 auto; }
+  .comm-reminder__graphic--bl { left: -146px; }
+
+  /* Community Features: wider cards, illustration centred on the right, text
+     clears it with a fixed measure instead of the mobile top-right padding. */
+  .feat { padding-block: 40px; }
+  .feat-card { min-height: 156px; justify-content: center; }
+  .feat-card__illo { top: 50%; bottom: auto; transform: translateY(-50%); right: 24px; width: 128px; height: 128px; }
+  .feat-card__panel { right: -44px; bottom: -24px; width: 236px; }
+  .feat-card__head { padding-right: 0; }
+  .feat-card__title,
+  .feat-card__desc { max-width: 560px; }
+  /* Feature pair → side-by-side. The two cards share a 4-row grid via subgrid
+     (heading / blurb / preview / link), so those rows line up across both cards;
+     the preview row grows (1fr) so the "View …" links bottom-align together. */
+  .feat-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto 1fr auto;
+    column-gap: 24px;
+    row-gap: 16px;
+  }
+  .feat-pair-card {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: 1 / -1;
+    row-gap: 16px;
+    min-width: 0;
+  }
+
+  /* Advisors: a 728px reading page, centered — single-column list (the mobile
+     divider-row style), not the 1000px two-up grid. */
+  .mod-advisors { max-width: var(--content-column); margin-inline: auto; padding-inline: 12px; padding-top: 40px; }
+  /* Desktop only: each card goes horizontal — photo left, text right (Figma
+     desktop, node 1:6). Mobile stays stacked (the base rule). */
+  .advisor-card { flex-direction: row; align-items: flex-start; gap: 20px; }
+}
+
+/* ---- Long-tail screens (Phase 6): placeholders, flows ---- */
+@media (min-width: 1024px) {
+  /* Label/placeholder pages: keep the centered label but give it a little more
+     presence and stop it stretching on very wide screens. */
+  .screen__placeholder { max-width: var(--content-column); }
+
+  /* Chromeless flow pages (Sign Up Start / Registration Step): a 728px column
+     centered in the viewport, with the close (✕) sitting inside that column's
+     top-left rather than the viewport corner. */
+  .screen__body--flow { max-width: var(--content-column); margin-inline: auto; width: 100%; }
+  .screen__body--flow .flow-close { left: 12px; }
+}
