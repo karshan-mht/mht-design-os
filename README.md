@@ -90,8 +90,11 @@ system/                        The design system
     <block>/docs.md              Hand-written contracts
   AUTHORITY.md                 Authority model + preference grammar
   icons/
-    sheet.html                   Icon sheet — search, size, stroke controls
-    icons/*.svg                  112 line icons
+    sheet.html                   Specimen page for both sets
+    editorial/*.svg              112 graphical line icons (display sizes)
+    ui/*.svg                     28 solid glyphs for interface chrome
+    categories.js                Authored grouping + display names
+    registry-*.js                GENERATED inline registries
   motion/ai-pulse-spec.html    Ask AI pulse motion study
   brand/                       Brand strategy, voice, style guide PDF
   assets/                      Real assets exported from Figma (flat folder):
@@ -124,6 +127,7 @@ evals/
   lint-tokens.js               Fails on hex outside the tokens; audits rgba()
   lint-links.js                Fails on an internal reference that does not resolve
   gen-component-index.js       Regenerates system/components/INDEX.md (--check)
+  gen-icon-registry.js         Regenerates the icon registries (--check)
 MANUAL.md                      Index of the spec docs
 ```
 

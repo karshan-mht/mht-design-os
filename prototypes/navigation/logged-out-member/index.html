@@ -49,6 +49,9 @@
     <div class="phone" id="phone" role="group" aria-label="Mobile prototype screen"></div>
   </main>
 
-  <script src="../main.js"></script>
+  <!-- Icon registry, generated from system/icons/ui/*.svg. Must load BEFORE
+     main.js, which reads window.MHT_ICONS.ui at parse time. -->
+<script src="../../../system/icons/registry-ui.js"></script>
+<script src="../main.js"></script>
 </body>
 </html>
