@@ -25,7 +25,7 @@ and the real palette is a one-file swap later. `--brand-accent-pale` in
 particular is **not** contrast-checked yet.
 
 There is no Legacy site template yet — no prototype runs this theme end to
-end. That is tracked on the home under Foundations → Sites.
+end. That is tracked in the launcher under Foundations → Sites.
 
 | Theme | Hue family | Status |
 |---|---|---|
@@ -80,8 +80,8 @@ every page in this repo does today:
 
 Such a page must set `data-theme` explicitly — with several theme files loaded,
 the bare `:root` default is decided by link order, which is fragile. No page
-does this today; the home documents the sites rather than switching between
-them.
+does this today; the launcher documents the sites rather than switching
+between them.
 
 ## Adding a site
 

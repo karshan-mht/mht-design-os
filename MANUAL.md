@@ -2,7 +2,7 @@
 
 The spec docs, as a flat index. Start with the root [README.md](README.md) for
 the project overview and quick start, or open `index.html` for the same map as
-a browsable home.
+a browsable launcher.
 
 **`system/`** is the design system — what is true about colour, type, patterns,
 icons and brand. **`product/`** is the product knowledge — what each surface is

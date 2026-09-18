@@ -4,7 +4,7 @@ Status: **Phases 0, 1 and 2 complete.** Phases 3-6 not started.
 
 Goal: turn this repo into a design system that is *executable context* for
 agents — a single source of truth for tokens, an addressable component layer,
-a home shell that hosts many prototypes, and mechanical verification that
+a launcher that hosts many prototypes, and mechanical verification that
 catches drift. Structure follows **System → Context → Behavior → Verification**.
 
 ---
@@ -119,9 +119,9 @@ site, and `tokens.css` never names a hue. Adding a site is one file.
 
 ```
 index.html                  Home shell (collapsible left sidebar)
-home/
-  manifest.json             adding a prototype = one entry, not markup surgery
-  home.css  home.js
+launcher/
+  manifest.js               adding a prototype = one entry, not markup surgery
+  launcher.css  launcher.js
 
 system/                     the design system: live pages + docs
   tokens/
@@ -202,13 +202,14 @@ Original steps, for reference:
 
 Exit criterion: exactly one `:root` colour/type declaration exists in the repo.
 
-### Phase 1 — Home shell — **DONE**
+### Phase 1 — Launcher shell — **DONE**
 
 Delivered:
 
 - `index.html` — collapsible sidebar over seven sections; state persisted.
-- `home/manifest.js` — all home content as data. Adding a prototype is one entry.
-- `home/home.css`, `home/home.js` — shell styles and rendering, no framework.
+  Named the **launcher**, never "Home" — the product has its own Member Home.
+- `launcher/manifest.js` — all home content as data. Adding a prototype is one entry.
+- `launcher/launcher.css`, `launcher/launcher.js` — shell styles and rendering, no framework.
 - A Sites group documenting both hue families, with the missing Legacy site
   template listed as `planned` rather than left implied.
 
