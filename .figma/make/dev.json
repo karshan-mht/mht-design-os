@@ -3,9 +3,9 @@
     "priorityPaths": {
       "prefer": [
         "index.html",
-        "home/home.js",
-        "home/home.css",
-        "home/manifest.js",
+        "launcher/launcher.js",
+        "launcher/launcher.css",
+        "launcher/manifest.js",
         "system/tokens/tokens.css",
         "system/tokens/themes/menopause.css",
         "system/tokens/themes/legacy.css",
@@ -84,7 +84,7 @@
       "model": "claude-sonnet-4-6",
       "createdAt": "2026-09-18T00:00:00Z",
       "confidence": 0.98,
-      "explanation": "Repository is a self-contained vanilla HTML/CSS/JS design system with no framework or build system. Rendered UI lives in the home shell (index.html + home/), the token layer (system/tokens/), and the prototypes (prototypes/). Documentation, assets and tooling own no rendered UI."
+      "explanation": "Repository is a self-contained vanilla HTML/CSS/JS design system with no framework or build system. Rendered UI lives in the launcher (index.html + launcher/), the token layer (system/tokens/), and the prototypes (prototypes/). Documentation, assets and tooling own no rendered UI."
     }
   }
 }

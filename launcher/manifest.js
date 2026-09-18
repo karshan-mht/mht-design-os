@@ -1,6 +1,6 @@
-window.HOME_MANIFEST =
+window.LAUNCHER_MANIFEST =
 {
-  "_comment": "The home shell renders entirely from this file. Adding a prototype or a doc is one entry here - never a markup edit. Paths are relative to the repo root. kind: page|doc|pdf|code. status: live|draft|planned (planned renders disabled, so the roadmap is visible without dead links). This is a .js rather than a .json because Chrome blocks fetch() of local files over file://, and this repo must keep working from file:// with no server. It is still pure data - nothing here is executable.",
+  "_comment": "The launcher renders entirely from this file. Adding a prototype or a doc is one entry here - never a markup edit. Paths are relative to the repo root. kind: page|doc|pdf|code. status: live|draft|planned (planned renders disabled, so the roadmap is visible without dead links). This is a .js rather than a .json because Chrome blocks fetch() of local files over file://, and this repo must keep working from file:// with no server. It is still pure data - nothing here is executable.",
   "title": "MHT Design System",
   "subtitle": "Design system, documentation and prototypes for ThisIsMenopause and the Legacy condition sites.",
   "sections": [

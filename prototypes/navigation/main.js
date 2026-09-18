@@ -2295,13 +2295,19 @@ function initAssistantFlow() {
   armForScreen();   // arm the boot screen
 }
 
-// Hidden "back to all flows" hotspot — a small circle in the top-left corner
-// that's invisible until hovered, linking back to the root launcher. Only on
-// flow pages (this script runs there; the launcher doesn't load it).
-function addHomeHotspot() {
+// Hidden "back to the launcher" hotspot — a small circle in the top-left corner
+// that's invisible until hovered. Only on flow pages (this script runs there;
+// the launcher doesn't load it).
+//
+// The pages live at prototypes/navigation/<persona>/index.html, three levels
+// below the repo root, so the launcher is ../../../index.html. Keep this in
+// step with ASSET_BASE above; evals/lint-links.js fails the run if it breaks.
+const LAUNCHER_HREF = "../../../index.html";
+
+function addLauncherHotspot() {
   document.body.insertAdjacentHTML(
     "afterbegin",
-    `<a class="home-hotspot" href="../index.html" aria-label="Back to all flows" title="All flows">${icon("grid")}</a>`
+    `<a class="launcher-hotspot" href="${LAUNCHER_HREF}" aria-label="Back to the launcher" title="Back to the launcher">${icon("grid")}</a>`
   );
 }
 
@@ -2325,6 +2331,6 @@ if (persona) {
     }
   }
   render();
-  addHomeHotspot();
+  addLauncherHotspot();
   initAssistantFlow();
 }

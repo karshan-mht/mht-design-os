@@ -1,5 +1,5 @@
 /* =============================================================================
-   Home shell — renders entirely from home/manifest.js
+   Launcher — renders entirely from launcher/manifest.js
    =============================================================================
    No framework, no build step. Adding a prototype or a doc is one entry in the
    manifest; nothing in this file should need editing to add content.
@@ -11,8 +11,8 @@
 (function () {
   'use strict';
 
-  var M = window.HOME_MANIFEST;
-  if (!M) { document.body.innerHTML = '<p style="padding:2rem;font:16px system-ui">Could not load home/manifest.js.</p>'; return; }
+  var M = window.LAUNCHER_MANIFEST;
+  if (!M) { document.body.innerHTML = '<p style="padding:2rem;font:16px system-ui">Could not load launcher/manifest.js.</p>'; return; }
 
   // --- storage (never allowed to throw) -------------------------------------
   function get(k, d) { try { return localStorage.getItem(k) || d; } catch (e) { return d; } }
@@ -107,7 +107,7 @@
     });
 
     if (location.hash.slice(1) !== sec.id) history.replaceState(null, '', '#' + sec.id);
-    set('home.section', sec.id);
+    set('launcher.section', sec.id);
     main.focus({ preventScroll: true });
   }
 
@@ -132,7 +132,7 @@
     document.body.dataset.rail = state;
     toggle.setAttribute('aria-expanded', String(state !== 'collapsed'));
     toggle.setAttribute('aria-label', state === 'collapsed' ? 'Expand sidebar' : 'Collapse sidebar');
-    set('home.rail', state);
+    set('launcher.rail', state);
   }
   toggle.addEventListener('click', function () {
     setRail(document.body.dataset.rail === 'collapsed' ? 'expanded' : 'collapsed');
@@ -144,6 +144,6 @@
   });
 
   // --- boot -----------------------------------------------------------------
-  setRail(get('home.rail', 'expanded'));
-  render(location.hash.slice(1) || get('home.section', 'prototypes'));
+  setRail(get('launcher.rail', 'expanded'));
+  render(location.hash.slice(1) || get('launcher.section', 'prototypes'));
 })();

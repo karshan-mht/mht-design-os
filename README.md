@@ -6,18 +6,21 @@ across four auth states — **Anonymous Visitor**, **Logged Out Member**,
 nav, slide-out panel, account dropdown) and the screens each persona can reach.
 No framework, no build step — just open a file in a browser.
 
-Start at the **home** (`index.html`) — the design system's front door. A
+Start at the **launcher** (`index.html`) — the design system's front door. A
 collapsible left sidebar moves between Prototypes, Foundations, Components,
 Icons & Graphics, Brand, Product and Decisions. Everything opens in its own tab,
 so each prototype keeps a shareable URL.
 
-The home renders entirely from **`home/manifest.js`**. Adding a prototype or a
-doc is one entry in that file — never a markup edit.
+("Launcher", never "Home" — the product has its own Member Home surface, and
+reusing the word for two different things confuses both people and agents.)
+
+The launcher renders entirely from **`launcher/manifest.js`**. Adding a
+prototype or a doc is one entry in that file — never a markup edit.
 
 The system currently covers two sites: **ThisIsMenopause** (purple hue family,
 production) and the **Legacy condition sites** (blue hue family, placeholder
 values). Components are identical across both; only the hue differs. See
-Foundations → Sites on the home, or
+Foundations → Sites in the launcher, or
 [system/tokens/themes/README.md](system/tokens/themes/README.md).
 
 Design source: Figma **Global Navigation** file `42yas7Q9FfwhL6xUocjEAl`;
@@ -57,10 +60,10 @@ real screen in that persona).
 ## Structure
 
 ```
-index.html                     Home — collapsible sidebar over every section
-home/                          The home shell:
-  manifest.js                    ALL home content. Add a prototype here.
-  home.css  home.js              Shell styles and rendering
+index.html                     Launcher — collapsible sidebar over every section
+launcher/                      The launcher shell:
+  manifest.js                    ALL launcher content. Add a prototype here.
+  launcher.css  launcher.js      Shell styles and rendering
 
 system/                        The design system
   tokens/
@@ -103,7 +106,9 @@ product/                       Product surfaces (the what):
 decisions/
   DECISIONS.md                 Chronological decisions log + "on the horizon"
   RESTRUCTURE-PLAN.md          The six-phase restructure and its status
-evals/lint-tokens.js           Drift lint — fails on hex outside the tokens
+evals/
+  lint-tokens.js               Drift lint — fails on hex outside the tokens
+  lint-links.js                Fails on an internal reference that does not resolve
 MANUAL.md                      Index of the spec docs
 ```
 

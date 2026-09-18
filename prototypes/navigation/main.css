@@ -2193,7 +2193,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 
 /* ---- Hidden "back to all flows" hotspot (top-left of each flow page) ---- */
 
-.home-hotspot {
+.launcher-hotspot {
   position: fixed;
   top: 12px;
   left: 12px;
@@ -2209,18 +2209,19 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   opacity: 0;                 /* invisible until hovered (still clickable) */
   transition: opacity 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
 }
-.home-hotspot:hover {
+.launcher-hotspot:hover {
   opacity: 1;
   background: var(--color-surface);
   box-shadow: 0 2px 8px rgba(13, 27, 41, 0.2);
 }
-.home-hotspot .icon { width: 20px; height: 20px; }
+.launcher-hotspot .icon { width: 20px; height: 20px; }
 
 @media (max-width: 430px) {
-  .home-hotspot { display: none; }  /* app is full-bleed here; avoid the hamburger */
+  .launcher-hotspot { display: none; }  /* app is full-bleed here; avoid the hamburger */
 }
 
-/* ---------------- Launcher page (root index.html) ---- */
+/* ---------------- Legacy launcher page styles — the launcher now lives in
+   launcher/launcher.css and no longer uses these. Kept until confirmed dead. ---- */
 
 .launcher {
   max-width: 720px;
