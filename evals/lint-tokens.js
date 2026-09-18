@@ -25,20 +25,35 @@ const TOKEN_SOURCES = [
 // Specific, justified exceptions. Each needs a reason — an unexplained entry
 // here is how a lint quietly stops being a lint.
 const EXCEPTIONS = [
-  { file: 'main.css', match: /-webkit-mask:/, reason: 'mask luminance, not a colour' },
-  { file: 'community-standalone/feat-cards.css', match: /var\(--color-[a-z-]+, *#/, reason: 'portable drop-in: token with literal fallback' },
-  { file: 'community-standalone/feat-cards.css', match: /data:image\/svg\+xml/, reason: 'inline SVG asset, not a style value' },
+  { file: 'prototypes/navigation/main.css', match: /-webkit-mask:/, reason: 'mask luminance, not a colour' },
+  { file: 'prototypes/community/feat-cards.css', match: /var\(--color-[a-z-]+, *#/, reason: 'portable drop-in: token with literal fallback' },
+  { file: 'prototypes/community/feat-cards.css', match: /data:image\/svg\+xml/, reason: 'inline SVG asset, not a style value' },
 ];
 
-// entry-points/ mocks third-party UI (Google, Facebook, Gmail). Those are other
-// companies' brand colours, deliberately not ours — tokenising them would be
-// wrong. design-system/, line-icons/ and assistant/ are documentation pages
-// pending the Phase 2 move; re-scope them once they land under system/.
-const SKIP_FILES = new Set(['evals/lint-tokens.js']); // this file names hexes in comments
-const SKIP_DIRS = new Set([
-  '.git', 'assets', 'node_modules', '.figma', '.claude',
-  'design-system', 'line-icons', 'assistant', 'entry-points',
-]);
+// Skipped wherever the directory name appears.
+const SKIP_DIRS = new Set(['.git', 'node_modules', '.figma', '.claude']);
+
+// This file names hexes in its own comments.
+const SKIP_FILES = new Set(['evals/lint-tokens.js']);
+
+// Skipped by exact repo-relative path. Each needs a reason.
+//  - system/assets                 binary and SVG artwork, not style source
+//  - prototypes/entry-points       mocks Google/Facebook/Gmail chrome; other
+//                                  companies' colours, not ours to normalise
+//  - system/icons, system/motion   standalone documentation pages that still
+//                                  carry their own chrome; folded in when they
+//                                  are rebuilt as system pages
+//  - system/brand                  reference documents, not implementation
+//  - system/tokens/reference.html  the live token sheet: its whole job is to
+//                                  print raw values
+const SKIP_PATHS = [
+  'system/assets',
+  'system/icons',
+  'system/motion',
+  'system/brand',
+  'system/tokens/reference.html',
+  'prototypes/entry-points',
+];
 
 // Strip HTML numeric entities (&#9734;) before scanning — they are not colours.
 const ENTITY = /&#\d+;/g;
@@ -51,9 +66,10 @@ function walk(dir, out = []) {
     const rel = path.relative(ROOT, full);
     if (e.isDirectory()) {
       if (SKIP_DIRS.has(e.name)) continue;
+      if (SKIP_PATHS.includes(rel)) continue;
       walk(full, out);
     } else if (/\.(css|html|js)$/.test(e.name)) {
-      if (!TOKEN_SOURCES.includes(rel) && !SKIP_FILES.has(rel)) out.push(rel);
+      if (!TOKEN_SOURCES.includes(rel) && !SKIP_FILES.has(rel) && !SKIP_PATHS.includes(rel)) out.push(rel);
     }
   }
   return out;
