@@ -1,0 +1,404 @@
+<title>Ask AI Pulse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Lato:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ground: #f4f5fb;
+    --surface: #ffffff;
+    --surface-2: #eef0f8;
+    --ink: #14202f;
+    --muted: #5c6675;
+    --faint: #8b93a3;
+    --border: #e4e7f1;
+    --border-strong: #d3d8e6;
+    --blue: #0f57a8;
+    --magenta: #a440bc;
+    --code-bg: #0f1524;
+    --code-ink: #e7ecf6;
+    --serif: "DM Serif Display", Georgia, serif;
+    --body: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0d1016;
+      --surface: #151b25;
+      --surface-2: #1c2330;
+      --ink: #eef1f7;
+      --muted: #9aa4b3;
+      --faint: #6d7787;
+      --border: #262f3d;
+      --border-strong: #313c4d;
+      --code-bg: #0a0e18;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #0d1016;
+    --surface: #151b25;
+    --surface-2: #1c2330;
+    --ink: #eef1f7;
+    --muted: #9aa4b3;
+    --faint: #6d7787;
+    --border: #262f3d;
+    --border-strong: #313c4d;
+    --code-bg: #0a0e18;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--ground); color: var(--ink);
+    font-family: var(--body); line-height: 1.55; -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding-inline: 20px; padding-block: 48px 80px; }
+
+  .eyebrow {
+    font-family: var(--mono); font-size: 12px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--magenta); margin: 0 0 12px;
+  }
+  h1 {
+    font-family: var(--serif); font-weight: 400; font-size: clamp(34px, 6vw, 52px);
+    line-height: 1.02; letter-spacing: -0.01em; margin: 0; text-wrap: balance;
+  }
+  .lede { max-width: 62ch; margin: 14px 0 0; font-size: 16px; color: var(--muted); }
+  .meta-line { margin-top: 18px; font-family: var(--mono); font-size: 12.5px; color: var(--faint); display: flex; flex-wrap: wrap; gap: 6px 16px; }
+  .meta-line b { color: var(--muted); font-weight: 600; }
+
+  section { margin-top: 46px; }
+  h2 {
+    font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--muted); margin: 0 0 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+  }
+  h2 .idx { font-family: var(--mono); color: var(--faint); margin-right: 10px; font-weight: 600; }
+
+  /* Always-white specimen panel (production nav is white) */
+  .panel-light { background: #ffffff; border: 1px solid #e4e7f1; border-radius: 18px; color: #14202f; }
+  .demo { padding: 52px 24px 22px; display: flex; flex-direction: column; align-items: center; gap: 22px; }
+  .demo__area { min-height: 90px; display: grid; place-items: center; }
+  .demo__cap { margin: 0; font-family: var(--mono); font-size: 12px; color: #8b93a3; text-align: center; }
+  .demo-controls { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; }
+
+  /* ---- The new pill (faithful to production .ai-btn), label = "Ask" ---- */
+  .pill {
+    position: relative; box-sizing: border-box; height: 44px;
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 6px; padding: 0 12px; border-radius: 999px; background: transparent; border: none;
+  }
+  .pill::before {
+    content: ""; position: absolute; inset: 0; border-radius: 999px; padding: 1px;
+    background: linear-gradient(45deg, var(--blue) 0%, var(--magenta) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
+  }
+  .pill__stars { position: relative; z-index: 1; width: 22px; height: 22px; display: block; }
+  .pill__label {
+    position: relative; z-index: 1; font-family: var(--body); font-weight: 700; font-size: 16px; line-height: 1;
+    background: linear-gradient(45deg, var(--blue) 0%, var(--magenta) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+
+  /* ---- The previous circle icon (filled gradient disc, white stars) ---- */
+  .circle {
+    position: relative; box-sizing: border-box; width: 44px; height: 44px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: linear-gradient(45deg, var(--blue) 0%, var(--magenta) 100%); color: #fff;
+  }
+  .circle__stars { position: relative; z-index: 1; width: 22px; height: 22px; display: block; }
+
+  /* ---- The spec pulse (production values) ---- */
+  .is-pulsing { animation: ai-pulse 2.6s ease-in-out infinite; }
+  @keyframes ai-pulse {
+    0%, 18% { box-shadow: 0 0 0 0 rgba(164,64,188,0), 0 0 0 0 rgba(15,87,168,0); transform: scale(1); }
+    38%     { box-shadow: 0 0 0 0 rgba(164,64,188,0.65), 0 0 0 0 rgba(15,87,168,0.45); transform: scale(1.08); }
+    100%    { box-shadow: 0 0 0 32px rgba(164,64,188,0), 0 0 0 20px rgba(15,87,168,0); transform: scale(1); }
+  }
+
+  .btn {
+    font-family: var(--mono); font-size: 12.5px; font-weight: 600; padding: 7px 14px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--border-strong); background: var(--surface); color: var(--ink);
+  }
+  .btn:hover { border-color: var(--magenta); }
+  .btn:focus-visible { outline: 2px solid var(--magenta); outline-offset: 2px; }
+  .switch { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 12.5px; color: var(--muted); cursor: pointer; }
+  .switch input { width: 15px; height: 15px; accent-color: var(--magenta); }
+
+  /* Spec grid */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .cell { background: var(--surface); padding: 14px 16px; }
+  .cell__k { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .cell__v { margin-top: 4px; font-family: var(--mono); font-size: 15px; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .cell__note { margin-top: 2px; font-size: 12px; color: var(--faint); }
+
+  /* Tables */
+  .tbl-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  thead th { font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 700; background: var(--surface-2); }
+  tbody tr:last-child td { border-bottom: none; }
+  td.mono, th.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  td .swatch { display: inline-block; width: 11px; height: 11px; border-radius: 3px; vertical-align: -1px; margin-right: 6px; }
+
+  /* Code */
+  .code-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  pre { margin: 16px 0 0; background: var(--code-bg); color: var(--code-ink); border-radius: 12px; padding: 18px; overflow-x: auto; font-family: var(--mono); font-size: 12.5px; line-height: 1.7; }
+  pre .c { color: #6b7a90; font-style: italic; }
+  .note { margin-top: 14px; font-size: 13.5px; color: var(--muted); border-left: 2px solid var(--magenta); padding-left: 14px; }
+  .note b { color: var(--ink); }
+  code.inl { font-family: var(--mono); font-size: 0.88em; background: var(--surface-2); padding: 1px 6px; border-radius: 5px; }
+
+  /* States */
+  .states { display: flex; flex-direction: column; gap: 10px; }
+  .state { display: grid; grid-template-columns: 160px 1fr; gap: 4px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .state__name { font-weight: 700; font-size: 14px; }
+  .state__desc { font-size: 13.5px; color: var(--muted); }
+  .state__sel { grid-column: 1 / -1; font-family: var(--mono); font-size: 12px; color: var(--faint); word-break: break-word; }
+  @media (max-width: 520px) { .state { grid-template-columns: 1fr; } }
+
+  /* Motion study */
+  .ms-intro { margin: 0 0 18px; font-size: 14.5px; color: var(--muted); max-width: 64ch; }
+  .ms-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+  .ms-card { margin: 0; }
+  .ms-stage { display: flex; align-items: center; justify-content: center; gap: 40px; padding: 40px 20px; }
+  .ms-cap { margin-top: 12px; }
+  .ms-cap b { font-size: 14.5px; }
+  .ms-cap span { display: block; margin-top: 3px; font-size: 13px; color: var(--muted); }
+
+  /* Option animations (the study) */
+  .ms-subtle { animation: ms-subtle 2.6s ease-in-out infinite; }
+  @keyframes ms-subtle { 0%{box-shadow:0 0 0 0 rgba(164,64,188,.5)} 70%{box-shadow:0 0 0 14px rgba(164,64,188,0)} 100%{box-shadow:0 0 0 0 rgba(164,64,188,0)} }
+
+  .ms-strong { animation: ms-strong 1.9s ease-out infinite; }
+  @keyframes ms-strong {
+    0%{box-shadow:0 0 0 0 rgba(164,64,188,.55),0 0 0 0 rgba(15,87,168,.45);transform:scale(1)}
+    50%{transform:scale(1.07)}
+    70%{box-shadow:0 0 0 17px rgba(164,64,188,0),0 0 0 9px rgba(15,87,168,.28)}
+    100%{box-shadow:0 0 0 24px rgba(164,64,188,0),0 0 0 24px rgba(15,87,168,0);transform:scale(1)}
+  }
+
+  .ms-glow { animation: ms-glow 2.4s ease-in-out infinite; }
+  @keyframes ms-glow { 0%,100%{box-shadow:0 0 8px 0 rgba(164,64,188,.35);transform:scale(1)} 50%{box-shadow:0 0 26px 8px rgba(164,64,188,.55);transform:scale(1.05)} }
+
+  .ms-glimmer { overflow: hidden; }
+  .ms-glimmer::after { content:""; position:absolute; inset:0; background:linear-gradient(115deg, transparent 32%, rgba(255,255,255,.6) 50%, transparent 68%); transform:translateX(-130%); animation: ms-sweep 3s ease-in-out infinite; }
+  @keyframes ms-sweep { 0%{transform:translateX(-130%)} 55%,100%{transform:translateX(130%)} }
+
+  .ms-twinkle .pill__stars, .ms-twinkle .circle__stars { animation: ms-twinkle 1.7s ease-in-out infinite; transform-origin: center; }
+  @keyframes ms-twinkle { 0%,100%{opacity:.8; transform:scale(.9) rotate(-4deg)} 50%{opacity:1; transform:scale(1.09) rotate(4deg)} }
+
+  .ms-aurora.circle { background: linear-gradient(45deg, var(--blue), var(--magenta), var(--blue)); background-size: 220% 220%; animation: ms-aurora 3.4s ease infinite; }
+  @keyframes ms-aurora { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+
+  footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--border); font-family: var(--mono); font-size: 12px; color: var(--faint); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .is-pulsing, .ms-subtle, .ms-strong, .ms-glow, .ms-aurora.circle,
+    .ms-twinkle .pill__stars, .ms-twinkle .circle__stars { animation: none; }
+    .ms-glimmer::after { animation: none; opacity: 0; }
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">This Is Menopause &middot; Motion spec</p>
+    <h1>Ask AI Pulse</h1>
+    <p class="lede">The attention pulse on the &ldquo;Ask&rdquo; pill in the top navigation. A spaced-out double ring breathes outward while the pill gives a small throb, drawing the eye to the assistant. Values below are the production values.</p>
+    <div class="meta-line">
+      <span><b>Element</b> .ai-btn (nav pill)</span>
+      <span><b>Property</b> box-shadow + transform</span>
+      <span><b>Cadence</b> 2.6s loop</span>
+      <span><b>Updated</b> 2026-09-16</span>
+    </div>
+  </header>
+
+  <section aria-labelledby="demo-h">
+    <h2 id="demo-h"><span class="idx">01</span>Live reference</h2>
+    <div class="panel-light demo">
+      <div class="demo__area">
+        <span class="pill is-pulsing" id="pill" aria-hidden="true">
+          <svg class="pill__stars" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g1" x1="0" y1="22" x2="22" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0F57A8"/><stop offset="1" stop-color="#A441BC"/></linearGradient></defs><path d="M10.1398 2.10306C11.0667 2.17361 11.7925 2.76841 11.9829 3.72057C12.7953 8.18883 13.8111 9.20464 18.2794 10.0171C19.2948 10.2202 19.9046 11.0322 19.9047 12.0476L19.8969 12.2359C19.8261 13.1626 19.2313 13.8887 18.2794 14.0791L17.481 14.2344C13.685 15.0317 12.7445 16.1866 11.9829 20.3755L11.9378 20.5604C11.6775 21.4642 10.9044 21.9999 9.95234 22L9.76403 21.9931C8.899 21.927 8.20889 21.404 7.96603 20.5604L7.92091 20.3755C7.15925 16.1864 6.21926 15.0317 2.42279 14.2344L1.62445 14.0791C0.609125 13.8758 0 13.063 0 12.0476C6.48301e-05 11.0956 0.535802 10.3224 1.43961 10.0622L1.62445 10.0171C5.81338 9.25543 6.96824 8.31499 7.76558 4.51891L7.92091 3.72057C8.12402 2.70504 8.93681 2.09525 9.95234 2.09525L10.1398 2.10306ZM9.95234 4.91461C9.55607 6.83354 8.98656 8.53835 7.71438 9.81053C6.44232 11.0824 4.73797 11.6514 2.81935 12.0476C4.73813 12.4439 6.44228 13.0135 7.71438 14.2856C8.9863 15.5575 9.55608 17.2613 9.95234 19.1798C10.3486 17.2615 10.9177 15.5575 12.1894 14.2856C13.4614 13.0136 15.1659 12.4439 17.0845 12.0476C15.1659 11.6514 13.4614 11.0825 12.1894 9.81053C10.9173 8.53836 10.3486 6.83351 9.95234 4.91461ZM18.3545 0C18.7264 0.000101788 19.0239 0.223224 19.0984 0.595079C19.396 2.23194 19.7681 2.60403 21.4049 2.90164C21.7768 2.97607 21.9999 3.27364 22 3.64549C22 4.01747 21.7769 4.31554 21.4049 4.38998L21.1125 4.44656C19.7217 4.73865 19.3774 5.16194 19.0984 6.69654L19.0818 6.76457C18.9864 7.09538 18.7031 7.29153 18.3545 7.29162L18.2852 7.28908C17.9685 7.26487 17.7156 7.07336 17.6266 6.76457L17.61 6.69654C17.331 5.1619 16.9868 4.73865 15.5959 4.44656L15.3035 4.38998C14.9316 4.3155 14.7084 4.01743 14.7084 3.64549C14.7085 3.27368 14.9317 2.97611 15.3035 2.90164C16.9403 2.60403 17.3124 2.23194 17.61 0.595079C17.6845 0.223124 17.9825 0 18.3545 0Z" fill="url(#g1)"/></svg>
+          <span class="pill__label">Ask</span>
+        </span>
+      </div>
+      <p class="demo__cap" id="cap">Running at spec: 2.6s ease-in-out, infinite</p>
+    </div>
+    <div class="demo-controls">
+      <button class="btn" id="toggle" type="button">Pause</button>
+      <label class="switch"><input type="checkbox" id="rm" /> Simulate reduced motion</label>
+    </div>
+    <p class="note">The pill itself (gradient ring + duo-star + &ldquo;Ask&rdquo; label) is static chrome; <b>the pulse is only the <code class="inl">box-shadow</code> rings and the <code class="inl">transform</code> throb</b> layered on via the <code class="inl">ai-pulse</code> keyframes. Shown on white to match the nav.</p>
+  </section>
+
+  <section aria-labelledby="glance-h">
+    <h2 id="glance-h"><span class="idx">02</span>At a glance</h2>
+    <div class="grid">
+      <div class="cell"><div class="cell__k">Duration</div><div class="cell__v">2.6s</div><div class="cell__note">per cycle</div></div>
+      <div class="cell"><div class="cell__k">Timing function</div><div class="cell__v">ease-in-out</div></div>
+      <div class="cell"><div class="cell__k">Iterations</div><div class="cell__v">infinite</div><div class="cell__note">1 for the farewell pulse</div></div>
+      <div class="cell"><div class="cell__k">Interval (rest)</div><div class="cell__v">0 &rarr; 18%</div><div class="cell__note">&asymp; 0.47s idle each cycle</div></div>
+      <div class="cell"><div class="cell__k">Throb (scale)</div><div class="cell__v">1 &rarr; 1.08 &rarr; 1</div></div>
+      <div class="cell"><div class="cell__k">Ring A reach</div><div class="cell__v">0 &rarr; 32px</div><div class="cell__note">magenta, spread</div></div>
+      <div class="cell"><div class="cell__k">Ring B reach</div><div class="cell__v">0 &rarr; 20px</div><div class="cell__note">blue, spread</div></div>
+      <div class="cell"><div class="cell__k">Peak opacity</div><div class="cell__v">0.65 / 0.45</div><div class="cell__note">magenta / blue at 38%</div></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="tl-h">
+    <h2 id="tl-h"><span class="idx">03</span>Keyframe timeline</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th class="mono">Stop</th><th>Phase</th><th class="mono">box-shadow (ring A, ring B)</th><th class="mono">transform</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">0% &ndash; 18%</td><td>Rest / interval</td><td class="mono">0 0 0 0 a0, 0 0 0 0 a0</td><td class="mono">scale(1)</td></tr>
+          <tr><td class="mono">38%</td><td>Ignite (rings appear at edge, throb peaks)</td><td class="mono">0 0 0 0 a.65, 0 0 0 0 a.45</td><td class="mono">scale(1.08)</td></tr>
+          <tr><td class="mono">100%</td><td>Expand &amp; fade out &rarr; back to rest</td><td class="mono">0 0 0 32px a0, 0 0 0 20px a0</td><td class="mono">scale(1)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">The <code class="inl">100% &rarr; 0%</code> boundary is a true rest (rings transparent, scale 1). The flow waits for that boundary (<code class="inl">animationiteration</code>) before showing a nudge, so a bubble never cuts a ripple off.</p>
+  </section>
+
+  <section aria-labelledby="col-h">
+    <h2 id="col-h"><span class="idx">04</span>Colors</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Role</th><th class="mono">Hex</th><th class="mono">rgb()</th><th>Token</th></tr></thead>
+        <tbody>
+          <tr><td><span class="swatch" style="background:#a440bc"></span>Ring A &mdash; magenta</td><td class="mono">#A440BC</td><td class="mono">164, 64, 188</td><td class="mono">--color-magenta</td></tr>
+          <tr><td><span class="swatch" style="background:#0f57a8"></span>Ring B &mdash; blue</td><td class="mono">#0F57A8</td><td class="mono">15, 87, 168</td><td class="mono">--color-primary</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Both rings animate opacity only (spread grows, alpha &rarr; 0). The ring border and label reuse the same two hues as a <code class="inl">linear-gradient(45deg, blue &rarr; magenta)</code>.</p>
+  </section>
+
+  <section aria-labelledby="st-h">
+    <h2 id="st-h"><span class="idx">05</span>When it runs</h2>
+    <div class="states">
+      <div class="state">
+        <div class="state__name">Normal nav</div>
+        <div class="state__desc">Static. Pill shows the ring + label, no pulse.</div>
+        <div class="state__sel">no data-flow on &lt;body&gt;</div>
+      </div>
+      <div class="state">
+        <div class="state__name">Pulse demo</div>
+        <div class="state__desc">Pulses continuously from load.</div>
+        <div class="state__sel">body[data-flow]:not(.assistant-quiet):not(.assistant-onepulse) .ai-btn</div>
+      </div>
+      <div class="state">
+        <div class="state__name">Assistant flow</div>
+        <div class="state__desc">Held until the user scrolls in (~500px), paused during the greeting, one farewell pulse after it closes.</div>
+        <div class="state__sel">.assistant-quiet (pause) &middot; .assistant-onepulse (single)</div>
+      </div>
+      <div class="state">
+        <div class="state__name">Reduced motion</div>
+        <div class="state__desc">No pulse. Ring + label remain.</div>
+        <div class="state__sel">@media (prefers-reduced-motion: reduce) { animation: none }</div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="css-h">
+    <div class="code-head">
+      <h2 id="css-h" style="border:none;margin:0;padding:0;"><span class="idx">06</span>CSS</h2>
+      <button class="btn" id="copy" type="button">Copy</button>
+    </div>
+<pre id="css"><span class="c">/* Attention pulse &mdash; layered on the .ai-btn nav pill.
+   Runs only when &lt;body&gt; has a data-flow. */</span>
+body[data-flow]:not(.assistant-quiet):not(.assistant-onepulse) .ai-btn {
+  animation: ai-pulse 2.6s ease-in-out infinite;
+}
+<span class="c">/* Single farewell pulse after the greeting closes */</span>
+body[data-flow="assistant"].assistant-onepulse .ai-btn {
+  animation: ai-pulse 2.6s ease-in-out 1;
+}
+
+@keyframes ai-pulse {
+  0%, 18% {
+    box-shadow: 0 0 0 0 rgba(164,64,188,0), 0 0 0 0 rgba(15,87,168,0);
+    transform: scale(1);
+  }
+  38% {
+    box-shadow: 0 0 0 0 rgba(164,64,188,0.65), 0 0 0 0 rgba(15,87,168,0.45);
+    transform: scale(1.08);
+  }
+  100% {
+    box-shadow: 0 0 0 32px rgba(164,64,188,0), 0 0 0 20px rgba(15,87,168,0);
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-btn { animation: none; }
+}</pre>
+  </section>
+
+  <section aria-labelledby="ms-h">
+    <h2 id="ms-h"><span class="idx">07</span>Motion study</h2>
+    <p class="ms-intro">The options explored before landing on the pulse (Strong pulse). Each runs live on both the current <b>pill</b> and the previous <b>circle</b> icon. Fill-based effects (Glimmer, Aurora) read on the filled circle but not the outline pill &mdash; a reason the ring-based pulse won.</p>
+    <div class="ms-grid" id="ms-grid"></div>
+  </section>
+
+  <footer>TIM navigation prototype &middot; main.css &middot; pulse spec</footer>
+</div>
+
+<script>
+  (function () {
+    // ---- Build the motion-study cards (pill + circle per option) ----
+    var STARS_G = '<svg class="pill__stars" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="G" x1="0" y1="22" x2="22" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0F57A8"/><stop offset="1" stop-color="#A441BC"/></linearGradient></defs><path d="M10.1398 2.10306C11.0667 2.17361 11.7925 2.76841 11.9829 3.72057C12.7953 8.18883 13.8111 9.20464 18.2794 10.0171C19.2948 10.2202 19.9046 11.0322 19.9047 12.0476L19.8969 12.2359C19.8261 13.1626 19.2313 13.8887 18.2794 14.0791L17.481 14.2344C13.685 15.0317 12.7445 16.1866 11.9829 20.3755L11.9378 20.5604C11.6775 21.4642 10.9044 21.9999 9.95234 22L9.76403 21.9931C8.899 21.927 8.20889 21.404 7.96603 20.5604L7.92091 20.3755C7.15925 16.1864 6.21926 15.0317 2.42279 14.2344L1.62445 14.0791C0.609125 13.8758 0 13.063 0 12.0476C6.48301e-05 11.0956 0.535802 10.3224 1.43961 10.0622L1.62445 10.0171C5.81338 9.25543 6.96824 8.31499 7.76558 4.51891L7.92091 3.72057C8.12402 2.70504 8.93681 2.09525 9.95234 2.09525L10.1398 2.10306ZM18.3545 0C18.7264 0.000101788 19.0239 0.223224 19.0984 0.595079C19.396 2.23194 19.7681 2.60403 21.4049 2.90164C21.7768 2.97607 21.9999 3.27364 22 3.64549C22 4.01747 21.7769 4.31554 21.4049 4.38998L21.1125 4.44656C19.7217 4.73865 19.3774 5.16194 19.0984 6.69654L19.0818 6.76457C18.9864 7.09538 18.7031 7.29153 18.3545 7.29162L18.2852 7.28908C17.9685 7.26487 17.7156 7.07336 17.6266 6.76457L17.61 6.69654C17.331 5.1619 16.9868 4.73865 15.5959 4.44656L15.3035 4.38998C14.9316 4.3155 14.7084 4.01743 14.7084 3.64549C14.7085 3.27368 14.9317 2.97611 15.3035 2.90164C16.9403 2.60403 17.3124 2.23194 17.61 0.595079C17.6845 0.223124 17.9825 0 18.3545 0Z" fill="url(#G)"/></svg>';
+    var STARS_W = STARS_G.replace('class="pill__stars"', 'class="circle__stars"').replace('id="G"', 'id="W"').replace('url(#G)', '#fff').replace(/<linearGradient[^>]*>.*?<\/linearGradient>/, '');
+
+    var OPTIONS = [
+      { cls: 'ms-strong',  name: 'Strong pulse', chosen: true, desc: 'Double ring + throb. The chosen treatment.' },
+      { cls: 'ms-subtle',  name: 'Subtle pulse', desc: 'A single soft ring. Calm, easy to miss.' },
+      { cls: 'ms-glow',    name: 'Glow', desc: 'A blurred halo breathing in and out.' },
+      { cls: 'ms-glimmer', name: 'Glimmer', desc: 'A light sweeps across &mdash; needs a filled icon.' },
+      { cls: 'ms-twinkle', name: 'Twinkle', desc: 'The stars scale and sparkle.' },
+      { cls: 'ms-aurora',  name: 'Aurora', desc: 'The gradient flows &mdash; filled icon only.' },
+    ];
+    var grid = document.getElementById('ms-grid');
+    OPTIONS.forEach(function (o) {
+      var fig = document.createElement('figure');
+      fig.className = 'ms-card';
+      fig.innerHTML =
+        '<div class="panel-light ms-stage">' +
+          '<span class="pill ' + o.cls + '">' + STARS_G + '<span class="pill__label">Ask</span></span>' +
+          '<span class="circle ' + o.cls + '">' + STARS_W + '</span>' +
+        '</div>' +
+        '<figcaption class="ms-cap"><b>' + o.name + (o.chosen ? ' &#9733;' : '') + '</b><span>' + o.desc + '</span></figcaption>';
+      grid.appendChild(fig);
+    });
+
+    // ---- Live reference controls ----
+    var pill = document.getElementById('pill');
+    var toggle = document.getElementById('toggle');
+    var rm = document.getElementById('rm');
+    var cap = document.getElementById('cap');
+    var paused = false;
+
+    function sync() {
+      if (rm.checked) {
+        pill.style.animation = 'none';
+        cap.textContent = 'Reduced motion: pulse disabled';
+        toggle.disabled = true; toggle.style.opacity = '0.5';
+      } else {
+        toggle.disabled = false; toggle.style.opacity = '';
+        pill.style.animation = '';
+        pill.classList.add('is-pulsing');
+        pill.style.animationPlayState = paused ? 'paused' : 'running';
+        cap.textContent = paused ? 'Paused' : 'Running at spec: 2.6s ease-in-out, infinite';
+      }
+    }
+    toggle.addEventListener('click', function () { paused = !paused; toggle.textContent = paused ? 'Play' : 'Pause'; sync(); });
+    rm.addEventListener('change', sync);
+
+    document.getElementById('copy').addEventListener('click', function () {
+      var css = document.getElementById('css').innerText;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(css).then(function () {
+          var b = document.getElementById('copy'); b.textContent = 'Copied'; setTimeout(function () { b.textContent = 'Copy'; }, 1400);
+        }).catch(function () {});
+      }
+    });
+    sync();
+  })();
+</script>
