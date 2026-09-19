@@ -5,15 +5,25 @@ description: Run the repo's five verification checks and interpret the results. 
 
 # Drift check
 
-Five checks. Run them all — they catch different classes of problem and a pass
-on one says nothing about the others.
+One command runs everything:
 
 ```bash
-node evals/lint-tokens.js          # colour outside the token layer
-node evals/lint-links.js           # internal references that do not resolve
-node evals/gen-component-index.js --check
-node evals/gen-icon-registry.js --check
-node evals/lint-parity.js          # Figma mapping structure + coverage
+node evals/check-all.js
+```
+
+Non-zero exit if any **blocking** check fails. Advisory checks print findings
+and never fail the run — they report things that may be legitimate, and a check
+that cries wolf gets switched off.
+
+Individually, if you need one:
+
+```bash
+node evals/lint-tokens.js          # colour outside the token layer      BLOCKING
+node evals/lint-links.js           # references that do not resolve      BLOCKING
+node evals/gen-component-index.js --check                             # BLOCKING
+node evals/gen-icon-registry.js --check                               # BLOCKING
+node evals/lint-parity.js          # Figma mapping + coverage            BLOCKING
+node evals/lint-dead-code.js       # unrendered blocks, uncalled fns     advisory
 ```
 
 ## Reading the results
@@ -44,6 +54,13 @@ Run `node evals/gen-component-index.js` to regenerate. Never hand-edit
 Run `node evals/gen-icon-registry.js`. If an editorial icon is missing from
 `system/icons/categories.js`, add it there — the grouping is authored, not
 derived.
+
+**lint-dead-code** — a CSS block nothing renders, or a function nothing calls.
+Advisory, because parked code is a legitimate state. The question to answer is
+*parked or dead?* — if parked, say so at the top of its contract; if dead,
+delete it. This check exists because `system/components/uplevel/docs.md` was
+written as though the level-up pill shipped, when `renderUplevel()` has never
+been called.
 
 **lint-parity** — a mapped block no longer exists, or a path is wrong. If a
 component was renamed, update `system/parity.json`. Never add a parity entry for
