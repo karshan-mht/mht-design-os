@@ -1,6 +1,6 @@
 # TIM Repo Restructure — Plan
 
-Status: **Phases 0-4 complete.** Phases 5-6 not started.
+Status: **Phases 0-5 complete.** Phase 6 not started.
 
 Goal: turn this repo into a design system that is *executable context* for
 agents — a single source of truth for tokens, an addressable component layer,
@@ -326,9 +326,30 @@ Coverage is 3 of 81 blocks and deliberately partial — an entry is added only
 when the node has been read. The four contracted components without one are
 reported every run, with what each is waiting on recorded in `openQuestions`.
 
-### Phase 5 — Skills
+### Phase 5 — Skills — **DONE**
 
-`.claude/skills/` — each references the system rather than duplicating it.
+Four skills in `.claude/skills/`, each referencing the authoritative files
+rather than copying them: `drift-check`, `new-component-contract`, `add-icon`,
+`new-prototype`.
+
+Two of the six candidates were **not** written. `design review` and
+`accessibility review` are mostly judgment rather than procedure, and what a
+skill could usefully say already lives closer to the work — accessibility
+expectations are in each component contract, and AUTHORITY.md covers weighing
+sources. A skill saying "check contrast and keyboard access" would be a
+maintenance cost pretending to be guidance.
+
+The bar applied: a real, repeating, repo-specific sequence with commands in it,
+where getting the order wrong causes a concrete failure.
+
+Two supporting changes:
+
+- `.gitignore` now tracks `.claude/skills/` while still ignoring
+  `settings.local.json`. A procedure that exists on one machine is not a
+  procedure.
+- `evals/lint-links.js` now checks inside the skills. They reference repo paths
+  heavily and are exactly the kind of link that rots after a move — verified by
+  deliberately breaking one and confirming the check fails.
 
 ### Phase 6 — Drift lint
 
