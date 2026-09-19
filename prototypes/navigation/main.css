@@ -149,7 +149,7 @@ html.is-modal-open { overflow: hidden; }
 }
 .subnav__link .icon { width: auto; height: 16px; }
 .subnav__link .icon svg { width: auto; height: 16px; display: block; }
-.subnav__link.is-active { color: var(--color-primary); background: rgba(15, 87, 168, 0.08); }
+.subnav__link.is-active { color: var(--color-primary); background: rgb(from var(--color-primary) r g b / 0.08); }
 
 .screen__uplevel {
   position: sticky;
@@ -494,7 +494,7 @@ html.is-modal-open { overflow: hidden; }
   /* Simple placeholder pattern (no real article images yet) — neutral gray
      with a faint diagonal hatch so it clearly reads as a placeholder. */
   background-color: var(--color-placeholder);
-  background-image: repeating-linear-gradient(45deg, rgba(13, 27, 41, 0.06) 0, rgba(13, 27, 41, 0.06) 10px, transparent 10px, transparent 20px);
+  background-image: repeating-linear-gradient(45deg, rgb(from var(--color-text) r g b / 0.06) 0, rgb(from var(--color-text) r g b / 0.06) 10px, transparent 10px, transparent 20px);
 }
 .mod-article-card__title { padding-inline: 12px; display: flex; align-items: flex-start; gap: 8px; font-size: 18px; line-height: 1.3; color: var(--color-navy); }
 .mod-article-card__title-text { flex: 1 1 auto; }
@@ -721,7 +721,7 @@ html.is-modal-open { overflow: hidden; }
   /* Placeholder pattern (neutral gray + faint diagonal hatch) until a real
      video thumbnail asset is added. */
   background-color: var(--color-placeholder);
-  background-image: repeating-linear-gradient(45deg, rgba(13, 27, 41, 0.06) 0, rgba(13, 27, 41, 0.06) 10px, transparent 10px, transparent 20px);
+  background-image: repeating-linear-gradient(45deg, rgb(from var(--color-text) r g b / 0.06) 0, rgb(from var(--color-text) r g b / 0.06) 10px, transparent 10px, transparent 20px);
 }
 .mod-advisors__watch-title { margin: 0; font-size: 16px; line-height: 24px; letter-spacing: -0.25px; color: var(--color-text-secondary); }
 
@@ -762,7 +762,7 @@ html.is-modal-open { overflow: hidden; }
   color: var(--color-text);
   cursor: pointer;
 }
-.icon-btn:active { background: rgba(13, 27, 41, 0.05); }
+.icon-btn:active { background: rgb(from var(--color-text) r g b / 0.05); }
 
 /* "Ask AI" button — a pill holding the gradient duo-star + a gradient "AI" label,
    inside a gradient RING (our blue→magenta, 45deg). The ring is an overlay
@@ -892,7 +892,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
     linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
     linear-gradient(45deg, var(--color-primary) 0%, var(--color-magenta) 100%) border-box;
   border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(13, 27, 41, 0.16), 0 2px 8px rgba(13, 27, 41, 0.08);
+  box-shadow: 0 10px 30px rgb(from var(--color-text) r g b / 0.16), 0 2px 8px rgb(from var(--color-text) r g b / 0.08);
   /* Smooth slide-in: fades in while gliding down into place from just under the
    nav, on a long decelerating curve so it eases to rest rather than popping.
    The reverse plays on dismiss (see JS, which times removal to the full exit). */
@@ -913,7 +913,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   cursor: pointer;
 }
 .assistant-nudge--tappable:hover {
-  box-shadow: 0 14px 36px rgba(13, 27, 41, 0.22), 0 3px 10px rgba(13, 27, 41, 0.10);
+  box-shadow: 0 14px 36px rgb(from var(--color-text) r g b / 0.22), 0 3px 10px rgb(from var(--color-text) r g b / 0.10);
 }
 /* Typewriter caret — a thin blinking bar shown while the message "types". */
 .assistant-nudge__caret {
@@ -964,7 +964,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   justify-content: center;
   pointer-events: auto;
 }
-.assistant-nudge__close:hover { color: var(--color-text); background: rgba(13, 27, 41, 0.05); }
+.assistant-nudge__close:hover { color: var(--color-text); background: rgb(from var(--color-text) r g b / 0.05); }
 .assistant-nudge__close svg { width: 18px; height: 18px; display: block; }
 
 @media (prefers-reduced-motion: reduce) {
@@ -999,6 +999,23 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
    Applies to every logo instance: nav, desktop header, panel and footer. */
 .logo-accent { fill: var(--color-accent); }
 .logo-ink    { fill: var(--color-navy); }
+
+/* The AI duo-star gradient. Stops are classed rather than carrying stop-color,
+   so the blue→accent ramp re-skins with the site. Fixing this also removed the
+   last four copies of the one-digit accent drift that had survived in three
+   separate places. See decisions/DECISIONS.md. */
+.ai-grad__from { stop-color: var(--color-primary); }
+.ai-grad__to   { stop-color: var(--color-accent); }
+
+/* Community preview icons carry two colours each — a tinted circle behind an
+   accent glyph, or a blue action arrow — so one currentColor cannot drive them.
+   Classed paths instead. Social icons in the same block keep their literal
+   third-party brand colours; those are not ours to normalise. */
+.comm-ic__bg     { fill: var(--color-bg-accent-soft); }
+.comm-ic__glyph  { fill: var(--color-accent); }
+.comm-ic__action { fill: var(--color-primary); }
+.comm-ic__ink    { fill: var(--color-text); }
+.comm-ic__ink-stroke { stroke: var(--color-text); }
 
 .join-btn {
   height: 44px;   /* matches the AI / profile circles and search tap box */
@@ -1334,7 +1351,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 .comm-upsell__btn--primary { border: none; background: var(--color-primary); color: var(--color-text-inverse); }
 .comm-upsell__btn--primary:active { filter: brightness(0.97); }
 .comm-upsell__btn--secondary { border: 1px solid var(--color-primary); background: transparent; color: var(--color-primary); }
-.comm-upsell__btn--secondary:active { background: rgba(15, 87, 168, 0.06); }
+.comm-upsell__btn--secondary:active { background: rgb(from var(--color-primary) r g b / 0.06); }
 .comm-upsell__note { margin: 0; padding-left: 12px; font-size: 14px; line-height: 22px; color: var(--color-text); }
 
 /* ---- Community Features (Anonymous Visitor) — Figma 184:588 / 184:441 ---- */
@@ -1399,6 +1416,12 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 }
 .feat-card__illo svg,
 .feat-pair-card__illo svg { display: block; width: 100%; height: 100%; }  /* inline art fills the box (viewBox keeps aspect) */
+
+/* The feature illustrations are drawn entirely in currentColor, so the accent
+   is set once here rather than baked into 16 SVGs. */
+.feat-card__illo,
+.feat-pair-card__illo,
+.feat-pair__check { color: var(--color-accent); }
 .feat-card__panel svg,
 .feat-pair-card__panel svg { display: block; width: 100%; height: auto; }  /* inline panel: width-driven, height from viewBox */
 .feat-card__head {
@@ -1680,7 +1703,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.comm-q__answers { display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0; font-size: 14px; color: rgba(13, 27, 41, 0.83); }
+.comm-q__answers { display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0; font-size: 14px; color: rgb(from var(--color-text) r g b / 0.83); }
 .comm-q__answers svg { display: block; width: 20px; height: 20px; }
 
 /* Group card — icon + name/count + membership check, then a description. */
@@ -1741,7 +1764,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   position: fixed;
   inset: 0;
   z-index: 30;                        /* above panel / dropdown */
-  background: rgba(13, 27, 41, 0.5);
+  background: rgb(from var(--color-text) r g b / 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1755,7 +1778,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   background: var(--color-surface);
   border-radius: var(--radius-card);
   padding: 32px 28px;
-  box-shadow: 0 8px 40px rgba(13, 27, 41, 0.25);
+  box-shadow: 0 8px 40px rgb(from var(--color-text) r g b / 0.25);
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -1807,8 +1830,8 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   text-align: left;
   transition: background 0.12s ease, border-color 0.12s ease;
 }
-.gate__option:hover { background: rgba(13, 27, 41, 0.03); }
-.gate__option:active { background: rgba(13, 27, 41, 0.06); }
+.gate__option:hover { background: rgb(from var(--color-text) r g b / 0.03); }
+.gate__option:active { background: rgb(from var(--color-text) r g b / 0.06); }
 .gate__option-icon { flex-shrink: 0; width: 28px; height: 28px; }
 .gate__option-icon svg { display: block; width: 100%; height: 100%; }
 .gate__option-label { font-size: 18px; color: var(--color-text); }
@@ -1946,7 +1969,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   align-items: center;
   justify-content: space-between;
   padding: 12px;
-  border: 1px solid rgba(98, 107, 116, 0.1);
+  border: 1px solid rgb(from var(--color-text-secondary) r g b / 0.1);
   border-radius: 16px;
 }
 .panel__tab {
@@ -1966,7 +1989,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 .panel__tab:active { color: var(--color-text); }
 .panel__tab-icon { width: 44px; height: 44px; display: block; border-radius: 50%; }
 /* Press feedback matching the top-nav icons (light gray circle on tap). */
-.panel__tab:active .panel__tab-icon { background: rgba(13, 27, 41, 0.05); }
+.panel__tab:active .panel__tab-icon { background: rgb(from var(--color-text) r g b / 0.05); }
 
 /* Topic-hub list — the new primary entry point */
 .panel__hubs {
@@ -2105,7 +2128,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
-  box-shadow: 0 0 8px rgba(13, 27, 41, 0.1);
+  box-shadow: 0 0 8px rgb(from var(--color-text) r g b / 0.1);
   padding: 24px;
   display: flex;
   flex-direction: column;
@@ -2173,6 +2196,14 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 }
 @media (prefers-reduced-motion: reduce) {
   .dropdown__item--notif .icon svg { animation: none; }
+}
+
+/* The level-up pill animates height, padding, radius, background and border as
+   it docks on scroll. main.css has four reduced-motion blocks but all were
+   narrowly scoped to the assistant and the notification badge, so this one ran
+   regardless — found while writing system/components/uplevel/docs.md. */
+@media (prefers-reduced-motion: reduce) {
+  .uplevel { transition: none; }
 }
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -2248,7 +2279,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 .launcher-hotspot:hover {
   opacity: 1;
   background: var(--color-surface);
-  box-shadow: 0 2px 8px rgba(13, 27, 41, 0.2);
+  box-shadow: 0 2px 8px rgb(from var(--color-text) r g b / 0.2);
 }
 .launcher-hotspot .icon { width: 20px; height: 20px; }
 
@@ -2308,9 +2339,9 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 .art-answered__stars { width: 24px; height: 24px; flex-shrink: 0; }
 /* Gradient text (blue → magenta) for the "Menopause, answered" heading. */
 .art-answered__label { background: linear-gradient(45deg, var(--color-primary) 0%, var(--color-accent) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
-.art-answered__q { display: flex; align-items: center; gap: 16px; text-align: left; padding: 16px 24px; border: none; border-radius: var(--radius-pill); background: rgba(15, 87, 168, 0.08); font: inherit; font-size: 18px; line-height: 24px; letter-spacing: -0.25px; color: var(--color-primary); cursor: pointer; }
+.art-answered__q { display: flex; align-items: center; gap: 16px; text-align: left; padding: 16px 24px; border: none; border-radius: var(--radius-pill); background: rgb(from var(--color-primary) r g b / 0.08); font: inherit; font-size: 18px; line-height: 24px; letter-spacing: -0.25px; color: var(--color-primary); cursor: pointer; }
 .art-answered__q .art__arrow { width: 24px; height: 24px; margin-left: auto; flex-shrink: 0; }
-.art-answered__q:active { background: rgba(15, 87, 168, 0.14); }
+.art-answered__q:active { background: rgb(from var(--color-primary) r g b / 0.14); }
 .art-answered__ask { align-self: flex-start; padding: 12px 24px; border: none; border-radius: var(--radius-pill); background: var(--color-primary); color: var(--color-text-inverse); font: inherit; font-size: 18px; line-height: 24px; letter-spacing: -0.25px; cursor: pointer; }
 .art-answered__ask:active { filter: brightness(0.94); }
 /* Tag pills reuse the splash checker pill (.mod-pill) — same white / 0.5px pill-border look. */
@@ -2379,8 +2410,8 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
      shared height renders them all at an even 16px tall (natural widths). */
   .dnav__link .icon { width: auto; height: 16px; }
   .dnav__link .icon svg { width: auto; height: 16px; display: block; }
-  .dnav__link:hover { background: rgba(13, 27, 41, 0.05); }
-  .dnav__link.is-active { color: var(--color-primary); background: rgba(15, 87, 168, 0.08); }
+  .dnav__link:hover { background: rgb(from var(--color-text) r g b / 0.05); }
+  .dnav__link.is-active { color: var(--color-primary); background: rgb(from var(--color-primary) r g b / 0.08); }
   .dnav__right { justify-self: end; display: flex; align-items: center; gap: 10px; }
 
   /* Breadcrumb bar — replaces the mobile level-up pill on detail screens. */
@@ -2489,7 +2520,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
     transition: color 0.15s ease;
   }
   .mod-carousel-arrow:not(.is-disabled):hover { color: var(--color-primary); }
-  .mod-carousel-arrow.is-disabled { color: rgba(13, 27, 41, 0.22); cursor: default; }
+  .mod-carousel-arrow.is-disabled { color: rgb(from var(--color-text) r g b / 0.22); cursor: default; }
   .mod-carousel-arrow svg { width: 32px; height: 32px; display: block; }
   .mod-carousel-arrow svg path { stroke-width: 2.5; }   /* bolder chevron, matching Figma */
   .mod-listicle-card { width: 216px; }   /* ~4 + a peek of the 5th in the 1000px box */

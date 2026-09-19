@@ -123,7 +123,7 @@ body[data-rail="collapsed"] .rail__toggle svg { transform: rotate(180deg); }
   background: var(--color-surface);
   color: var(--color-text);
   font-weight: 600;
-  box-shadow: 0 1px 2px rgba(13, 27, 41, 0.06);
+  box-shadow: 0 1px 2px rgb(from var(--color-text) r g b / 0.06);
 }
 .rail__link[aria-current="true"]::before {
   content: "";
@@ -210,7 +210,7 @@ body[data-rail="collapsed"] .rail__link { justify-content: center; padding: 10px
 a.card:hover {
   border-color: var(--color-accent);
   transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(13, 27, 41, 0.07);
+  box-shadow: 0 4px 14px rgb(from var(--color-text) r g b / 0.07);
 }
 a.card:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
 
