@@ -208,7 +208,7 @@ html.is-modal-open { overflow: hidden; }
   position: relative;
   isolation: isolate;      /* stacking context so the z-index:-1 rings sit above the gradient */
   overflow: hidden;
-  background: linear-gradient(184deg, var(--color-navy) 6%, var(--color-magenta) 94%);
+  background: linear-gradient(184deg, var(--color-navy) 6%, var(--color-accent) 94%);
   color: var(--color-text-inverse);
   padding: 48px 12px;
 }
@@ -251,23 +251,6 @@ html.is-modal-open { overflow: hidden; }
 }
 .mod-hero__cta:active { filter: brightness(0.97); }
 
-.mod-cards { display: flex; flex-direction: column; gap: 12px; }
-.mod-card {
-  display: block;
-  width: 100%;
-  text-align: left;
-  padding: 20px 16px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-card);
-  background: var(--color-surface);
-  cursor: pointer;
-  font-family: var(--font-body);
-  font-size: 16px;
-  color: var(--color-text);
-  transition: border-color 0.15s ease, transform 0.15s ease;
-}
-.mod-card:active { border-color: var(--color-primary); transform: scale(0.99); }
-
 .mod-article {
   display: block;
   width: 100%;
@@ -287,7 +270,7 @@ html.is-modal-open { overflow: hidden; }
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--color-magenta);
+  color: var(--color-accent);
   margin-bottom: 6px;
 }
 .mod-article__title {
@@ -375,7 +358,7 @@ html.is-modal-open { overflow: hidden; }
   letter-spacing: var(--display-tracking);
   color: var(--color-navy);
 }
-.mod-section-text__title em { font-style: normal; color: var(--color-magenta); }
+.mod-section-text__title em { font-style: normal; color: var(--color-accent); }
 .mod-section-text__sub { margin: 0; font-size: 20px; line-height: 1.4; letter-spacing: -0.75px; color: var(--color-navy); }
 
 .mod-view-all-link {
@@ -398,7 +381,7 @@ html.is-modal-open { overflow: hidden; }
 
 /* ---- Listicles — horizontal card carousel, Figma "Listicles" section ---- */
 
-.mod-listicles { background: var(--color-bg-purple-soft); padding: 48px 12px; }
+.mod-listicles { background: var(--color-bg-accent-soft); padding: 48px 12px; }
 .mod-listicles__scroll {
   display: flex;
   gap: 16px;
@@ -425,8 +408,8 @@ html.is-modal-open { overflow: hidden; }
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background: var(--color-magenta-soft-solid);
-  color: var(--color-magenta);
+  background: var(--color-accent-soft-solid);
+  color: var(--color-accent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -499,7 +482,7 @@ html.is-modal-open { overflow: hidden; }
 .mod-article-card__title { padding-inline: 12px; display: flex; align-items: flex-start; gap: 8px; font-size: 18px; line-height: 1.3; color: var(--color-navy); }
 .mod-article-card__title-text { flex: 1 1 auto; }
 /* Stack / "layers" glyph marking a card that belongs to a Collection. */
-.mod-article-card__stack { flex: 0 0 auto; color: var(--color-magenta); }
+.mod-article-card__stack { flex: 0 0 auto; color: var(--color-accent); }
 .mod-article-card__stack svg { display: block; width: 20px; height: 20px; }
 /* Collection card: reserve two lines so the title + stack icon read as a set. */
 .mod-article-card--collection .mod-article-card__title-text { min-height: 2.6em; }
@@ -535,7 +518,7 @@ html.is-modal-open { overflow: hidden; }
 /* ---- Factoid — dark gradient stat cards, Figma "Factoid" section ---- */
 
 .mod-factoid {
-  background: linear-gradient(180deg, var(--color-navy) 0%, var(--color-magenta) 100%);
+  background: linear-gradient(180deg, var(--color-navy) 0%, var(--color-accent) 100%);
   padding: 48px 12px;
   color: var(--color-text-inverse);
 }
@@ -547,7 +530,7 @@ html.is-modal-open { overflow: hidden; }
   line-height: var(--display-section-lh);
   letter-spacing: var(--display-tracking);
 }
-.mod-factoid__title em { font-style: normal; color: var(--color-purple-light); }
+.mod-factoid__title em { font-style: normal; color: var(--color-accent-light); }
 .mod-factoid__stats { display: flex; flex-direction: column; gap: 16px; margin-bottom: 16px; }
 .mod-stat-card {
   position: relative;
@@ -568,14 +551,14 @@ html.is-modal-open { overflow: hidden; }
   font-size: 40px;
   line-height: 1.2;
   letter-spacing: -0.75px;
-  color: var(--color-magenta);
+  color: var(--color-accent);
 }
 .mod-stat-card__text { margin: 0; font-size: 18px; line-height: 1.45; color: var(--color-text); }
 .mod-factoid__source { margin: 0; padding-left: 12px; font-size: 14px; line-height: 1.5; color: var(--color-text-inverse); opacity: 0.9; }
 
 /* ---- Community — quote carousel + closing CTA, Figma "Community" section ---- */
 
-.mod-community { background: var(--color-bg-purple-soft); padding: 48px 12px; }
+.mod-community { background: var(--color-bg-accent-soft); padding: 48px 12px; }
 .mod-quotes__scroll {
   display: flex;
   gap: 12px;
@@ -698,7 +681,7 @@ html.is-modal-open { overflow: hidden; }
 .advisor-card__text { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
 .advisor-card__identity { display: flex; flex-direction: column; gap: 2px; }
 .advisor-card__name { margin: 0; font-weight: 600; font-size: 20px; line-height: 28px; letter-spacing: -0.75px; color: var(--color-text); }
-.advisor-card__role { margin: 0; font-weight: 400; font-size: 16px; line-height: 22px; color: var(--color-magenta); }
+.advisor-card__role { margin: 0; font-weight: 400; font-size: 16px; line-height: 22px; color: var(--color-accent); }
 .advisor-card__org { margin: 0; font-size: 14px; line-height: 22px; color: var(--color-text-secondary); }
 .advisor-card__bio { margin: 0; font-size: 16px; line-height: 24px; color: var(--color-text); }
 .advisor-card__link { font-weight: 400; font-size: 16px; color: var(--color-primary); }
@@ -750,6 +733,11 @@ html.is-modal-open { overflow: hidden; }
 .nav__left { gap: 2px; }   /* stacked logotype sits close to the menu icon */
 .nav__right { gap: 6px; }  /* tight enough that search + Ask pill + Join fit a 375px nav */
 
+/* Base icon-only control. COMPOSED BY .ai-btn, which is rendered as
+   class="icon-btn ai-btn" and overrides width, padding, radius and background
+   to become a labelled pill. Anything changed here reaches .ai-btn too — check
+   both specimens before editing.
+   Contracts: system/components/icon-btn.md, system/components/ai-btn.md */
 .icon-btn {
   width: 44px;
   height: 44px;
@@ -764,7 +752,10 @@ html.is-modal-open { overflow: hidden; }
 }
 .icon-btn:active { background: rgb(from var(--color-text) r g b / 0.05); }
 
-/* "Ask AI" button — a pill holding the gradient duo-star + a gradient "AI" label,
+/* EXTENDS .icon-btn (rendered as class="icon-btn ai-btn"). The rules below
+   override the base's fixed 44x44 circle into a content-hugging pill; the 44px
+   height is inherited and deliberate — see system/components/ai-btn.md.
+   "Ask AI" button — a pill holding the gradient duo-star + a gradient "AI" label,
    inside a gradient RING (our blue→magenta, 45deg). The ring is an overlay
    (::before) so it can animate independently of the icon. 44px tall, hugging its
    content, to sit alongside the profile avatar and search. */
@@ -787,7 +778,7 @@ html.is-modal-open { overflow: hidden; }
   font-size: 16px;
   line-height: 1;
   /* gradient text, matching the stars + ring */
-  background: linear-gradient(45deg, var(--color-primary) 0%, var(--color-magenta) 100%);
+  background: linear-gradient(45deg, var(--color-primary) 0%, var(--color-accent) 100%);
   -webkit-background-clip: text;
           background-clip: text;
   color: transparent;
@@ -801,7 +792,7 @@ html.is-modal-open { overflow: hidden; }
   inset: 0;
   border-radius: var(--radius-pill);
   padding: 1px;   /* ring thickness */
-  background: linear-gradient(45deg, var(--color-primary) 0%, var(--color-magenta) 100%);
+  background: linear-gradient(45deg, var(--color-primary) 0%, var(--color-accent) 100%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
           mask-composite: exclude;
@@ -890,7 +881,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   border: 1.5px solid transparent;
   background:
     linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
-    linear-gradient(45deg, var(--color-primary) 0%, var(--color-magenta) 100%) border-box;
+    linear-gradient(45deg, var(--color-primary) 0%, var(--color-accent) 100%) border-box;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgb(from var(--color-text) r g b / 0.16), 0 2px 8px rgb(from var(--color-text) r g b / 0.08);
   /* Smooth slide-in: fades in while gliding down into place from just under the
@@ -1282,80 +1273,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 }
 
 /* Feature preview card: icon + title/stat + chevron, then a summary line. */
-.comm-card {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  width: 100%;
-  padding: 16px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-card);
-  background: var(--color-surface);
-  text-align: left;
-  cursor: pointer;
-  font-family: var(--font-body);
-  -webkit-tap-highlight-color: transparent;
-  transition: border-color 0.12s ease, transform 0.06s ease;
-}
-.comm-card:active { border-color: var(--color-primary); transform: scale(0.99); }
-.comm-card__content { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.comm-card__left { display: flex; align-items: center; gap: 16px; min-width: 0; }
-.comm-card__icon { display: block; width: 80px; height: 80px; flex-shrink: 0; }
-.comm-card__icon svg { display: block; width: 100%; height: 100%; }
-.comm-card__text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-.comm-card__title { font-weight: 600; font-size: 18px; line-height: 24px; color: var(--color-text); }
-.comm-card__stat { font-size: 18px; line-height: 26px; color: var(--color-text-secondary); }
-.comm-card__member { color: var(--color-magenta); }
-.comm-card__chevron { display: block; width: 24px; height: 24px; flex-shrink: 0; }
-.comm-card__chevron svg { display: block; width: 100%; height: 100%; }
-.comm-card__desc { font-size: 18px; line-height: 26px; color: var(--color-text); }
-
 /* Join upsell — a light card (distinct from the navy splash CTA). */
-.comm-upsell { display: flex; flex-direction: column; gap: 16px; }
-.comm-upsell__card {
-  position: relative;
-  z-index: 0;              /* stacking context for the decorative graphics */
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 32px 24px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-card);
-  background: var(--color-surface);
-}
-.comm-upsell__graphic { position: absolute; z-index: -1; width: 280px; pointer-events: none; }
-.comm-upsell__graphic--tr { top: -73px; right: -155px; transform: scaleY(-1); }
-.comm-upsell__graphic--bl { bottom: -80px; left: -155px; }
-.comm-upsell__text { display: flex; flex-direction: column; gap: 8px; }
-.comm-upsell__title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: 32px;
-  line-height: 40px;
-  letter-spacing: var(--display-tracking);
-  color: var(--color-navy);
-}
-.comm-upsell__sub { margin: 0; font-size: 18px; line-height: 26px; color: var(--color-text); }
-.comm-upsell__buttons { display: flex; flex-direction: column; gap: 16px; }
-.comm-upsell__btn {
-  padding: 14px 28px;
-  border-radius: 24px;
-  font-family: var(--font-body);
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 1.2;
-  text-align: center;
-  white-space: nowrap;     /* "Check symptoms first" stays on one line */
-  cursor: pointer;
-}
-.comm-upsell__btn--primary { border: none; background: var(--color-primary); color: var(--color-text-inverse); }
-.comm-upsell__btn--primary:active { filter: brightness(0.97); }
-.comm-upsell__btn--secondary { border: 1px solid var(--color-primary); background: transparent; color: var(--color-primary); }
-.comm-upsell__btn--secondary:active { background: rgb(from var(--color-primary) r g b / 0.06); }
-.comm-upsell__note { margin: 0; padding-left: 12px; font-size: 14px; line-height: 22px; color: var(--color-text); }
-
 /* ---- Community Features (Anonymous Visitor) — Figma 184:588 / 184:441 ---- */
 /* A "Community Features" tour: a heading over four feature cards, each with a
    category eyebrow + serif title + description and a magenta line-art illustration
@@ -1440,7 +1358,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   line-height: 24px;
   letter-spacing: -0.25px;
   text-transform: uppercase;
-  color: var(--color-magenta);
+  color: var(--color-accent);
 }
 .feat-card__title {
   font-family: var(--font-display);
@@ -1485,7 +1403,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 .feat-pair-card__preview { display: flex; flex-direction: column; gap: 16px; }
 .feat-pair-card__preview--tight { gap: 8px; }   /* guidelines checklist is tighter (Figma 212:155) */
 .feat-pair__person { display: flex; align-items: center; gap: 16px; }
-.feat-pair__avatar { flex-shrink: 0; width: 52px; height: 52px; border-radius: 50%; overflow: hidden; background: var(--color-bg-purple-soft); }
+.feat-pair__avatar { flex-shrink: 0; width: 52px; height: 52px; border-radius: 50%; overflow: hidden; background: var(--color-bg-accent-soft); }
 .feat-pair__avatar img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .feat-pair__person-text { display: flex; flex-direction: column; min-width: 0; }
 .feat-pair__person-name { font-weight: 600; font-size: 18px; line-height: 24px; letter-spacing: -0.25px; color: var(--color-text); }
@@ -1658,7 +1576,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   height: 52px;
   border-radius: 50%;
   overflow: hidden;
-  background: var(--color-bg-purple-soft);
+  background: var(--color-bg-accent-soft);
 }
 .comm-post__avatar img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .comm-post__text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
@@ -1726,7 +1644,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 .comm-group:active { border-color: var(--color-primary); transform: scale(0.99); }
 .comm-group__content { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .comm-group__left { display: flex; align-items: center; gap: 16px; min-width: 0; }
-.comm-group__icon { flex-shrink: 0; width: 80px; height: 80px; border-radius: 50%; background: var(--color-bg-purple-soft); }
+.comm-group__icon { flex-shrink: 0; width: 80px; height: 80px; border-radius: 50%; background: var(--color-bg-accent-soft); }
 .comm-group__text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .comm-group__name { font-weight: 600; font-size: 18px; line-height: 24px; color: var(--color-text); }
 .comm-group__meta { font-size: 18px; line-height: 26px; color: var(--color-text-secondary); }
@@ -1753,7 +1671,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 }
 .comm-person:active { border-color: var(--color-primary); }
 .comm-person__left { display: flex; align-items: center; gap: 16px; min-width: 0; }
-.comm-person__avatar { flex-shrink: 0; width: 80px; height: 80px; border-radius: 50%; overflow: hidden; background: var(--color-bg-purple-soft); }
+.comm-person__avatar { flex-shrink: 0; width: 80px; height: 80px; border-radius: 50%; overflow: hidden; background: var(--color-bg-accent-soft); }
 .comm-person__avatar img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .comm-person__text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .comm-person__name { font-weight: 600; font-size: 18px; line-height: 24px; color: var(--color-text); }
@@ -2018,9 +1936,9 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   color: var(--color-text);
   transition: background 0.18s ease;
 }
-.panel__hub:active { background: var(--color-magenta-soft-solid); }
+.panel__hub:active { background: var(--color-accent-soft-solid); }
 /* Hub icons: inline glyph (fill=currentColor) on a CSS-drawn pale circle, tinted magenta. */
-.panel__hub-icon { width: 44px; height: 44px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--color-bg-purple-soft); color: var(--color-magenta); }
+.panel__hub-icon { width: 44px; height: 44px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--color-bg-accent-soft); color: var(--color-accent); }
 .panel__hub-icon svg { width: 44px; height: 44px; display: block; }
 
 /* ---- Anonymous / Subscriber panel: promo access card + TOPICS list ---- */
@@ -2603,19 +2521,6 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   /* Banner graphic sits at the reading column's right edge, bled slightly off. */
   .comm-preview__banner-graphic { top: -24px; right: -48px; }
   .comm-preview__list { padding-block: 24px 40px; }
-  .comm-upsell__card {
-    display: grid;
-    /* Left (copy) column widened so the headline wraps to 2 lines, not 3; buttons
-       take a fixed 270px and still fit "Check symptoms first". */
-    grid-template-columns: 1fr 270px;
-    align-items: center;
-    gap: 32px;
-    padding: 32px;
-  }
-  .comm-upsell__title { font-size: 36px; line-height: 44px; }  /* Figma desktop 76:3110 */
-  .comm-upsell__graphic--tr { right: -175px; }
-  .comm-upsell__graphic--bl { left: -157px; bottom: -95px; }
-
   /* Community feed: show the carousel arrows; drop the mobile full-bleed scroller
      so the carousels align to the 728px column and peek the next card. Login
      reminder reflows to a row (copy left, button right). */

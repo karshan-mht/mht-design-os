@@ -12,7 +12,7 @@ So the first step is to make the monolith *addressable*:
 - **[INDEX.md](INDEX.md)** — every CSS block, its parts, variants, whether JS
   renders it, and whether it has a contract. **Generated** from the stylesheet
   by `evals/gen-component-index.js`, so it cannot drift.
-- **`<block>/docs.md`** — a hand-written contract for blocks that earn one.
+- **`<block>.md`** — a hand-written contract for blocks that earn one.
 - **[_TEMPLATE.md](_TEMPLATE.md)** — the contract schema.
 
 Per [AUTHORITY.md](../AUTHORITY.md), the code is authoritative about what
@@ -33,7 +33,7 @@ The tier list is the one human judgment in the generator; it lives in
 
 ## Adding a contract
 
-1. Copy `_TEMPLATE.md` to `<block>/docs.md`, using the block name exactly as
+1. Copy `_TEMPLATE.md` to `<block>.md`, using the block name exactly as
    INDEX.md spells it (no leading dot).
 2. Fill it in. Delete sections that do not apply. State missing states
    explicitly — a visible gap is worth more than a silent one.

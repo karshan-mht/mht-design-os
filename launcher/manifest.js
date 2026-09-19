@@ -186,10 +186,10 @@ window.LAUNCHER_MANIFEST =
           "items": [
             {
               "title": "Token reference",
-              "desc": "The live MHT token sheet — colour ramps, type scale, spacing.",
+              "desc": "Every token, rendered from tokens.css itself with live computed values and a theme switcher.",
               "href": "system/tokens/reference.html",
               "kind": "page",
-              "status": "draft"
+              "status": "live"
             },
             {
               "title": "tokens.css",
@@ -273,7 +273,7 @@ window.LAUNCHER_MANIFEST =
             {
               "title": "Ask AI button",
               "desc": "The assistant entry point — states, pulse motion, reduced-motion and accessibility.",
-              "href": "system/components/ai-btn/docs.md",
+              "href": "system/components/ai-btn.md",
               "kind": "doc",
               "status": "live"
             },
@@ -387,11 +387,11 @@ window.LAUNCHER_MANIFEST =
               "status": "live"
             },
             {
-              "title": "MHT Style Guide v1",
-              "desc": "The originating Figma style guide, as a PDF.",
-              "href": "system/brand/MHT-Style-Guide-v1.pdf",
-              "kind": "pdf",
-              "status": "live"
+              "title": "MHT Style Guide (Figma)",
+              "desc": "The live style guide. The v1 PDF was removed as outdated — link to be added.",
+              "href": null,
+              "kind": "doc",
+              "status": "planned"
             }
           ]
         }

@@ -81,7 +81,7 @@ The comment carried the intent and the value had drifted from it. Now 600.
 Note that this has **no visible effect today**, because the component is
 dormant. It is correct for when it is re-enabled.
 
-Worth noting how it resolved: per [AUTHORITY.md](../../AUTHORITY.md) the code
+Worth noting how it resolved: per [AUTHORITY.md](../AUTHORITY.md) the code
 was authoritative about what rendered and the comment about what was meant, and
 the repo could not settle between them. It took a decision from outside the
 repo — which is exactly why it was recorded rather than guessed.
@@ -99,4 +99,4 @@ Read from the file and confirmed: 34px tall in both, a 16×16 `Icon` child
 matching `.uplevel__icon`, and a `Label` text child matching the span. The frame
 is `hidden=true`, so it is a definition rather than a placed instance.
 
-Recorded in [system/parity.json](../../parity.json).
+Recorded in [system/parity.json](../parity.json).

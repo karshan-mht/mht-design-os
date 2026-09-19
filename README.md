@@ -77,7 +77,8 @@ system/                        The design system
   tokens/
     tokens.css                   Universal palette — single source of truth
     tokens.md                    Token roles, implementation-agnostic
-    reference.html               Live token sheet (colour ramps, type scale)
+    manifest.js                  GENERATED mirror of tokens.css
+    reference.html               Live token page — renders tokens.css itself
     themes/menopause.css         Purple hue family (production)
     themes/legacy.css            Blue hue family (placeholder values)
     themes/README.md             The two sites; how to add site 81
@@ -85,10 +86,10 @@ system/                        The design system
   patterns/navigation.md       Global-nav chrome (top nav, panel, footer)
   parity.json                  Figma node <-> CSS block <-> contract
   components/
-    INDEX.md                     Generated index of all 79 CSS blocks
+    INDEX.md                     Generated index of every CSS block
     README.md                    Tiers, how to add a contract, known gaps
     _TEMPLATE.md                 Component contract schema
-    <block>/docs.md              Hand-written contracts
+    <block>.md                   Hand-written contracts (one file each)
   AUTHORITY.md                 Authority model + preference grammar
   icons/
     sheet.html                   Specimen page for both sets
@@ -97,7 +98,7 @@ system/                        The design system
     categories.js                Authored grouping + display names
     registry-*.js                GENERATED inline registries
   motion/ai-pulse-spec.html    Ask AI pulse motion study
-  brand/                       Brand strategy, voice, style guide PDF
+  brand/                       Brand strategy and voice
   assets/                      Real assets exported from Figma (flat folder):
                                logotype/logomark, advisor headshots, listicle
                                icons, splash decoration. Nav/UI icons are
@@ -131,6 +132,7 @@ evals/
   lint-links.js                Fails on an internal reference that does not resolve
   gen-component-index.js       Regenerates system/components/INDEX.md (--check)
   gen-icon-registry.js         Regenerates the icon registries (--check)
+  gen-token-manifest.js        Regenerates the token manifest (--check)
   lint-parity.js               Validates system/parity.json; reports coverage
   lint-dead-code.js            Unrendered blocks and uncalled functions (advisory)
 MANUAL.md                      Index of the spec docs
