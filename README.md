@@ -18,6 +18,10 @@ so each prototype keeps a shareable URL.
 ("Launcher", never "Home" — the product has its own Member Home surface, and
 reusing the word for two different things confuses both people and agents.)
 
+Every section opens a real page rather than a raw file: the component gallery,
+the icon sheet, the graphics gallery, the token reference, and a docs viewer
+that renders all 31 markdown documents with working cross-links.
+
 The launcher renders entirely from **`launcher/manifest.js`**. Adding a
 prototype or a doc is one entry in that file — never a markup edit.
 
@@ -101,6 +105,9 @@ system/                        The design system
     registry-*.js                GENERATED inline registries
   motion/ai-pulse-spec.html    Ask AI pulse motion study
   brand/                       Brand strategy and voice
+  docs/
+    index.html                   Docs viewer — renders every .md in the repo
+    content.js                   GENERATED mirror of the markdown
   assets/
     index.html                   Graphics gallery, grouped by purpose
     manifest.js                  GENERATED asset inventory
@@ -139,6 +146,7 @@ evals/
   gen-icon-registry.js         Regenerates the icon registries (--check)
   gen-token-manifest.js        Regenerates the token manifest (--check)
   gen-asset-manifest.js        Regenerates the asset inventory (--check)
+  gen-docs.js                  Regenerates the docs viewer content (--check)
   lint-parity.js               Validates system/parity.json; reports coverage
   lint-dead-code.js            Unrendered blocks and uncalled functions (advisory)
 MANUAL.md                      Index of the spec docs

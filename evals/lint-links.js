@@ -40,6 +40,12 @@ const BASE_OVERRIDES = {
 };
 
 // Documentation examples that intentionally name files which do not exist.
+// system/docs/content.js is a generated mirror of every .md in the repo. Its
+// "paths" are prose mentions, and even the real links inside it are relative to
+// each ORIGINAL document, not to system/docs/. The source .md files are checked
+// directly, so checking the mirror would double-count and mis-resolve.
+const SKIP_FILES = new Set(['system/docs/content.js']);
+
 const IGNORE = new Set([
   'photos/stories.jpg',  // script.js: sample data showing the expected image shape
   'me.jpg',              // styles.css: usage example in a comment for --photo
@@ -47,7 +53,9 @@ const IGNORE = new Set([
 
 // Paths built at runtime from a base constant. The base itself is checked; the
 // interpolated leaf cannot be known statically.
-const DYNAMIC = /\$\{|\+\s*[a-zA-Z_]/;
+// Also $1/$2 — regex replacement placeholders, which appear inside attribute
+// strings in the docs viewer's markdown renderer and are not references.
+const DYNAMIC = /\$\{|\+\s*[a-zA-Z_]|^\$\d+$/;
 
 function walk(dir, out = []) {
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -102,6 +110,7 @@ let checked = 0;
 
 for (const rel of walk(ROOT)) {
   if (rel.startsWith('evals/')) continue;            // this file quotes paths in comments
+  if (SKIP_FILES.has(rel)) continue;
   if (rel === 'decisions/DECISIONS.md') continue;    // append-only: historical paths stay as written
   const text = fs.readFileSync(path.join(ROOT, rel), 'utf8');
 

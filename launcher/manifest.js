@@ -140,7 +140,7 @@ window.LAUNCHER_MANIFEST =
             {
               "title": "Authority & preference",
               "desc": "Which source wins when artifacts disagree, and the Preferred / Allowed / Avoid / Prohibited grammar.",
-              "href": "system/AUTHORITY.md",
+              "href": "system/docs/index.html?doc=system/AUTHORITY.md",
               "kind": "doc",
               "status": "live"
             }
@@ -153,7 +153,7 @@ window.LAUNCHER_MANIFEST =
             {
               "title": "Site & theme guide",
               "desc": "What each site is, what belongs in a theme, and how to add site 81.",
-              "href": "system/tokens/themes/README.md",
+              "href": "system/docs/index.html?doc=system/tokens/themes/README.md",
               "kind": "doc",
               "status": "live"
             },
@@ -201,7 +201,7 @@ window.LAUNCHER_MANIFEST =
             {
               "title": "Design language",
               "desc": "Colour tokens, type scale, tinting, chrome asset provenance.",
-              "href": "system/foundation/design.md",
+              "href": "system/docs/index.html?doc=system/foundation/design.md",
               "kind": "doc",
               "status": "live"
             }
@@ -225,7 +225,7 @@ window.LAUNCHER_MANIFEST =
             {
               "title": "Global navigation",
               "desc": "Top nav, slide-out panel, level-up pill, footer.",
-              "href": "system/patterns/navigation.md",
+              "href": "system/docs/index.html?doc=system/patterns/navigation.md",
               "kind": "doc",
               "status": "live"
             }
@@ -260,14 +260,14 @@ window.LAUNCHER_MANIFEST =
             {
               "title": "How components work here",
               "desc": "What the tiers mean, how to add a contract, and the known gaps.",
-              "href": "system/components/README.md",
+              "href": "system/docs/index.html?doc=system/components/README.md",
               "kind": "doc",
               "status": "live"
             },
             {
               "title": "Contract template",
               "desc": "The schema for a component contract, using the preference grammar.",
-              "href": "system/components/_TEMPLATE.md",
+              "href": "system/docs/index.html?doc=system/components/_TEMPLATE.md",
               "kind": "doc",
               "status": "live"
             }
@@ -280,7 +280,7 @@ window.LAUNCHER_MANIFEST =
             {
               "title": "Ask AI button",
               "desc": "The assistant entry point — states, pulse motion, reduced-motion and accessibility.",
-              "href": "system/components/ai-btn.md",
+              "href": "system/docs/index.html?doc=system/components/ai-btn.md",
               "kind": "doc",
               "status": "live"
             },
@@ -382,14 +382,14 @@ window.LAUNCHER_MANIFEST =
             {
               "title": "Brand source of truth",
               "desc": "Positioning, values, voice pillars, tone spectrum, messaging architecture.",
-              "href": "system/brand/brand-source-of-truth.md",
+              "href": "system/docs/index.html?doc=system/brand/brand-source-of-truth.md",
               "kind": "doc",
               "status": "live"
             },
             {
               "title": "Site design language",
               "desc": "thisismenopause.com — colour roles, components, layout rules.",
-              "href": "system/brand/site-design-language.md",
+              "href": "system/docs/index.html?doc=system/brand/site-design-language.md",
               "kind": "doc",
               "status": "live"
             },
@@ -416,49 +416,49 @@ window.LAUNCHER_MANIFEST =
             {
               "title": "Landing",
               "desc": "Splash Landing — six content modules and its deep-links.",
-              "href": "product/landing.md",
+              "href": "system/docs/index.html?doc=product/landing.md",
               "kind": "doc",
               "status": "live"
             },
             {
               "title": "Library / Resources",
               "desc": "Topic pages, Topic Center, Article Show.",
-              "href": "product/library.md",
+              "href": "system/docs/index.html?doc=product/library.md",
               "kind": "doc",
               "status": "live"
             },
             {
               "title": "Community",
               "desc": "Posts, Q&A, Groups, Meet-Others and their detail screens.",
-              "href": "product/community.md",
+              "href": "system/docs/index.html?doc=product/community.md",
               "kind": "doc",
               "status": "live"
             },
             {
               "title": "Topic Hub",
               "desc": "Per-concern hub aggregating Q&A, conversations, groups, resources.",
-              "href": "product/topic-hub.md",
+              "href": "system/docs/index.html?doc=product/topic-hub.md",
               "kind": "doc",
               "status": "live"
             },
             {
               "title": "Advisors",
               "desc": "Medical Advisory Committee page.",
-              "href": "product/advisors.md",
+              "href": "system/docs/index.html?doc=product/advisors.md",
               "kind": "doc",
               "status": "live"
             },
             {
               "title": "Account",
               "desc": "Profile dropdown and its destination screens.",
-              "href": "product/account.md",
+              "href": "system/docs/index.html?doc=product/account.md",
               "kind": "doc",
               "status": "live"
             },
             {
               "title": "Onboarding",
               "desc": "Sign Up Start and Registration Step.",
-              "href": "product/onboarding.md",
+              "href": "system/docs/index.html?doc=product/onboarding.md",
               "kind": "doc",
               "status": "live"
             }
@@ -470,7 +470,7 @@ window.LAUNCHER_MANIFEST =
             {
               "title": "System & persona model",
               "desc": "The data-persona render model, screen types, responsive layout.",
-              "href": "prototypes/navigation/ARCHITECTURE.md",
+              "href": "system/docs/index.html?doc=prototypes/navigation/ARCHITECTURE.md",
               "kind": "doc",
               "status": "live"
             }
@@ -488,23 +488,30 @@ window.LAUNCHER_MANIFEST =
           "title": "Logs",
           "items": [
             {
+              "title": "Docs viewer",
+              "desc": "Every markdown document in the repo, rendered and cross-linked, with a sidebar.",
+              "href": "system/docs/index.html",
+              "kind": "page",
+              "status": "live"
+            },
+            {
               "title": "Decisions log",
               "desc": "Every design and build decision, interleaved in time order.",
-              "href": "decisions/DECISIONS.md",
+              "href": "system/docs/index.html?doc=decisions/DECISIONS.md",
               "kind": "doc",
               "status": "live"
             },
             {
               "title": "Restructure plan",
               "desc": "The six-phase plan this home is part of, with findings and status.",
-              "href": "decisions/RESTRUCTURE-PLAN.md",
+              "href": "system/docs/index.html?doc=decisions/RESTRUCTURE-PLAN.md",
               "kind": "doc",
               "status": "live"
             },
             {
               "title": "Manual",
               "desc": "Index of the spec docs.",
-              "href": "MANUAL.md",
+              "href": "system/docs/index.html?doc=MANUAL.md",
               "kind": "doc",
               "status": "live"
             }

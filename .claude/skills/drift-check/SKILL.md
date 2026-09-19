@@ -52,6 +52,9 @@ inside older entries are historical records, not broken links.
 Run `node evals/gen-component-index.js` to regenerate. Never hand-edit
 `INDEX.md`.
 
+**gen-docs --check** — a markdown file changed. Regenerate; the viewer reads a
+generated mirror because Chrome blocks `fetch()` of local files.
+
 **gen-token-manifest / gen-asset-manifest --check** — `tokens.css` or
 `system/assets/` changed. Regenerate. The asset one also reports a file that
 matches no grouping rule: add a rule rather than letting it fall into "Other".

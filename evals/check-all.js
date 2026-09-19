@@ -31,6 +31,8 @@ const CHECKS = [
     covers: 'the token reference page matches tokens.css' },
   { name: 'asset manifest',  cmd: ['evals/gen-asset-manifest.js', '--check'],  blocking: true,
     covers: 'the graphics gallery matches system/assets/; flags ungrouped files' },
+  { name: 'docs content',    cmd: ['evals/gen-docs.js', '--check'],            blocking: true,
+    covers: 'the docs viewer matches the markdown files' },
   { name: 'parity',          cmd: ['evals/lint-parity.js'],                    blocking: true,
     covers: 'Figma mapping structure; reports coverage gaps' },
   { name: 'dead code',       cmd: ['evals/lint-dead-code.js'],                 blocking: false,
