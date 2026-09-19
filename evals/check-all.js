@@ -29,6 +29,8 @@ const CHECKS = [
     covers: 'registries match the files; every editorial icon is categorised' },
   { name: 'token manifest',  cmd: ['evals/gen-token-manifest.js', '--check'],  blocking: true,
     covers: 'the token reference page matches tokens.css' },
+  { name: 'asset manifest',  cmd: ['evals/gen-asset-manifest.js', '--check'],  blocking: true,
+    covers: 'the graphics gallery matches system/assets/; flags ungrouped files' },
   { name: 'parity',          cmd: ['evals/lint-parity.js'],                    blocking: true,
     covers: 'Figma mapping structure; reports coverage gaps' },
   { name: 'dead code',       cmd: ['evals/lint-dead-code.js'],                 blocking: false,

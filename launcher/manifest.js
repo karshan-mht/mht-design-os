@@ -244,8 +244,15 @@ window.LAUNCHER_MANIFEST =
           "note": "Generated from main.css by evals/gen-component-index.js, so it cannot drift from the code.",
           "items": [
             {
-              "title": "Component index",
-              "desc": "All 79 blocks by tier, with parts, variants and contract status.",
+              "title": "Component gallery",
+              "desc": "Live specimens rendered from the real main.css, plus every block by tier. Theme switcher included.",
+              "href": "system/components/index.html",
+              "kind": "page",
+              "status": "live"
+            },
+            {
+              "title": "Component index (markdown)",
+              "desc": "The same inventory as a file, for reading in an editor or a diff.",
               "href": "system/components/INDEX.md",
               "kind": "doc",
               "status": "live"
@@ -350,14 +357,14 @@ window.LAUNCHER_MANIFEST =
         },
         {
           "title": "Graphics",
-          "note": "Logos, splash decoration and listicle art, exported from Figma.",
+          "note": "Generated gallery — an asset that matches no grouping rule is reported rather than quietly filed under \"Other\".",
           "items": [
             {
-              "title": "Asset folder",
-              "desc": "53 files — logotype, logomark, hero rings, factoid blobs, listicle icons.",
-              "href": "system/assets/",
+              "title": "Graphics gallery",
+              "desc": "All 53 assets by group, with transparency/light/dark backdrops.",
+              "href": "system/assets/index.html",
               "kind": "page",
-              "status": "draft"
+              "status": "live"
             }
           ]
         }
