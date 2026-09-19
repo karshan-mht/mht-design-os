@@ -73,3 +73,12 @@ and surfaced rather than guessed.
 Styles `prototypes/navigation/main.css` `.uplevel*` and
 `.screen__uplevel.is-lifted`. The `is-lifted` toggle is in `attachAutoHide()` in
 `main.js`.
+
+## Figma
+
+Global Navigation `42yas7Q9FfwhL6xUocjEAl`, node **`7294:1952`** ("Uplevel").
+Read from the file and confirmed: 34px tall in both, a 16×16 `Icon` child
+matching `.uplevel__icon`, and a `Label` text child matching the span. The frame
+is `hidden=true`, so it is a definition rather than a placed instance.
+
+Recorded in [system/parity.json](../../parity.json).

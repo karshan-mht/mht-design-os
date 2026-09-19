@@ -291,12 +291,20 @@ window.LAUNCHER_MANIFEST =
           "items": [
             {
               "title": "parity.json",
-              "desc": "Figma node, component, CSS class, doc — machine-checkable mapping.",
+              "desc": "Figma node to CSS block to contract, with what each mapping was verified against.",
+              "href": "system/parity.json",
+              "kind": "code",
+              "status": "live"
+            },
+            {
+              "title": "Code Connect",
+              "desc": "Considered and not adopted — it needs a Node toolchain and CI, which ends the no-build-step property.",
               "href": null,
-              "kind": "page",
+              "kind": "doc",
               "status": "planned"
             }
-          ]
+          ],
+          "note": "Coverage is partial on purpose — an entry is added only when the node has been read from Figma. Guessed mappings look authoritative and are worse than none."
         }
       ]
     },

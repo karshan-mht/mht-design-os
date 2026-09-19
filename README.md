@@ -83,6 +83,7 @@ system/                        The design system
     themes/README.md             The two sites; how to add site 81
   foundation/design.md         Design language (type, tinting, chrome assets)
   patterns/navigation.md       Global-nav chrome (top nav, panel, footer)
+  parity.json                  Figma node <-> CSS block <-> contract
   components/
     INDEX.md                     Generated index of all 79 CSS blocks
     README.md                    Tiers, how to add a contract, known gaps
@@ -128,6 +129,7 @@ evals/
   lint-links.js                Fails on an internal reference that does not resolve
   gen-component-index.js       Regenerates system/components/INDEX.md (--check)
   gen-icon-registry.js         Regenerates the icon registries (--check)
+  lint-parity.js               Validates system/parity.json; reports coverage
 MANUAL.md                      Index of the spec docs
 ```
 
