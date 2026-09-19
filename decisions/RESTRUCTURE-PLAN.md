@@ -1,6 +1,6 @@
 # TIM Repo Restructure — Plan
 
-Status: **Phases 0-2 complete. Phase 3 in progress.** Phases 4-6 not started.
+Status: **Phases 0-3 complete.** Phases 4-6 not started.
 
 Goal: turn this repo into a design system that is *executable context* for
 agents — a single source of truth for tokens, an addressable component layer,
@@ -258,7 +258,7 @@ Not done at the time: the local directory and GitHub repo rename (now `mht-desig
 That is deliberately last — renaming the working directory invalidates any
 running session, and the GitHub rename is the user's to perform.
 
-### Phase 3 — Components — **IN PROGRESS**
+### Phase 3 — Components — **DONE**
 
 Done:
 
@@ -284,18 +284,21 @@ Done:
   This was a blocker, found by the act of documenting.
 - Removed the dead legacy launcher CSS (13 rules) left behind by Phase 1.
 
-Still to do:
+Also done:
 
-- More contracts: `.mod-btn-primary` / `.mod-btn-secondary`, `.uplevel`,
-  `.icon-btn`.
-- ~~Resolve the two icon systems~~ **done**: they were never rival versions —
-  editorial (112, display-sized line art) and UI glyphs (28, interface chrome)
-  are separate systems with 2 overlapping names. Files are now the source of
-  truth for both, with generated registries; the sheet renders from them
-  instead of holding a third copy.
-- The remaining 24 SVG and 36 `rgba()` audit warnings.
-- De-duplicate the `.launcher-hotspot` markup copied into the three
-  entry-point pages.
+- **Five contracts**: `ai-btn`, `icon-btn`, `uplevel`, and the module button
+  pair. Each surfaced a real defect — see `system/components/README.md`.
+- **The two icon systems** were never rival versions: editorial (112,
+  display-sized line art) and UI glyphs (28, interface chrome) share 2 names
+  out of 140. Files are the source of truth for both, with generated
+  registries; the sheet renders from them instead of holding a third copy.
+- **Both lints graduated from advisory to blocking.** 42 baked SVG colours and
+  36 `rgba()` literals went to **zero**: brand colours are classed and
+  token-driven, exact token values became `rgb(from var(--token) …)`, and the
+  handful that must stay literal — third-party marks, knockouts, pure
+  black/white at alpha — are named with reasons.
+- **The `.launcher-hotspot` markup** is one shared script instead of three
+  hand-copies.
 
 ### Phase 4 — Figma parity
 

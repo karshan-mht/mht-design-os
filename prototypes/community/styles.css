@@ -248,16 +248,22 @@ body {
 }
 
 /* The scrim does the accessibility work: near-clear at the top so the image
-   reads, heavy at the bottom where the type sits. */
+   reads, heavy at the bottom where the type sits.
+
+   Derived from --color-scrim rather than a fixed plum, so the card themes with
+   the site. Measured before changing it: white type over the heavy end is
+   16.4:1 on the old literal, 11.8:1 on the Menopause scrim and 11.6:1 on
+   Legacy — all far above the 4.5:1 minimum, so tying it to the hue does not
+   put the legibility this gradient exists to guarantee at risk. */
 .card__scrim {
   position: absolute;
   inset: 0;
   background: linear-gradient(
     to top,
-    rgba(26, 8, 32, 0.93) 0%,
-    rgba(26, 8, 32, 0.76) 28%,
-    rgba(26, 8, 32, 0.34) 60%,
-    rgba(26, 8, 32, 0.10) 100%
+    rgb(from var(--color-scrim) r g b / 0.93) 0%,
+    rgb(from var(--color-scrim) r g b / 0.76) 28%,
+    rgb(from var(--color-scrim) r g b / 0.34) 60%,
+    rgb(from var(--color-scrim) r g b / 0.10) 100%
   );
 }
 

@@ -52,10 +52,23 @@ Good next candidates: `.mod-btn-primary` / `.mod-btn-secondary` (real buttons,
 sharing a silhouette), `.uplevel` (the level-up pill), `.icon-btn` (composed
 into several others).
 
+## What writing contracts has found
+
+Every contract so far has surfaced something the code did not say out loud:
+
+| Contract | Found |
+|---|---|
+| `ai-btn` | **No keyboard focus styling anywhere** — zero `:focus` rules across 64 buttons |
+| `uplevel` | Its dock animation ignored `prefers-reduced-motion`; all four existing blocks were narrowly scoped elsewhere |
+| `uplevel` | `font-weight: 400` commented `/* Lato Semibold */` — an unresolved contradiction, surfaced not guessed |
+| `mod-btn-*` | Both variants are **dark-surface only**, which the class names do not say; and the secondary's border measures 2.90:1, under the 3:1 minimum |
+| `icon-btn` | Composed into `.ai-btn` and others — a real relationship that was undocumented |
+
+That is the argument for contracts: describing intended behaviour exposes what
+is missing far faster than reading the implementation does.
+
 ## Known gaps
 
-- `.icon-btn` is composed into `.ai-btn`, `.join-btn` and others but has only
-  two rules — the relationship is real but undocumented.
-- The three `prototypes/entry-points/` pages hand-copy the
-  `.launcher-hotspot` markup instead of sharing it with `main.js`.
+- The secondary module button's border is under the 3:1 non-text minimum.
+- `.uplevel`'s font-weight contradiction is unresolved — needs the Figma frame.
 - No component has a Figma node id recorded yet; `parity.json` is Phase 4.
