@@ -18,6 +18,9 @@ const ROOT = path.resolve(__dirname, '..');
 // Files allowed to contain raw colour values.
 const TOKEN_SOURCES = [
   'system/tokens/tokens.css',
+  // Generated mirror of tokens.css — part of the token layer, not a second copy
+  // that can drift: gen-token-manifest.js --check fails if it falls behind.
+  'system/tokens/manifest.js',
   'system/tokens/themes/menopause.css',
   'system/tokens/themes/legacy.css',
 ];

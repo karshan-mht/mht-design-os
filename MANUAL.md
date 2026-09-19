@@ -27,9 +27,11 @@ and how it behaves. **`prototypes/`** is what was built with both.
   size/stroke controls.
 - **[motion/ai-pulse-spec.html](system/motion/ai-pulse-spec.html)** — the Ask AI pulse
   motion study.
-- **brand/** — [brand source of truth](system/brand/brand-source-of-truth.md),
-  [site design language](system/brand/site-design-language.md), and the
-  [MHT Style Guide PDF](system/brand/MHT-Style-Guide-v1.pdf).
+- **brand/** — [brand source of truth](system/brand/brand-source-of-truth.md)
+  and [site design language](system/brand/site-design-language.md). The MHT
+  Style Guide PDF was removed on 2026-09-18 as outdated; the Figma file
+  (`zV2gbuNONeoyeRVcFUFWeZ`) is the live source. A direct link goes here once
+  added.
 
 ## product/ — the product surfaces
 

@@ -11,7 +11,7 @@ There is no extracted component layer yet — this index is what makes the
 monolith addressable in the meantime. See [README.md](README.md) for what the
 tiers mean and how to add a contract.
 
-- **81** blocks total
+- **77** blocks total
 - **5** with a contract
 - **JS** = rendered from `main.js`; blank = styled only
 
@@ -21,13 +21,13 @@ Small reusable controls. These are the real candidates for extraction into stand
 
 | Block | Rules | Parts | Variants | JS | Contract |
 |---|--:|--:|--:|:-:|:-:|
-| `.ai-btn` | 9 | 2 | 0 | • | [yes](ai-btn/docs.md) |
-| `.uplevel` | 6 | 1 | 0 | • | [yes](uplevel/docs.md) |
-| `.mod-btn-primary` | 5 | 0 | 0 | • | [yes](mod-btn-primary/docs.md) |
-| `.mod-btn-secondary` | 5 | 0 | 0 | • | [yes](mod-btn-secondary/docs.md) |
+| `.ai-btn` | 9 | 2 | 0 | • | [yes](ai-btn.md) |
+| `.uplevel` | 6 | 1 | 0 | • | [yes](uplevel.md) |
+| `.mod-btn-primary` | 5 | 0 | 0 | • | [yes](mod-btn-primary.md) |
+| `.mod-btn-secondary` | 5 | 0 | 0 | • | [yes](mod-btn-secondary.md) |
 | `.mod-carousel-arrow` | 5 | 0 | 0 | • | — |
 | `.join-btn` | 4 | 0 | 0 | • | — |
-| `.icon-btn` | 3 | 0 | 0 | • | [yes](icon-btn/docs.md) |
+| `.icon-btn` | 3 | 0 | 0 | • | [yes](icon-btn.md) |
 | `.profile-btn` | 3 | 0 | 0 | • | — |
 | `.logo` | 3 | 0 | 2 | • | — |
 | `.mod-pill` | 2 | 0 | 0 | • | — |
@@ -61,7 +61,7 @@ Global navigation furniture — typically one instance per page.
 | `.gate-overlay` | 1 | 0 | 0 | • | — |
 | `.dropdown-overlay` | 1 | 0 | 0 | • | — |
 
-## module (20)
+## module (18)
 
 Splash Landing content modules (`mod-*`). Composed, not primitive.
 
@@ -83,25 +83,21 @@ Splash Landing content modules (`mod-*`). Composed, not primitive.
 | `.mod-stat-card` | 5 | 3 | 1 | • | — |
 | `.mod-community` | 3 | 0 | 0 | • | — |
 | `.mod-quote-card` | 3 | 1 | 0 | • | — |
-| `.mod-card` | 2 | 0 | 0 |  | — |
 | `.mod-quotes` | 2 | 1 | 0 | • | — |
 | `.mod-disclaimer-note` | 2 | 0 | 0 | • | — |
-| `.mod-cards` | 1 | 0 | 0 |  | — |
 
-## surface (29)
+## surface (27)
 
 Blocks belonging to a single product surface. Documented in `product/`, not extracted.
 
 | Block | Rules | Parts | Variants | JS | Contract |
 |---|--:|--:|--:|:-:|:-:|
 | `.art` | 21 | 13 | 0 | • | — |
-| `.comm-upsell` | 19 | 8 | 4 | • | — |
 | `.feat-card` | 17 | 6 | 0 | • | — |
 | `.comm-preview` | 16 | 11 | 0 | • | — |
 | `.comm-feed` | 16 | 9 | 1 | • | — |
 | `.feat-pair-card` | 14 | 5 | 1 | • | — |
 | `.assistant-nudge` | 13 | 4 | 1 | • | — |
-| `.comm-card` | 13 | 9 | 0 | • | — |
 | `.feat-pair` | 13 | 7 | 0 | • | — |
 | `.comm-reminder` | 13 | 5 | 2 | • | — |
 | `.topic-hub-mod` | 12 | 6 | 1 | • | — |

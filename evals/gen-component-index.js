@@ -77,10 +77,14 @@ function render(blocks) {
   for (const [name, e] of blocks) (byTier[tierOf(name)] ||= []).push([name, e]);
   for (const list of Object.values(byTier)) list.sort((a, b) => b[1].rules - a[1].rules);
 
-  const contracts = fs.existsSync(path.join(ROOT, 'system/components'))
-    ? fs.readdirSync(path.join(ROOT, 'system/components'), { withFileTypes: true })
-        .filter(d => d.isDirectory() && fs.existsSync(path.join(ROOT, 'system/components', d.name, 'docs.md')))
-        .map(d => d.name)
+  // Contracts are flat files: system/components/<block>.md. They used to be
+  // <block>/docs.md, one directory per contract — five directories holding one
+  // file each, for no gain.
+  const dir = path.join(ROOT, 'system/components');
+  const contracts = fs.existsSync(dir)
+    ? fs.readdirSync(dir)
+        .filter(f => f.endsWith('.md') && !['INDEX.md', 'README.md', '_TEMPLATE.md'].includes(f))
+        .map(f => f.replace(/\.md$/, ''))
     : [];
 
   const blurb = {
@@ -115,7 +119,7 @@ tiers mean and how to add a contract.
     out += `## ${tier} (${list.length})\n\n${blurb[tier]}\n\n`;
     out += `| Block | Rules | Parts | Variants | JS | Contract |\n|---|--:|--:|--:|:-:|:-:|\n`;
     for (const [name, e] of list) {
-      const has = contracts.includes(name) ? `[yes](${name}/docs.md)` : '—';
+      const has = contracts.includes(name) ? `[yes](${name}.md)` : '—';
       out += `| \`.${name}\` | ${e.rules} | ${e.parts.size} | ${e.variants.size} | ${e.inJs ? '•' : ''} | ${has} |\n`;
     }
     out += '\n';
