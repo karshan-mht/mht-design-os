@@ -67,8 +67,27 @@ Every contract so far has surfaced something the code did not say out loud:
 That is the argument for contracts: describing intended behaviour exposes what
 is missing far faster than reading the implementation does.
 
+## Figma parity, and why this is not Code Connect
+
+[system/parity.json](../parity.json) ties a Figma node to the CSS block that
+implements it. `evals/lint-parity.js` checks the structure, that every mapped
+block still exists, and reports coverage.
+
+**Code Connect was considered and not adopted.** It would give richer mapping,
+but it needs a Node toolchain plus `figma connect publish` running in CI — which
+ends this repo's no-build-step property, the thing that lets every page open
+straight from `file://`. `parity.json` gets detectable drift without that, and
+is the natural input if Code Connect is adopted later.
+
+Coverage is deliberately partial. An entry is added only when the node has
+actually been read from Figma; a guessed mapping is worse than none, because it
+looks authoritative. The four contracted components without an entry are
+reported on every run rather than quietly filled in — see `openQuestions` in
+`parity.json` for what each one is waiting on.
+
 ## Known gaps
 
 - The secondary module button's border is under the 3:1 non-text minimum.
 - `.uplevel`'s font-weight contradiction is unresolved — needs the Figma frame.
-- No component has a Figma node id recorded yet; `parity.json` is Phase 4.
+- 3 of 81 blocks are mapped to Figma. The nav controls cannot be mapped yet:
+  the accessible page exposes them only inside a `hidden` reference copy.

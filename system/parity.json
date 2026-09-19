@@ -1,0 +1,117 @@
+{
+  "$comment": [
+    "Figma <-> code parity. Each entry ties a Figma node to the CSS block that implements it",
+    "and, where one exists, its contract. evals/lint-parity.js validates the structure and",
+    "reports coverage; it cannot check Figma itself, so every entry records when a human or",
+    "an agent last confirmed it against the file.",
+    "",
+    "This is deliberately NOT Code Connect. See system/components/README.md for why: real",
+    "Code Connect needs a Node toolchain and a publish step in CI, which ends this repo's",
+    "no-build-step property. This file gets detectable drift without that, and is the",
+    "input if Code Connect is adopted later.",
+    "",
+    "Coverage is partial on purpose. Entries are added only when the node has actually been",
+    "read from Figma -- a guessed mapping is worse than none, because it looks authoritative."
+  ],
+  "files": {
+    "global-navigation": {
+      "key": "42yas7Q9FfwhL6xUocjEAl",
+      "name": "Global Navigation",
+      "role": "Navigation chrome and the panel. Primary source for prototypes/navigation/."
+    },
+    "mht-style-guide": {
+      "key": "zV2gbuNONeoyeRVcFUFWeZ",
+      "name": "MHT Style Guide",
+      "role": "Type scale and colour roles. Source for system/tokens/ and system/foundation/design.md."
+    },
+    "splash-landing": {
+      "key": "EWsXKakhyFLhkse035AoHX",
+      "name": "Mobile_Splash_Landing",
+      "role": "The splash surface and its content modules."
+    },
+    "medical-advisors": {
+      "key": "Zkiv6o4d7eyQOLAvwjVYTy",
+      "name": "Medical Advisors",
+      "role": "The Medical Advisory Committee page."
+    }
+  },
+  "components": [
+    {
+      "block": "uplevel",
+      "file": "global-navigation",
+      "node": "7294:1952",
+      "figmaName": "Uplevel",
+      "doc": "system/components/uplevel/docs.md",
+      "css": "prototypes/navigation/main.css",
+      "verified": "2026-09-18",
+      "matches": [
+        "height 34px in both",
+        "Icon child 16x16 == .uplevel__icon",
+        "Label text child == the span"
+      ],
+      "notes": "The Figma frame is hidden=true in the file, so it is a component definition rather than a placed instance."
+    },
+    {
+      "block": "footer",
+      "file": "global-navigation",
+      "node": "6371:78",
+      "figmaName": "Footer",
+      "doc": null,
+      "css": "prototypes/navigation/main.css",
+      "verified": "2026-09-18",
+      "matches": [
+        "Bar 6371:79 == .footer__bar",
+        "End 6371:100 == .footer__end"
+      ],
+      "notes": "system/patterns/navigation.md cites the outer Mobile_Footer frame 6371:29; 6371:78 is the footer itself and is the more precise anchor."
+    },
+    {
+      "block": "panel",
+      "file": "global-navigation",
+      "node": "7417:3673",
+      "figmaName": "Access",
+      "variant": "logged-out-member",
+      "doc": null,
+      "css": "prototypes/navigation/main.css",
+      "verified": "2026-09-18",
+      "matches": [
+        "Button label \"Log in now\""
+      ],
+      "notes": "DRIFT RISK: this frame and 7417:3712 are BOTH named \"Access\" in Figma. Only the button label distinguishes them, so Figma alone cannot tell you which persona a frame belongs to."
+    },
+    {
+      "block": "panel",
+      "file": "global-navigation",
+      "node": "7417:3712",
+      "figmaName": "Access",
+      "variant": "logged-in-member",
+      "doc": null,
+      "css": "prototypes/navigation/main.css",
+      "verified": "2026-09-18",
+      "matches": [
+        "Button label \"Share now\""
+      ],
+      "notes": "See the note on 7417:3673 — the two share a Figma name."
+    }
+  ],
+  "openQuestions": [
+    {
+      "about": ".ai-btn, .icon-btn, .mod-btn-primary, .mod-btn-secondary",
+      "issue": "These have contracts but no parity entry. The Global Navigation file exposes one page (Menopause Footer), and the nav frames in it — Menu 6371:110, Search 6371:115, AI 6371:117, Alerts 6371:119 — sit inside frame 6371:107, which is hidden=true. That is a reference copy, not the canonical nav.",
+      "why_not_recorded": "Anchoring a contract to a hidden copy would look authoritative while pointing at the wrong thing. Recorded as a gap instead; evals/lint-parity.js reports it every run.",
+      "needs": "The canonical top-nav frame, or confirmation that the hidden Navigation frame is the source."
+    },
+    {
+      "about": ".ai-btn size",
+      "issue": "The hidden nav copy draws the AI control at 36x36 with a 22x22 stars vector. main.css builds .ai-btn at 44px tall with .ai-btn__stars at 22x22 — the glyph matches, the control does not.",
+      "why_not_recorded": "Cannot tell whether 44px is a deliberate uplift for touch target (44px is the accessibility minimum, and the contract states that as the rationale) or drift from the design. Both readings are plausible.",
+      "needs": "A look at the canonical nav frame. If 36px is current, the contract's touch-target rationale should be raised with design rather than silently matched."
+    },
+    {
+      "about": "Two frames named \"Access\"",
+      "issue": "7417:3673 and 7417:3712 share a Figma name and differ only by button label.",
+      "why_not_recorded": "Recorded — both are mapped, with the ambiguity noted on each entry.",
+      "needs": "Renaming one in Figma would remove a real drift risk for anyone reading the file without the docs."
+    }
+  ]
+}
