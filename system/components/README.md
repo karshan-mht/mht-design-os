@@ -9,9 +9,12 @@ payoff.
 
 So the first step is to make the monolith *addressable*:
 
-- **[INDEX.md](INDEX.md)** — every CSS block, its parts, variants, whether JS
-  renders it, and whether it has a contract. **Generated** from the stylesheet
-  by `evals/gen-component-index.js`, so it cannot drift.
+- **[index.html](index.html)** — the component gallery. Live specimens rendered
+  from the real `main.css`, plus the full inventory by tier, with a theme
+  switcher. Start here.
+- **[INDEX.md](INDEX.md)** — the same inventory as markdown, for reading in an
+  editor or a diff. **Generated** from the stylesheet by
+  `evals/gen-component-index.js`, so it cannot drift.
 - **`<block>.md`** — a hand-written contract for blocks that earn one.
 - **[_TEMPLATE.md](_TEMPLATE.md)** — the contract schema.
 

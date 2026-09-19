@@ -86,7 +86,9 @@ system/                        The design system
   patterns/navigation.md       Global-nav chrome (top nav, panel, footer)
   parity.json                  Figma node <-> CSS block <-> contract
   components/
-    INDEX.md                     Generated index of every CSS block
+    index.html                   Component gallery — live specimens + inventory
+    manifest.js                  GENERATED inventory data
+    INDEX.md                     The same inventory as markdown
     README.md                    Tiers, how to add a contract, known gaps
     _TEMPLATE.md                 Component contract schema
     <block>.md                   Hand-written contracts (one file each)
@@ -99,7 +101,10 @@ system/                        The design system
     registry-*.js                GENERATED inline registries
   motion/ai-pulse-spec.html    Ask AI pulse motion study
   brand/                       Brand strategy and voice
-  assets/                      Real assets exported from Figma (flat folder):
+  assets/
+    index.html                   Graphics gallery, grouped by purpose
+    manifest.js                  GENERATED asset inventory
+                                 Real assets exported from Figma (flat folder):
                                logotype/logomark, advisor headshots, listicle
                                icons, splash decoration. Nav/UI icons are
                                inlined in main.js, not files.
@@ -133,6 +138,7 @@ evals/
   gen-component-index.js       Regenerates system/components/INDEX.md (--check)
   gen-icon-registry.js         Regenerates the icon registries (--check)
   gen-token-manifest.js        Regenerates the token manifest (--check)
+  gen-asset-manifest.js        Regenerates the asset inventory (--check)
   lint-parity.js               Validates system/parity.json; reports coverage
   lint-dead-code.js            Unrendered blocks and uncalled functions (advisory)
 MANUAL.md                      Index of the spec docs
