@@ -69,7 +69,7 @@
       "block": "panel",
       "file": "global-navigation",
       "node": "7417:3673",
-      "figmaName": "Access",
+      "figmaName": "Access — Logged out Member",
       "variant": "logged-out-member",
       "doc": null,
       "css": "prototypes/navigation/main.css",
@@ -77,13 +77,15 @@
       "matches": [
         "Button label \"Log in now\""
       ],
-      "notes": "DRIFT RISK: this frame and 7417:3712 are BOTH named \"Access\" in Figma. Only the button label distinguishes them, so Figma alone cannot tell you which persona a frame belongs to."
+      "notes": "Renamed 2026-09-18 from the ambiguous \"Access\". The enclosing SECTION (\"Logged out Member\") always distinguished the two, so the ambiguity was local to the frame name — visible in search results and in a bare node-id list, not in the layers tree.",
+      "section": "Logged out Member",
+      "page": "Iterations"
     },
     {
       "block": "panel",
       "file": "global-navigation",
       "node": "7417:3712",
-      "figmaName": "Access",
+      "figmaName": "Access — Logged in Member",
       "variant": "logged-in-member",
       "doc": null,
       "css": "prototypes/navigation/main.css",
@@ -91,7 +93,9 @@
       "matches": [
         "Button label \"Share now\""
       ],
-      "notes": "See the note on 7417:3673 — the two share a Figma name."
+      "notes": "Renamed 2026-09-18 from the ambiguous \"Access\". See the note on 7417:3673.",
+      "section": "Logged in Member",
+      "page": "Iterations"
     }
   ],
   "openQuestions": [
@@ -104,14 +108,14 @@
     {
       "about": ".ai-btn size",
       "issue": "The hidden nav copy draws the AI control at 36x36 with a 22x22 stars vector. main.css builds .ai-btn at 44px tall with .ai-btn__stars at 22x22 — the glyph matches, the control does not.",
-      "why_not_recorded": "Cannot tell whether 44px is a deliberate uplift for touch target (44px is the accessibility minimum, and the contract states that as the rationale) or drift from the design. Both readings are plausible.",
-      "needs": "A look at the canonical nav frame. If 36px is current, the contract's touch-target rationale should be raised with design rather than silently matched."
+      "why_not_recorded": "RESOLVED: 44px is correct and deliberate — the accessibility minimum for a touch target, as the contract's rationale states. The 36x36 in the hidden nav copy is not the current design. Figma frames will be refreshed later to match.",
+      "resolved": "2026-09-18"
     },
     {
       "about": "Two frames named \"Access\"",
-      "issue": "7417:3673 and 7417:3712 share a Figma name and differ only by button label.",
-      "why_not_recorded": "Recorded — both are mapped, with the ambiguity noted on each entry.",
-      "needs": "Renaming one in Figma would remove a real drift risk for anyone reading the file without the docs."
+      "issue": "7417:3673 and 7417:3712 were both named \"Access\" and differed only by button label.",
+      "why_not_recorded": "RESOLVED: renamed to \"Access — Logged out Member\" and \"Access — Logged in Member\", mirroring the enclosing SECTION names the file already used. Worth noting the original assessment overstated it — the sections always disambiguated them in the layers tree; the frame names were ambiguous only in isolation.",
+      "resolved": "2026-09-18"
     }
   ]
 }

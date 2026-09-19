@@ -1111,7 +1111,9 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 .uplevel__icon { width: 16px; height: 16px; display: inline-flex; flex-shrink: 0; }
 .uplevel__icon svg { width: 16px; height: 16px; display: block; }
 .uplevel span {
-  font-weight: 400;        /* Lato Semibold */
+  font-weight: 600;        /* Lato SemiBold — confirmed against design 2026-09-18;
+                              was 400 with this same comment, a contradiction
+                              surfaced by system/components/uplevel/docs.md */
   font-size: 14px;
   letter-spacing: -0.25px;
   line-height: 22px;

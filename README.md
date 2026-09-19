@@ -126,11 +126,13 @@ decisions/
   DECISIONS.md                 Chronological decisions log + "on the horizon"
   RESTRUCTURE-PLAN.md          The six-phase restructure and its status
 evals/
+  check-all.js                 Runs every check; one exit code
   lint-tokens.js               Fails on hex outside the tokens; audits rgba()
   lint-links.js                Fails on an internal reference that does not resolve
   gen-component-index.js       Regenerates system/components/INDEX.md (--check)
   gen-icon-registry.js         Regenerates the icon registries (--check)
   lint-parity.js               Validates system/parity.json; reports coverage
+  lint-dead-code.js            Unrendered blocks and uncalled functions (advisory)
 MANUAL.md                      Index of the spec docs
 ```
 

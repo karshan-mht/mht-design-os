@@ -1,6 +1,6 @@
 # TIM Repo Restructure — Plan
 
-Status: **Phases 0-5 complete.** Phase 6 not started.
+Status: **All six phases complete.** Cleanup pass next.
 
 Goal: turn this repo into a design system that is *executable context* for
 agents — a single source of truth for tokens, an addressable component layer,
@@ -351,9 +351,31 @@ Two supporting changes:
   heavily and are exactly the kind of link that rots after a move — verified by
   deliberately breaking one and confirming the check fails.
 
-### Phase 6 — Drift lint
+### Phase 6 — Drift lint — **DONE**
 
-`evals/` — a small Node script, not an LLM harness. Fails on: a hex literal
-outside `tokens.css`, an icon file with no sheet entry (or vice versa), a
-component with no `docs.md`, a `parity.json` entry pointing at a dead node.
-Wire into CI once green.
+Six checks, one runner:
+
+```bash
+node evals/check-all.js
+```
+
+`evals/lint-dead-code.js` is the new one, and it exists because of a real miss:
+`system/components/uplevel/docs.md` was written as though the level-up pill
+shipped. It does not — `renderUplevel()` is defined and never called, and the
+pill was parked on 2026-08-04 pending an up-nav decision. Nothing caught it,
+because the component index's "JS" column only asks whether the string appears
+in `main.js`, which cannot tell a definition from a call.
+
+It reports two things, advisory rather than blocking, because parked code is a
+legitimate state:
+
+- CSS blocks nothing renders — currently `.mod-card`, `.mod-cards`
+- functions defined and never called — `renderUplevel()`,
+  `renderCommunityPreview()`
+
+`renderCommunityPreview()` is the more interesting of the two: a comment at
+`main.js:784` says *"Subscriber keeps renderCommunityPreview"*, so this reads
+like a regression rather than a deliberate parking.
+
+Both runners were tested by deliberately breaking something and confirming they
+fail — a checker that silently passes everything is worse than none.
