@@ -92,7 +92,7 @@ search and the avatar. The accessible name is the fuller "Ask AI".
 
 - Styles — `prototypes/navigation/main.css`, `.ai-btn*` and `@keyframes ai-pulse`.
 - Markup — `prototypes/navigation/main.js`, in the mobile and desktop nav builders.
-- Motion study — [system/motion/ai-pulse-spec.html](../../motion/ai-pulse-spec.html).
+- Motion study — [system/motion/ai-pulse-spec.html](../motion/ai-pulse-spec.html).
 
 ## Rationale and decisions
 
@@ -101,4 +101,4 @@ search and the avatar. The accessible name is the fuller "Ask AI".
 - The pulse ring colours were converted from baked `rgba()` to
   `rgb(from var(--color-accent) …)` so the ring re-skins with the site; before
   that it stayed purple on a blue site. See
-  [decisions/DECISIONS.md](../../../decisions/DECISIONS.md).
+  [decisions/DECISIONS.md](../../decisions/DECISIONS.md).

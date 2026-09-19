@@ -189,21 +189,6 @@ const COMMUNITY_MODULES = [
   { title: "Community Values & Ambassador Program", desc: "How we look after each other", screen: "com-values" },
 ];
 
-// Community preview cards — the NEW Visitor + Subscriber Community page (Figma
-// Community 5:2 desktop / 6:68 mobile). A "get a glimpse what's happening inside"
-// content preview that funnels to a join upsell — deliberately DIFFERENT from the
-// wireframe orientation menu (COMMUNITY_MODULES) the members still get. Each card
-// previews one feature with a headline stat + a one-line summary of what's inside.
-// The stat COUNT is always the literal "[TBD]" placeholder, never a fabricated
-// number (same rule as the member hub / splash community count — see DECISIONS
-// 2026-07-27); the mockup's sample numbers are dropped. `memberOnly` cards carry
-// the magenta "· Member only" tag and a lock (not an arrow) — content gated.
-const COMMUNITY_PREVIEW = [
-  { icon: "community-posts", title: "Posts", stat: "[TBD] updates shared", memberOnly: true, screen: "com-activities", desc: "This week's posts cover HRT patches, sleep issues, and how to cope with love and family relationships." },
-  { icon: "community-questions", title: "Questions & Answers", stat: "[TBD] questions answered", screen: "com-questions", desc: "Members are asking about hot flashes, hormone therapy options, and how to manage mood changes during menopause." },
-  { icon: "community-groups", title: "Groups", stat: "[TBD] groups active", screen: "com-groups", desc: "This month, groups have shared tips on managing weight gain, staying active, and finding energy during perimenopause." },
-  { icon: "community-people", title: "People", stat: "[TBD] people joined", screen: "com-meet", desc: "Many members have found their match over time — discover who shares your journey." },
-];
 
 // Inline SVG glyphs for the community preview cards (icons + chevrons).
 // Inlined (not <img>) so they render over file:// and travel with main.js;
@@ -780,8 +765,10 @@ const COMMUNITY_FEAT_SVGS = {
 // 184:588 desktop / 184:441 mobile). A "Community Features" tour: a heading over
 // four feature cards (category eyebrow + serif title + description + a magenta
 // line-art illustration bleeding off the top-right, over a faint blue panel).
-// No stats/lock/upsell — this replaces the older preview for the Visitor only;
-// Subscriber keeps renderCommunityPreview. Cards link to the com-* pages.
+// No stats/lock/upsell. Visitor AND Subscriber both get this — confirmed
+// 2026-09-18. It superseded an older renderCommunityPreview() that had already
+// stopped being called; the stale comment here claimed Subscriber still used
+// it. Cards link to the com-* pages.
 const COMMUNITY_FEATURES = [
   { art: "community-feat-posts", cat: "Posts", title: "What people are talking about", desc: "See the latest community updates — feelings, milestones, and conversations from women experiencing menopause.", screen: "com-activities" },
   { art: "community-feat-meet", cat: "Meet Others", title: "Discover women like you", desc: "Find members who share your symptoms, your stage, or your corner of the world. Make connections that last.", screen: "com-meet" },
@@ -871,87 +858,6 @@ function renderCommunityFeatures() {
   `;
 }
 
-// Community preview — the Subscriber /community page (Figma Community 5:2 desktop
-// / 6:68 mobile). A beige intro banner (title + community count) over four feature
-// preview cards (COMMUNITY_PREVIEW) and a closing join upsell — the upsell's CTA
-// is "finish up" → Registration Step, matching how the splash home differentiates
-// the Subscriber (see renderHome). (Was also the Visitor page until the Visitor
-// moved to renderCommunityFeatures above.)
-function renderCommunityPreview() {
-  const cards = COMMUNITY_PREVIEW.map((c) => {
-    const stat = c.memberOnly
-      ? `${c.stat}<span class="comm-card__member"> &middot; Member only</span>`
-      : c.stat;
-    const chevron = c.memberOnly ? "community-lock" : "community-arrow";
-    // memberOnly cards are gated: open the sign-up modal instead of navigating.
-    const trigger = c.memberOnly
-      ? `data-action="member-gate" data-gate="${c.gate || "posts"}"`
-      : `data-screen="${c.screen}"`;
-    return `
-      <button class="comm-card" ${trigger}>
-        <span class="comm-card__content">
-          <span class="comm-card__left">
-            <span class="comm-card__icon">${COMMUNITY_SVGS[c.icon]}</span>
-            <span class="comm-card__text">
-              <span class="comm-card__title">${c.title}</span>
-              <span class="comm-card__stat">${stat}</span>
-            </span>
-          </span>
-          <span class="comm-card__chevron">${COMMUNITY_SVGS[chevron]}</span>
-        </span>
-        <span class="comm-card__desc">${c.desc}</span>
-      </button>`;
-  }).join("");
-
-  // Subscriber upsell mirrors the splash home's "finish up" CTA (renderHome).
-  const isSubscriber = LOCKED_PERSONA_KEY === "subscriber";
-  const upTitle = isSubscriber ? "Don't miss out! You're almost in." : "You don't have to figure this out alone.";
-  const upSub = isSubscriber
-    ? "Finish setting up your account to unlock posts, questions, groups, and the full community."
-    : "Get medically-reviewed resources, tips from real women, and a community who gets it.";
-  const upPrimary = isSubscriber
-    ? `<button class="comm-upsell__btn comm-upsell__btn--primary" data-screen="registration-step">Finish up now</button>`
-    : `<button class="comm-upsell__btn comm-upsell__btn--primary" data-screen="signup-start">Join for free</button>`;
-
-  return `
-    <section class="comm-preview">
-      <div class="comm-preview__banner">
-        <div class="comm-preview__banner-inner">
-          <img class="comm-preview__banner-graphic" src="${ASSET_BASE}/community-banner-graphic.svg" alt="" aria-hidden="true" />
-          <div class="comm-preview__head">
-            <h1 class="comm-preview__title">Community</h1>
-            <p class="comm-preview__sub">Get a glimpse what's happening inside &mdash; then join to take part.</p>
-          </div>
-          <div class="comm-preview__status">
-            <span class="comm-preview__avatars">
-              ${[1, 2, 3].map((n) => `<img class="comm-preview__avatar" src="${ASSET_BASE}/community-${n}.png" alt="" aria-hidden="true" />`).join("")}
-            </span>
-            <span class="comm-preview__count">12,345 women in the community</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="comm-preview__list">
-        ${cards}
-        <div class="comm-upsell">
-          <div class="comm-upsell__card">
-            <img class="comm-upsell__graphic comm-upsell__graphic--tr" src="${ASSET_BASE}/community-upsell-tr.svg" alt="" aria-hidden="true" />
-            <img class="comm-upsell__graphic comm-upsell__graphic--bl" src="${ASSET_BASE}/community-upsell-bl.svg" alt="" aria-hidden="true" />
-            <div class="comm-upsell__text">
-              <p class="comm-upsell__title">${upTitle}</p>
-              <p class="comm-upsell__sub">${upSub}</p>
-            </div>
-            <div class="comm-upsell__buttons">
-              ${upPrimary}
-              <button class="comm-upsell__btn comm-upsell__btn--secondary" data-screen="symptom-checker">Check symptoms first</button>
-            </div>
-          </div>
-          <p class="comm-upsell__note">BTW, we don't sell supplements or prescribe treatments. Just unbiased information and real talk.</p>
-        </div>
-      </div>
-    </section>
-  `;
-}
 
 // Member sign-up gate — a modal shown when a Visitor/Subscriber taps a locked
 // ("Member only") community feature (e.g. the Posts card). Mirrors the live
