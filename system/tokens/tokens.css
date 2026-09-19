@@ -74,17 +74,6 @@
   --color-bg-accent-soft: var(--brand-bg-accent-soft);
   --color-scrim: var(--brand-scrim);               /* dark backdrop behind a COLOR-blended photo */
 
-  /* --- DEPRECATED value-named aliases ------------------------------------ */
-  /* Kept so existing rules keep working after the token consolidation. Do not
-     use in new code; prefer the --color-accent* roles above. Removed once the
-     component layer lands (Phase 3). */
-  --color-magenta: var(--color-accent);
-  --color-magenta-soft: var(--color-accent-soft);
-  --color-magenta-soft-solid: var(--color-accent-soft-solid);
-  --color-purple-light: var(--color-accent-light);
-  --color-bg-purple-soft: var(--color-bg-accent-soft);
-  --color-magenta-pale: var(--color-accent-pale);
-
   /* --- Radius ------------------------------------------------------------ */
   --radius-pill: 999px;
   --radius-card: 16px;

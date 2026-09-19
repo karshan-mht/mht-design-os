@@ -22,8 +22,7 @@ is waste — and worse, a second copy that can drift.
 
 3. **Copy the template.**
    ```bash
-   mkdir -p system/components/<block>
-   cp system/components/_TEMPLATE.md system/components/<block>/docs.md
+   cp system/components/_TEMPLATE.md system/components/<block>.md
    ```
 
 4. **Fill it in.** Use the preference grammar (Preferred / Allowed / Avoid /
@@ -50,7 +49,7 @@ is waste — and worse, a second copy that can drift.
 - **Do not resolve a contradiction by guessing.** When the code and a comment
   disagree and the repo cannot settle it, record it as a known discrepancy and
   surface it. There is a worked example in
-  [uplevel/docs.md](../../../system/components/uplevel/docs.md) — a
+  [uplevel.md](../../../system/components/uplevel.md) — a
   `font-weight: 400` commented `/* Lato Semibold */`, left unresolved on
   purpose.
 - **Measure claims.** If you assert a contrast ratio or a size, compute it.

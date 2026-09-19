@@ -32,6 +32,15 @@ const EXPECTED_UNUSED = {
   'launcher-hotspot': 'injected by main.js and entry-points/back-to-launcher.js',
 };
 
+// Parked on purpose — kept for a planned use, not dead. Each needs a reason and
+// a contract that says so, otherwise this list becomes a way to silence the
+// check rather than answer it.
+const PARKED_FUNCTIONS = {
+  renderUplevel: 'level-up pill, parked 2026-08-04 pending the up-nav treatment; ' +
+                 'kept deliberately for pages under the main sections. See ' +
+                 'system/components/uplevel/docs.md',
+};
+
 function read(p) { return fs.readFileSync(path.join(ROOT, p), 'utf8'); }
 
 function sources() {
@@ -69,6 +78,7 @@ const unrendered = blocks.filter(b => {
 const mainJs = read('prototypes/navigation/main.js');
 const defined = [...mainJs.matchAll(/^function ([a-zA-Z_][\w]*)\s*\(/gm)].map(m => m[1]);
 const uncalled = defined.filter(fn => {
+  if (PARKED_FUNCTIONS[fn]) return false;
   const calls = mainJs.match(new RegExp(`\\b${fn}\\s*\\(`, 'g')) || [];
   return calls.length <= 1;   // the definition itself
 });
@@ -89,5 +99,7 @@ if (uncalled.length) {
   console.error('  Same question: parked, or dead?\n');
 }
 
-console.log(found ? `Reviewed ${blocks.length} blocks and ${defined.length} functions — ${found} to look at.`
-                  : `PASS — all ${blocks.length} blocks are rendered and all ${defined.length} functions are called.`);
+const parked = Object.keys(PARKED_FUNCTIONS).length + Object.keys(EXPECTED_UNUSED).length;
+console.log(found
+  ? `Reviewed ${blocks.length} blocks and ${defined.length} functions — ${found} to look at (${parked} parked, listed in the script).`
+  : `PASS — ${blocks.length} blocks rendered, ${defined.length} functions called, ${parked} parked on purpose.`);

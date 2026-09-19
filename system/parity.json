@@ -41,7 +41,7 @@
       "file": "global-navigation",
       "node": "7294:1952",
       "figmaName": "Uplevel",
-      "doc": "system/components/uplevel/docs.md",
+      "doc": "system/components/uplevel.md",
       "css": "prototypes/navigation/main.css",
       "verified": "2026-09-18",
       "matches": [

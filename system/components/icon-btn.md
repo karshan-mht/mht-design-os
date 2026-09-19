@@ -55,5 +55,5 @@ Styles `prototypes/navigation/main.css` `.icon-btn`. Markup is built inline in
 
 ## Rationale and decisions
 
-Composed into `.ai-btn` — see [ai-btn](../ai-btn/docs.md). That relationship is
+Composed into `.ai-btn` — see [ai-btn](ai-btn.md). That relationship is
 real but was undocumented before this file existed.
