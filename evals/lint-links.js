@@ -22,7 +22,13 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
-const SKIP_DIRS = new Set(['.git', 'node_modules', '.figma', '.claude', 'assets']);
+const SKIP_DIRS = new Set(['.git', 'node_modules', '.figma', 'assets']);
+
+// .claude holds local settings (ignored by git) AND the committed skills, which
+// reference repo paths heavily and are exactly the kind of link that rots after
+// a move. Check the skills; skip the rest.
+const SKIP_PATHS_PREFIX = ['.claude/'];
+const KEEP_PATHS_PREFIX = ['.claude/skills/'];
 
 // Some files' paths do not resolve against their own directory.
 //  - launcher/manifest.js  hrefs are consumed by index.html at the repo root
@@ -45,10 +51,23 @@ const DYNAMIC = /\$\{|\+\s*[a-zA-Z_]/;
 
 function walk(dir, out = []) {
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (e.name.startsWith('.')) continue;
+    if (e.name.startsWith('.') && e.name !== '.claude') continue;
     const full = path.join(dir, e.name);
-    if (e.isDirectory()) { if (!SKIP_DIRS.has(e.name)) walk(full, out); }
-    else if (/\.(html|css|js|md)$/.test(e.name)) out.push(path.relative(ROOT, full));
+    const rel = path.relative(ROOT, full);
+    const relDir = rel + '/';
+    const inSkip = SKIP_PATHS_PREFIX.some(p => relDir.startsWith(p));
+    const inKeep = KEEP_PATHS_PREFIX.some(p => relDir.startsWith(p));
+
+    if (e.isDirectory()) {
+      if (SKIP_DIRS.has(e.name)) continue;
+      // Descend into a skipped directory only if a kept path lives under it.
+      const leadsToKeep = KEEP_PATHS_PREFIX.some(p => p.startsWith(relDir));
+      if (inSkip && !inKeep && !leadsToKeep) continue;
+      walk(full, out);
+    } else if (/\.(html|css|js|md)$/.test(e.name)) {
+      if (inSkip && !inKeep) continue;
+      out.push(rel);
+    }
   }
   return out;
 }
