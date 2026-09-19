@@ -1,5 +1,20 @@
 # Level-up pill (`.uplevel`)
 
+> **Status: dormant — not rendered today.**
+>
+> `renderUplevel()` exists in `main.js` and is **never called**; `.screen__uplevel`
+> is only referenced by a `querySelector` that always returns null. The desktop
+> breadcrumb was dropped on 2026-08-04 with the note *"Re-add via
+> `screen.type === "uplevel"` when the up-nav treatment is decided"*, and the
+> pill went with it. The CSS, the render function and the per-screen `upTo` /
+> `upIcon` data all remain, so it is parked rather than deleted.
+>
+> This contract therefore describes **intent**, not shipped behaviour. Treat the
+> rendering details as what it would do when re-enabled, and verify against the
+> design before switching it back on. Found while verifying this contract in a
+> browser — the component index's "JS" column says `•` because the string
+> appears in `main.js`, which does not distinguish a definition from a call.
+
 ## Purpose
 
 A floating pill that tells you where the current screen sits and takes you one
@@ -57,16 +72,19 @@ over 0.2s.
   to the assistant pill, its nudge, or the notification badge, so this animation
   ran regardless. Found by writing this contract; fixed in the same change.
 
-## Known discrepancy
+## Resolved discrepancy
 
-`.uplevel span` sets `font-weight: 400` with the comment `/* Lato Semibold */`.
-Semibold is 600, weight 600 *is* loaded, and the only other "SemiBold" comment
-in the stylesheet correctly pairs with `font-weight: 600`.
+The label was `font-weight: 400` with the comment `/* Lato Semibold */` — a
+contradiction this contract surfaced. **Confirmed 2026-09-18: 600 is correct.**
+The comment carried the intent and the value had drifted from it. Now 600.
 
-Per [AUTHORITY.md](../../AUTHORITY.md), code is authoritative about what renders
-today (400) and the comment claims an intent (600). Which is right cannot be
-determined from the repo — it needs the Figma frame or a decision. Left as-is
-and surfaced rather than guessed.
+Note that this has **no visible effect today**, because the component is
+dormant. It is correct for when it is re-enabled.
+
+Worth noting how it resolved: per [AUTHORITY.md](../../AUTHORITY.md) the code
+was authoritative about what rendered and the comment about what was meant, and
+the repo could not settle between them. It took a decision from outside the
+repo — which is exactly why it was recorded rather than guessed.
 
 ## Implementation
 
