@@ -2,5 +2,8 @@
 .DS_Store
 **/.DS_Store
 
-# Local editor / tooling state
-.claude/
+# Local editor / tooling state — but NOT the skills, which are part of the
+# repo: they encode how to work on this system and are useless if they only
+# exist on one machine.
+.claude/*
+!.claude/skills/

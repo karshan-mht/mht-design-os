@@ -121,6 +121,7 @@ product/                       Product surfaces (the what):
   account.md                     Account (profile dropdown + its screens)
   onboarding.md                  Onboarding (Sign Up Start, Registration Step)
 
+.claude/skills/               How to work on this repo (committed)
 decisions/
   DECISIONS.md                 Chronological decisions log + "on the horizon"
   RESTRUCTURE-PLAN.md          The six-phase restructure and its status
@@ -133,8 +134,10 @@ evals/
 MANUAL.md                      Index of the spec docs
 ```
 
-(A local `.claude/` folder holds an optional preview helper; it's gitignored and
-not part of the repo — serve with `npx serve .` instead.)
+`.claude/skills/` holds the procedures for working on this repo — drift checks,
+writing a component contract, adding an icon, starting a prototype. They are
+committed; only `.claude/settings.local.json` (local permission state) is
+ignored. See [.claude/skills/README.md](.claude/skills/README.md).
 
 ## How it works
 
