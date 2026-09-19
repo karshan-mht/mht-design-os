@@ -1,6 +1,6 @@
 # TIM Repo Restructure — Plan
 
-Status: **Phases 0-3 complete.** Phases 4-6 not started.
+Status: **Phases 0-4 complete.** Phases 5-6 not started.
 
 Goal: turn this repo into a design system that is *executable context* for
 agents — a single source of truth for tokens, an addressable component layer,
@@ -300,11 +300,31 @@ Also done:
 - **The `.launcher-hotspot` markup** is one shared script instead of three
   hand-copies.
 
-### Phase 4 — Figma parity
+### Phase 4 — Figma parity — **DONE**
 
-Build `system/parity.json` from the node ids already cited across
-`foundation/` and `domains/`. Adopt real Code Connect only after components
-exist and a Node toolchain is accepted.
+`system/parity.json` ties a Figma node to the CSS block that implements it, and
+`evals/lint-parity.js` validates the structure, checks every mapped block still
+exists, and reports coverage.
+
+Entries were **read from Figma, not mined from prose**. That immediately paid:
+
+- `.uplevel` → `7294:1952`, literally named "Uplevel", confirmed 34px in both
+  with a 16×16 Icon and a Label child matching the contract's anatomy.
+- `.footer` → `6371:78`, whose `Bar` and `End` children map exactly onto
+  `.footer__bar` / `.footer__end`. The docs had cited the outer `6371:29`;
+  `6371:78` is the more precise anchor.
+- The two panel persona cards are **both named "Access"** in Figma and differ
+  only by button label — a real drift risk for anyone reading the file without
+  the docs.
+
+**Code Connect was considered and not adopted.** It needs a Node toolchain plus
+a publish step in CI, which ends the no-build-step property that lets every page
+open from `file://`. `parity.json` gets detectable drift without that and is the
+input if Code Connect is adopted later.
+
+Coverage is 3 of 81 blocks and deliberately partial — an entry is added only
+when the node has been read. The four contracted components without one are
+reported every run, with what each is waiting on recorded in `openQuestions`.
 
 ### Phase 5 — Skills
 
