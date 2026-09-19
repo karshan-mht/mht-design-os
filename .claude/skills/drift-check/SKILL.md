@@ -22,6 +22,8 @@ node evals/lint-tokens.js          # colour outside the token layer      BLOCKIN
 node evals/lint-links.js           # references that do not resolve      BLOCKING
 node evals/gen-component-index.js --check                             # BLOCKING
 node evals/gen-icon-registry.js --check                               # BLOCKING
+node evals/gen-token-manifest.js --check                              # BLOCKING
+node evals/gen-asset-manifest.js --check                              # BLOCKING
 node evals/lint-parity.js          # Figma mapping + coverage            BLOCKING
 node evals/lint-dead-code.js       # unrendered blocks, uncalled fns     advisory
 ```
@@ -49,6 +51,10 @@ inside older entries are historical records, not broken links.
 **gen-component-index --check** — a CSS block was added, removed or renamed.
 Run `node evals/gen-component-index.js` to regenerate. Never hand-edit
 `INDEX.md`.
+
+**gen-token-manifest / gen-asset-manifest --check** — `tokens.css` or
+`system/assets/` changed. Regenerate. The asset one also reports a file that
+matches no grouping rule: add a rule rather than letting it fall into "Other".
 
 **gen-icon-registry --check** — an icon file changed, or one is uncategorised.
 Run `node evals/gen-icon-registry.js`. If an editorial icon is missing from
