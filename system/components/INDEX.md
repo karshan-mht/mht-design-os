@@ -11,8 +11,8 @@ There is no extracted component layer yet — this index is what makes the
 monolith addressable in the meantime. See [README.md](README.md) for what the
 tiers mean and how to add a contract.
 
-- **79** blocks total
-- **1** with a contract
+- **81** blocks total
+- **5** with a contract
 - **JS** = rendered from `main.js`; blank = styled only
 
 ## primitive (17)
@@ -22,12 +22,12 @@ Small reusable controls. These are the real candidates for extraction into stand
 | Block | Rules | Parts | Variants | JS | Contract |
 |---|--:|--:|--:|:-:|:-:|
 | `.ai-btn` | 9 | 2 | 0 | • | [yes](ai-btn/docs.md) |
-| `.uplevel` | 5 | 1 | 0 | • | — |
-| `.mod-btn-primary` | 5 | 0 | 0 | • | — |
-| `.mod-btn-secondary` | 5 | 0 | 0 | • | — |
+| `.uplevel` | 6 | 1 | 0 | • | [yes](uplevel/docs.md) |
+| `.mod-btn-primary` | 5 | 0 | 0 | • | [yes](mod-btn-primary/docs.md) |
+| `.mod-btn-secondary` | 5 | 0 | 0 | • | [yes](mod-btn-secondary/docs.md) |
 | `.mod-carousel-arrow` | 5 | 0 | 0 | • | — |
 | `.join-btn` | 4 | 0 | 0 | • | — |
-| `.icon-btn` | 3 | 0 | 0 | • | — |
+| `.icon-btn` | 3 | 0 | 0 | • | [yes](icon-btn/docs.md) |
 | `.profile-btn` | 3 | 0 | 0 | • | — |
 | `.logo` | 3 | 0 | 2 | • | — |
 | `.mod-pill` | 2 | 0 | 0 | • | — |
@@ -88,7 +88,7 @@ Splash Landing content modules (`mod-*`). Composed, not primitive.
 | `.mod-disclaimer-note` | 2 | 0 | 0 | • | — |
 | `.mod-cards` | 1 | 0 | 0 |  | — |
 
-## surface (27)
+## surface (29)
 
 Blocks belonging to a single product surface. Documented in `product/`, not extracted.
 
@@ -96,14 +96,14 @@ Blocks belonging to a single product surface. Documented in `product/`, not extr
 |---|--:|--:|--:|:-:|:-:|
 | `.art` | 21 | 13 | 0 | • | — |
 | `.comm-upsell` | 19 | 8 | 4 | • | — |
+| `.feat-card` | 17 | 6 | 0 | • | — |
 | `.comm-preview` | 16 | 11 | 0 | • | — |
-| `.feat-card` | 16 | 6 | 0 | • | — |
 | `.comm-feed` | 16 | 9 | 1 | • | — |
+| `.feat-pair-card` | 14 | 5 | 1 | • | — |
 | `.assistant-nudge` | 13 | 4 | 1 | • | — |
 | `.comm-card` | 13 | 9 | 0 | • | — |
-| `.feat-pair-card` | 13 | 5 | 1 | • | — |
+| `.feat-pair` | 13 | 7 | 0 | • | — |
 | `.comm-reminder` | 13 | 5 | 2 | • | — |
-| `.feat-pair` | 12 | 7 | 0 | • | — |
 | `.topic-hub-mod` | 12 | 6 | 1 | • | — |
 | `.comm-group` | 11 | 8 | 0 | • | — |
 | `.art-keep` | 11 | 5 | 0 | • | — |
@@ -115,10 +115,12 @@ Blocks belonging to a single product surface. Documented in `product/`, not extr
 | `.comm-q` | 7 | 4 | 0 | • | — |
 | `.comm-mod` | 6 | 4 | 0 | • | — |
 | `.art-note` | 6 | 5 | 0 | • | — |
+| `.comm-ic` | 5 | 5 | 0 | • | — |
 | `.comm-hub` | 5 | 2 | 0 | • | — |
 | `.art-conv` | 5 | 2 | 0 | • | — |
 | `.collection-callout` | 4 | 3 | 0 | • | — |
 | `.feat` | 4 | 2 | 0 | • | — |
 | `.art-collapse` | 4 | 1 | 0 | • | — |
+| `.ai-grad` | 2 | 2 | 0 | • | — |
 | `.art-access` | 1 | 0 | 0 | • | — |
 
