@@ -49,6 +49,23 @@ topic, it is **editorial**.
    at the small sizes. The sheet renders from the registry, so it is a specimen
    of the real file, not a copy.
 
+## Adding a UI glyph
+
+UI glyphs live on a **24x24 canvas with a 20-unit live area** — the artwork's
+longest side is 20 units, centred. Every one of the 28 matches, so they render
+at a consistent optical size wherever they are used.
+
+A new glyph has to match. If it does not, normalise it:
+
+1. Measure its bounding box in a browser with `getBBox()` — parsing curve
+   geometry any other way is guesswork.
+2. Add the measurement to `evals/ui-icon-bboxes.json`.
+3. Run `node evals/normalize-ui-icons.js`.
+
+That file is a point-in-time snapshot, not something generated on demand, which
+is why step 2 is manual. An already-normalised file is detected by its
+`data-normalized="24"` attribute and left alone.
+
 ## Notes
 
 - Files are the source of truth. `registry-*.js` is generated — never hand-edit.
