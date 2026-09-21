@@ -9,7 +9,7 @@
 > pill went with it. The CSS, the render function and the per-screen `upTo` /
 > `upIcon` data all remain, so it is parked rather than deleted.
 >
-> This contract therefore describes **intent**, not shipped behaviour. Treat the
+> This contract therefore describes **intent**, not shipped behavior. Treat the
 > rendering details as what it would do when re-enabled, and verify against the
 > design before switching it back on. Found while verifying this contract in a
 > browser — the component index's "JS" column says `•` because the string

@@ -73,7 +73,7 @@ The logotype/logomark is a button that returns to the persona's home screen (`go
 
 ## 2. Level-up pill (one level up)
 
-**Redesign (2026-08-03, Figma Global Navigation `42yas7Q9FfwhL6xUocjEAl`, pill `7294:1952`).** The old full-width level-up **bar** was replaced by a **pill** that sits in-page (top-left) but sticks to the top on scroll — same pinning behaviour as the bar had.
+**Redesign (2026-08-03, Figma Global Navigation `42yas7Q9FfwhL6xUocjEAl`, pill `7294:1952`).** The old full-width level-up **bar** was replaced by a **pill** that sits in-page (top-left) but sticks to the top on scroll — same pinning behavior as the bar had.
 
 **Pill:** an opaque blue-tinted pill (`background` = `--color-bg-blue-soft` `#EDF3F9`, `border` = `1px solid #d6e2f1`, `border-radius: 48px`, `padding: 6px 12px`, height 34px) holding a **section icon** (16px, inline `currentColor` from `ICON_SVGS`, tinted blue by the pill's `color`) + the parent's name (Lato Semibold 14px, `#0f57a8`, `-0.25px`). No chevron — the section icon + label convey the destination. The pill **floats** over content (its sticky container is transparent + `pointer-events:none`, so the pill's own opaque fill is what keeps text from bleeding through) and picks up a soft blue drop-shadow only once scrolled over content (`.screen__uplevel.is-lifted`, toggled in `attachAutoHide` — no glow while idle at the top).
 
@@ -145,7 +145,7 @@ profile avatar (§1, member/subscriber personas) toggles it open.
 Added 2026-07-24 to the bottom of **every screen's scroll area** (`renderFooter()` in `main.js`). Content mirrors the Figma mobile footer (`6371:29` / `6371:139`). It's separated from the page content by ample space (`72px` margin-top on `.footer`, `80px` on desktop) and a **thin full-width divider line** (`border-top: 1px solid var(--color-border)`, matching Figma `6371:29`) so content never crowds it. Two bands:
 
 - **Bar** (white): horizontal wordmark (`logotype.svg`) + headline "Expert advice. Real women. Real talk." (matches the Splash frame footer, node 4101:162), then two link columns — About / Editorial Process / Partner with Us / **Medical Advisors** · Getting Started / Community Guidelines / Help Center / Crisis. All are non-navigating placeholders **except "Medical Advisors"**, which links to the built Advisors page (`data-screen="advisors"`; replaced the former "Accessibility" placeholder). The footer is global, so `advisors` is injected into every persona (see §3).
-- **End** (grey `#f3f4f6`): legal line "Terms of Use · Privacy Policy · Cookie Policy · Health Data · [icon] Your Privacy Choices · CA Notice at Collection" (the CCPA opt-out icon is `assets/privacy-choices.png`), the medical disclaimer, and "© 2026 MyHealthTeam, A Swoop Company."
+- **End** (gray `#f3f4f6`): legal line "Terms of Use · Privacy Policy · Cookie Policy · Health Data · [icon] Your Privacy Choices · CA Notice at Collection" (the CCPA opt-out icon is `assets/privacy-choices.png`), the medical disclaimer, and "© 2026 MyHealthTeam, A Swoop Company."
 
 Because the footer is tall, screens are now vertically scrollable: `.screen` is a flex column with a fixed nav/uplevel and a scrollable `.screen__scroll` holding the content + footer. Panel/dropdown overlays stay pinned to the phone viewport (absolute over `.screen`, don't scroll).
 

@@ -2,14 +2,14 @@
    TIM navigation prototype — styles
    =============================================================================
    Tokens live in system/tokens/tokens.css; the hue family comes from a theme
-   file in system/tokens/themes/. This file declares NO :root colour or type
+   file in system/tokens/themes/. This file declares NO :root color or type
    values. Pages must link all three, in order:
 
      system/tokens/tokens.css  ->  system/tokens/themes/<theme>.css  ->  main.css
 
-   Never hardcode a colour here. evals/lint-tokens.js fails the build on any
+   Never hardcode a color here. evals/lint-tokens.js fails the build on any
    hex literal outside tokens.css (the two -webkit-mask values below are the
-   documented exception: mask luminance, not colour).
+   documented exception: mask luminance, not color).
    ========================================================================== */
 
 * { box-sizing: border-box; }
@@ -21,7 +21,7 @@
 
    :focus-visible (not :focus) so it appears for keyboard and assistive-tech
    navigation but never on a mouse click. One rule for every interactive
-   element, using the action colour so it reads as deliberate. Offset keeps it
+   element, using the action color so it reads as deliberate. Offset keeps it
    clear of rounded pills.
 
    Preferred: inherit this. Allowed: override the offset where a control is
@@ -166,7 +166,7 @@ html.is-modal-open { overflow: hidden; }
 /* Label & gated screens fill a full viewport (100vh — a definite height, unlike
    the old `100%` which didn't resolve against the flex parent). This pushes the
    tall footer entirely below the fold; the placeholder itself sits high in the
-   upper third rather than dead-centre (see the --fill override below). Image /
+   upper third rather than dead-center (see the --fill override below). Image /
    module screens omit this and flow at natural height. */
 .screen__body--fill { min-height: 100vh; }
 
@@ -180,8 +180,8 @@ html.is-modal-open { overflow: hidden; }
   white-space: pre-line;
 }
 /* On the tall fill body, anchor the label in the upper third (not the vertical
-   centre of the full 100vh) so it reads high and the footer stays out of view.
-   Chromeless flow pages (--flow) have no footer, so they keep the centred label. */
+   center of the full 100vh) so it reads high and the footer stays out of view.
+   Chromeless flow pages (--flow) have no footer, so they keep the centerd label. */
 .screen__body--fill:not(.screen__body--flow) .screen__placeholder { margin-block: 22vh auto; }
 
 /* Chromeless flow pages (Sign Up Start / Registration Step): X to close, top-left. */
@@ -293,7 +293,7 @@ html.is-modal-open { overflow: hidden; }
   border-radius: 50%;
   object-fit: cover;   /* real community photos (advisor headshots) */
   background-color: var(--color-placeholder);
-  border: 2px solid var(--color-accent-strong);   /* Figma ring colour — lighter than navy so it doesn't read as a dark border on the gradient */
+  border: 2px solid var(--color-accent-strong);   /* Figma ring color — lighter than navy so it doesn't read as a dark border on the gradient */
   margin-left: -8px;
 }
 .mod-hero__avatars .mod-hero__avatar:first-child { margin-left: 0; }
@@ -844,7 +844,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
    expands wide while the pill gives a little throb. The 100%→0% boundary is at
    rest (transparent, scale 1) so JS can show the nudge there, never mid-ripple.
 
-   The ring colours are derived from the tokens with relative colour syntax
+   The ring colors are derived from the tokens with relative color syntax
    (rgb(from …)), not baked as rgba, so the pulse re-skins with the site. Before
    this the ring stayed purple on a blue site — the same class of bug as the
    baked logo fills. Needs Chrome 119+ / Safari 16.4+. */
@@ -930,7 +930,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   line-height: 1.4;
   color: var(--color-text);
 }
-/* "Start chatting" — styled as a link/action (in the primary link colour). */
+/* "Start chatting" — styled as a link/action (in the primary link color). */
 .assistant-nudge__cta {
   color: var(--color-primary);
   font-weight: 700;
@@ -977,13 +977,13 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 }
 .icon svg { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; }
 
-/* Logo assets (full-colour raster wordmark / mark — kept as <img>, not tinted). */
+/* Logo assets (full-color raster wordmark / mark — kept as <img>, not tinted). */
 .logo-btn { display: flex; align-items: center; border: none; background: none; padding: 0; cursor: pointer; }
 .logo { display: block; width: auto; }
 .logo--full { height: 40px; }  /* stacked "this is Menopause" wordmark */
 .logo--mark { height: 40px; }  /* compact circular logomark */
 
-/* Brand mark colours come from the token layer, not from the SVG source. The
+/* Brand mark colors come from the token layer, not from the SVG source. The
    inlined logos in main.js carry no fill on these paths, so a theme swap
    re-skins the wordmark along with everything else. A baked fill would leave
    the logo purple on a blue site — which is exactly the bug this fixes.
@@ -998,10 +998,10 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 .ai-grad__from { stop-color: var(--color-primary); }
 .ai-grad__to   { stop-color: var(--color-accent); }
 
-/* Community preview icons carry two colours each — a tinted circle behind an
+/* Community preview icons carry two colors each — a tinted circle behind an
    accent glyph, or a blue action arrow — so one currentColor cannot drive them.
    Classed paths instead. Social icons in the same block keep their literal
-   third-party brand colours; those are not ours to normalise. */
+   third-party brand colors; those are not ours to normalize. */
 .comm-ic__bg     { fill: var(--color-bg-accent-soft); }
 .comm-ic__glyph  { fill: var(--color-accent); }
 .comm-ic__action { fill: var(--color-primary); }
@@ -1239,7 +1239,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   border-radius: 50%;
   object-fit: cover;
   background-color: var(--color-placeholder);
-  border: 2px solid var(--color-bg-warm);   /* banner-coloured ring, matching Figma */
+  border: 2px solid var(--color-bg-warm);   /* banner-colored ring, matching Figma */
   margin-left: -8px;
 }
 .comm-preview__avatars .comm-preview__avatar:first-child { margin-left: 0; }
@@ -2531,7 +2531,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   .comm-reminder__cta { align-self: auto; flex: 0 0 auto; }
   .comm-reminder__graphic--bl { left: -146px; }
 
-  /* Community Features: wider cards, illustration centred on the right, text
+  /* Community Features: wider cards, illustration centerd on the right, text
      clears it with a fixed measure instead of the mobile top-right padding. */
   .feat { padding-block: 40px; }
   .feat-card { min-height: 156px; justify-content: center; }

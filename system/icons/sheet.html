@@ -1,4 +1,17 @@
-<title>Shared Icon Set</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="color-scheme" content="light dark" />
+<title>Icon sheet — designer export</title>
+<!-- NOTE: icon BROWSING now lives in the launcher (Icons section), which reads
+     the same generated registries. This page is kept for the one thing the
+     launcher does not do: COPY bakes a literal hex onto every shape before
+     copying, because Figma and Illustrator drop inherited paint on import.
+     Uses data-mode for light/dark, matching the token layer; data-theme means
+     the site hue family everywhere else in this repo. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -12,12 +25,12 @@
   --size:128px; --sw:3.4; --r:10px;
 }
 @media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
+  :root:not([data-mode="light"]){
     --bg:#141118; --surface:#1D1822; --ink:#EEE8F2; --muted:#9A8FA5;
     --line:#312A38; --line-strong:#463D4E; --guide:#7A6A85;
   }
 }
-:root[data-theme="dark"]{
+:root[data-mode="dark"]{
   --bg:#141118; --surface:#1D1822; --ink:#EEE8F2; --muted:#9A8FA5;
   --line:#312A38; --line-strong:#463D4E; --guide:#7A6A85;
 }
@@ -42,12 +55,12 @@ h1{font-size:clamp(34px,5.2vw,50px);font-weight:700;letter-spacing:-.025em;line-
 .ctl{display:flex;align-items:center;gap:9px}
 .ctl>span,.toggle span{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
 .chips{display:flex;gap:4px;background:var(--well);padding:3px;border-radius:7px}
-:root[data-theme="dark"] .chips,:root:not([data-theme="light"]) .chips{background:var(--surface)}
-@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) .chips{background:#F0EBF3}}
+:root[data-mode="dark"] .chips,:root:not([data-mode="light"]) .chips{background:var(--surface)}
+@media (prefers-color-scheme:light){:root:not([data-mode="dark"]) .chips{background:#F0EBF3}}
 .chip{font-family:var(--mono);font-size:12px;padding:4px 10px;border:none;border-radius:5px;cursor:pointer;background:none;color:var(--muted);transition:background .14s,color .14s;display:flex;align-items:center;gap:6px}
 .chip:hover{color:var(--ink)}
 .chip[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.06)}
-:root[data-theme="dark"] .chip[aria-pressed="true"],:root:not([data-theme="light"]) .chip[aria-pressed="true"]{background:var(--bg)}
+:root[data-mode="dark"] .chip[aria-pressed="true"],:root:not([data-mode="light"]) .chip[aria-pressed="true"]{background:var(--bg)}
 .chip .dot{border-radius:50%}
 input[type=range]{-webkit-appearance:none;appearance:none;width:96px;height:3px;border-radius:2px;background:var(--line-strong);cursor:pointer}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--brand);cursor:pointer;border:2px solid var(--surface)}
@@ -86,13 +99,15 @@ footer{border-top:1px solid var(--line);padding-top:26px;color:var(--muted);font
 footer h3{font-size:12.5px;font-weight:600;color:var(--ink);margin:0 0 6px}
 footer p{margin:0 0 10px}
 code{font-family:var(--mono);font-size:12.5px;color:var(--ink);background:var(--well);padding:1px 5px;border-radius:4px}
-:root[data-theme="dark"] code,:root:not([data-theme="light"]) code{background:var(--surface)}
+:root[data-mode="dark"] code,:root:not([data-mode="light"]) code{background:var(--surface)}
 pre{font-family:var(--mono);font-size:12px;line-height:1.7;background:var(--surface);border:1px solid var(--line);color:var(--ink);padding:11px 13px;border-radius:8px;overflow-x:auto;margin:0 0 10px}
 .toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,14px);background:var(--ink);color:var(--bg);font-family:var(--mono);font-size:12px;padding:9px 16px;border-radius:7px;opacity:0;pointer-events:none;transition:opacity .18s,transform .18s;z-index:50}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 @media (max-width:620px){body{padding:0 16px 64px}.bar{margin:0 -16px 26px;gap:10px 14px}.spec div{flex-basis:50%}}
 </style>
+</head>
+<body>
 
 <div class="wrap">
 <header>
@@ -140,11 +155,11 @@ pre{font-family:var(--mono);font-size:12px;line-height:1.7;background:var(--surf
   <div class="notes">
     <div>
       <h3>Using an icon</h3>
-      <p>Every shape carries <code>stroke="currentColor"</code>, so an icon inherits the colour of whatever it sits in and re-skins with the site theme.</p>
-      <p>That puts the attribute on the shape, so a recolouring rule has to reach the shape as well &mdash; a rule on the <code>&lt;svg&gt;</code> alone will not take:</p>
+      <p>Every shape carries <code>stroke="currentColor"</code>, so an icon inherits the color of whatever it sits in and re-skins with the site theme.</p>
+      <p>That puts the attribute on the shape, so a recoloring rule has to reach the shape as well &mdash; a rule on the <code>&lt;svg&gt;</code> alone will not take:</p>
       <pre>.icon path { stroke: #A440BC; }  /* Menopause */
 .icon path { stroke: #3F7EC1; }  /* Legacy */</pre>
-      <p>Design tools are the exception: Figma and Illustrator drop inherited paint on import and leave paths with no stroke. COPY handles that — it bakes the current literal hex onto every shape before copying, so what lands in a design tool is already coloured.</p>
+      <p>Design tools are the exception: Figma and Illustrator drop inherited paint on import and leave paths with no stroke. COPY handles that — it bakes the current literal hex onto every shape before copying, so what lands in a design tool is already colored.</p>
     </div>
     <div>
       <h3>Weight and size</h3>
@@ -308,3 +323,5 @@ pre{font-family:var(--mono);font-size:12px;line-height:1.7;background:var(--surf
   });
 })();
 </script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 ## What this is
 
 There is **no extracted component layer yet.** Styles live in one ~2,700-line
-`prototypes/navigation/main.css` and behaviour in one ~6,000-line `main.js`.
+`prototypes/navigation/main.css` and behavior in one ~6,000-line `main.js`.
 Extracting 79 blocks at once would be a large, risky change with no immediate
 payoff.
 
@@ -49,7 +49,7 @@ Order by reuse, not by size. `.ai-btn` went first because it has real states,
 motion, and accessibility surface. Writing it immediately surfaced a
 system-wide blocker — the prototype had no keyboard focus styling at all across
 64 buttons — which is the argument for contracts in the first place: the act of
-describing intended behaviour exposes what is missing.
+describing intended behavior exposes what is missing.
 
 Good next candidates: `.mod-btn-primary` / `.mod-btn-secondary` (real buttons,
 sharing a silhouette), `.uplevel` (the level-up pill), `.icon-btn` (composed
@@ -67,7 +67,7 @@ Every contract so far has surfaced something the code did not say out loud:
 | `mod-btn-*` | Both variants are **dark-surface only**, which the class names do not say; and the secondary's border measures 2.90:1, under the 3:1 minimum |
 | `icon-btn` | Composed into `.ai-btn` and others — a real relationship that was undocumented |
 
-That is the argument for contracts: describing intended behaviour exposes what
+That is the argument for contracts: describing intended behavior exposes what
 is missing far faster than reading the implementation does.
 
 ## Figma parity, and why this is not Code Connect

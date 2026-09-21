@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* =============================================================================
-   lint-dead-code — find styling and behaviour that nothing reaches
+   lint-dead-code — find styling and behavior that nothing reaches
    =============================================================================
    Written after a real miss: system/components/uplevel/docs.md was written as
    though the level-up pill shipped. It does not. renderUplevel() is defined and

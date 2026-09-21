@@ -93,7 +93,7 @@ has leaked out of the theme layer.
 
 ## Known gap
 
-Brand-coloured raster and SVG assets do not theme. Applying the Legacy hue
-recolours the UI but leaves the logo purple, because the wordmark is inlined
+Brand-colored raster and SVG assets do not theme. Applying the Legacy hue
+recolors the UI but leaves the logo purple, because the wordmark is inlined
 SVG with baked fills in `main.js`. `evals/lint-tokens.js` reports these as
 warnings. Fixing it means `currentColor` or per-site marks — Phase 3.

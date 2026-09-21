@@ -37,7 +37,7 @@ icon + label by default, icon only below the narrow-phone breakpoint.
 
 ## States
 
-| State | Implemented | Behaviour |
+| State | Implemented | Behavior |
 |---|:-:|---|
 | Default | yes | gradient ring, transparent fill |
 | Active | yes | `scale(0.95)` |
@@ -98,7 +98,7 @@ search and the avatar. The accessible name is the fuller "Ask AI".
 
 - The label was shortened to "Ask" and the nav overflow fixed on narrow phones
   (commit `474c533`).
-- The pulse ring colours were converted from baked `rgba()` to
+- The pulse ring colors were converted from baked `rgba()` to
   `rgb(from var(--color-accent) …)` so the ring re-skins with the site; before
   that it stayed purple on a blue site. See
   [decisions/DECISIONS.md](../../decisions/DECISIONS.md).

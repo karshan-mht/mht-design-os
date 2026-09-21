@@ -28,7 +28,7 @@ No BEM elements or modifiers of its own.
 
 ## States
 
-| State | Implemented | Behaviour |
+| State | Implemented | Behavior |
 |---|:-:|---|
 | Default | yes | transparent, `--color-text` |
 | Active | yes | 5% ink wash |

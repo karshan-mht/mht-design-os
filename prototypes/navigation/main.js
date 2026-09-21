@@ -20,7 +20,7 @@ const ASSET_BASE = "../../../system/assets";
 // Inline SVG icons (monochrome, fill="currentColor") sourced from Figma — see
 // system/patterns/navigation.md → Assets for the node id behind each. Inlined (not <img>/mask)
 // so `color` can tint them AND they render over file:// (external mask/url
-// refs are blocked there). Sizing/colour live in .icon (main.css).
+// refs are blocked there). Sizing/color live in .icon (main.css).
 // UI glyphs come from system/icons/ui/*.svg via the generated registry
 // (system/icons/registry-ui.js), which each page loads before this file. The
 // SVG files are the source of truth; regenerate with:
@@ -38,7 +38,7 @@ if (!Object.keys(ICON_SVGS).length) {
 }
 
 // Registry keys are kebab-case filenames. Call sites still ask for "tabHome"
-// and "myHealth", so normalise before the lookup rather than rewriting them.
+// and "myHealth", so normalize before the lookup rather than rewriting them.
 function iconSvg(name) {
   if (!name) return "";
   return (
@@ -56,12 +56,12 @@ const PROFILE_PLACEHOLDER = `${ASSET_BASE}/placeholder_profile.svg`;
 // matching the inlined nav/UI icons. inlineLogo() stamps the per-context class
 // onto the <svg> root.
 //
-// The two brand colours carry NO fill attribute — the paths are classed
+// The two brand colors carry NO fill attribute — the paths are classed
 // .logo-accent and .logo-ink, and main.css drives them from --color-accent and
 // --color-navy. That is what lets a theme swap re-skin the wordmark; a baked
 // a baked accent fill would leave the logo purple on a blue site. The knockout
 // fill="white" is deliberately left literal: it is a hole punched through the
-// mark, not a brand colour. LOGO_FULL = stacked lockup (nav + desktop header);
+// mark, not a brand color. LOGO_FULL = stacked lockup (nav + desktop header);
 // LOGO_MARK = circular logomark (member nav); LOGO_WORDMARK = horizontal
 // wordmark (slide-out panel + footer).
 const LOGO_FULL = `<svg width="133" height="44" viewBox="0 0 133 44" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -110,7 +110,7 @@ const inlineLogo = (svg, cls) => svg.replace("<svg", `<svg class="${cls}" role="
 
 // Topic Hubs — the new primary entry point in the side panel (Figma Global
 // Navigation, panel node 7299:1987). The redesign drops the old per-persona
-// Resources/Community menu lists in favour of one shared list of topic hubs.
+// Resources/Community menu lists in favor of one shared list of topic hubs.
 // Labels are intentionally the Figma placeholders (the real hub taxonomy isn't
 // settled); these are the up-to-8 pre-defined Topic Hubs. Every row opens the
 // generic Topic Hub surface (`topic-hub` — see TOPIC_HUBS below). Icons are
@@ -250,7 +250,7 @@ const TOPIC_HUBS = [
 ];
 const DROPDOWN_MENU = [
   // Notifications sits above the divider as a distinct orange "chip" (its own
-  // pill styling reflects the orange badge colour); the divider sits below it,
+  // pill styling reflects the orange badge color); the divider sits below it,
   // above the rest of the menu.
   { icon: "notifications", label: "Notifications (5)", screenId: "acct-notifications", iconMod: "notif" },
   { icon: "myHealth", label: "My Health", screenId: "acct-health", divider: true },

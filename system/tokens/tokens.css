@@ -1,8 +1,8 @@
 /* =============================================================================
    MHT Design System — universal tokens
    =============================================================================
-   The single source of truth for colour, type and layout tokens. Every page in
-   this repo loads this file; nothing else declares a :root colour or type
+   The single source of truth for color, type and layout tokens. Every page in
+   this repo loads this file; nothing else declares a :root color or type
    value.
 
    Load order matters. A page links three stylesheets, in this order:
@@ -12,7 +12,7 @@
      <link rel="stylesheet" href="main.css">                           3. styles
 
    The theme file supplies the per-site hue family (see themes/README.md).
-   tokens.css is hue-agnostic: it never hardcodes an accent colour, it only
+   tokens.css is hue-agnostic: it never hardcodes an accent color, it only
    consumes --brand-* from the theme.
 
    NAMING RULE (from foundation/design.md): name tokens by ROLE, never by value.
@@ -50,13 +50,13 @@
   --color-border-primary-soft: #d6e2f1;  /* soft primary-tinted border */
 
   /* --- Media placeholders ------------------------------------------------ */
-  /* Grey fills standing in for un-exported imagery. Not content colours —
+  /* Gray fills standing in for un-exported imagery. Not content colors —
      these disappear as real assets land. */
   --color-placeholder: #e9ebee;
   --color-placeholder-alt: var(--color-surface-sunken);
   --color-placeholder-cool: #eef1f7;
   --color-placeholder-shade: #e3e6ea;
-  --color-placeholder-photo: #c6c0c8;    /* warm grey standing in for a portrait/photo */
+  --color-placeholder-photo: #c6c0c8;    /* warm gray standing in for a portrait/photo */
 
   /* --- Status ------------------------------------------------------------ */
   --color-badge: #ff741d;                /* notification badge / chip — orange */
@@ -111,6 +111,61 @@
      the footer so their content edges line up exactly. */
   --content-pad: max(var(--content-gutter), calc((100% - var(--content-max)) / 2));
   --mobile-max: 480px;       /* mobile layout column cap below the desktop breakpoint */
+}
+
+/* =============================================================================
+   Dark mode
+   =============================================================================
+   Opt-in by attribute: `<html data-mode="dark">`. There is deliberately NO
+   `@media (prefers-color-scheme: dark)` block here.
+
+   Two reasons. First, duplicating every value into a media query means two
+   copies that drift. Second, and more important: tokens.css is loaded by the
+   prototypes, which are light-only product surfaces — an OS-level media query
+   would turn them dark without anyone asking. Pages that should follow the OS
+   set the attribute themselves in a two-line script; prototypes never do, so
+   they stay light.
+
+   Only neutrals and the two action colors change. The brand hue does not have
+   a separate dark value: --brand-accent-light already exists in every theme
+   for exactly this job, described as "emphasis on dark backgrounds". Measured
+   on #16181c — the full accent is 3.42:1 (fails), the light variant is 6.73:1.
+   --color-primary is 2.50:1 on dark and is replaced outright. */
+
+:root[data-mode="dark"] {
+  --color-text: #e8eaed;                 /* 14.75:1 on --color-surface */
+  --color-text-secondary: #9aa0a6;       /* 6.73:1 */
+  --color-text-muted: rgb(from #e8eaed r g b / 0.7);
+  --color-text-inverse: #0d1b29;         /* inverts: ink sits on light/accent fills */
+
+  --color-surface: #16181c;
+  --color-surface-neutral: #1d2024;
+  --color-surface-muted: #24272c;
+  --color-surface-sunken: #101214;
+  --color-bg-warm: #221d19;
+  --color-bg-cool: #15191d;
+  --color-bg-blue-soft: #16202b;
+
+  --color-border: #2e3238;
+  --color-divider: #262a2f;
+  --color-card-border: rgb(from #ffffff r g b / 0.12);
+  --color-pill-border: rgb(from #ffffff r g b / 0.30);
+  --color-border-primary-soft: #2a3a4d;
+
+  --color-primary: #6aa6e8;              /* 6.97:1; the light-mode blue is 2.50:1 here */
+  --color-primary-soft: #1e2b3a;
+
+  --color-placeholder: #24272c;
+  --color-placeholder-alt: #1d2024;
+  --color-placeholder-cool: #1a1f26;
+  --color-placeholder-shade: #202429;
+  --color-placeholder-photo: #33363b;
+
+  /* The brand accent steps up to its on-dark variant. */
+  --color-accent: var(--brand-accent-light);
+  --color-accent-soft: rgb(from var(--brand-accent-light) r g b / 0.16);
+  --color-accent-soft-solid: #262130;
+  --color-bg-accent-soft: #1e1a24;
 }
 
 /* DM Serif Display desktop type scale (foundation/design.md:98-147). Only size

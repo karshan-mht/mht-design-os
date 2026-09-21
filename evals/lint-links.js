@@ -36,6 +36,9 @@ const KEEP_PATHS_PREFIX = ['.claude/skills/'];
 //                          sits at prototypes/navigation/<persona>/
 const BASE_OVERRIDES = {
   'launcher/manifest.js': '.',
+  // launcher.js injects a script tag; the src resolves against index.html at
+  // the repo root, not against launcher/.
+  'launcher/launcher.js': '.',
   'prototypes/navigation/main.js': 'prototypes/navigation/visitor',
 };
 

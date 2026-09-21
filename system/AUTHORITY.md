@@ -18,7 +18,7 @@ authoritative about a different thing:
 | Contracts (`system/components/*/docs.md`, `system/patterns/`) | Intended semantics, states, boundaries, component API |
 | Decisions (`decisions/DECISIONS.md`) | Why a rule, exception or tradeoff exists |
 | Product context (`product/`) | Users, activities, outcomes, terminology |
-| Figma | Intended visual direction — not shipped behaviour |
+| Figma | Intended visual direction — not shipped behavior |
 | Live pages (`system/icons/sheet.html`, `system/tokens/reference.html`) | Rendered specimens of the real implementation |
 | Brand (`system/brand/`) | Voice, positioning, messaging |
 | External references | Evidence and inspiration only, never a product rule |
@@ -67,11 +67,11 @@ than an undifferentiated list. An agent can act on the difference between
 
 ### Example
 
-> **Preferred** — `var(--color-accent)` for brand-accent colour.
+> **Preferred** — `var(--color-accent)` for brand-accent color.
 > **Allowed** — `var(--color-magenta)`, in code not yet migrated.
 > **Avoid** — introducing a new accent token for a one-off tint.
 > **Prohibited** — a raw hex value in any file outside `system/tokens/`.
-> **Exception** — `-webkit-mask` values, which are luminance not colour; and
-> `prototypes/entry-points/`, which mocks other companies' brand colours.
+> **Exception** — `-webkit-mask` values, which are luminance not color; and
+> `prototypes/entry-points/`, which mocks other companies' brand colors.
 > **Rationale** — one hue swap has to re-skin every site. A hex literal is
 > invisible to that swap, and `evals/lint-tokens.js` enforces it.

@@ -149,7 +149,7 @@ window.MHT_TOKENS = [
     "name": "--color-placeholder-photo",
     "value": "#c6c0c8",
     "group": "Media placeholders",
-    "note": "warm grey standing in for a portrait/photo"
+    "note": "warm gray standing in for a portrait/photo"
   },
   {
     "name": "--color-badge",
@@ -332,4 +332,4 @@ window.MHT_TOKENS = [
     "note": "mobile layout column cap below the desktop breakpoint"
   }
 ];
-window.MHT_TOKENS_RESPONSIVE = ["--display-hero-size","--display-hero-lh","--display-section-size","--display-section-lh","--display-title-size","--display-title-lh","--display-subhead-size","--display-subhead-lh"];
+window.MHT_TOKENS_RESPONSIVE = ["--color-text","--color-text-secondary","--color-text-muted","--color-text-inverse","--color-surface","--color-surface-neutral","--color-surface-muted","--color-surface-sunken","--color-bg-warm","--color-bg-cool","--color-bg-blue-soft","--color-border","--color-divider","--color-card-border","--color-pill-border","--color-border-primary-soft","--color-primary","--color-primary-soft","--color-placeholder","--color-placeholder-alt","--color-placeholder-cool","--color-placeholder-shade","--color-placeholder-photo","--color-accent","--color-accent-soft","--color-accent-soft-solid","--color-bg-accent-soft","--display-hero-size","--display-hero-lh","--display-section-size","--display-section-lh","--display-title-size","--display-title-lh","--display-subhead-size","--display-subhead-lh"];
