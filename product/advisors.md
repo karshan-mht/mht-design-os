@@ -26,13 +26,13 @@ Chronological history is in [decisions/DECISIONS.md](../decisions/DECISIONS.md).
 - **Intro** — DM Serif title (28px, navy `#2b2b68`), a bold lede, a body paragraph,
   and an italic closing line, then a hairline divider (`#e5e5e5`).
 - **Committee** — the five advisors, each a card: 96px round **photo**, name
-  (20px semibold ink), role (16px magenta), affiliation (14px grey), bio (16px),
+  (20px semibold ink), role (16px magenta), affiliation (14px gray), bio (16px),
   and a non-navigating **"Read full bio →"** placeholder (no bio-detail page
   exists). Cards separated by hairline dividers.
 - **Watch now** — a DM Serif "Watch Now" headline (24px, navy `#2b2b68`,
-  title-case), a **video placeholder** (218px, rounded, the neutral-grey
+  title-case), a **video placeholder** (218px, rounded, the neutral-gray
   diagonal-hatch pattern used elsewhere — a real thumbnail asset is pending), and
-  the clip title in grey (16px).
+  the clip title in gray (16px).
 
 ## The five advisors (card order)
 

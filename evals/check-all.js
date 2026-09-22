@@ -20,7 +20,7 @@ const ROOT = path.resolve(__dirname, '..');
 
 const CHECKS = [
   { name: 'tokens',          cmd: ['evals/lint-tokens.js'],                    blocking: true,
-    covers: 'colour outside the token layer' },
+    covers: 'color outside the token layer' },
   { name: 'links',           cmd: ['evals/lint-links.js'],                     blocking: true,
     covers: 'internal references that do not resolve' },
   { name: 'component index', cmd: ['evals/gen-component-index.js', '--check'], blocking: true,

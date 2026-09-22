@@ -56,7 +56,7 @@ community hub). Each has a title and a one-line description. The **whole card is
 tappable** (navigates via `data-screen`) — there is no separate link/arrow
 affordance; press feedback comes from `:active` (this is a mobile prototype —
 tap/press, not a desktop rollover). Modules flagged `preview: true` add a
-**content-preview affordance**: skeleton placeholder rows (grey bars) standing in
+**content-preview affordance**: skeleton placeholder rows (gray bars) standing in
 for previewed items — **no fabricated posts/questions**. A module can be `disabled`
 (dead state, no destination yet — non-tappable, no press feedback) or carry a
 `note` (a small italic caveat).

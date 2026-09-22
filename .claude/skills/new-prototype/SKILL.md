@@ -32,7 +32,7 @@ load `system/icons/registry-ui.js` **before** any script that calls `icon()`.
 
 ## Rules
 
-- **No colour in your stylesheet.** Everything comes from the token layer.
+- **No color in your stylesheet.** Everything comes from the token layer.
   `evals/lint-tokens.js` blocks a hex or `rgb()` outside `system/tokens/`.
 - **No build step.** It must work opened straight from `file://`. That rules
   out `fetch()` of local JSON — data files are `.js` assigning to `window`,
@@ -64,4 +64,4 @@ node evals/lint-links.js
 ```
 
 Then render it at 375px and desktop, tab through it, and swap the theme to
-confirm brand colour follows.
+confirm brand color follows.

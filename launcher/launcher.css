@@ -1,19 +1,20 @@
 /* =============================================================================
    Launcher
    =============================================================================
-   The design system's own front door. Deliberately built from the same tokens
-   as the product — if a token is wrong, this page shows it first.
+   The design system's front door, and deliberately BRAND-AGNOSTIC: the chrome
+   is built from neutrals only — surfaces, ink, borders. The brand hue appears
+   where it is the subject (a swatch, a specimen), never as furniture. A tool
+   for two sites should not look like one of them.
 
-   Loads AFTER system/tokens/tokens.css and a theme file. Declares no colour of
-   its own; evals/lint-tokens.js enforces that.
+   Loads AFTER system/tokens/tokens.css and a theme. Declares no color of its
+   own; evals/lint-tokens.js enforces that. Dark mode comes from the token
+   layer via <html data-mode>.
    ========================================================================== */
 
-/* Shell-local layout values. Not design tokens — they describe this one page's
-   furniture, so they stay here rather than polluting the system. */
 :root {
-  --rail-w: 264px;
-  --rail-w-collapsed: 68px;
-  --rail-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --rail-w: 244px;
+  --rail-w-collapsed: 60px;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 * { box-sizing: border-box; }
@@ -28,7 +29,7 @@ body {
 
 .shell { display: flex; min-height: 100vh; }
 
-/* --- Sidebar -------------------------------------------------------------- */
+/* --- Rail ----------------------------------------------------------------- */
 
 .rail {
   position: sticky;
@@ -40,74 +41,56 @@ body {
   flex-direction: column;
   border-right: 1px solid var(--color-border);
   background: var(--color-surface-neutral);
-  transition: flex-basis 0.22s var(--rail-ease), width 0.22s var(--rail-ease);
+  transition: flex-basis 0.2s var(--ease), width 0.2s var(--ease);
   overflow: hidden;
 }
-
-body[data-rail="collapsed"] .rail {
-  flex-basis: var(--rail-w-collapsed);
-  width: var(--rail-w-collapsed);
-}
+body[data-rail="collapsed"] .rail { flex-basis: var(--rail-w-collapsed); width: var(--rail-w-collapsed); }
 
 .rail__head {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 18px 16px;
-  min-height: 64px;
+  padding: 16px 14px;
+  min-height: 58px;
 }
-
-.rail__mark {
-  flex: 0 0 32px;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  display: grid;
-  place-items: center;
-  background: var(--color-accent-soft-solid);
-  color: var(--color-accent);
-}
-.rail__mark svg { width: 18px; height: 18px; }
-
 .rail__name {
-  font-family: var(--font-display);
-  font-size: 19px;
-  line-height: 1.1;
-  color: var(--color-navy);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
   white-space: nowrap;
+  color: var(--color-text);
 }
 
+/* Panel toggle, not a chevron: a rectangle with one rail filled, which says
+   "sidebar" rather than "go back". */
 .rail__toggle {
   margin-left: auto;
   flex: 0 0 auto;
-  width: 30px;
-  height: 30px;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  background: var(--color-surface);
+  width: 30px; height: 30px;
+  display: grid; place-items: center;
+  border: 0;
+  border-radius: 7px;
+  background: none;
   color: var(--color-text-secondary);
   cursor: pointer;
-  transition: color 0.15s, border-color 0.15s;
+  transition: background 0.14s, color 0.14s;
 }
-.rail__toggle:hover { color: var(--color-primary); border-color: var(--color-primary); }
+.rail__toggle:hover { background: var(--color-surface-muted); color: var(--color-text); }
 .rail__toggle:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
-.rail__toggle svg { width: 15px; height: 15px; transition: transform 0.22s var(--rail-ease); }
-body[data-rail="collapsed"] .rail__toggle svg { transform: rotate(180deg); }
+.rail__toggle svg { width: 17px; height: 17px; }
 
-.rail__nav { flex: 1; overflow-y: auto; padding: 4px 10px 10px; }
+.rail__nav { flex: 1; overflow-y: auto; padding: 4px 8px; }
 
 .rail__link {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 9px 10px;
+  gap: 11px;
+  width: 100%;
+  padding: 8px 10px;
   margin-bottom: 2px;
   border: 0;
-  width: 100%;
-  border-radius: 9px;
+  border-radius: 8px;
   background: none;
   font: inherit;
   font-size: 14px;
@@ -115,156 +98,162 @@ body[data-rail="collapsed"] .rail__toggle svg { transform: rotate(180deg); }
   color: var(--color-text-secondary);
   cursor: pointer;
   white-space: nowrap;
-  transition: background 0.14s, color 0.14s;
+  transition: background 0.12s, color 0.12s;
 }
-.rail__link:hover { background: var(--color-accent-soft-solid); color: var(--color-text); }
+/* Rollover is a neutral wash, never a brand tint. */
+.rail__link:hover { background: var(--color-surface-muted); color: var(--color-text); }
 .rail__link:focus-visible { outline: 2px solid var(--color-primary); outline-offset: -2px; }
-.rail__link[aria-current="true"] {
-  background: var(--color-surface);
-  color: var(--color-text);
-  font-weight: 600;
-  box-shadow: 0 1px 2px rgb(from var(--color-text) r g b / 0.06);
-}
-.rail__link[aria-current="true"]::before {
-  content: "";
-  position: absolute;
-  left: 0; top: 18%; bottom: 18%;
-  width: 3px;
-  border-radius: 0 3px 3px 0;
-  background: var(--color-accent);
-}
+/* Selected state is weight and surface only — no accent bar. */
+.rail__link[aria-current="true"] { background: var(--color-surface); color: var(--color-text); font-weight: 600; }
 
-.rail__ico { flex: 0 0 18px; width: 18px; height: 18px; color: currentColor; }
+.rail__ico { flex: 0 0 18px; width: 18px; height: 18px; }
 .rail__ico svg { width: 18px; height: 18px; display: block; }
 
-.rail__count {
-  margin-left: auto;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--color-text-secondary);
-  background: var(--color-surface-sunken);
-  border-radius: var(--radius-pill);
-  padding: 1px 7px;
-}
-.rail__link[aria-current="true"] .rail__count { background: var(--color-accent-soft-solid); color: var(--color-accent); }
+.rail__foot { padding: 10px; border-top: 1px solid var(--color-border); }
 
-/* Collapsed rail: hide every label, centre the glyphs. */
+/* --- Mode switch ---------------------------------------------------------- */
+
+.modes { display: flex; gap: 3px; padding: 3px; border-radius: 9px; background: var(--color-surface-muted); }
+.modes__btn {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 6px 8px;
+  border: 0; border-radius: 7px;
+  background: none;
+  font: inherit; font-size: 12px;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.14s, color 0.14s;
+}
+.modes__btn:hover { color: var(--color-text); }
+.modes__btn[aria-pressed="true"] { background: var(--color-surface); color: var(--color-text); font-weight: 600; }
+.modes__btn:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 1px; }
+.modes__btn svg { width: 14px; height: 14px; flex: 0 0 14px; }
+
 body[data-rail="collapsed"] .rail__name,
 body[data-rail="collapsed"] .rail__label,
-body[data-rail="collapsed"] .rail__count { display: none; }
-body[data-rail="collapsed"] .rail__head { padding: 18px 0; justify-content: center; flex-wrap: wrap; gap: 8px; }
+body[data-rail="collapsed"] .modes__btn span { display: none; }
+body[data-rail="collapsed"] .rail__head { padding: 16px 0; justify-content: center; flex-wrap: wrap; gap: 6px; }
 body[data-rail="collapsed"] .rail__toggle { margin: 0; }
-body[data-rail="collapsed"] .rail__link { justify-content: center; padding: 10px 0; }
+body[data-rail="collapsed"] .rail__link { justify-content: center; padding: 9px 0; }
+body[data-rail="collapsed"] .modes { flex-direction: column; }
 
 /* --- Main ----------------------------------------------------------------- */
 
-.main { flex: 1; min-width: 0; padding: 40px var(--content-gutter) 72px; }
+.main { flex: 1; min-width: 0; padding: 38px var(--content-gutter) 80px; }
 .main__inner { max-width: var(--content-max); margin: 0 auto; }
 
-.hero { margin-bottom: 36px; }
-.hero__eyebrow {
-  margin: 0 0 6px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--color-accent);
-}
+.hero { margin-bottom: 30px; }
 .hero__title {
-  margin: 0 0 10px;
+  margin: 0 0 8px;
   font-family: var(--font-display);
   font-size: var(--display-section-size);
   line-height: var(--display-section-lh);
   letter-spacing: var(--display-tracking);
-  color: var(--color-navy);
+  color: var(--color-text);
 }
-.hero__blurb {
-  margin: 0;
-  max-width: var(--content-column);
-  font-size: 17px;
-  line-height: 26px;
-  color: var(--color-text-secondary);
-}
+.hero__blurb { margin: 0; max-width: var(--content-column); font-size: 16px; line-height: 25px; color: var(--color-text-secondary); }
 
-.group { margin-bottom: 40px; }
+.group { margin-bottom: 34px; }
 .group__head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 4px; }
-.group__title { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--color-text); }
+.group__title { margin: 0; font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--color-text-secondary); }
 .group__rule { flex: 1; height: 1px; background: var(--color-border); }
-.group__note { margin: 0 0 16px; font-size: 14px; line-height: 21px; color: var(--color-text-secondary); max-width: var(--content-column); }
+.group__note { margin: 0 0 14px; font-size: 14px; line-height: 21px; color: var(--color-text-secondary); max-width: var(--content-column); }
 
-.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(268px, 1fr)); gap: 12px; }
+/* --- Cards ---------------------------------------------------------------- */
 
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 10px; }
 .card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  padding: 16px 16px 14px;
-  border: 1px solid var(--color-card-border);
+  display: flex; flex-direction: column; gap: 4px;
+  padding: 15px;
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   background: var(--color-surface);
   text-decoration: none;
   color: inherit;
-  transition: border-color 0.14s, transform 0.14s, box-shadow 0.14s;
+  transition: border-color 0.14s, background 0.14s;
 }
-a.card:hover {
-  border-color: var(--color-accent);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgb(from var(--color-text) r g b / 0.07);
-}
+a.card:hover { border-color: var(--color-text-secondary); background: var(--color-surface-neutral); }
 a.card:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+.card--planned { opacity: .55; border-style: dashed; }
+.card__title { margin: 0; font-size: 15px; font-weight: 600; letter-spacing: -.2px; }
+.card__desc { margin: 0; font-size: 13px; line-height: 19px; color: var(--color-text-secondary); }
+.card__tag { margin-top: 7px; font-size: 10px; font-weight: 700; letter-spacing: .05em;
+             text-transform: uppercase; color: var(--color-text-secondary); }
 
-.card--planned { opacity: 0.62; border-style: dashed; cursor: default; }
+/* --- Color view ---------------------------------------------------------- */
 
-.card__top { display: flex; align-items: center; gap: 8px; }
-.card__title { margin: 0; font-size: 16px; font-weight: 600; line-height: 22px; letter-spacing: -0.25px; }
-.card__desc { margin: 0; font-size: 13.5px; line-height: 20px; color: var(--color-text-secondary); }
+.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(216px, 1fr)); gap: 10px; }
+.sw { border: 1px solid var(--color-border); border-radius: var(--radius-card); overflow: hidden; background: var(--color-surface); }
+.sw__chip { height: 62px; border-bottom: 1px solid var(--color-border); }
+.sw__meta { padding: 9px 11px; }
+.sw__name { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11.5px; color: var(--color-text); word-break: break-all; }
+.sw__val { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
 
-.card__tags { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
-.tag {
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  padding: 2px 7px;
-  border-radius: var(--radius-pill);
+/* --- Type view ------------------------------------------------------------ */
+
+.type-row { padding: 16px 0; border-top: 1px solid var(--color-border); }
+.type-row__spec { margin: 0 0 6px; color: var(--color-text); }
+.type-row__meta { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11.5px; color: var(--color-text-secondary); }
+
+/* --- Icons view ----------------------------------------------------------- */
+
+.icon-controls { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 18px; }
+.seg { display: flex; gap: 3px; padding: 3px; border-radius: 9px; background: var(--color-surface-muted); }
+.seg__btn { border: 0; border-radius: 7px; background: none; font: inherit; font-size: 12.5px;
+            padding: 6px 12px; color: var(--color-text-secondary); cursor: pointer; }
+.seg__btn[aria-pressed="true"] { background: var(--color-surface); color: var(--color-text); font-weight: 600; }
+.seg__btn:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 1px; }
+.icon-search {
+  flex: 1; min-width: 170px;
+  padding: 8px 12px;
   border: 1px solid var(--color-border);
-  color: var(--color-text-secondary);
+  border-radius: 9px;
+  background: var(--color-surface);
+  font: inherit; font-size: 13px;
+  color: var(--color-text);
 }
-.tag--live { border-color: var(--color-accent); color: var(--color-accent); }
-.tag--draft { border-color: var(--color-badge); color: var(--color-badge); }
-.tag--planned { border-style: dashed; }
+.icon-search:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 1px; }
+.icon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 8px; }
+.ic {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 16px 8px 11px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-surface);
+  cursor: pointer;
+  transition: border-color .14s, background .14s;
+}
+.ic:hover { border-color: var(--color-text-secondary); background: var(--color-surface-neutral); }
+.ic:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+.ic__art { display: grid; place-items: center; height: 46px; color: var(--color-text); }
+.ic__art svg { display: block; width: var(--icon-size, 40px); height: var(--icon-size, 40px); }
+.ic__name { font-size: 10.5px; line-height: 14px; text-align: center; color: var(--color-text-secondary); word-break: break-word; }
+.ic.is-copied { border-color: var(--color-primary); }
 
-.card__ext { margin-left: auto; width: 13px; height: 13px; color: var(--color-text-secondary); flex: 0 0 13px; }
-a.card:hover .card__ext { color: var(--color-accent); }
+.empty { padding: 30px 0; font-size: 14px; color: var(--color-text-secondary); }
 
 /* --- Responsive ----------------------------------------------------------- */
 
 @media (max-width: 860px) {
   .shell { flex-direction: column; }
-  .rail,
-  body[data-rail="collapsed"] .rail {
-    position: static;
-    flex-basis: auto;
-    width: 100%;
-    height: auto;
-    border-right: 0;
-    border-bottom: 1px solid var(--color-border);
+  .rail, body[data-rail="collapsed"] .rail {
+    position: static; flex-basis: auto; width: 100%; height: auto;
+    border-right: 0; border-bottom: 1px solid var(--color-border);
   }
-  .rail__nav { display: flex; gap: 4px; overflow-x: auto; padding: 8px 10px; }
+  .rail__nav { display: flex; gap: 4px; overflow-x: auto; padding: 8px; }
   .rail__link { width: auto; margin: 0; }
   .rail__toggle { display: none; }
-  /* The collapsed state is a desktop affordance. On mobile the rail is a
-     horizontal scroller, where glyphs alone read as noise — so labels stay
-     visible regardless of the persisted collapse state. */
+  /* Collapse is a desktop affordance; on a horizontal rail the glyphs alone
+     read as noise, so labels stay whatever the persisted state says. */
   body[data-rail="collapsed"] .rail__name,
   body[data-rail="collapsed"] .rail__label,
-  body[data-rail="collapsed"] .rail__count { display: initial; }
-  body[data-rail="collapsed"] .rail__link { justify-content: flex-start; padding: 9px 10px; }
-  body[data-rail="collapsed"] .rail__head { padding: 18px 16px; justify-content: flex-start; }
-  .main { padding: 28px var(--content-gutter) 56px; }
+  body[data-rail="collapsed"] .modes__btn span { display: initial; }
+  body[data-rail="collapsed"] .rail__link { justify-content: flex-start; padding: 8px 10px; }
+  body[data-rail="collapsed"] .rail__head { padding: 16px 14px; justify-content: flex-start; }
+  body[data-rail="collapsed"] .modes { flex-direction: row; }
+  .main { padding: 26px var(--content-gutter) 56px; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; }
-}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }

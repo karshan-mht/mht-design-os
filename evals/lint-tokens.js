@@ -2,11 +2,11 @@
 /* =============================================================================
    lint-tokens — drift detection for the MHT design system
    =============================================================================
-   Fails when an implementation file hardcodes a colour instead of consuming a
+   Fails when an implementation file hardcodes a color instead of consuming a
    token. Zero dependencies, no build step: `node evals/lint-tokens.js`.
 
    This is deliberately mechanical. It does not judge taste; it enforces the one
-   rule that keeps the system a system — colour lives in tokens.css and the
+   rule that keeps the system a system — color lives in tokens.css and the
    theme files, nowhere else.
    ========================================================================== */
 
@@ -15,7 +15,7 @@ const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
 
-// Files allowed to contain raw colour values.
+// Files allowed to contain raw color values.
 const TOKEN_SOURCES = [
   'system/tokens/tokens.css',
   // Generated mirror of tokens.css — part of the token layer, not a second copy
@@ -30,7 +30,7 @@ const TOKEN_SOURCES = [
 const EXCEPTIONS = [
   // Knockouts and third-party marks. A knockout is a hole punched through a
   // filled shape — it is white whatever the theme is, exactly like the logo's.
-  // Third-party brand colours are not ours to normalise.
+  // Third-party brand colors are not ours to normalize.
   { file: 'prototypes/navigation/main.js', match: /"gate-facebook"|"gate-email"/,
     reason: 'third-party mark + knockout on a filled shape' },
   // Decorative background panels: a soft blue wash behind the community feature
@@ -38,7 +38,7 @@ const EXCEPTIONS = [
   // which is wrong — they are meant to stay cool regardless of site.
   { file: 'prototypes/navigation/main.js', match: /"community-feat-panel2?"/,
     reason: 'decorative wash, deliberately not brand-tracking' },
-  { file: 'prototypes/navigation/main.css', match: /-webkit-mask:/, reason: 'mask luminance, not a colour' },
+  { file: 'prototypes/navigation/main.css', match: /-webkit-mask:/, reason: 'mask luminance, not a color' },
   { file: 'prototypes/community/feat-cards.css', match: /var\(--color-[a-z-]+, *#/, reason: 'portable drop-in: token with literal fallback' },
   { file: 'prototypes/community/feat-cards.css', match: /data:image\/svg\+xml/, reason: 'inline SVG asset, not a style value' },
 ];
@@ -52,13 +52,13 @@ const SKIP_FILES = new Set(['evals/lint-tokens.js']);
 // Skipped by exact repo-relative path. Each needs a reason.
 //  - system/assets                 binary and SVG artwork, not style source
 //  - prototypes/entry-points       mocks Google/Facebook/Gmail chrome; other
-//                                  companies' colours, not ours to normalise
+//                                  companies' colors, not ours to normalize
 //  - system/icons, system/motion   standalone documentation pages that still
 //                                  carry their own chrome; folded in when they
 //                                  are rebuilt as system pages
 //  - system/brand                  reference documents, not implementation
 //  - system/docs                   a generated mirror of the repo's markdown.
-//                                  The docs legitimately quote colours --
+//                                  The docs legitimately quote colors --
 //                                  including historical drift values inside
 //                                  append-only DECISIONS entries, which are
 //                                  records and must not be "corrected"
@@ -75,11 +75,11 @@ const SKIP_PATHS = [
   'prototypes/entry-points',
 ];
 
-// Strip HTML numeric entities (&#9734;) before scanning — they are not colours.
+// Strip HTML numeric entities (&#9734;) before scanning — they are not colors.
 const ENTITY = /&#\d+;/g;
 const HEX = /#[0-9a-fA-F]{3,8}\b/g;
 
-// rgb()/rgba() literals are colours too. A baked rgba slipped past the hex-only
+// rgb()/rgba() literals are colors too. A baked rgba slipped past the hex-only
 // check and left the Ask AI pulse ring purple on a blue site. This starts as
 // AUDIT-ONLY per system/AUTHORITY.md: new checks warn until they are shown
 // reliable, then graduate to blocking. Most remaining hits are universal ink
@@ -108,13 +108,13 @@ function walk(dir, out = []) {
 }
 
 // Inline SVG artwork inside JS is a known, tracked debt rather than a fresh
-// mistake: recolouring it needs per-path judgment (brand fill vs decoration vs
+// mistake: recoloring it needs per-path judgment (brand fill vs decoration vs
 // a third-party logo) and is Phase 3 of the restructure. It is reported as a
 // WARNING so it stays visible and counted, but it does not fail the run.
 const SVG_CONTEXT = /<svg|<path|<stop|fill="|stroke="|stop-color/;
 
-// Other companies' brand colours, mocked deliberately. Tokenising them would be
-// wrong — they are not ours to normalise.
+// Other companies' brand colors, mocked deliberately. Tokenising them would be
+// wrong — they are not ours to normalize.
 const THIRD_PARTY = new Set(['#1877f2', '#4285f4', '#34a853', '#ea4335', '#fbbc05']);
 
 const failures = [];
@@ -160,21 +160,21 @@ const svgWarnings = warnings.filter(w => w.kind !== 'rgb');
 const rgbWarnings = warnings.filter(w => w.kind === 'rgb');
 
 // The SVG check has graduated from advisory to blocking: every baked brand
-// colour has been converted, and the handful that must stay literal are named
+// color has been converted, and the handful that must stay literal are named
 // in EXCEPTIONS with a reason. A new one is now a failure, not a warning.
 if (svgWarnings.length) failures.push(...svgWarnings);
 
 // Graduated from advisory to blocking: every rgba that was an exact token value
 // is now rgb(from var(--token) …), and pure black/white at alpha are exempt by
-// pattern. A new baked colour is a failure, not a warning.
+// pattern. A new baked color is a failure, not a warning.
 if (rgbWarnings.length) failures.push(...rgbWarnings);
 
 if (failures.length === 0) {
-  console.log('PASS — no hardcoded colours outside the token layer.');
+  console.log('PASS — no hardcoded colors outside the token layer.');
   process.exit(0);
 }
 
-console.error(`FAIL — ${failures.length} hardcoded colour${failures.length === 1 ? '' : 's'} outside the token layer:\n`);
+console.error(`FAIL — ${failures.length} hardcoded color${failures.length === 1 ? '' : 's'} outside the token layer:\n`);
 report(failures, 'errors');
 console.error('Add a token to system/tokens/tokens.css, or a hue to a theme file.');
 process.exit(1);

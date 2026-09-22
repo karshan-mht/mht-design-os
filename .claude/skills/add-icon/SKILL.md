@@ -1,6 +1,6 @@
 ---
 name: add-icon
-description: Add or change an icon. Use when given an SVG to add, when asked which icon to use, or when an icon needs to change colour, size or category.
+description: Add or change an icon. Use when given an SVG to add, when asked which icon to use, or when an icon needs to change color, size or category.
 ---
 
 # Add an icon
@@ -23,7 +23,7 @@ topic, it is **editorial**.
 1. **Drop the file** into the right folder. Name it kebab-case; the filename
    becomes the registry key.
 
-2. **Make it inherit colour.** Every path must use `currentColor`, not a
+2. **Make it inherit color.** Every path must use `currentColor`, not a
    literal — `stroke="currentColor"` for editorial, `fill="currentColor"` for
    ui. A baked fill will not re-skin when the site theme changes, which is the
    bug class `evals/lint-tokens.js` exists to catch.
@@ -49,12 +49,29 @@ topic, it is **editorial**.
    at the small sizes. The sheet renders from the registry, so it is a specimen
    of the real file, not a copy.
 
+## Adding a UI glyph
+
+UI glyphs live on a **24x24 canvas with a 20-unit live area** — the artwork's
+longest side is 20 units, centred. Every one of the 28 matches, so they render
+at a consistent optical size wherever they are used.
+
+A new glyph has to match. If it does not, normalise it:
+
+1. Measure its bounding box in a browser with `getBBox()` — parsing curve
+   geometry any other way is guesswork.
+2. Add the measurement to `evals/ui-icon-bboxes.json`.
+3. Run `node evals/normalize-ui-icons.js`.
+
+That file is a point-in-time snapshot, not something generated on demand, which
+is why step 2 is manual. An already-normalised file is detected by its
+`data-normalized="24"` attribute and left alone.
+
 ## Notes
 
 - Files are the source of truth. `registry-*.js` is generated — never hand-edit.
 - The registries are split per set on purpose: the prototype loads only the 28
   UI glyphs (53KB) and never the 112 editorial icons (160KB it would not use).
-- `icon()` in `main.js` normalises a camelCase request (`tabHome`) to the kebab
+- `icon()` in `main.js` normalizes a camelCase request (`tabHome`) to the kebab
   key, so existing call sites keep working.
 - Design tools drop inherited paint on import. The sheet's **COPY** button bakes
   a literal hex onto every shape before copying, so `currentColor` in the source

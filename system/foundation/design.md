@@ -293,7 +293,7 @@ Icons come in **two forms**:
    `.panel__hub-icon`, not baked into the SVG). The nav/dropdown icons render via
    `icon()` as `<span class="icon">…</span>`; the pill and hub icons are inlined
    directly into their own wrappers.
-2. **Pre-tinted images** (`<img src>`, colour baked in) — only the **panel tabs**
+2. **Pre-tinted images** (`<img src>`, color baked in) — only the **panel tabs**
    (`tab-*.svg`, ink) now. The `up-*` / `hub-*` icons were migrated to form 1 on
    2026-08-05 (glyphs only, no baked circle) and their standalone files removed.
 
@@ -317,7 +317,7 @@ dropdown `menu-*.svg` ([account.md](../../product/account.md)). The chrome asset
 
 Real assets pulled from Figma **Global Navigation** `42yas7Q9FfwhL6xUocjEAl` into a
 single flat `assets/` folder, referenced by relative path from `main.js`. Logos and
-the profile illustration are full-colour `<img>` (load fine over `file://`). Node
+the profile illustration are full-color `<img>` (load fine over `file://`). Node
 ids are the leaf vector/frame node each file was exported from.
 
 ### Logo (PNG, 3× — the Figma nav logo is a raster image-fill, not vector)

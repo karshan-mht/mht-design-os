@@ -7,7 +7,7 @@
    about what an asset is for. This generates the data the gallery needs.
 
    Grouping is derived from the filename prefix, which is how the set is
-   actually organised (advisor-*, listicles_*, hero-rings-*, tab-*).
+   actually organized (advisor-*, listicles_*, hero-rings-*, tab-*).
 
      node evals/gen-asset-manifest.js
      node evals/gen-asset-manifest.js --check

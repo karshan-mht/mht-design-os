@@ -21,7 +21,7 @@
    (foundation/design.md). Below it everything stacks.
    ========================================================================== */
 
-/* Component-level tokens only. Everything system-wide (colour, families,
+/* Component-level tokens only. Everything system-wide (color, families,
    radius, layout) now comes from system/tokens/tokens.css + a theme file,
    linked ahead of this stylesheet in index.html. */
 :root {
@@ -238,7 +238,7 @@ body {
 }
 
 /* Magenta on COLOR blend takes hue and saturation from itself and luminance
-   from the photo, so any image lands on-palette without colour correction. */
+   from the photo, so any image lands on-palette without color correction. */
 .card__duotone {
   position: absolute;
   inset: 0;

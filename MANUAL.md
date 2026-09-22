@@ -4,23 +4,23 @@ The spec docs, as a flat index. Start with the root [README.md](README.md) for
 the project overview and quick start, or open `index.html` for the same map as
 a browsable launcher.
 
-**`system/`** is the design system — what is true about colour, type, patterns,
+**`system/`** is the design system — what is true about color, type, patterns,
 icons and brand. **`product/`** is the product knowledge — what each surface is
 and how it behaves. **`prototypes/`** is what was built with both.
 
 ## system/ — the design system
 
-- **[tokens/tokens.md](system/tokens/tokens.md)** — token roles, colour, type scale and
+- **[tokens/tokens.md](system/tokens/tokens.md)** — token roles, color, type scale and
   spacing, written implementation-agnostically so another project can map them
   onto its own naming.
 - **[tokens/themes/README.md](system/tokens/themes/README.md)** — the two sites
   (ThisIsMenopause, Legacy), what belongs in a theme, both loading models, and
   how to add another site.
-- **[foundation/design.md](system/foundation/design.md)** — the design language: colour
+- **[foundation/design.md](system/foundation/design.md)** — the design language: color
   tokens, type scale + letter-spacing, spacing/radius/motion, the icon-tinting
   system, and chrome asset provenance.
 - **[patterns/navigation.md](system/patterns/navigation.md)** — the global-nav chrome: top
-  nav, slide-out panel, level-up pill and global footer — behaviour, component
+  nav, slide-out panel, level-up pill and global footer — behavior, component
   structure, and Figma node ids.
 - **[tokens/reference.html](system/tokens/reference.html)** — the live token sheet.
 - **[icons/sheet.html](system/icons/sheet.html)** — the 112-icon line set, with search and
@@ -64,6 +64,8 @@ and how it behaves. **`prototypes/`** is what was built with both.
   rewritten later, so paths mentioned in older entries are historical.
 - **[RESTRUCTURE-PLAN.md](decisions/RESTRUCTURE-PLAN.md)** — the six-phase restructure,
   its findings and current status.
+- **[LAUNCHER-ARCHIVE.md](decisions/LAUNCHER-ARCHIVE.md)** — the launcher sections
+  removed on 2026-09-21, with what each held and where those files still live.
 
 ## Conventions
 

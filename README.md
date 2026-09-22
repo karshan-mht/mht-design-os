@@ -10,34 +10,34 @@ a Design OS rather than a design system repo.
 
 Plain HTML/CSS/JS. No framework, no build step — open a file in a browser.
 
-Start at the **launcher** (`index.html`) — the front door. A
-collapsible left sidebar moves between Prototypes, Foundations, Components,
-Icons & Graphics, Brand, Product and Decisions. Everything opens in its own tab,
-so each prototype keeps a shareable URL.
+Start at the **launcher** (`index.html`). A collapsible sidebar moves between
+four sections:
 
-("Launcher", never "Home" — the product has its own Member Home surface, and
-reusing the word for two different things confuses both people and agents.)
+| Section | What it is |
+|---|---|
+| **Prototypes** | Working prototypes, built on the system |
+| **Color** | Every color token, resolved live from the loaded theme and mode |
+| **Type** | The type scale as specimens |
+| **Icons** | Both icon sets, searchable, click to copy the SVG |
 
-Every section opens a real page rather than a raw file: the component gallery,
-the icon sheet, the graphics gallery, the token reference, and a docs viewer
-that renders all 31 markdown documents with working cross-links.
+Color, type and icons render **inline** — nothing opens a new tab. Prototypes
+navigate in the same tab; the hidden hotspot in a prototype's top-left corner
+brings you back.
 
-The launcher renders entirely from **`launcher/manifest.js`**. Adding a
-prototype or a doc is one entry in that file — never a markup edit.
+The launcher is deliberately **brand-agnostic**: its chrome is built from
+neutrals only, and the brand hue appears where it is the subject (a swatch, a
+specimen) rather than as furniture. A tool serving two sites should not look
+like one of them.
 
-The system currently covers two sites: **ThisIsMenopause** (purple hue family,
-production) and the **Legacy condition sites** (blue hue family, placeholder
-values). Components are identical across both; only the hue differs. See
-Foundations → Sites in the launcher, or
-[system/tokens/themes/README.md](system/tokens/themes/README.md).
+It supports **light and dark**, following the OS by default with a switch at
+the bottom of the sidebar. Dark mode is opt-in by attribute so the prototypes,
+which are light-only product surfaces, are never dragged into it.
 
-The flagship prototype is the **global navigation** across four auth states —
-Anonymous Visitor, Logged Out Member, Logged In Member and Subscriber — in
-`prototypes/navigation/`.
-
-Design source: Figma **Global Navigation** file `42yas7Q9FfwhL6xUocjEAl`;
-per-surface Figma frames and the **MHT Style Guide** are cited in the `product/`
-docs.
+Sections for Components, Brand, Product and Decisions were removed on
+2026-09-21 to keep the front door to the basics. Nothing was deleted — see
+[decisions/LAUNCHER-ARCHIVE.md](decisions/LAUNCHER-ARCHIVE.md) for what moved
+and where it lives. All of it is still readable in the docs viewer at
+`system/docs/index.html`.
 
 ## Quick start
 
@@ -74,7 +74,7 @@ real screen in that persona).
 ```
 index.html                     Launcher — collapsible sidebar over every section
 launcher/                      The launcher shell:
-  manifest.js                    ALL launcher content. Add a prototype here.
+  manifest.js                    Sections: a card grid, or a built-in view
   launcher.css  launcher.js      Shell styles and rendering
 
 system/                        The design system
@@ -118,7 +118,7 @@ system/                        The design system
 
 prototypes/                    Working prototypes, built on the system
   navigation/                  The four-persona global-nav prototype
-    main.css  main.js            Styles and behaviour (shared by its pages)
+    main.css  main.js            Styles and behavior (shared by its pages)
     ARCHITECTURE.md              Render model, screen types, persona model
     visitor/ subscriber/ logged-in-member/ logged-out-member/
   entry-points/                Mock external pages (Google, Facebook, Gmail)
@@ -171,7 +171,7 @@ loads the token layer, a site theme, then the two shared files:
 </body>
 ```
 
-Colour never appears in `main.css` — it lives in `tokens.css`, and the hue comes
+Color never appears in `main.css` — it lives in `tokens.css`, and the hue comes
 from the theme file. Swapping that one link re-skins the page. Run
 `node evals/lint-tokens.js` to check nothing has drifted back.
 

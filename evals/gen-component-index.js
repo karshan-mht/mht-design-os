@@ -3,7 +3,7 @@
    gen-component-index — derive the component inventory from the real CSS
    =============================================================================
    There is no component layer to point at yet: styles live in one large
-   main.css and behaviour in one large main.js. An index makes them addressable
+   main.css and behavior in one large main.js. An index makes them addressable
    without a risky extraction.
 
    The inventory is GENERATED, not authored, so it cannot drift from the code.

@@ -99,7 +99,7 @@ the gradient id per card to avoid duplicate ids when the same panel is inlined o
 several cards. Panels are **bottom-aligned and bled off the card's bottom-right**
 (`community-feat-panel.svg` on the feature cards, the taller gradient
 `community-feat-panel2.svg` on the pair). Responsive: illustration top-right + full-width
-description on mobile; illustration centred on the right of a 728px card on desktop
+description on mobile; illustration centerd on the right of a 728px card on desktop
 (feature cards); the pair is a **row on desktop, stacked on mobile**. All DM-Serif
 titles use the landing's `--color-navy` (see [DECISIONS](../decisions/DECISIONS.md) 2026-08-14).
 

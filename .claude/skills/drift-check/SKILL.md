@@ -18,7 +18,7 @@ that cries wolf gets switched off.
 Individually, if you need one:
 
 ```bash
-node evals/lint-tokens.js          # colour outside the token layer      BLOCKING
+node evals/lint-tokens.js          # color outside the token layer      BLOCKING
 node evals/lint-links.js           # references that do not resolve      BLOCKING
 node evals/gen-component-index.js --check                             # BLOCKING
 node evals/gen-icon-registry.js --check                               # BLOCKING
@@ -33,7 +33,7 @@ node evals/lint-dead-code.js       # unrendered blocks, uncalled fns     advisor
 | Output | Meaning |
 |---|---|
 | `PASS` | Clean. |
-| `FAIL` | Blocking. Both colour checks and the two `--check` generators are blocking. |
+| `FAIL` | Blocking. Both color checks and the two `--check` generators are blocking. |
 | `NOTE` | Coverage gaps from `lint-parity`. Informational — do **not** silence by inventing entries. |
 
 ## When a check fails
@@ -81,8 +81,8 @@ and is worse than a reported gap.
 - Render the change at mobile (375px) and desktop widths.
 - Tab through it. Focus must be visible — `main.css` has a global
   `:focus-visible` rule, so a control that loses it is doing something unusual.
-- Swap the theme (`system/tokens/themes/`) and confirm brand colour follows.
-  Artwork with a baked fill will not, which is the bug class the colour lint
+- Swap the theme (`system/tokens/themes/`) and confirm brand color follows.
+  Artwork with a baked fill will not, which is the bug class the color lint
   exists to prevent.
 
 See [system/AUTHORITY.md](../../../system/AUTHORITY.md) when two sources

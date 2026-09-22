@@ -104,7 +104,7 @@ site, and `tokens.css` never names a hue. Adding a site is one file.
    verification.
 4. **Brand scope is accent-only.** The six `--brand-*` hue tokens swap per
    site. Action blue, ink, surfaces, borders, type and layout are universal.
-5. **Repo renames to `mht-design-os`**, brand-neutral so it does not favour
+5. **Repo renames to `mht-design-os`**, brand-neutral so it does not favor
    Menopause over the Legacy sites. It landed as `mht-design-system` first and
    was renamed again after the Design OS handoff made the case: the design
    system is one subsystem under `system/`, while `prototypes/`, `product/`,
@@ -206,7 +206,7 @@ Original steps, for reference:
    `:root` blocks.
 6. Resolve the **Archivo vs Lato** conflict in the icon sheet.
 
-Exit criterion: exactly one `:root` colour/type declaration exists in the repo.
+Exit criterion: exactly one `:root` color/type declaration exists in the repo.
 
 ### Phase 1 — Launcher shell — **DONE**
 
@@ -292,8 +292,8 @@ Also done:
   display-sized line art) and UI glyphs (28, interface chrome) share 2 names
   out of 140. Files are the source of truth for both, with generated
   registries; the sheet renders from them instead of holding a third copy.
-- **Both lints graduated from advisory to blocking.** 42 baked SVG colours and
-  36 `rgba()` literals went to **zero**: brand colours are classed and
+- **Both lints graduated from advisory to blocking.** 42 baked SVG colors and
+  36 `rgba()` literals went to **zero**: brand colors are classed and
   token-driven, exact token values became `rgb(from var(--token) …)`, and the
   handful that must stay literal — third-party marks, knockouts, pure
   black/white at alpha — are named with reasons.
