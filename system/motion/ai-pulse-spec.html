@@ -82,7 +82,7 @@
   .pill {
     position: relative; box-sizing: border-box; height: 44px;
     display: inline-flex; align-items: center; justify-content: center;
-    gap: 6px; padding: 0 12px; border-radius: 999px; background: transparent; border: none;
+    gap: 4px; padding: 0 12px; border-radius: 999px; background: transparent; border: none;
   }
   .pill::before {
     content: ""; position: absolute; inset: 0; border-radius: 999px; padding: 1px;
@@ -90,7 +90,7 @@
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
   }
-  .pill__stars { position: relative; z-index: 1; width: 22px; height: 22px; display: block; }
+  .pill__stars { position: relative; z-index: 1; width: 16px; height: 16px; display: block; }
   .pill__label {
     position: relative; z-index: 1; font-family: var(--body); font-weight: 700; font-size: 16px; line-height: 1;
     background: linear-gradient(45deg, var(--blue) 0%, var(--magenta) 100%);
@@ -275,24 +275,29 @@
     <h2 id="st-h"><span class="idx">05</span>When it runs</h2>
     <div class="states">
       <div class="state">
-        <div class="state__name">Normal nav</div>
-        <div class="state__desc">Static. Pill shows the ring + label, no pulse.</div>
-        <div class="state__sel">no data-flow on &lt;body&gt;</div>
+        <div class="state__name">At rest</div>
+        <div class="state__desc">The default. The pill sits in the nav with its gradient ring and label, no animation. Use this whenever the assistant has nothing to surface.</div>
+        <div class="state__sel">Trigger: none &middot; the resting state.</div>
       </div>
       <div class="state">
-        <div class="state__name">Pulse demo</div>
-        <div class="state__desc">Pulses continuously from load.</div>
-        <div class="state__sel">body[data-flow]:not(.assistant-quiet):not(.assistant-onepulse) .ai-btn</div>
+        <div class="state__name">Attention</div>
+        <div class="state__desc">The pulse runs to draw the eye toward the assistant when it has something to offer. Keep it time-boxed: it draws attention, then settles back to rest rather than looping indefinitely.</div>
+        <div class="state__sel">Trigger: the assistant becomes relevant (e.g. the user engages with related content).</div>
       </div>
       <div class="state">
-        <div class="state__name">Assistant flow</div>
-        <div class="state__desc">Held until the user scrolls in (~500px), paused during the greeting, one farewell pulse after it closes.</div>
-        <div class="state__sel">.assistant-quiet (pause) &middot; .assistant-onepulse (single)</div>
+        <div class="state__name">Paused</div>
+        <div class="state__desc">While a message or greeting from the assistant is on screen, the pulse stops so the two don't compete for attention.</div>
+        <div class="state__sel">Trigger: a prompt, nudge, or panel is visible.</div>
+      </div>
+      <div class="state">
+        <div class="state__name">Farewell</div>
+        <div class="state__desc">After the message is dismissed, the pill emits a single pulse to re-anchor itself, then returns to rest.</div>
+        <div class="state__sel">Trigger: the message is closed or dismissed.</div>
       </div>
       <div class="state">
         <div class="state__name">Reduced motion</div>
-        <div class="state__desc">No pulse. Ring + label remain.</div>
-        <div class="state__sel">@media (prefers-reduced-motion: reduce) { animation: none }</div>
+        <div class="state__desc">When the user prefers reduced motion, the pulse never runs. Only the static ring and label remain.</div>
+        <div class="state__sel">Trigger: prefers-reduced-motion is set &middot; overrides all states above.</div>
       </div>
     </div>
   </section>
