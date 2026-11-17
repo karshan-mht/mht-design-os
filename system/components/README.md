@@ -9,10 +9,9 @@ payoff.
 
 So the first step is to make the monolith *addressable*:
 
-- **[index.html](index.html)** — the component gallery. Live specimens rendered
-  from the real `main.css`, plus the full inventory by tier, with a theme
-  switcher. Start here.
-- **[INDEX.md](INDEX.md)** — the same inventory as markdown, for reading in an
+- **[INDEX.md](INDEX.md)** — the inventory by tier. Start here. (The HTML
+  gallery with live specimens was archived on 2026-11-16 and lives in
+  `archive/components/index.html`.) The inventory is markdown, for reading in an
   editor or a diff. **Generated** from the stylesheet by
   `evals/gen-component-index.js`, so it cannot drift.
 - **`<block>.md`** — a hand-written contract for blocks that earn one.

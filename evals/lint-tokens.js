@@ -57,7 +57,8 @@ const SKIP_FILES = new Set(['evals/lint-tokens.js']);
 //                                  carry their own chrome; folded in when they
 //                                  are rebuilt as system pages
 //  - system/brand                  reference documents, not implementation
-//  - system/docs                   a generated mirror of the repo's markdown.
+//  - archive                       retired pages and data (the docs viewer's
+//                                   generated markdown mirror is in here).
 //                                  The docs legitimately quote colors --
 //                                  including historical drift values inside
 //                                  append-only DECISIONS entries, which are
@@ -70,7 +71,7 @@ const SKIP_PATHS = [
   'system/icons',
   'system/motion',
   'system/brand',
-  'system/docs',
+  'archive',
   'system/tokens/reference.html',
   'prototypes/entry-points',
 ];

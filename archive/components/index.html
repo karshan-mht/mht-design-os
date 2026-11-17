@@ -13,9 +13,9 @@
 <!-- The token layer, both themes (this page has a switcher), then the REAL
      component stylesheet. The specimens below are the actual production CSS,
      not a reproduction — that is the whole point of the page. -->
-<link rel="stylesheet" href="../tokens/tokens.css" />
-<link rel="stylesheet" href="../tokens/themes/menopause.css" />
-<link rel="stylesheet" href="../tokens/themes/legacy.css" />
+<link rel="stylesheet" href="../../system/tokens/tokens.css" />
+<link rel="stylesheet" href="../../system/tokens/themes/menopause.css" />
+<link rel="stylesheet" href="../../system/tokens/themes/legacy.css" />
 <link rel="stylesheet" href="../../prototypes/navigation/main.css" />
 
 <style>
@@ -91,8 +91,13 @@
   <div id="inventory"></div>
 </div>
 
-<script src="../icons/registry-ui.js"></script>
+<script src="../../system/icons/registry-ui.js"></script>
 <script src="manifest.js"></script>
+<script>
+  /* Archived 2026-11-16: this page moved from system/components/ to
+     archive/components/, but the contracts stayed in system/components/. */
+  var CONTRACTS = '../../system/components/';
+</script>
 <script>
 (function () {
   var root = document.documentElement;
@@ -158,7 +163,7 @@
       '<div class="spec__meta">' +
         '<span class="spec__name">.' + s.block + '</span>' +
         '<span class="spec__note">' + s.note + '</span>' +
-        (s.doc ? '<a class="spec__link" href="' + s.doc + '">contract →</a>'
+        (s.doc ? '<a class="spec__link" href="' + CONTRACTS + s.doc + '">contract →</a>'
                : '<span class="spec__link muted">no contract</span>') +
       '</div></div>';
   }).join('');
@@ -181,7 +186,7 @@
           '<td class="num">' + r.rules + '</td>' +
           '<td class="hide-sm muted">' + (r.parts.join(', ') || '—') + '</td>' +
           '<td class="hide-sm muted">' + (r.variants.join(', ') || '—') + '</td>' +
-          '<td>' + (r.contract ? '<a href="' + r.contract + '">yes</a>' : '<span class="muted">—</span>') + '</td></tr>';
+          '<td>' + (r.contract ? '<a href="' + CONTRACTS + r.contract + '">yes</a>' : '<span class="muted">—</span>') + '</td></tr>';
       }).join('') + '</tbody></table>';
   }).join('');
 })();

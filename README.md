@@ -42,8 +42,8 @@ prototypes, which are light-only product surfaces, are never dragged into it.
 Sections for Components, Brand, Product and Decisions were removed on
 2026-09-21 to keep the front door to the basics. Nothing was deleted — see
 [decisions/LAUNCHER-ARCHIVE.md](decisions/LAUNCHER-ARCHIVE.md) for what moved
-and where it lives. All of it is still readable in the docs viewer at
-`system/docs/index.html`.
+and where it lives. The markdown files themselves are the docs; the old docs
+viewer and component gallery were archived on 2026-11-16 (see `archive/`).
 
 ## Quick start
 
@@ -98,7 +98,6 @@ system/                        The design system
   patterns/navigation.md       Global-nav chrome (top nav, panel, footer)
   parity.json                  Figma node <-> CSS block <-> contract
   components/
-    index.html                   Component gallery — live specimens + inventory
     manifest.js                  GENERATED inventory data
     INDEX.md                     The same inventory as markdown
     README.md                    Tiers, how to add a contract, known gaps
@@ -111,9 +110,6 @@ system/                        The design system
     registry-*.js                GENERATED inline registries, one per set
   motion/ai-pulse-spec.html    Ask AI pulse motion study
   brand/                       Brand strategy and voice
-  docs/
-    index.html                   Docs viewer — renders every .md in the repo
-    content.js                   GENERATED mirror of the markdown
   assets/
     index.html                   Graphics gallery, grouped by purpose
     manifest.js                  GENERATED asset inventory
@@ -155,10 +151,13 @@ evals/
   lint-icon-paint.js           Fails on an icon with its own color (must be currentColor)
   gen-token-manifest.js        Regenerates the token manifest (--check)
   gen-asset-manifest.js        Regenerates the asset inventory (--check)
-  gen-docs.js                  Regenerates the docs viewer content (--check)
   lint-parity.js               Validates system/parity.json; reports coverage
   lint-dead-code.js            Unrendered blocks and uncalled functions (advisory)
 MANUAL.md                      Index of the spec docs
+archive/                       Retired pages, kept browsable (not checked):
+  docs/                          The old docs viewer and its markdown snapshot
+  components/                    The old component gallery and its data
+  gen-docs.js                    The docs viewer's generator
 ```
 
 `.claude/skills/` holds the procedures for working on this repo — drift checks,

@@ -2105,9 +2105,9 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 .login__label { font-size: 14px; font-weight: 600; line-height: 20px; color: var(--core-default-900); }
 .login__input {
   height: 48px;
-  padding: 0 14px;
+  padding: 0 20px;
   border: 1px solid var(--core-default-300);
-  border-radius: 12px;
+  border-radius: var(--radius-pill);   /* rounded like the Log in button */
   background: var(--core-background-card);
   font: inherit;
   font-size: 16px;

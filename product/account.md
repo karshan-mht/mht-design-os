@@ -43,8 +43,8 @@ The Logged Out Member has the same profile button, but it opens a **login card**
 (`renderLoginDropdown`) in the same anchored card instead of the account menu.
 Not from Figma; a simple placeholder until a login design exists.
 
-- **"Log in"** heading, then **Email** and **Password** fields (48px, 12px
-  radius, action-blue focus ring), a **Forgot password?** link (no destination
+- **"Log in"** heading, then **Email** and **Password** fields (48px, fully
+  rounded like the Log in button, action-blue focus ring), a **Forgot password?** link (no destination
   yet), a full-width blue **Log in** button, and below a rule, **Not a member?
   Join for free** → `signup-start`.
 - **Log in** (the button or Enter) crosses into the **Logged In Member**

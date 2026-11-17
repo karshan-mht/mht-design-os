@@ -14,13 +14,11 @@
       ],
       "deprioritize": [
         "system/icons/registry-ui.js",
-        "system/assets/manifest.js",
-        "system/docs/**/*",
-        "system/components/index.html"
+        "system/assets/manifest.js"
       ],
       "exclude": [
         "evals/**/*",
-        "system/components/manifest.js",
+        "archive/**/*",
         "system/icons/ui/**/*.svg",
         "system/assets/**/*.svg",
         "system/assets/**/*.png",
@@ -51,8 +49,8 @@
         "reason": "Code-generation and linting scripts that produce build artifacts; they do not participate in rendering any UI."
       },
       {
-        "glob": "system/components/manifest.js",
-        "reason": "Generated file produced by evals/gen-component-index.js from main.css; editing it directly would be overwritten on the next generation pass."
+        "glob": "archive/**/*",
+        "reason": "Retired pages and data (the docs viewer and the component gallery, archived 2026-11-16). Not part of any live UI."
       },
       {
         "glob": "system/icons/ui/**/*.svg",
