@@ -1281,29 +1281,41 @@ function renderDropdown() {
 }
 
 // Login card — what the profile button opens for the Logged Out Member, in
-// place of the account menu (a logged-out member has no account to show).
-// Same anchored card as renderDropdown. Email + password, Forgot password
-// (no destination yet), Log in, and a Join link. The fields are not required,
-// so a tester can tap straight through: submitting crosses into the Logged In
-// Member prototype on the same page (see the submit listener).
+// place of the account menu. A logged-out member is someone we know whose
+// session ended, so the email is already filled in and the cursor starts in
+// Password. Floating labels: each label sits inside its pill and slides up when
+// the field is focused or filled. "Other ways to log in" reveals Google and
+// Facebook in place (a class toggle, not a re-render, so typing survives).
+// Logging in by any route crosses into the Logged In Member prototype on the
+// same page (logIn). The fields are not required, so testers can tap through.
+const LOGGED_OUT_EMAIL = "janet.smith@example.com";
 function renderLoginDropdown() {
+  const field = (name, type, label, value = "") => `
+    <div class="login__field">
+      <input class="login__input" id="login-${name}" type="${type}" name="${name}" value="${value}" placeholder=" " autocomplete="off" />
+      <label class="login__label" for="login-${name}">${label}</label>
+    </div>`;
+  const other = (icon, label) => `
+    <button class="login__alt" type="button" data-action="log-in-with">
+      <span class="login__alt-icon">${COMMUNITY_SVGS[icon]}</span><span>Continue with ${label}</span>
+    </button>`;
   return `
     <div class="dropdown-overlay" data-action="close-dropdown">
       <div class="dropdown login" data-stop>
         <form class="login__form" novalidate>
-          <h2 class="login__title">Log in</h2>
-          <label class="login__field">
-            <span class="login__label">Email</span>
-            <input class="login__input" type="email" name="email" placeholder="you@example.com" autocomplete="off" />
-          </label>
-          <label class="login__field">
-            <span class="login__label">Password</span>
-            <input class="login__input" type="password" name="password" placeholder="Password" autocomplete="off" />
-          </label>
+          <h2 class="login__title">Welcome back</h2>
+          ${field("email", "email", "Email", LOGGED_OUT_EMAIL)}
+          ${field("password", "password", "Password")}
           <button class="login__forgot" type="button">Forgot password?</button>
           <button class="login__submit" type="submit">Log in</button>
         </form>
-        <p class="login__join">Not a member? <button class="login__join-link" data-screen="signup-start">Join for free</button></p>
+        <div class="login__other">
+          <button class="login__other-toggle" type="button" data-action="toggle-login-options" aria-expanded="false">Other ways to log in</button>
+          <div class="login__alts">
+            ${other("gate-google", "Google")}
+            ${other("gate-facebook", "Facebook")}
+          </div>
+        </div>
       </div>
     </div>
   `;
@@ -2013,10 +2025,13 @@ function closePanel() {
 // Logging in from the login card: cross into the Logged In Member prototype,
 // keeping the current page (same hash slug; it falls back to home if that
 // persona has no such screen). No real auth.
+function logIn() {
+  window.location.href = `../logged-in-member/index.html${window.location.hash}`;
+}
 document.addEventListener("submit", (e) => {
   if (!e.target.closest(".login__form")) return;
   e.preventDefault();
-  window.location.href = `../logged-in-member/index.html${window.location.hash}`;
+  logIn();
 });
 
 document.addEventListener("click", (e) => {
@@ -2067,6 +2082,16 @@ document.addEventListener("click", (e) => {
       state.dropdownOpen = !state.dropdownOpen;
       state.panelOpen = false;
       render();
+      // Login card: the email is known, so start in Password.
+      document.querySelector(".login__input[name=password]")?.focus();
+      break;
+    case "toggle-login-options": {
+      const open = actionEl.closest(".login").classList.toggle("is-other");
+      actionEl.setAttribute("aria-expanded", String(open));
+      break;
+    }
+    case "log-in-with":
+      logIn();
       break;
     case "member-gate":
       state.gateFeature = actionEl.dataset.gate || "posts";
