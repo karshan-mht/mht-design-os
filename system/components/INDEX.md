@@ -92,6 +92,7 @@ Blocks belonging to a single product surface. Documented in `product/`, not extr
 | Block | Rules | Parts | Variants | JS | Contract |
 |---|--:|--:|--:|:-:|:-:|
 | `.art` | 33 | 20 | 0 | • | — |
+| `.login` | 20 | 12 | 0 | • | — |
 | `.feat-card` | 17 | 6 | 0 | • | — |
 | `.comm-feed` | 16 | 9 | 1 | • | — |
 | `.feat-pair-card` | 14 | 5 | 1 | • | — |
@@ -100,7 +101,6 @@ Blocks belonging to a single product surface. Documented in `product/`, not extr
 | `.comm-reminder` | 13 | 5 | 2 | • | — |
 | `.comm-preview` | 12 | 9 | 0 | • | — |
 | `.topic-hub-mod` | 12 | 6 | 1 | • | — |
-| `.login` | 12 | 9 | 0 | • | — |
 | `.comm-group` | 11 | 8 | 0 | • | — |
 | `.art-keep` | 11 | 5 | 0 | • | — |
 | `.subnav-menu` | 10 | 4 | 1 | • | — |

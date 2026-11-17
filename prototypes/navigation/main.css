@@ -2098,28 +2098,53 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 .dropdown__divider { border-top: 1px solid var(--core-default-300); padding-top: 17px; }
 
 /* Login card (renderLoginDropdown) — the Logged Out Member's version of the
-   profile dropdown: same card, holding a short email + password form. */
-.login__form { display: flex; flex-direction: column; gap: 16px; margin: 0; }
-.login__title { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 24px; line-height: 32px; letter-spacing: -0.75px; color: var(--core-default-900); }
-.login__field { display: flex; flex-direction: column; gap: 6px; }
-.login__label { font-size: 14px; font-weight: 600; line-height: 20px; color: var(--core-default-900); }
+   profile dropdown: same card, holding a short email + password form. Fields
+   use floating labels: the label sits inside the pill and moves up, smaller,
+   when the field is focused or has a value (:not(:placeholder-shown), with a
+   one-space placeholder). */
+.login__form { display: flex; flex-direction: column; gap: 12px; margin: 0; }
+.login__title { margin: 0 0 4px; font-family: var(--font-display); font-weight: 400; font-size: 24px; line-height: 32px; letter-spacing: -0.75px; color: var(--core-default-900); }
+.login__field { position: relative; }
 .login__input {
-  height: 48px;
-  padding: 0 20px;
+  width: 100%;
+  height: 56px;
+  padding: 22px 20px 6px;
   border: 1px solid var(--core-default-300);
   border-radius: var(--radius-pill);   /* rounded like the Log in button */
   background: var(--core-background-card);
   font: inherit;
   font-size: 16px;
+  line-height: 24px;
   color: var(--core-default-900);
 }
-.login__input::placeholder { color: var(--core-default-500); }
+.login__label {
+  position: absolute;
+  left: 21px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  line-height: 20px;
+  color: var(--core-default-500);
+  pointer-events: none;
+  transition: top 0.15s ease, transform 0.15s ease, font-size 0.15s ease, color 0.15s ease;
+}
+.login__input:focus + .login__label,
+.login__input:not(:placeholder-shown) + .login__label { top: 8px; transform: none; font-size: 12px; line-height: 16px; color: var(--core-default-700); }
+.login__input:focus + .login__label { color: var(--core-action-900); }
 .login__input:focus { outline: 2px solid var(--core-action-900); outline-offset: -1px; border-color: transparent; }
-.login__forgot { align-self: flex-start; margin-top: -6px; padding: 0; border: none; background: none; font: inherit; font-size: 14px; line-height: 20px; color: var(--core-action-900); cursor: pointer; }
-.login__submit { height: 48px; border: none; border-radius: var(--radius-pill); background: var(--core-action-900); font: inherit; font-size: 16px; font-weight: 700; color: var(--core-background-page); cursor: pointer; }
+@media (prefers-reduced-motion: reduce) { .login__label { transition: none; } }
+.login__forgot { align-self: flex-start; padding: 0; border: none; background: none; font: inherit; font-size: 14px; line-height: 20px; color: var(--core-action-900); cursor: pointer; }
+.login__submit { height: 48px; margin-top: 4px; border: none; border-radius: var(--radius-pill); background: var(--core-action-900); font: inherit; font-size: 16px; font-weight: 700; color: var(--core-background-page); cursor: pointer; }
 .login__submit:active { filter: brightness(0.92); }
-.login__join { margin: 0; padding-top: 16px; border-top: 1px solid var(--core-default-300); font-size: 16px; line-height: 24px; color: var(--core-default-700); }
-.login__join-link { padding: 0; border: none; background: none; font: inherit; font-weight: 600; color: var(--core-action-900); cursor: pointer; }
+/* Other ways to log in: a link under a rule that reveals Google / Facebook. */
+.login__other { display: flex; flex-direction: column; gap: 12px; padding-top: 16px; border-top: 1px solid var(--core-default-300); }
+.login__other-toggle { align-self: center; padding: 0; border: none; background: none; font: inherit; font-size: 16px; font-weight: 600; line-height: 24px; color: var(--core-action-900); cursor: pointer; }
+.login__alts { display: none; flex-direction: column; gap: 8px; }
+.login.is-other .login__alts { display: flex; }
+.login__alt { display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 20px; border: 1px solid var(--core-default-300); border-radius: var(--radius-pill); background: var(--core-background-card); font: inherit; font-size: 16px; color: var(--core-default-900); cursor: pointer; }
+.login__alt:active { background: var(--state-pressed); }
+.login__alt-icon { flex: none; width: 22px; height: 22px; }
+.login__alt-icon svg { display: block; width: 100%; height: 100%; }
 
 /* The uplevel row slides to the top edge when the bar hides; with reduced
    motion it just moves. */

@@ -43,14 +43,23 @@ The Logged Out Member has the same profile button, but it opens a **login card**
 (`renderLoginDropdown`) in the same anchored card instead of the account menu.
 Not from Figma; a simple placeholder until a login design exists.
 
-- **"Log in"** heading, then **Email** and **Password** fields (48px, fully
-  rounded like the Log in button, action-blue focus ring), a **Forgot password?** link (no destination
-  yet), a full-width blue **Log in** button, and below a rule, **Not a member?
-  Join for free** → `signup-start`.
-- **Log in** (the button or Enter) crosses into the **Logged In Member**
-  prototype on the same page (same hash; home if that persona has no such
-  screen). There is no real auth, and the fields are not required, so a tester
-  can tap straight through.
+A logged-out member is someone we know whose session ended, so the card treats
+them as returning:
+
+- **"Welcome back"** heading.
+- **Email**, pre-filled with the member's address (`LOGGED_OUT_EMAIL`,
+  `janet.smith@example.com`), and **Password**, which gets focus when the card
+  opens.
+- **Floating labels:** each label sits inside its pill (56px tall) and slides up
+  and shrinks when the field is focused or has a value. Action-blue focus ring.
+- **Forgot password?** (no destination yet), then a full-width blue **Log in**.
+- Below a rule, **Other ways to log in** reveals **Continue with Google** and
+  **Continue with Facebook** inside the card. It toggles a class rather than
+  re-rendering, so anything typed stays.
+- Logging in by any route (the button, Enter, Google, Facebook) crosses into the
+  **Logged In Member** prototype on the same page (same hash; home if that
+  persona has no such screen). There is no real auth, and the fields are not
+  required, so a tester can tap straight through.
 
 ---
 
