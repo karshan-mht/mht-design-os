@@ -34,10 +34,23 @@ The `acct-*` rows carry a `data-screen` and navigate to a placeholder destinatio
 screen within the persona (the dropdown closes on click). The counts are
 placeholder copy.
 
-**Persona availability:** Logged In Member only. Logged Out Member has a
-profile-style icon in the nav but no dropdown content in Figma — not built.
-Subscriber uses the Visitor nav (Join button, no profile icon), so it has no
-dropdown either.
+**Persona availability:** Logged In Member only. Subscriber uses the Visitor
+nav (Join button, no profile icon), so it has no dropdown either.
+
+## Login card (Logged Out Member)
+
+The Logged Out Member has the same profile button, but it opens a **login card**
+(`renderLoginDropdown`) in the same anchored card instead of the account menu.
+Not from Figma; a simple placeholder until a login design exists.
+
+- **"Log in"** heading, then **Email** and **Password** fields (48px, 12px
+  radius, action-blue focus ring), a **Forgot password?** link (no destination
+  yet), a full-width blue **Log in** button, and below a rule, **Not a member?
+  Join for free** → `signup-start`.
+- **Log in** (the button or Enter) crosses into the **Logged In Member**
+  prototype on the same page (same hash; home if that persona has no such
+  screen). There is no real auth, and the fields are not required, so a tester
+  can tap straight through.
 
 ---
 

@@ -1280,6 +1280,35 @@ function renderDropdown() {
   `;
 }
 
+// Login card — what the profile button opens for the Logged Out Member, in
+// place of the account menu (a logged-out member has no account to show).
+// Same anchored card as renderDropdown. Email + password, Forgot password
+// (no destination yet), Log in, and a Join link. The fields are not required,
+// so a tester can tap straight through: submitting crosses into the Logged In
+// Member prototype on the same page (see the submit listener).
+function renderLoginDropdown() {
+  return `
+    <div class="dropdown-overlay" data-action="close-dropdown">
+      <div class="dropdown login" data-stop>
+        <form class="login__form" novalidate>
+          <h2 class="login__title">Log in</h2>
+          <label class="login__field">
+            <span class="login__label">Email</span>
+            <input class="login__input" type="email" name="email" placeholder="you@example.com" autocomplete="off" />
+          </label>
+          <label class="login__field">
+            <span class="login__label">Password</span>
+            <input class="login__input" type="password" name="password" placeholder="Password" autocomplete="off" />
+          </label>
+          <button class="login__forgot" type="button">Forgot password?</button>
+          <button class="login__submit" type="submit">Log in</button>
+        </form>
+        <p class="login__join">Not a member? <button class="login__join-link" data-screen="signup-start">Join for free</button></p>
+      </div>
+    </div>
+  `;
+}
+
 // Medical Advisory Committee page (Figma "Medical Advisors", file
 // Zkiv6o4d7eyQOLAvwjVYTy, mobile 2:43). Reached from the splash "View all
 // advisors" link. Real advisor photos live in assets/advisor-{1..5}.jpg (index
@@ -1876,7 +1905,9 @@ function render() {
 
   let overlays = "";
   if (state.panelOpen) overlays += renderPanel();
-  if (state.dropdownOpen && persona.navVariant !== "visitor") overlays += renderDropdown();
+  if (state.dropdownOpen && persona.navVariant !== "visitor") {
+    overlays += LOCKED_PERSONA_KEY === "logged-out-member" ? renderLoginDropdown() : renderDropdown();
+  }
   if (state.subnavMenu) overlays += renderSubnavMenu();
   if (state.gateOpen) overlays += renderMemberGate();
 
@@ -1978,6 +2009,15 @@ function closePanel() {
 }
 
 /* ---------------- Event wiring ---- */
+
+// Logging in from the login card: cross into the Logged In Member prototype,
+// keeping the current page (same hash slug; it falls back to home if that
+// persona has no such screen). No real auth.
+document.addEventListener("submit", (e) => {
+  if (!e.target.closest(".login__form")) return;
+  e.preventDefault();
+  window.location.href = `../logged-in-member/index.html${window.location.hash}`;
+});
 
 document.addEventListener("click", (e) => {
   // In-prototype navigation: any element with data-screen="<id>" jumps to that
