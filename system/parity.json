@@ -96,14 +96,86 @@
       "notes": "Renamed 2026-09-18 from the ambiguous \"Access\". See the note on 7417:3673.",
       "section": "Logged in Member",
       "page": "Iterations"
+    },
+    {
+      "block": "icon-btn",
+      "file": "global-navigation",
+      "node": "7905:410",
+      "figmaName": "Search",
+      "doc": "system/components/icon-btn.md",
+      "css": "prototypes/navigation/main.css",
+      "verified": "2026-11-16",
+      "page": "UX/UI",
+      "section": "Dropdown",
+      "matches": [
+        "44x44 frame == .icon-btn 44x44",
+        "no fill, no stroke == transparent background",
+        "single glyph child (Icon 22x22) == one icon inside"
+      ],
+      "notes": "The visible top nav in Mobile_Profile (7899:288 > Top 7905:401), not the hidden reference copy (6371:107). Profile 7905:422 is the same 44x44 shape. Menu 7905:403 is drawn 36x44; the code keeps it at 44x44 like the other icon buttons."
+    },
+    {
+      "block": "ai-btn",
+      "file": "global-navigation",
+      "node": "7905:412",
+      "figmaName": "AI",
+      "doc": "system/components/ai-btn.md",
+      "css": "prototypes/navigation/main.css",
+      "verified": "2026-11-16",
+      "page": "UX/UI",
+      "section": "Dropdown",
+      "matches": [
+        "44px tall == .ai-btn height",
+        "pill radius == var(--radius-pill)",
+        "gradient 1px stroke == .ai-btn::before ring",
+        "stars vector + \"Ask\" label, 4px gap == .ai-btn__stars + .ai-btn__label, gap 4px",
+        "label 16px == font-size 16px"
+      ],
+      "notes": "Differences, recorded rather than fixed: Figma draws the stars 22x22 with 16px side padding (84px wide) and a SemiBold label; the code uses 16px stars (from the Personal Assistant frame, node 1439:5), 12px side padding and a bold label. Two hidden siblings (7905:416, 7905:418) are alternative AI variants, not the canonical control."
+    },
+    {
+      "block": "mod-btn-primary",
+      "file": "splash-landing",
+      "node": "4101:146",
+      "figmaName": "btn-primary",
+      "doc": "system/components/mod-btn-primary.md",
+      "css": "prototypes/navigation/main.css",
+      "verified": "2026-11-16",
+      "page": "Menopause – Engineering Ready",
+      "section": "Mobile_Splash_Landing",
+      "matches": [
+        "radius 24 == border-radius 24px",
+        "white fill, no stroke == background surface, border none",
+        "label 18px \"Join for free\" == font-size 18px, the closing card's primary"
+      ],
+      "notes": "Desktop instance: 4101:369. Differences: Figma is 50px tall with a SemiBold label in #151515; the code is 48px with a regular-weight label in the dark navy text color (all text uses the dark navy since 2026-11-16)."
+    },
+    {
+      "block": "mod-btn-secondary",
+      "file": "splash-landing",
+      "node": "4101:148",
+      "figmaName": "btn-secondary",
+      "doc": "system/components/mod-btn-secondary.md",
+      "css": "prototypes/navigation/main.css",
+      "verified": "2026-11-16",
+      "page": "Menopause – Engineering Ready",
+      "section": "Mobile_Splash_Landing",
+      "matches": [
+        "radius 24 == border-radius 24px",
+        "no fill == background transparent",
+        "1px white stroke at 35% == border 1px rgba(255,255,255,0.35)",
+        "white 18px label \"Check symptoms first\" == inverse text, font-size 18px"
+      ],
+      "notes": "Desktop instance: 4101:371. Same height and weight differences as the primary (50px and SemiBold in Figma; 48px and regular in code)."
     }
   ],
   "openQuestions": [
     {
       "about": ".ai-btn, .icon-btn, .mod-btn-primary, .mod-btn-secondary",
       "issue": "These have contracts but no parity entry. The Global Navigation file exposes one page (Menopause Footer), and the nav frames in it — Menu 6371:110, Search 6371:115, AI 6371:117, Alerts 6371:119 — sit inside frame 6371:107, which is hidden=true. That is a reference copy, not the canonical nav.",
-      "why_not_recorded": "Anchoring a contract to a hidden copy would look authoritative while pointing at the wrong thing. Recorded as a gap instead; evals/lint-parity.js reports it every run.",
-      "needs": "The canonical top-nav frame, or confirmation that the hidden Navigation frame is the source."
+      "why_not_recorded": "RESOLVED: mapped to visible frames. .ai-btn and .icon-btn anchor to the live top nav in Global Navigation (Mobile_Profile 7899:288 > Top 7905:401: AI 7905:412, Search 7905:410), not the hidden 6371:107 copy. .mod-btn-primary/.mod-btn-secondary anchor to btn-primary 4101:146 / btn-secondary 4101:148 on the Splash Landing file's Menopause – Engineering Ready page.",
+      "needs": "The canonical top-nav frame, or confirmation that the hidden Navigation frame is the source.",
+      "resolved": "2026-11-16"
     },
     {
       "about": ".ai-btn size",

@@ -75,10 +75,10 @@ search and the avatar. The accessible name is the fuller "Ask AI".
   `:focus` rules across 64 rendered buttons — which was a system-wide blocker,
   not an `.ai-btn` problem. Fixed globally rather than here.
 - Target size is 44px tall, meeting the minimum; width hugs content. **This is
-  deliberate and confirmed (2026-09-18).** The Figma reference copy reachable
-  today draws the control at 36×36 with a matching 22×22 glyph; 44px is an
-  intentional uplift to the accessibility minimum, not drift. The Figma frames
-  will be refreshed to match rather than the code being pulled back.
+  deliberate and confirmed (2026-09-18).** The current Figma control (Global
+  Navigation `7905:412`, mapped in `system/parity.json` on 2026-11-16) is 44px
+  tall too. It still differs in detail: 22×22 stars, 16px side padding and a
+  SemiBold label, against the code's 16px stars, 12px padding and bold label.
 
 ## Dependencies
 
