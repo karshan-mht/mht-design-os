@@ -23,8 +23,6 @@ and how it behaves. **`prototypes/`** is what was built with both.
   nav, slide-out panel, level-up pill and global footer — behavior, component
   structure, and Figma node ids.
 - **[tokens/reference.html](system/tokens/reference.html)** — the live token sheet.
-- **[icons/sheet.html](system/icons/sheet.html)** — the 112-icon line set, with search and
-  size/stroke controls.
 - **[motion/ai-pulse-spec.html](system/motion/ai-pulse-spec.html)** — the Ask AI pulse
   motion study.
 - **brand/** — [brand source of truth](system/brand/brand-source-of-truth.md)

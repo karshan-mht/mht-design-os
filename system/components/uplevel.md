@@ -1,57 +1,35 @@
-# Level-up pill (`.uplevel`)
+# Uplevel row (`.uplevel`)
 
-> **Status: dormant — not rendered today.**
->
-> `renderUplevel()` exists in `main.js` and is **never called**; `.screen__uplevel`
-> is only referenced by a `querySelector` that always returns null. The desktop
-> breadcrumb was dropped on 2026-08-04 with the note *"Re-add via
-> `screen.type === "uplevel"` when the up-nav treatment is decided"*, and the
-> pill went with it. The CSS, the render function and the per-screen `upTo` /
-> `upIcon` data all remain, so it is parked rather than deleted.
->
-> This contract therefore describes **intent**, not shipped behavior. Treat the
-> rendering details as what it would do when re-enabled, and verify against the
-> design before switching it back on. Found while verifying this contract in a
-> browser — the component index's "JS" column says `•` because the string
-> appears in `main.js`, which does not distinguish a definition from a call.
+> **Status: live (2026-11-16).** Rendered on every detail screen (`type:
+> "uplevel"`), under the sub-nav on mobile and under the header on desktop.
+> Figma Global Navigation `7981:5`. It replaced the dormant floating pill
+> (`7294:1952`), which had not rendered since 2026-08-04.
 
 ## Purpose
 
-A floating pill that tells you where the current screen sits and takes you one
-level up. It docks into a bar once the page scrolls, so the way back is always
-reachable without occupying the header.
+A full-width row that names the current screen's parent and takes you one
+level up. It is sticky, so the way back stays reachable while reading.
 
 ## Use
 
-- **Preferred** — on a screen that has a clear parent (an article inside a hub).
-- **Allowed** — with an icon, or label only.
-- **Avoid** — on a top-level screen. There is nothing to go up to, and the pill
-  implies a hierarchy that is not there.
+- **Preferred** — on a detail screen with a clear parent list (an article, a
+  group, a question).
+- **Avoid** — on a top-level screen. There is nothing to go up to.
 - **Prohibited** — more than one per screen.
-- **Rationale** — it is a wayfinding aid, not navigation chrome. Two of them
-  would make "up" ambiguous.
+- **Rationale** — it is a wayfinding aid, not navigation chrome.
 
 ## Anatomy
 
 | Part | Required | Notes |
 |---|:-:|---|
-| `.uplevel` | yes | the pill; `pointer-events: auto` re-enables clicks inside a `pointer-events: none` container |
-| `.uplevel__icon` | no | 16px glyph |
-| `span` | yes | the label |
-
-Its container `.screen__uplevel` carries the `is-lifted` state.
+| `.screen__uplevel` | yes | sticky container; `top` set to the nav or header height in JS |
+| `.uplevel` | yes | the row: 48px, padding 8px 12px, translucent white with 4px blur and a bottom hairline |
+| `.uplevel__icon` | no | 32px circle, primary at 10%, holding a 20px UI glyph |
+| `.uplevel__label` | yes | "All <section>", Lato SemiBold 16/24, primary blue |
 
 ## Variants
 
-Not a class modifier — two forms driven by scroll position:
-
-| Form | Trigger | Appearance |
-|---|---|---|
-| Idle | default | 34px pill, soft blue fill, `--color-border-primary-soft` border |
-| Docked | `.screen__uplevel.is-lifted` | full-width 44px bar, translucent white, `backdrop-filter: blur(8px)`, square, bottom hairline |
-
-The transition animates height, padding, radius, background and border-color
-over 0.2s.
+None. The label and icon come from the screen's `backLabel` and `upIcon`.
 
 ## States
 

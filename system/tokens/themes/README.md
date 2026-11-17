@@ -34,8 +34,11 @@ end. That is tracked in the launcher under Foundations → Sites.
 
 ## What belongs in a theme
 
-Only the eight `--brand-*` hue tokens. Everything else — action blue, ink,
-surfaces, borders, type, layout — is universal and lives in `../tokens.css`.
+The site's **Theme** and **Content** colors from the Figma *Universal Colors*
+file (`--theme-*`, `--content-*`, same names on every site), and the eight older
+`--brand-*` hue tokens. Everything else (action blue, ink, surfaces, borders,
+type, layout) is universal and lives in `../tokens.css`. Only `menopause.css`
+carries Theme and Content colors so far. The Legacy values come later.
 
 If you find yourself wanting to add a ninth token here, check first whether the
 difference is really brand or really a component variant.

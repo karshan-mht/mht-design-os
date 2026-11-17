@@ -119,48 +119,139 @@ html.is-modal-open { overflow: hidden; }
 }
 .screen__nav.is-hidden { transform: translateY(-100%); }
 
-/* Mobile sub-nav: the three sections under the top bar (like the live site).
-   Scrolls with the page (the top nav above it stays sticky / auto-hides). */
+/* Mobile sub-nav (Figma Global Navigation 7932:1084): Home, then Resources and
+   Community, which open dropdown menus. Scrolls with the page (the top nav
+   above it stays sticky / auto-hides). Every item keeps the same 12px side
+   padding whether or not it is selected; selecting one only adds the pill
+   background, so no label moves when the selection changes. */
 .screen__subnav {
-  display: flex;
-  justify-content: space-between;
-  gap: 4px;
-  padding: 8px 16px;
-  background: var(--color-surface);
-  box-shadow: inset 0 -1px 0 0 var(--color-border);
+  padding: 12px 6px; /* items carry their own 12px side padding */
+  background: rgb(from var(--core-background-page) r g b / 0.9);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: 0 1px 0 0 var(--core-default-300);
   overflow-x: auto;
+  /* Above the uplevel row (z 8) so its 1px divider isn't covered by the row
+     directly below it; still under the top nav (z 10) as it scrolls away. */
+  position: relative;
+  z-index: 9;
 }
-.subnav__link {
+.subnav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* the items' own padding keeps labels apart */
+  min-width: max-content;
+}
+.subnav__item {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   flex-shrink: 0;
+  height: 36px;
+  padding: 8px 12px; /* same whether selected or not, so selecting never shifts the row */
   border: none;
+  border-radius: var(--radius-pill);
   background: none;
   cursor: pointer;
   font-family: var(--font-body);
-  font-size: 16px;
+  font-size: 18px;
+  line-height: 24px;
   font-weight: 400;
   letter-spacing: -0.25px;
-  color: var(--color-text);
-  padding: 6px 10px;
-  border-radius: var(--radius-pill);
+  color: var(--core-default-900);
   white-space: nowrap;
 }
-.subnav__link .icon { width: auto; height: 19px; }
-.subnav__link .icon svg { width: auto; height: 19px; display: block; }
-.subnav__link.is-active { color: var(--color-primary); background: rgb(from var(--color-primary) r g b / 0.08); }
+.subnav__item.is-active {
+  background: var(--core-default-100);
+}
+.subnav__item:focus-visible { outline: 2px solid var(--core-action-900); outline-offset: 2px; }
+/* Figma draws the house 16px inside a 24px box; the UI glyph's live area is
+   20/24, so a 19px box lands it at 16px of ink (same 1.2x rule as main.css). */
+.subnav__home-icon { display: grid; place-items: center; width: 24px; height: 24px; }
+.subnav__home-icon svg { width: 19px; height: 19px; display: block; }
+.subnav__chevron { display: block; width: 16px; height: 14px; transition: transform 0.15s ease; }
+.subnav__chevron svg { display: block; width: 16px; height: 14px; }
+.subnav__item.is-open .subnav__chevron { transform: rotate(180deg); }
+
+/* Sub-nav dropdowns (Figma 7899:360 Resources, 7899:378 Community).
+   positionSubnavMenu() sets top/left under the open trigger. */
+.subnav-overlay { position: fixed; inset: 0; z-index: 20; }
+.subnav-menu {
+  position: absolute;
+  top: 128px;
+  left: 12px;
+  width: 246px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  background: var(--core-background-card);
+  border: 1px solid var(--core-default-300);
+  border-radius: var(--radius-card);
+  box-shadow: 0 0 8px rgb(from var(--core-default-900) r g b / 0.1);
+  animation: fadeIn 0.15s ease;
+}
+.subnav-menu--community { padding: 16px 24px; }
+.subnav-menu__item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 44px;
+  padding: 12px 0;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: -0.25px;
+  color: var(--core-default-900);
+  text-align: left;
+  white-space: nowrap;
+}
+/* Figma's menu icons are ~22px of ink in a 24px box; at the glyph's 20/24 live
+   area that is a 26px box. The icon column stays 24 wide so labels align. */
+.subnav-menu__icon { display: grid; place-items: center; width: 24px; height: 24px; flex: none; }
+.subnav-menu__icon svg { width: 26px; height: 26px; display: block; }
+.subnav-menu__item:focus-visible,
+.subnav-menu__ask:focus-visible { outline: 2px solid var(--core-action-900); outline-offset: 2px; }
+/* "Ask a question": below a divider, AI duo-star + gradient label. The
+   divider sits 16px below Programs and the label 16px below the divider, so
+   the row isn't tight under the line (Figma's 36px row was). */
+.subnav-menu__ask {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 48px;
+  margin-top: 8px;
+  padding: 8px 0 0;
+  border: none;
+  border-top: 1px solid var(--core-default-300);
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.25px;
+}
+.subnav-menu__ask span {
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.subnav-menu__ask-icon { width: 22px; height: 22px; flex: none; margin: 0 1px; }
 
 .screen__uplevel {
   position: sticky;
-  top: 0; /* overridden inline to the nav height while the nav is visible */
-  z-index: 9;
-  padding: 12px 12px 8px;  /* inset the floating pill while idle at the top */
-  pointer-events: none;    /* only the pill/bar is interactive */
-  transition: top 0.28s ease, padding 0.2s ease;
+  top: 0; /* set to the nav height while the nav shows (attachAutoHide) */
+  z-index: 8;
 }
-/* On scroll the inset collapses so the control spans edge-to-edge as a bar. */
-.screen__uplevel.is-lifted { padding: 0; }
+/* Animate only the mobile dock (nav hiding / returning). The first placement is
+   set without a transition, so the row never starts out pinned at 0, under the
+   nav, waiting on an animation. */
+.screen__uplevel.is-tracking { transition: top 0.28s ease; }
 
 .screen__body { flex: 1 0 auto; display: flex; flex-direction: column; }
 /* Label & gated screens fill a full viewport (100vh — a definite height, unlike
@@ -316,7 +407,7 @@ html.is-modal-open { overflow: hidden; }
   font-size: 20px;
   line-height: 28px;
   letter-spacing: -0.75px;
-  color: var(--color-navy);
+  color: var(--color-text);
 }
 .mod-checker-card__pills { display: flex; flex-wrap: wrap; gap: 12px 8px; margin: 0; }
 .mod-pill {
@@ -356,10 +447,10 @@ html.is-modal-open { overflow: hidden; }
   font-size: var(--display-section-size);
   line-height: var(--display-section-lh);
   letter-spacing: var(--display-tracking);
-  color: var(--color-navy);
+  color: var(--color-text);
 }
 .mod-section-text__title em { font-style: normal; color: var(--color-accent); }
-.mod-section-text__sub { margin: 0; font-size: 20px; line-height: 1.4; letter-spacing: -0.75px; color: var(--color-navy); }
+.mod-section-text__sub { margin: 0; font-size: 20px; line-height: 1.4; letter-spacing: -0.75px; color: var(--color-text); }
 
 .mod-view-all-link {
   display: block;
@@ -417,7 +508,7 @@ html.is-modal-open { overflow: hidden; }
 }
 /* Fill the circle — the SVGs carry their own padding inside a 128 viewBox
    (artwork ~52% of the frame), so this lands the glyph at ~Figma's 46px. */
-.mod-listicle-card__icon img { width: 100%; height: 100%; object-fit: contain; }
+.mod-listicle-card__icon svg { width: 100%; height: 100%; display: block; }
 .mod-listicle-card__title {
   margin: 0;
   text-align: left;
@@ -425,7 +516,7 @@ html.is-modal-open { overflow: hidden; }
   font-size: 20px;
   line-height: 1.4;
   letter-spacing: -0.75px;
-  color: var(--color-navy);
+  color: var(--color-text);
 }
 .mod-listicle-card__cta {
   margin-top: auto;   /* cards are equal height; pin the button to the bottom so they align */
@@ -479,7 +570,7 @@ html.is-modal-open { overflow: hidden; }
   background-color: var(--color-placeholder);
   background-image: repeating-linear-gradient(45deg, rgb(from var(--color-text) r g b / 0.06) 0, rgb(from var(--color-text) r g b / 0.06) 10px, transparent 10px, transparent 20px);
 }
-.mod-article-card__title { padding-inline: 12px; display: flex; align-items: flex-start; gap: 8px; font-size: 18px; line-height: 1.3; color: var(--color-navy); }
+.mod-article-card__title { padding-inline: 12px; display: flex; align-items: flex-start; gap: 8px; font-size: 18px; line-height: 1.3; color: var(--color-text); }
 .mod-article-card__title-text { flex: 1 1 auto; }
 /* Stack / "layers" glyph marking a card that belongs to a Collection. */
 .mod-article-card__stack { flex: 0 0 auto; color: var(--color-accent); }
@@ -512,7 +603,7 @@ html.is-modal-open { overflow: hidden; }
   background-color: var(--color-placeholder);
 }
 .mod-expert-card__info { display: flex; flex-direction: column; gap: 4px; }
-.mod-expert-card__name { font-weight: 600; font-size: 18px; letter-spacing: -0.25px; color: var(--color-navy); }
+.mod-expert-card__name { font-weight: 600; font-size: 18px; letter-spacing: -0.25px; color: var(--color-text); }
 .mod-expert-card__role { font-size: 16px; color: var(--color-text); }
 
 /* ---- Factoid — dark gradient stat cards, Figma "Factoid" section ---- */
@@ -584,7 +675,7 @@ html.is-modal-open { overflow: hidden; }
   font-size: var(--quote-size);
   line-height: var(--quote-lh);
   letter-spacing: -0.75px;
-  color: var(--color-navy);
+  color: var(--color-text);
 }
 
 .mod-cta-card {
@@ -653,7 +744,7 @@ html.is-modal-open { overflow: hidden; }
   font-size: var(--display-title-size);
   line-height: var(--display-title-lh);
   letter-spacing: var(--display-tracking);
-  color: var(--color-navy);
+  color: var(--color-text);
 }
 .mod-advisors__lede { margin: 0; font-weight: 400; font-size: 18px; line-height: 26px; color: var(--color-text); }
 .mod-advisors__body { margin: 0; font-size: 18px; line-height: 26px; color: var(--color-text); }
@@ -694,7 +785,7 @@ html.is-modal-open { overflow: hidden; }
   font-size: var(--display-subhead-size);
   line-height: var(--display-subhead-lh);
   letter-spacing: -0.75px;
-  color: var(--color-navy);
+  color: var(--color-text);
 }
 .mod-advisors__watch-card {
   aspect-ratio: 16 / 9;   /* proper video ratio at any width (mobile + 728px desktop) */
@@ -1075,89 +1166,96 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   z-index: 1;
 }
 
-/* ---- Uplevel pill (sticks to the top; replaces the old level-up bar) ----
-   A small blue-tinted pill that sits in-page top-left inside the sticky
-   .screen__uplevel container, so it pins below the nav / docks to the top edge
-   on scroll (attachAutoHide). Figma Global Navigation 7294:1952. */
+/* ---- Uplevel row (detail screens; Figma Global Navigation 7981:5) ----
+   Full width under the sub-nav, inside the sticky .screen__uplevel container
+   (no divider line; on desktop the content lines up with the page title):
+   the parent section's glyph in a 32px light-blue circle, then "All <section>"
+   in blue SemiBold. Same translucent, blurred surface as the sub-nav. */
 .uplevel {
-  pointer-events: auto;   /* re-enable clicks (container is pointer-events:none) */
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 12px;
-  height: 34px;
-  border: 1px solid var(--color-border-primary-soft);
-  border-radius: 48px;
-  background: var(--color-bg-blue-soft);   /* opaque var(--color-bg-blue-soft) (Figma) — the idle floating pill */
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  background: rgb(from var(--core-background-page) r g b / 0.9);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
   cursor: pointer;
   font-family: var(--font-body);
   color: var(--color-primary);
-  transition: height 0.2s ease, padding 0.2s ease, border-radius 0.2s ease,
-    background 0.2s ease, border-color 0.2s ease;
+  text-align: left;
 }
-/* Once scrolled (is-lifted, toggled in attachAutoHide) the pill docks into a
-   full-width, 44px, slightly translucent bar — no pill shape, icon + label
-   left-aligned, page content scrolling faintly beneath it. */
-.screen__uplevel.is-lifted .uplevel {
-  display: flex;
-  width: 100%;
-  height: 44px;
-  padding: 0 12px;
-  border: none;
-  border-bottom: 1px solid var(--color-border);
-  border-radius: 0;
-  background: rgba(255, 255, 255, 0.8);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+.uplevel:focus-visible { outline: 2px solid var(--core-action-900); outline-offset: -2px; }
+/* Figma draws each glyph ~16-18px inside the circle; at the UI glyph's 20/24
+   live area a 20px box lands it there. */
+.uplevel__icon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border-radius: 50%;
+  background: rgb(from var(--color-primary) r g b / 0.1);
 }
-.uplevel__icon { width: 19px; height: 19px; display: inline-flex; flex-shrink: 0; }
-.uplevel__icon svg { width: 19px; height: 19px; display: block; }
-.uplevel span {
-  font-weight: 600;        /* Lato SemiBold — confirmed against design 2026-09-18;
-                              was 400 with this same comment, a contradiction
-                              surfaced by system/components/uplevel/docs.md */
-  font-size: 14px;
+.uplevel__icon svg { width: 20px; height: 20px; display: block; }
+.uplevel__label {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
   letter-spacing: -0.25px;
-  line-height: 22px;
 }
 
 /* In-page "collection" callout box (placeholder) — sits near the top of an
    article that belongs to a Collection (rebranded old Topic Center — a curated
    set of sponsored content), linking to the full collection. */
 .collection-callout {
+  /* "Part of a Collection" (Figma Global Navigation 7977:3599). A 5% action-blue
+     tint over the page, with a 1px navy → action-blue gradient border at 20% (Figma's
+     navy → teal, mapped to the nearest tokens). The
+     padding-box layers are opaque so the border gradient can't show through. */
+  display: flex;
+  align-items: center;
+  gap: 16px;
   margin: 16px 12px;        /* top of the body, inset from the device edges */
-  padding: 16px;
-  border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-card);
-  background: var(--color-surface-neutral);
+  padding: 16px 16px 16px 12px;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  background:
+    linear-gradient(rgb(from var(--core-action-900) r g b / 0.05), rgb(from var(--core-action-900) r g b / 0.05)) padding-box,
+    linear-gradient(var(--core-background-page), var(--core-background-page)) padding-box,
+    linear-gradient(90deg, rgb(from var(--core-default-900) r g b / 0.2), rgb(from var(--core-action-900) r g b / 0.2)) border-box;
+  font: inherit;
+  text-align: left;
+  color: var(--color-text);
+  cursor: pointer;
 }
 /* Inside an Article Show (above Key Takeaways) it flows with the art body gap. */
 .art__body .collection-callout { margin: 0; }
+.art__body .art__head + .collection-callout { margin-top: -10px; } /* 14px under the Save row, like Key Takeaways */
+.collection-callout__icon { flex: none; width: 55px; height: 54px; }
+.collection-callout__text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 .collection-callout__label {
-  margin: 0 0 6px;
   font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: 0.02em;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 18px;
   text-transform: uppercase;
-  color: var(--color-text-secondary);
+  color: var(--core-default-700);
 }
-.collection-callout__text {
-  margin: 0 0 12px;
-  font-size: 16px;
-  line-height: 1.4;
-  color: var(--color-text);
-}
-.collection-callout__link {
-  padding: 0;
-  border: none;
-  background: none;
-  cursor: pointer;
+.collection-callout__title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
   font-family: var(--font-body);
-  font-weight: 400;
-  font-size: 16px;
-  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.4;
+  letter-spacing: -0.75px;
+  color: var(--core-default-900);
 }
+.collection-callout__chev { flex: none; width: 20px; height: 20px; color: var(--color-primary); }
 
 /* ---- Community Overview hub (orientation menu) ---- */
 /* Wireframe-level: outlined module boxes, no visual polish. */
@@ -1169,7 +1267,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   font-size: var(--display-title-size);
   line-height: var(--display-title-lh);
   letter-spacing: var(--display-tracking);
-  color: var(--color-navy);
+  color: var(--color-text);
 }
 .comm-hub__list { display: flex; flex-direction: column; gap: 12px; }
 /* Tappable cards: whole card navigates; press feedback via :active (this is a
@@ -1239,7 +1337,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   font-size: 32px;         /* Figma holds 32/40 across breakpoints (node 12:4) */
   line-height: 40px;
   letter-spacing: var(--display-tracking);
-  color: var(--color-navy);
+  color: var(--color-text);
 }
 .comm-preview__sub { margin: 0; font-size: 18px; line-height: 24px; color: var(--color-text-secondary); }
 .comm-preview__status { display: flex; align-items: center; gap: 10px; }
@@ -1305,7 +1403,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   font-size: var(--display-title-size);
   line-height: var(--display-title-lh);
   letter-spacing: var(--display-tracking);
-  color: var(--color-navy);
+  color: var(--color-text);
 }
 .feat__list { display: flex; flex-direction: column; gap: 16px; }
 
@@ -1377,7 +1475,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   font-size: var(--display-title-size);
   line-height: var(--display-title-lh);
   letter-spacing: var(--display-tracking);
-  color: var(--color-navy);
+  color: var(--color-text);
 }
 .feat-card__desc {
   margin: 0;              /* reset the <p> UA margin in the pair cards (it stacked on the flex gap) */
@@ -1468,7 +1566,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   font-size: 28px;
   line-height: 36px;
   letter-spacing: var(--display-tracking);
-  color: var(--color-navy);
+  color: var(--color-text);
 }
 /* "Post" button — pencil + label, in the Trending Posts header. */
 .comm-feed__post-btn {
@@ -1547,7 +1645,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   font-size: 24px;
   line-height: 32px;
   letter-spacing: var(--display-tracking);
-  color: var(--color-navy);
+  color: var(--color-text);
 }
 .comm-reminder__sub { margin: 0; font-size: 18px; line-height: 26px; color: var(--color-text-muted); }
 .comm-reminder__cta {
@@ -1737,7 +1835,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   font-size: var(--display-title-size);
   line-height: var(--display-title-lh);
   letter-spacing: var(--display-tracking);
-  color: var(--color-navy);
+  color: var(--color-text);
 }
 .gate__sub {
   margin: 0;
@@ -1789,7 +1887,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   font-size: var(--display-title-size);
   line-height: var(--display-title-lh);
   letter-spacing: var(--display-tracking);
-  color: var(--color-navy);
+  color: var(--color-text);
 }
 .topic-hub__desc { margin: 0 0 8px; font-size: 16px; line-height: 1.4; color: var(--color-text); }
 .topic-hub__stat {
@@ -2228,29 +2326,45 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 .art { font-family: var(--font-body); color: var(--color-text); letter-spacing: -0.25px; }  /* baseline tracking (like the splash); headings override to -0.75px */
 .art__body { display: flex; flex-direction: column; gap: 24px; padding: 8px 12px 0; }
 
-/* header */
-.art__head { display: flex; flex-direction: column; gap: 12px; }
-.art__title { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: var(--display-title-size); line-height: var(--display-title-lh); letter-spacing: var(--display-tracking); color: var(--color-navy); }
-.art__byline { margin: 0; font-size: 14px; line-height: 20px; letter-spacing: -0.25px; color: var(--color-text-secondary); }
-.art__strip { display: flex; align-items: center; justify-content: space-between; }
-.art__reaction { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; letter-spacing: -0.25px; color: var(--color-text-secondary); }
-.art__avatar { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
-.art__save { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 400; letter-spacing: -0.25px; color: var(--color-primary); }
+/* header (Figma "Articles" 1082:3) — ad slot, title + posted date, reviewer
+   row, reaction / comment counts + Save. */
+.art__head { display: flex; flex-direction: column; gap: 14px; }
+.art-ad { display: flex; flex-direction: column; align-items: center; gap: 2px; padding-top: 6px; }
+.art-ad__slot { display: block; width: 300px; max-width: 100%; aspect-ratio: 300 / 250; object-fit: cover; background: var(--core-default-100); }
+.art-ad__label { margin: 0; font-size: 10px; letter-spacing: -0.25px; text-transform: uppercase; color: var(--core-default-900); }
+.art__titleblock { display: flex; flex-direction: column; gap: 5px; }
+.art__title { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: var(--display-title-size); line-height: var(--display-title-lh); letter-spacing: var(--display-tracking); color: var(--color-text); }
+.art__posted { margin: 0; font-size: 14px; line-height: 22px; letter-spacing: -0.25px; color: var(--core-default-700); }
+.art__reviewers { display: flex; align-items: center; gap: 7px; }
+/* Two overlapping reviewer photos with the green "reviewed" check on the second. */
+.art__faces { position: relative; display: flex; flex: none; width: 67px; }
+.art__face { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 1.5px solid rgb(from var(--core-default-900) r g b / 0.1); }
+.art__face + .art__face { margin-left: -8px; }
+.art__reviewed { position: absolute; left: 48px; top: 20px; width: 19px; height: 19px; color: var(--core-background-page); }
+.art__reviewed-dot { fill: var(--intent-positive-900); stroke: var(--core-background-page); }
+.art__byline { margin: 0; font-size: 14px; line-height: 22px; letter-spacing: -0.25px; color: var(--color-text); }
+.art__strip { display: flex; align-items: center; justify-content: space-between; height: 36px; }
+.art__counts { display: flex; align-items: center; }
+.art__count { display: inline-flex; align-items: center; gap: 4px; min-width: 52px; font-size: 14px; font-weight: 700; line-height: 20px; letter-spacing: -0.25px; color: var(--core-default-700); }
+.art__save { display: inline-flex; align-items: center; gap: 4px; height: 36px; padding: 0; border: none; background: none; font: inherit; font-size: 14px; font-weight: 700; line-height: 20px; letter-spacing: -0.25px; color: var(--color-primary); cursor: pointer; }
 .art__ic { width: 18px; height: 18px; flex-shrink: 0; }
+.art__count .art__ic, .art__save .art__ic { width: 24px; height: 24px; }
 
 /* body copy — Lato 18 / DM Serif 26 headings */
 .art__lede { display: flex; flex-direction: column; gap: 8px; }
 .art__sec { display: flex; flex-direction: column; gap: 8px; }
-.art__h2 { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 26px; line-height: 34px; letter-spacing: -0.75px; color: var(--color-navy); }
+.art__h2 { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 26px; line-height: 34px; letter-spacing: -0.75px; color: var(--color-text); }
 .art__lede p, .art__sec p { margin: 0; font-size: 18px; line-height: 26px; letter-spacing: -0.25px; color: var(--color-text); }
 
-/* Key Takeaways card */
-.art-note { display: flex; flex-direction: column; gap: 12px; padding: 16px; border-radius: var(--radius-card); border: 1px solid var(--color-card-border); }
-.art-note__title { margin: 0; font-size: 22px; font-weight: 600; line-height: 28px; letter-spacing: -0.75px; color: var(--color-text); }
-.art-note__item { display: flex; align-items: flex-start; gap: 8px; }
-.art-note__bullet { font-size: 18px; line-height: 26px; color: var(--color-text); }
-.art-note__text { margin: 0; font-size: 18px; line-height: 26px; letter-spacing: -0.25px; color: var(--color-text); }
-.art-note__link { align-self: flex-start; border: none; background: none; padding: 0; font: inherit; font-size: 18px; line-height: 26px; letter-spacing: -0.25px; color: var(--color-primary); cursor: pointer; }
+/* Key Takeaways card (Figma 1082:4): gray surface, no border, magenta dot bullet.
+   Sits 14px under the Save row (the body's 24px gap, less 10). */
+.art__head + .art-note { margin-top: -10px; }
+.art-note { display: flex; flex-direction: column; gap: 8px; padding: 16px; border-radius: 16px; background: var(--core-default-100); }
+.art-note__title { margin: 0; font-size: 20px; font-weight: 600; line-height: 30px; letter-spacing: -0.75px; color: var(--color-text); }
+.art-note__item { display: flex; align-items: flex-start; gap: 13px; padding-left: 2px; }
+.art-note__bullet { flex: none; width: 8px; height: 8px; margin-top: 6px; border-radius: 50%; background: var(--social-reactions-900); }
+.art-note__text { margin: 0; font-size: 18px; line-height: 25px; letter-spacing: -0.05px; color: var(--color-text); }
+.art-note__link { align-self: flex-start; margin-left: 23px; border: none; background: none; padding: 0; font: inherit; font-size: 18px; font-weight: 600; line-height: 28px; letter-spacing: -0.25px; color: var(--color-primary); cursor: pointer; }
 
 /* Collapsed body: white fade + "Read full article" link */
 .art-collapse { position: relative; padding-bottom: 4px; }
@@ -2262,8 +2376,8 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 .art__end { display: flex; flex-direction: column; gap: 32px; padding: 28px 12px 8px; }
 .art-conv, .art-answered, .art-keep { display: flex; flex-direction: column; gap: 16px; }
 .art-conv__title, .art-answered__title { display: flex; align-items: center; gap: 8px; margin: 0; font-family: var(--font-display); font-weight: 400; font-size: var(--display-subhead-size); line-height: var(--display-subhead-lh); letter-spacing: -0.75px; }
-.art-conv__title { color: var(--color-navy); }
-.art-conv__title .art__ic { width: 24px; height: 24px; color: var(--color-navy); }
+.art-conv__title { color: var(--color-text); }
+.art-conv__title .art__ic { width: 24px; height: 24px; color: var(--color-text); }
 .art-conv__input { display: flex; align-items: center; height: 56px; padding: 0 24px; border-radius: 36px; border: 1px solid var(--color-card-border); background: var(--color-surface); font-size: 18px; letter-spacing: -0.25px; color: var(--color-text-secondary); }
 
 /* Menopause, answered */
@@ -2279,11 +2393,11 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 .art-answered__tags { display: flex; flex-wrap: wrap; gap: 12px 8px; }
 
 /* Keep Reading — full-bleed horizontal carousel */
-.art-keep__h { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: var(--display-subhead-size); line-height: var(--display-subhead-lh); letter-spacing: -0.75px; color: var(--color-navy); }
+.art-keep__h { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: var(--display-subhead-size); line-height: var(--display-subhead-lh); letter-spacing: -0.75px; color: var(--color-text); }
 .art-keep__scroll { display: flex; gap: 16px; overflow-x: auto; margin: 0 -12px; padding: 0 12px; }
 .art-keep__card { flex: 0 0 auto; width: 324px; display: flex; flex-direction: column; gap: 12px; padding: 0; border: none; background: none; text-align: left; cursor: pointer; font-family: var(--font-body); }
 .art-keep__thumb { width: 324px; height: 170px; border-radius: var(--radius-card); background: repeating-linear-gradient(45deg, var(--color-placeholder-cool), var(--color-placeholder-cool) 10px, var(--color-primary-soft) 10px, var(--color-primary-soft) 20px); }
-.art-keep__title { font-size: 18px; line-height: 1.3; letter-spacing: -0.25px; color: var(--color-navy); }
+.art-keep__title { font-size: 18px; line-height: 1.3; letter-spacing: -0.25px; color: var(--color-text); }
 .art-keep__card:active { transform: scale(0.99); }
 
 /* Access closing CTA reuses .mod-cta-card (overrides its splash margin) */
@@ -2305,7 +2419,11 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
     z-index: 10;
     background: var(--color-surface);
     box-shadow: inset 0 -1px 0 0 var(--color-border);
+    transition: transform 0.28s ease;
   }
+  /* Auto-hides on scroll-down, returns on scroll-up — same as the mobile nav
+     (attachAutoHide). */
+  .dnav.is-hidden { transform: translateY(-100%); }
   /* Three-column bar: left cluster | centered nav | right controls. The 1fr
      side columns keep the nav centered in the whole bar regardless of cluster
      widths. */
@@ -2321,28 +2439,10 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   .dnav__logo { flex-shrink: 0; }
   .dnav__logo .logo--full { height: 40px; }
   .dnav__nav { justify-self: center; display: flex; align-items: center; gap: 8px; }
-  .dnav__link {
-    border: none;
-    background: none;
-    cursor: pointer;
-    font-family: var(--font-body);
-    font-size: 18px;
-    font-weight: 400;
-    letter-spacing: -0.25px;
-    color: var(--color-text);
-    padding: 8px 14px;
-    border-radius: var(--radius-pill);
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    white-space: nowrap;
-  }
-  /* Each tab icon's viewBox is cropped to its own artwork bbox, so sizing by a
-     shared height renders them all at an even 16px tall (natural widths). */
-  .dnav__link .icon { width: auto; height: 19px; }
-  .dnav__link .icon svg { width: auto; height: 19px; display: block; }
-  .dnav__link:hover { background: rgb(from var(--color-text) r g b / 0.05); }
-  .dnav__link.is-active { color: var(--color-primary); background: rgb(from var(--color-primary) r g b / 0.08); }
+  /* The same sub-nav component as mobile (Figma 7932:1084), centered in the
+     bar with Figma's 26px gaps rather than spread edge to edge. */
+  .dnav__nav .subnav { justify-content: center; gap: 8px; min-width: 0; }
+  .subnav__item:not(.is-active):hover { color: var(--color-primary); }
   .dnav__right { justify-self: end; display: flex; align-items: center; gap: 10px; }
 
   /* Breadcrumb bar — replaces the mobile level-up pill on detail screens. */
@@ -2491,6 +2591,10 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 @media (min-width: 1024px) {
   /* Article is a 728px reading page, centered in the viewport. */
   .art { max-width: var(--content-column); margin-inline: auto; padding-inline: 12px; }
+  /* Uplevel: the surface stays full width (it pins under the header), but the
+     glyph and label start where the page title does — the content column's
+     left edge plus its 12px padding. */
+  .uplevel { padding-inline: max(12px, calc((100% - var(--content-column)) / 2 + 12px)); }
   .art__body,
   .art__end { max-width: none; padding-inline: 0; }
   .art__body { padding-top: 24px; }

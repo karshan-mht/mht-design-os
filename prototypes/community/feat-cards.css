@@ -10,7 +10,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;600;700&family=DM+Serif+Display&display=swap');
 
 .tf {
-  --tf-navy: var(--color-navy, #2b2b68);
   --tf-text: var(--color-text, #0d1b29);
   --tf-border: var(--color-border, #dbdddf);
   --tf-magenta: var(--color-accent, #a440bc);
@@ -39,7 +38,7 @@
   font-size: var(--tf-title);
   line-height: var(--tf-lh);
   letter-spacing: -0.75px;
-  color: var(--tf-navy);
+  color: var(--tf-text);
 }
 .tf__list { display: flex; flex-direction: column; gap: 16px; }
 
@@ -93,7 +92,7 @@
   font-size: var(--tf-title);
   line-height: var(--tf-lh);
   letter-spacing: -0.75px;
-  color: var(--tf-navy);
+  color: var(--tf-text);
 }
 .tf-card__desc {
   margin: 0;

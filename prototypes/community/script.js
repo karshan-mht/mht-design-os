@@ -13,26 +13,17 @@
   "use strict";
 
   /* ------------------------------------------------------------------------
-     Illustrations — monoline, matching TIM's house set (assets/listicles_*.svg):
-     fill="none", ~3px currentColor strokes, round caps/joins, 128x128 viewBox.
-
-     Stroke is currentColor so CSS owns the tint and the ghosting opacity in one
-     place rather than baking an alpha into nine drawings. Draw any new one as
-     line art or it will look pasted in from another product.
+     Illustrations — from system/icons/illustrations/ via the generated
+     registry (system/icons/registry-illustrations.js, loaded before this
+     file). Monoline, ~3px currentColor strokes, so CSS owns the tint and the
+     ghosting opacity. Draw any new one as line art in that folder, or it will
+     look pasted in from another product.
      ------------------------------------------------------------------------ */
-  var ART = {
-    // Rail drawn as SEGMENTS BETWEEN the nodes — a continuous stroke reads
-    // straight through each open circle and turns it into a "ø".
-    timeline: '<path d="M26 21v6M26 41v18M26 73v18M26 105v6"/><circle cx="26" cy="34" r="7"/><circle cx="26" cy="66" r="7"/><circle cx="26" cy="98" r="7"/><path d="M46 30h56M46 42h34M46 62h50M46 74h30M46 94h44M46 106h26"/>',
-    bubbles: '<path d="M26 24h44a12 12 0 0 1 12 12v22a12 12 0 0 1-12 12H48l-14 13V70h-8a12 12 0 0 1-12-12V36a12 12 0 0 1 12-12Z"/><path d="M42 40a7 7 0 0 1 13 3c0 5-6 5-6 10"/><path d="M49 60.5h.01"/><path d="M74 66h28a10 10 0 0 1 10 10v18a10 10 0 0 1-10 10h-4v12l-13-12H74a10 10 0 0 1-10-10V76a10 10 0 0 1 10-10Z"/>',
-    groups: '<circle cx="48" cy="50" r="26"/><circle cx="80" cy="50" r="26"/><circle cx="64" cy="80" r="26"/>',
-    stories: '<path d="M64 36c-10-8-26-11-40-9v56c14-2 30 1 40 9 10-8 26-11 40-9V27c-14-2-30 1-40 9Z"/><path d="M64 36v56"/><path d="M28 44c8-1 16 0 22 3M28 60c8-1 16 0 22 3M78 47c8-3 16-4 22-3M78 63c8-3 16-4 22-3"/>',
-    meet: '<circle cx="44" cy="46" r="16"/><path d="M20 96a24 24 0 0 1 48 0"/><circle cx="90" cy="54" r="13"/><path d="M71 100a19 19 0 0 1 38 0"/>',
-    team: '<circle cx="38" cy="42" r="13"/><circle cx="90" cy="42" r="13"/><circle cx="64" cy="92" r="13"/><path d="M51 42h26M44 54l13 25M84 54L71 79"/>',
-    welcome: '<circle cx="52" cy="44" r="17"/><path d="M24 96a28 28 0 0 1 56 0"/><circle cx="98" cy="82" r="16"/><path d="M98 74v16M90 82h16"/>',
-    leadership: '<circle cx="64" cy="52" r="28"/><path d="M64 36l3.8 10.8 11.4.3-9.1 6.9 3.3 10.9L64 58.4l-9.4 6.5 3.3-10.9-9.1-6.9 11.4-.3L64 36Z"/><path d="M46 75L38 108l17-9 9 11 9-11 17 9-8-33"/>',
-    guidelines: '<path d="M64 18l38 14v32c0 23-16 38-38 46-22-8-38-23-38-46V32l38-14Z"/><path d="M64 84c-13-8-20-15-20-23 0-6 5-11 11-11 4 0 7 2 9 5 2-3 5-5 9-5 6 0 11 5 11 11 0 8-7 15-20 23Z"/>'
-  };
+  var ILLUSTRATIONS = (window.MHT_ICONS && window.MHT_ICONS.illustrations) || {};
+  function art(name) {
+    return (ILLUSTRATIONS[name] || "").replace("<svg ", '<svg aria-hidden="true" ');
+  }
+
 
   var PERSON_GLYPH = '<circle cx="12" cy="8.5" r="3.8"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0"/>';
   var CHECK_GLYPH = '<circle cx="12" cy="12" r="10"/><path d="M7 12.5l3.2 3.2L17 9"/>';
@@ -58,19 +49,19 @@
      ------------------------------------------------------------------------ */
   var MODULES = {
     activity: {
-      type: "split", art: "timeline", screen: "com-activities",
+      type: "split", art: "activity-timeline", screen: "com-activities",
       eyebrow: "Activity Feed",
       title: "What people are talking about",
       desc: "See the latest community updates — feelings, milestones, and conversations from women experiencing menopause."
     },
     qa: {
-      type: "ghost", art: "bubbles", screen: "com-questions",
+      type: "ghost", art: "chat-question", screen: "com-questions",
       eyebrow: "Q&A",
       title: "Ask, answer, and be heard",
       desc: "Ask a question. Contribute a reply that helps a fellow member. Browse featured topics curated by our community team."
     },
     groups: {
-      type: "ghost", art: "groups", screen: "com-groups",
+      type: "ghost", art: "groups-join", screen: "com-groups",
       eyebrow: "Groups",
       title: "Find the circle that fits your journey",
       desc: "Join conversations on the topics that matter to you — from perimenopause and HRT to sleep, mood, and caring for someone else."
@@ -198,9 +189,9 @@
       card.appendChild(el("span", "card__duotone"));
       card.appendChild(el("span", "card__scrim"));
     } else if (mod.type === "split") {
-      card.appendChild(el("span", "card__panel", svg(ART[mod.art])));
-    } else if (ART[mod.art]) {
-      card.appendChild(el("span", "card__art", svg(ART[mod.art])));
+      card.appendChild(el("span", "card__panel", art(mod.art)));
+    } else if (ILLUSTRATIONS[mod.art]) {
+      card.appendChild(el("span", "card__art", art(mod.art)));
     }
 
     card.appendChild(copyBlock(mod));

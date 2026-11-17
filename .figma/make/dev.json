@@ -2,48 +2,43 @@
   "pointAndEdit": {
     "priorityPaths": {
       "prefer": [
-        "index.html",
-        "launcher/launcher.js",
-        "launcher/launcher.css",
-        "launcher/manifest.js",
-        "system/tokens/tokens.css",
-        "system/tokens/themes/menopause.css",
-        "system/tokens/themes/legacy.css",
-        "system/motion/ai-pulse-spec.html",
-        "system/icons/sheet.html",
-        "system/tokens/reference.html",
-        "prototypes/navigation/main.js",
         "prototypes/navigation/main.css",
-        "prototypes/navigation/visitor/index.html",
-        "prototypes/navigation/subscriber/index.html",
-        "prototypes/navigation/logged-in-member/index.html",
-        "prototypes/navigation/logged-out-member/index.html",
-        "prototypes/entry-points/facebook-ad.html",
-        "prototypes/entry-points/google-search.html",
-        "prototypes/entry-points/gmail-inbox.html",
-        "prototypes/community/index.html",
-        "prototypes/community/styles.css",
+        "prototypes/navigation/main.js",
+        "prototypes/navigation/**/*.html",
+        "prototypes/community/*.html",
+        "prototypes/community/*.css",
         "prototypes/community/script.js",
-        "prototypes/community/feat-cards.html",
-        "prototypes/community/feat-cards.css"
+        "prototypes/entry-points/*.html",
+        "system/tokens/tokens.css",
+        "system/tokens/themes/*.css"
       ],
-      "deprioritize": [],
+      "deprioritize": [
+        "system/icons/registry-ui.js",
+        "system/assets/manifest.js",
+        "system/docs/**/*",
+        "system/components/index.html"
+      ],
       "exclude": [
-        "system/assets/**",
-        "system/icons/icons/**",
-        ".figma/**",
-        ".claude/**",
-        ".git/**",
-        "**/*.md",
-        "product/**",
-        "decisions/**",
-        "evals/**"
+        "evals/**/*",
+        "system/components/manifest.js",
+        "system/icons/ui/**/*.svg",
+        "system/assets/**/*.svg",
+        "system/assets/**/*.png",
+        "system/assets/**/*.jpg",
+        "system/brand/**/*",
+        "product/**/*",
+        ".figma/**/*",
+        ".git/**/*",
+        ".claude/**/*",
+        "robots.txt",
+        "**/*.md"
       ]
     },
     "libraryPaths": {
       "local": [
         "system/tokens/tokens.css",
-        "system/tokens/themes/*.css"
+        "system/tokens/themes/*.css",
+        "system/components/*.md"
       ],
       "external": []
     },
@@ -52,40 +47,56 @@
     },
     "exclusions": [
       {
-        "glob": "system/assets/**",
-        "reason": "Static image and SVG assets (photos, illustrations, logotypes) are referenced by HTML/CSS but contain no rendered UI logic and are not valid point-and-edit source anchors."
+        "glob": "evals/**/*",
+        "reason": "Code-generation and linting scripts that produce build artifacts; they do not participate in rendering any UI."
       },
       {
-        "glob": "system/icons/icons/**",
-        "reason": "Raw SVG icon source files are static assets; they are not UI source anchors — the icon sheet HTML is the renderable artifact."
+        "glob": "system/components/manifest.js",
+        "reason": "Generated file produced by evals/gen-component-index.js from main.css; editing it directly would be overwritten on the next generation pass."
       },
       {
-        "glob": ".figma/**",
-        "reason": "Figma Make tooling configuration files are not UI source anchors."
+        "glob": "system/icons/ui/**/*.svg",
+        "reason": "Static SVG icon assets for UI glyphs; consumed via generated registries, not direct UI composition targets."
       },
       {
-        "glob": ".claude/**",
-        "reason": "Claude Code harness configuration and permission files contain no rendered UI source."
+        "glob": "system/assets/**/*.svg",
+        "reason": "Static decorative and brand SVG assets; not editable UI source."
       },
       {
-        "glob": ".git/**",
-        "reason": "Git internal objects and metadata are not source files of any kind."
+        "glob": "system/assets/**/*.png",
+        "reason": "Binary image assets; not UI source."
+      },
+      {
+        "glob": "system/assets/**/*.jpg",
+        "reason": "Binary image assets; not UI source."
+      },
+      {
+        "glob": "system/brand/**/*",
+        "reason": "Brand documentation markdown files; no rendered UI code."
+      },
+      {
+        "glob": "product/**/*",
+        "reason": "Product specification markdown files; no rendered UI code."
+      },
+      {
+        "glob": ".figma/**/*",
+        "reason": "Figma Make configuration and tooling scripts; not UI source anchors."
+      },
+      {
+        "glob": ".git/**/*",
+        "reason": "Git internals; not source files."
+      },
+      {
+        "glob": ".claude/**/*",
+        "reason": "Claude Code configuration; not UI source."
+      },
+      {
+        "glob": "robots.txt",
+        "reason": "Static server configuration file; not UI source."
       },
       {
         "glob": "**/*.md",
-        "reason": "Markdown files are design, brand, product and decision documentation; they contain no rendered UI source."
-      },
-      {
-        "glob": "product/**",
-        "reason": "Product surface documentation files describe intent and contain no rendered UI source."
-      },
-      {
-        "glob": "decisions/**",
-        "reason": "Decision logs and restructure plans contain no rendered UI source."
-      },
-      {
-        "glob": "evals/**",
-        "reason": "Token and link lint scripts are developer tooling; they are not rendered UI source anchors."
+        "reason": "Markdown documentation files (component contracts, architecture notes, design language); not rendered UI code."
       }
     ],
     "generated": {
@@ -93,9 +104,9 @@
       "source": "setup-agent.point-and-edit-path-classifier",
       "prompt": "same-turn-setup-subagent-v5",
       "model": "claude-sonnet-4-6",
-      "createdAt": "2026-09-18T00:00:00Z",
-      "confidence": 0.97,
-      "explanation": "Repository is a self-contained vanilla HTML/CSS/JS design system with no framework or build step; all rendered UI lives in the launcher shell, the token layer, and the prototype folders, making classification unambiguous with only a small number of files to consider."
+      "createdAt": "2026-10-15T00:00:00.000Z",
+      "confidence": 0.88,
+      "explanation": "High confidence because the repo is a straightforward HTML/CSS/JS design-system prototype with a clear single-file CSS/JS implementation layer in prototypes/navigation/ and token definitions in system/tokens/; no framework ambiguity or complex monorepo structure."
     }
   }
 }

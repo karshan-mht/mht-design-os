@@ -11,6 +11,27 @@
 
 :root,
 :root[data-theme="menopause"] {
+  /* --- Theme · TIM ------------------------------------------------------- */
+  /* Figma "Universal Colors" → Theme · TIM. Same names on every site; the
+     values swap. theme-secondary-900 is the purple navy: a fill and gradient
+     anchor, never text — text is always core-default-900. */
+  --theme-primary-900: #a440bc;          /* brand moments, featured highlights */
+  --theme-primary-100: #f6eff8;          /* soft brand surface */
+  --theme-secondary-900: #2b2b68;        /* purple navy — fills only, never text */
+  --theme-gradient: linear-gradient(90deg, #2b2b68, #a440bc);
+
+  /* --- Content · TIM ----------------------------------------------------- */
+  /* Marketing and illustration only — not for UI. */
+  --content-navy: #2b2b68;
+  --content-purple: #a440bc;
+  --content-dusty-pink: #e4a9b4;
+  --content-light-pink: #f4d3da;
+  --content-cold-blue: #dde6f1;
+  --content-gold: #eac687;
+  --content-cream: #fbf7f3;
+  --content-gradient: linear-gradient(90deg, #dde6f1, #f4d3da);
+
+  /* --- Brand hue (older role layer) -------------------------------------- */
   --brand-accent: #a440bc;                          /* brand signature accent — logo lockup, featured highlights, secondary CTAs */
   --brand-accent-soft: rgba(164, 65, 188, 0.08);    /* translucent tint behind icons */
   --brand-accent-soft-solid: #f8f0fa;               /* opaque equivalent of the above over white — used for rollovers so nothing alpha-stacks */
@@ -19,4 +40,14 @@
   --brand-accent-pale: #ecc7f5;                     /* pale tint for text on dark photo scrims — hand-tuned to clear AA */
   --brand-scrim: #3a1e42;                           /* deep plum backdrop for COLOR-blend photo cards */
   --brand-bg-accent-soft: #f6eff8;                  /* soft accent section background — Listicles / Community */
+}
+
+/* Dark values from the Figma "Dark mode (draft)" frame. Content colors are
+   illustration and keep their values, except the navy, which would vanish. */
+:root[data-mode="dark"],
+:root[data-theme="menopause"][data-mode="dark"] {
+  --theme-primary-900: #cc84df;
+  --theme-primary-100: #39283e;
+  --theme-secondary-900: #b7b7e0;
+  --content-navy: #b7b7e0;
 }
