@@ -3,7 +3,7 @@
    Regenerate:  node evals/gen-component-index.js
    Verify:      node evals/gen-component-index.js --check
 
-   79 blocks. Consumed by system/components/index.html. */
+   80 blocks. Consumed by system/components/index.html. */
 window.MHT_COMPONENTS = [
   {
     "block": "art",
@@ -772,6 +772,20 @@ window.MHT_COMPONENTS = [
     "tier": "surface",
     "rules": 5,
     "parts": [
+      "list",
+      "title"
+    ],
+    "variants": [],
+    "inJs": true,
+    "contract": null
+  },
+  {
+    "block": "amb",
+    "tier": "surface",
+    "rules": 5,
+    "parts": [
+      "group",
+      "intro",
       "list",
       "title"
     ],

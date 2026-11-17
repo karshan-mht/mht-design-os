@@ -1457,6 +1457,14 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 .feat-pair__person-name { font-weight: 600; font-size: 18px; line-height: 24px; letter-spacing: -0.25px; color: var(--color-text); }
 .feat-pair__person-role { font-size: 18px; line-height: 26px; letter-spacing: -0.25px; color: var(--color-text-secondary); }
 
+/* Ambassadors & Community Team page (renderAmbassadors): the feature page's
+   heading, an intro line, then a titled list per group in the pair-card rows. */
+.amb { display: flex; flex-direction: column; gap: 24px; }
+.amb__intro { margin: -8px 0 0; font-size: 18px; line-height: 26px; letter-spacing: -0.25px; color: var(--core-default-700); }
+.amb__group { display: flex; flex-direction: column; gap: 16px; }
+.amb__title { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 24px; line-height: 32px; letter-spacing: -0.75px; color: var(--core-default-900); }
+.amb__list { display: flex; flex-direction: column; gap: 16px; }
+
 /* Guidelines preview (checklist). */
 .feat-pair__rule { display: flex; align-items: flex-start; gap: 16px; }
 .feat-pair__check { flex-shrink: 0; width: 22px; height: 22px; }
