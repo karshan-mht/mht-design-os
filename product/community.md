@@ -86,7 +86,9 @@ four, **side-by-side on desktop** (`.feat-pair` row, equal width/height) and
 **stacked on mobile**:
 
 - **Ambassadors & CEMs** — "The women who provide support" + a preview of two people
-  (avatar + name + role) → **View people →** (`com-meet`).
+  (avatar + name + role) → **View people →** (`com-ambassadors`, the Ambassadors &
+  Community Team page: an intro line, then Member Ambassadors and Community Engagement
+  Managers in the same person rows; placeholder names).
 - **Community Guidelines** (eyebrow: **"Guidelines"** — the full "Community
   Guidelines" wrapped in the narrow desktop column) — "How we look after each other"
   + a four-item checklist (magenta check + rule) → **View guidelines →** (`com-values`).
@@ -95,7 +97,7 @@ four, **side-by-side on desktop** (`.feat-pair` row, equal width/height) and
 either opens the "This is for members only!" sign-up gate (`data-action="member-gate"`,
 `data-gate="posts"` / `"people"`; `renderMemberGate`), whose three "Continue with …"
 options go to `signup-start`. Q&A and Groups still open their pages, and the
-"View people" link in the pair still goes to `com-meet`.
+"View people" link in the pair goes to the Ambassadors & Community Team page.
 
 No stats, lock badges or upsell. **Every graphic on this page is inline SVG**
 (`COMMUNITY_FEAT_SVGS` in `main.js`, keyed by name) — the line-art illustrations, the

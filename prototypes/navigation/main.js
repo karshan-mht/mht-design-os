@@ -295,6 +295,7 @@ const COMMUNITY_SCREENS = [
   { id: "com-questions", label: "Questions & Answers", type: "page", title: "Questions & Answers" },
   { id: "com-groups", label: "Groups", type: "page", title: "Groups" },
   { id: "com-meet", label: "Meet Others", type: "page", title: "Meet Others" },
+  { id: "com-ambassadors", label: "Ambassadors & Community Team", type: "page", title: "Ambassadors & Community Team" },
   { id: "com-values", label: "Community Values & Ambassador Program", type: "page", title: "Community Values & Ambassador Program" },
 ];
 
@@ -448,7 +449,7 @@ if (!persona) {
 const SCREEN_SLUGS = {
   splash: "home", "home-gated": "home", home: "home",
   "lib-all": "resources", "lib-hrt": "hrt", "lib-mood": "mood", "lib-sleep": "sleep", "lib-diet": "diet", "lib-family": "family",
-  "community-overview": "community", "com-activities": "activity-feed", "com-questions": "questions", "com-groups": "groups", "com-meet": "meet-others", "com-values": "community-values",
+  "community-overview": "community", "com-activities": "activity-feed", "com-questions": "questions", "com-groups": "groups", "com-meet": "meet-others", "com-ambassadors": "ambassadors", "com-values": "community-values",
   "all-collections": "all-articles", advisors: "advisors", "topic-hub": "topic-hub",
   "symptom-checker": "symptom-checker", "signup-start": "sign-up", "listicle-detail": "listicle",
   article: "article", collection: "collection", "article-collection": "sponsored-article", "article-placeholder": "sample-article",
@@ -864,7 +865,7 @@ const COMMUNITY_PAIR = [
       { avatar: "community-1", name: "Name Surname", role: "Member Ambassador" },
       { avatar: "community-2", name: "Name Surname", role: "Community Manager" },
     ],
-    link: { label: "View people", screen: "com-meet" },
+    link: { label: "View people", screen: "com-ambassadors" },
   },
   {
     art: "community-feat-guidelines", cat: "Guidelines", title: "How we look after each other",
@@ -936,6 +937,43 @@ function renderCommunityFeatures() {
   `;
 }
 
+
+// Ambassadors & Community Team — where "View people" on the Community
+// Features page's Ambassadors & CEMs card leads. The member ambassadors and the
+// Community Engagement Managers, in the card's own person rows. Names and
+// photos are placeholders.
+const AMBASSADOR_GROUPS = [
+  { title: "Member Ambassadors", people: [
+    { avatar: "community-1", name: "Name Surname", role: "Member Ambassador · Perimenopause" },
+    { avatar: "community-3", name: "Name Surname", role: "Member Ambassador · HRT" },
+    { avatar: "community-2", name: "Name Surname", role: "Member Ambassador · Sleep" },
+  ] },
+  { title: "Community Engagement Managers", people: [
+    { avatar: "community-2", name: "Name Surname", role: "Community Engagement Manager" },
+    { avatar: "community-1", name: "Name Surname", role: "Community Engagement Manager" },
+  ] },
+];
+function renderAmbassadors() {
+  const person = (p) => `
+    <div class="feat-pair__person">
+      <span class="feat-pair__avatar"><img src="${ASSET_BASE}/${p.avatar}.png" alt="" aria-hidden="true" /></span>
+      <span class="feat-pair__person-text">
+        <span class="feat-pair__person-name">${p.name}</span>
+        <span class="feat-pair__person-role">${p.role}</span>
+      </span>
+    </div>`;
+  return `
+    <section class="feat amb">
+      <h1 class="feat__heading">Ambassadors &amp; Community Team</h1>
+      <p class="amb__intro">${COMMUNITY_PAIR[0].desc}</p>
+      ${AMBASSADOR_GROUPS.map((g) => `
+        <div class="amb__group">
+          <h2 class="amb__title">${g.title}</h2>
+          <div class="amb__list">${g.people.map(person).join("")}</div>
+        </div>`).join("")}
+    </section>
+  `;
+}
 
 // Member sign-up gate — a modal shown when a Visitor/Subscriber taps a locked
 // ("Member only") community feature (e.g. the Posts card). Mirrors the live
@@ -1791,6 +1829,8 @@ function render() {
     content = renderModules();
   } else if (screen.id === "advisors") {
     content = renderAdvisors();
+  } else if (screen.id === "com-ambassadors") {
+    content = renderAmbassadors();
   } else if (screen.id === "community-overview") {
     // Community splits by persona: Visitor + Subscriber get the "Community Features"
     // page (a feature tour); members get the activity feed (Logged-Out sees it
@@ -1817,7 +1857,7 @@ function render() {
   // Fill the viewport (centering the label / keeping the footer below the fold)
   // only for label & gated screens; module/content screens (incl. the Community
   // hub and Topic Hubs) flow at natural height from the top.
-  const bodyFill = !screen.modules && screen.id !== "advisors" && screen.id !== "community-overview" && screen.id !== "article" && !screen.topicHub && !screen.collection ? " screen__body--fill" : "";
+  const bodyFill = !screen.modules && screen.id !== "advisors" && screen.id !== "community-overview" && screen.id !== "com-ambassadors" && screen.id !== "article" && !screen.topicHub && !screen.collection ? " screen__body--fill" : "";
 
   // Chrome differs by layout mode. Desktop: one horizontal header
   // (renderDesktopHeader) with the sub-nav inline. Mobile: the top nav, then the

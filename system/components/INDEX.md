@@ -11,7 +11,7 @@ There is no extracted component layer yet — this index is what makes the
 monolith addressable in the meantime. See [README.md](README.md) for what the
 tiers mean and how to add a contract.
 
-- **79** blocks total
+- **80** blocks total
 - **5** with a contract
 - **JS** = rendered from `main.js`; blank = styled only
 
@@ -85,7 +85,7 @@ Splash Landing content modules (`mod-*`). Composed, not primitive.
 | `.mod-quotes` | 2 | 1 | 0 | • | — |
 | `.mod-disclaimer-note` | 2 | 0 | 0 | • | — |
 
-## surface (30)
+## surface (31)
 
 Blocks belonging to a single product surface. Documented in `product/`, not extracted.
 
@@ -114,6 +114,7 @@ Blocks belonging to a single product surface. Documented in `product/`, not extr
 | `.art-note` | 6 | 5 | 0 | • | — |
 | `.comm-ic` | 5 | 5 | 0 | • | — |
 | `.comm-hub` | 5 | 2 | 0 | • | — |
+| `.amb` | 5 | 4 | 0 | • | — |
 | `.art-conv` | 5 | 2 | 0 | • | — |
 | `.feat` | 4 | 2 | 0 | • | — |
 | `.art-collapse` | 4 | 1 | 0 | • | — |
