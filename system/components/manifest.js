@@ -3,7 +3,7 @@
    Regenerate:  node evals/gen-component-index.js
    Verify:      node evals/gen-component-index.js --check
 
-   80 blocks. Consumed by system/components/index.html. */
+   79 blocks. Consumed by system/components/index.html. */
 window.MHT_COMPONENTS = [
   {
     "block": "art",
@@ -36,38 +36,6 @@ window.MHT_COMPONENTS = [
     "contract": null
   },
   {
-    "block": "panel",
-    "tier": "chrome",
-    "rules": 29,
-    "parts": [
-      "brand",
-      "explore",
-      "footer",
-      "hub",
-      "hub-icon",
-      "hubs",
-      "logotype",
-      "promo",
-      "promo-cta",
-      "promo-graphic",
-      "promo-link",
-      "promo-sub",
-      "promo-title",
-      "tab",
-      "tab-icon",
-      "tabs",
-      "top",
-      "topics",
-      "topics-label"
-    ],
-    "variants": [
-      "bl",
-      "tr"
-    ],
-    "inJs": true,
-    "contract": null
-  },
-  {
     "block": "footer",
     "tier": "chrome",
     "rules": 24,
@@ -93,14 +61,40 @@ window.MHT_COMPONENTS = [
     "contract": null
   },
   {
+    "block": "panel",
+    "tier": "chrome",
+    "rules": 21,
+    "parts": [
+      "brand",
+      "footer",
+      "hub",
+      "hub-icon",
+      "hubs",
+      "logotype",
+      "promo",
+      "promo-cta",
+      "promo-graphic",
+      "promo-link",
+      "promo-sub",
+      "promo-title",
+      "topics",
+      "topics-label"
+    ],
+    "variants": [
+      "bl",
+      "tr"
+    ],
+    "inJs": true,
+    "contract": null
+  },
+  {
     "block": "mod-hero",
     "tier": "module",
-    "rules": 19,
+    "rules": 17,
     "parts": [
       "avatar",
       "avatars",
       "count",
-      "cta",
       "intro",
       "ring",
       "sub",
@@ -131,23 +125,21 @@ window.MHT_COMPONENTS = [
     "contract": null
   },
   {
-    "block": "comm-preview",
-    "tier": "surface",
+    "block": "screen",
+    "tier": "chrome",
     "rules": 16,
     "parts": [
-      "avatar",
-      "avatars",
-      "banner",
-      "banner-graphic",
-      "banner-inner",
-      "count",
-      "head",
-      "list",
-      "status",
-      "sub",
-      "title"
+      "body",
+      "nav",
+      "placeholder",
+      "scroll",
+      "subnav",
+      "uplevel"
     ],
-    "variants": [],
+    "variants": [
+      "fill",
+      "flow"
+    ],
     "inJs": true,
     "contract": null
   },
@@ -168,25 +160,6 @@ window.MHT_COMPONENTS = [
     ],
     "variants": [
       "gated"
-    ],
-    "inJs": true,
-    "contract": null
-  },
-  {
-    "block": "screen",
-    "tier": "chrome",
-    "rules": 15,
-    "parts": [
-      "body",
-      "nav",
-      "placeholder",
-      "scroll",
-      "subnav",
-      "uplevel"
-    ],
-    "variants": [
-      "fill",
-      "flow"
     ],
     "inJs": true,
     "contract": null
@@ -301,6 +274,25 @@ window.MHT_COMPONENTS = [
     "contract": null
   },
   {
+    "block": "comm-preview",
+    "tier": "surface",
+    "rules": 12,
+    "parts": [
+      "avatar",
+      "avatars",
+      "banner",
+      "banner-graphic",
+      "banner-inner",
+      "count",
+      "head",
+      "status",
+      "title"
+    ],
+    "variants": [],
+    "inJs": true,
+    "contract": null
+  },
+  {
     "block": "topic-hub-mod",
     "tier": "surface",
     "rules": 12,
@@ -315,23 +307,6 @@ window.MHT_COMPONENTS = [
     "variants": [
       "disabled"
     ],
-    "inJs": true,
-    "contract": null
-  },
-  {
-    "block": "dnav",
-    "tier": "chrome",
-    "rules": 12,
-    "parts": [
-      "bar",
-      "cluster",
-      "crumb",
-      "crumbbar",
-      "logo",
-      "nav",
-      "right"
-    ],
-    "variants": [],
     "inJs": true,
     "contract": null
   },
@@ -508,16 +483,19 @@ window.MHT_COMPONENTS = [
     "contract": "ai-btn.md"
   },
   {
-    "block": "uplevel",
-    "tier": "primitive",
-    "rules": 8,
+    "block": "dnav",
+    "tier": "chrome",
+    "rules": 9,
     "parts": [
-      "icon",
-      "label"
+      "bar",
+      "cluster",
+      "logo",
+      "nav",
+      "right"
     ],
     "variants": [],
     "inJs": true,
-    "contract": "uplevel.md"
+    "contract": null
   },
   {
     "block": "mod-factoid",
@@ -575,6 +553,18 @@ window.MHT_COMPONENTS = [
     "variants": [],
     "inJs": true,
     "contract": null
+  },
+  {
+    "block": "uplevel",
+    "tier": "primitive",
+    "rules": 7,
+    "parts": [
+      "icon",
+      "label"
+    ],
+    "variants": [],
+    "inJs": true,
+    "contract": "uplevel.md"
   },
   {
     "block": "mod-listicle-card",
@@ -719,19 +709,6 @@ window.MHT_COMPONENTS = [
     ],
     "variants": [],
     "inJs": true,
-    "contract": null
-  },
-  {
-    "block": "mod-article",
-    "tier": "module",
-    "rules": 5,
-    "parts": [
-      "eyebrow",
-      "meta",
-      "title"
-    ],
-    "variants": [],
-    "inJs": false,
     "contract": null
   },
   {
