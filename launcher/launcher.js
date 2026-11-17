@@ -46,14 +46,13 @@
   }
 
   /* ---- color mode -------------------------------------------------------
-     Default follows the OS. The attribute lives on <html>, which is what the
-     dark block in tokens.css keys off. */
+     Light by default; Dark only when chosen with the toggle (it is remembered).
+     The OS setting is ignored. The attribute lives on <html>, which is what
+     the dark block in tokens.css keys off. */
   var root = document.documentElement;
   function applyMode(mode) {
-    var resolved = mode === 'auto'
-      ? (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-      : mode;
-    root.setAttribute('data-mode', resolved);
+    mode = mode === 'dark' ? 'dark' : 'light';   // an old saved 'auto' reads as light
+    root.setAttribute('data-mode', mode);
     root.setAttribute('data-mode-pref', mode);
     set('launcher.mode', mode);
     var box = document.getElementById('modes');
@@ -82,11 +81,6 @@
     var b = e.target.closest('[data-set-mode]');
     if (b) applyMode(b.dataset.setMode);
   });
-  if (window.matchMedia) {
-    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () {
-      if (root.getAttribute('data-mode-pref') === 'auto') applyMode('auto');
-    });
-  }
 
   /* ---- rail --------------------------------------------------------------- */
   var nav = document.getElementById('rail-nav');
@@ -331,7 +325,7 @@
     if (id) render(id);
   });
 
-  applyMode(get('launcher.mode', 'auto'));
+  applyMode(get('launcher.mode', 'light'));
   setRail(get('launcher.rail', 'expanded'));
   render(location.hash.slice(1) || get('launcher.section', 'prototypes'));
 })();

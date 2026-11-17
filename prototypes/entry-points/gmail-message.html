@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>New this week: Skin Care for Menopausal Skin - Gmail</title>
+<!-- Content Email, step 2: the This is Menopause email opened in Gmail.
+     gmail-inbox.html links here; "Read the article" goes on to Article Show
+     for a logged-in member. The Gmail chrome uses Gmail's own colors (this
+     folder is exempt from the token lint); the newsletter inside it uses the
+     site tokens so it matches the product. Copy is placeholder. -->
+<link rel="stylesheet" href="../../system/tokens/tokens.css" />
+<link rel="stylesheet" href="../../system/tokens/themes/menopause.css" />
+<link rel="stylesheet" href="../navigation/main.css" />
+<style>
+  .mock { min-height: 100vh; font-family: arial, sans-serif; color: #202124; background: #fff; }
+
+  /* Gmail message chrome */
+  .gm-bar { display: flex; align-items: center; gap: 4px; padding: 8px 8px 8px 4px; }
+  .gm-bar__spacer { flex: 1; }
+  .gm-icon { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; color: #444746; text-decoration: none; }
+  .gm-icon svg { width: 22px; height: 22px; }
+  .gm-subject { display: flex; align-items: flex-start; gap: 8px; padding: 4px 16px 12px; }
+  .gm-subject h1 { flex: 1; margin: 0; font-size: 22px; font-weight: 400; line-height: 28px; color: #1f1f1f; }
+  .gm-chip { flex: none; margin-top: 4px; padding: 1px 6px; border-radius: 4px; background: #e8eaed; font-size: 12px; line-height: 18px; color: #444746; }
+  .gm-from { display: flex; align-items: center; gap: 12px; padding: 4px 16px 12px; }
+  .gm-avatar { flex: none; width: 40px; height: 40px; border-radius: 50%; overflow: hidden; }
+  .gm-avatar img { display: block; width: 100%; height: 100%; }
+  .gm-from__text { flex: 1; min-width: 0; font-size: 14px; line-height: 20px; }
+  .gm-from__name { font-weight: 700; color: #1f1f1f; }
+  .gm-from__time { font-weight: 400; color: #444746; font-size: 12px; margin-left: 6px; }
+  .gm-from__to { color: #444746; font-size: 12px; }
+  .gm-actions { display: flex; gap: 8px; padding: 16px; }
+  .gm-btn { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 20px; border: 1px solid #747775; border-radius: 20px; font: 500 14px arial, sans-serif; color: #444746; background: #fff; }
+  .gm-btn svg { width: 18px; height: 18px; }
+
+  /* The newsletter itself (site tokens) */
+  .em { margin: 0 8px; border: 1px solid var(--core-default-300); border-radius: 8px; overflow: hidden; background: var(--core-background-page); font-family: var(--font-body); color: var(--core-default-900); }
+  .em__brand { display: flex; justify-content: center; padding: 20px 16px; background: var(--theme-primary-100); }
+  .em__brand img { display: block; height: 40px; width: auto; }
+  .em__body { display: flex; flex-direction: column; gap: 16px; padding: 24px 20px 28px; }
+  .em__eyebrow { margin: 0; font-size: 12px; font-weight: 700; line-height: 16px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--theme-primary-900); }
+  .em__hello { margin: 0; font-size: 18px; line-height: 26px; }
+  .em__card { display: flex; flex-direction: column; border: 1px solid var(--core-default-300); border-radius: 16px; overflow: hidden; text-decoration: none; color: inherit; }
+  .em__img { display: block; width: 100%; aspect-ratio: 964 / 506; object-fit: cover; background: var(--core-default-100); }
+  .em__card-body { display: flex; flex-direction: column; gap: 8px; padding: 16px; }
+  .em__title { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 26px; line-height: 32px; letter-spacing: -0.75px; color: var(--core-default-900); }
+  .em__text { margin: 0; font-size: 16px; line-height: 24px; color: var(--core-default-700); }
+  .em__cta { align-self: flex-start; display: inline-flex; align-items: center; height: 48px; padding: 0 24px; border-radius: var(--radius-pill); background: var(--core-action-900); font-size: 16px; font-weight: 700; color: var(--core-background-page); text-decoration: none; }
+  .em__h2 { margin: 8px 0 0; font-family: var(--font-display); font-weight: 400; font-size: 22px; line-height: 28px; letter-spacing: -0.5px; }
+  .em__list { display: flex; flex-direction: column; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--core-default-300); }
+  .em__list li { border-bottom: 1px solid var(--core-default-300); }
+  .em__list a { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 0; font-size: 16px; line-height: 22px; color: var(--core-action-900); text-decoration: none; }
+  .em__quote { margin: 0; padding: 16px; border-radius: 16px; background: var(--core-default-100); }
+  .em__quote p { margin: 0 0 8px; font-size: 16px; line-height: 24px; font-style: italic; }
+  .em__quote cite { font-size: 14px; font-style: normal; color: var(--core-default-700); }
+  .em__foot { padding: 20px; border-top: 1px solid var(--core-default-300); font-size: 12px; line-height: 18px; color: var(--core-default-700); text-align: center; }
+  .em__foot a { color: inherit; }
+</style>
+<!-- Maze usability testing snippet -->
+<script>
+(function (m, a, z, e) {
+  var s, t, u, v;
+  try {
+    t = m.sessionStorage.getItem('maze-us');
+  } catch (err) {}
+
+  if (!t) {
+    t = new Date().getTime();
+    try {
+      m.sessionStorage.setItem('maze-us', t);
+    } catch (err) {}
+  }
+
+  u = document.currentScript || (function () {
+    var w = document.getElementsByTagName('script');
+    return w[w.length - 1];
+  })();
+  v = u && u.nonce;
+
+  s = a.createElement('script');
+  s.src = z + '?apiKey=' + e;
+  s.async = true;
+  if (v) s.setAttribute('nonce', v);
+  a.getElementsByTagName('head')[0].appendChild(s);
+  m.mazeUniversalSnippetApiKey = e;
+})(window, document, 'https://snippet.maze.co/maze-universal-loader.js', 'aaf57ba9-336f-48ec-951c-ab901a458447');
+</script>
+</head>
+<body>
+
+  <div class="stage">
+    <div class="phone" id="phone">
+      <div class="mock">
+
+        <div class="gm-bar">
+          <a class="gm-icon" href="gmail-inbox.html" aria-label="Back to Inbox">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+          </a>
+          <span class="gm-bar__spacer"></span>
+          <span class="gm-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.54 5.23 19.15 3.55C18.88 3.21 18.47 3 18 3H6c-.47 0-.88.21-1.16.55L3.46 5.23C3.17 5.57 3 6.02 3 6.5V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6.5c0-.48-.17-.93-.46-1.27zM12 17.5 6.5 12H10v-2h4v2h3.5L12 17.5zM5.12 5l.81-1h12l.94 1H5.12z"/></svg></span>
+          <span class="gm-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M15 4V3H9v1H4v2h1v13c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V6h1V4h-5zm2 15H7V6h10v13zM9 8h2v9H9zm4 0h2v9h-2z"/></svg></span>
+          <span class="gm-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/></svg></span>
+          <span class="gm-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg></span>
+        </div>
+
+        <div class="gm-subject">
+          <h1>New this week: Skin Care for Menopausal Skin</h1>
+          <span class="gm-chip">Inbox</span>
+        </div>
+
+        <div class="gm-from">
+          <span class="gm-avatar"><img src="../../system/assets/logomark.svg" alt="" /></span>
+          <div class="gm-from__text">
+            <div><span class="gm-from__name">This is Menopause</span><span class="gm-from__time">9:41 AM</span></div>
+            <div class="gm-from__to">to me &#9662;</div>
+          </div>
+          <span class="gm-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></svg></span>
+        </div>
+
+        <!-- The newsletter (placeholder copy) -->
+        <article class="em">
+          <div class="em__brand">
+            <img src="../../system/assets/logotype-stacked.svg" alt="This is Menopause" />
+          </div>
+
+          <div class="em__body">
+            <p class="em__eyebrow">New this week</p>
+            <p class="em__hello">Hi [First name], here’s what we think you’ll want to read this week.</p>
+
+            <a class="em__card" href="../navigation/logged-in-member/index.html?start=article">
+              <img class="em__img" src="../../system/assets/article-1.png" alt="" />
+              <span class="em__card-body">
+                <span class="em__title">Skin Care for Menopausal Skin: Best Ingredients and Routine</span>
+                <span class="em__text">Dryness, sensitivity, loss of firmness: the ingredients that help, and a simple routine to start with. Medically reviewed.</span>
+              </span>
+            </a>
+
+            <a class="em__cta" href="../navigation/logged-in-member/index.html?start=article">Read the article</a>
+
+            <h2 class="em__h2">Also this week</h2>
+            <ul class="em__list">
+              <li><a href="../navigation/logged-in-member/index.html?start=article">Article title placeholder one <span aria-hidden="true">&rsaquo;</span></a></li>
+              <li><a href="../navigation/logged-in-member/index.html?start=article">Article title placeholder two <span aria-hidden="true">&rsaquo;</span></a></li>
+              <li><a href="../navigation/logged-in-member/index.html?start=article">Article title placeholder three <span aria-hidden="true">&rsaquo;</span></a></li>
+            </ul>
+
+            <h2 class="em__h2">What members are saying</h2>
+            <blockquote class="em__quote">
+              <p>“Placeholder quote from a member about what helped her this week, one or two lines long.”</p>
+              <cite>[Member name], member since 2025</cite>
+            </blockquote>
+          </div>
+
+          <div class="em__foot">
+            You’re receiving this because you’re a member of This is Menopause.<br />
+            <a href="#">Email preferences</a> &middot; <a href="#">Unsubscribe</a><br />
+            [Company address placeholder]
+          </div>
+        </article>
+
+        <div class="gm-actions">
+          <span class="gm-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></svg>Reply</span>
+          <span class="gm-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/></svg>Forward</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+<script src="back-to-launcher.js" data-href="../../index.html"></script>
+</body>
+</html>

@@ -68,7 +68,7 @@ window.LAUNCHER_MANIFEST =
             },
             {
               "title": "Content Email — Article",
-              "desc": "A Gmail message opens a member into an Article Show.",
+              "desc": "A member opens the This is Menopause email in Gmail, then reads on in Article Show.",
               "href": "prototypes/entry-points/gmail-inbox.html",
               "kind": "page",
               "status": "live"
