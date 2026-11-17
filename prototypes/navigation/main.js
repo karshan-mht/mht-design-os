@@ -280,7 +280,7 @@ const LIBRARY_SCREENS_MEMBER = [LIB.hrt, LIB.mood, LIB.sleep, LIB.all];
 // `com-stories` (Posts) was retired 2026-08-03 — Stories folded into Activity, so
 // `com-activities` is now "Activity" and absorbs it. `com-values` is a new
 // placeholder for the Community Values & Ambassador Program. All are plain
-// top-level pages (no level-up pill) and are injected into every persona (via
+// top-level pages (no uplevel row) and are injected into every persona (via
 // SHARED_TARGET_SCREENS) so the shared Community hub can reach them everywhere.
 const COMMUNITY_SCREENS = [
   { id: "com-activities", label: "Activity", type: "page", title: "Activity" },
@@ -313,9 +313,9 @@ const ADVISORS_SCREEN = { id: "advisors", label: "Advisors", type: "page", title
 // Collections** and retired. It was "a collection of sponsored content," so it's
 // now just a **Collection** (the `collection` screen). The **Topic Hub** surface
 // (`topic-hub` in TOPIC_HUB_PAGES, from the TOPIC_HUBS data array) is a separate,
-// kept concept — the panel's up-to-8 pre-defined hub rows. An Article Show links
-// **up to a Topic Hub** (level-up pill labelled "Topic Hub"); a different article
-// links **to a Collection** (in-body collection callout — see article-collection).
+// kept concept — the panel's up-to-8 pre-defined hub rows. Article Show levels
+// up to All Articles (uplevel row); an article in a Collection also links **to
+// its Collection** (the "Part of a Collection" card — see article-collection).
 const TOPIC_HUB_PAGES = TOPIC_HUBS.map((h) => ({ id: h.id, label: h.name, type: "page", title: h.name, topicHub: h }));
 
 // Sign Up Start — the chromeless sign-up entry. Shared so the panel's "Join for
@@ -347,8 +347,8 @@ const SPLASH_FLOW_SCREENS = [
   ALL_ARTICLES_SCREEN,
   // A Collection — the rebranded old "Topic Center": a collection of sponsored content.
   { id: "collection", label: "Collection", type: "uplevel", title: "Collection", backLabel: "All Articles", upTo: "all-collections", upIcon: "tab-resources" },
-  // Article Show that belongs to a Collection — no level-up pill; instead an
-  // in-body "collection" callout box at the top links to its Collection.
+  // Article Show that belongs to a Collection — levels up to All Articles, and
+  // the "Part of a Collection" card above Key Takeaways links to its Collection.
   { id: "article-collection", label: "Article Show (in Collection)", type: "uplevel", title: "Article Show", backLabel: "All Articles", upTo: "all-collections", upIcon: "tab-resources", collection: { screen: "collection", title: "Managing Menopause Symptoms: Your Complete Guide to Feeling Better" } },
   // Labelled placeholder for the non-featured Splash article cards (the built
   // skin-care article lives only on `article`; these stay placeholders as before).
@@ -599,7 +599,7 @@ function renderTopNav() {
 }
 
 // Desktop header (>=1024px): one persistent horizontal bar replacing the mobile
-// top nav + sub-nav + level-up pill. The middle is the same sub-nav component
+// top nav + sub-nav. The middle is the same sub-nav component
 // as mobile (renderSubnav: Home, Resources and Community menus), so the two
 // stay in sync. The persona right-side control mirrors renderTopNav
 // (Join/Finish vs. profile+dropdown).
@@ -1520,8 +1520,8 @@ function renderFooter() {
 }
 
 // Article Show — the skin-care article. Built from the Figma "Articles" file
-// (title-first, no hero). The top nav, "Topic Hub" level-up pill, and global
-// footer are added by render(); this returns only the article body. Auth CTAs
+// (title-first, no hero). The top nav, uplevel row and global footer are
+// added by render(); this returns only the article body. Auth CTAs
 // point at the shared signup-start flow like every other Join in the prototype.
 // Shared Article Show template. `content` supplies the variable parts (title,
 // byline, Key Takeaways, lede, body sections) and an optional `topCard` HTML
@@ -1539,9 +1539,7 @@ function renderArticleShell(content) {
     save: `<svg class="art__ic" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11.1667 2C11.6269 2 12 2.3731 12 2.83333C12 3.29357 11.6269 3.66667 11.1667 3.66667V3.67917L9.01499 3.67933C7.4419 3.67933 6.16667 4.96425 6.16667 6.54928V19.7253C6.16667 19.8674 6.21712 20.0048 6.3089 20.1127C6.52126 20.3624 6.89425 20.3913 7.142 20.1773L9.44619 18.1873C10.9157 16.9181 13.0843 16.9181 14.5538 18.1873L16.858 20.1773C16.9651 20.2698 17.1015 20.3206 17.2425 20.3206C17.5688 20.3206 17.8333 20.0541 17.8333 19.7253V10.3333L17.8356 10.2711C17.8659 9.86048 18.1938 9.53258 18.6045 9.50229L18.6667 9.5C19.1269 9.5 19.5 9.8731 19.5 10.3333V19.7253C19.5 20.9816 18.4893 22 17.2425 22C16.7036 22 16.1825 21.8057 15.7733 21.4524L13.4692 19.4623C12.6237 18.7322 11.3763 18.7322 10.5308 19.4623L8.22665 21.4524C7.28003 22.2699 5.85487 22.1594 5.04348 21.2056C4.69277 20.7934 4.5 20.2683 4.5 19.7253V6.54928C4.5 4.03678 6.52143 2 9.01499 2H11.1667ZM15.3333 2C15.7756 2 16.1983 2.42228 16.1667 2.83333V5.33333H18.6667C19.0396 5.29988 19.4263 5.65182 19.4927 6.10175L19.5 6.16667C19.5 6.61105 19.0766 7.03504 18.6667 7H16.1667V9.5C16.1968 9.87386 15.8458 10.2598 15.3979 10.3261L15.3333 10.3333C14.8912 10.3333 14.4684 9.91106 14.5 9.5V7H12C11.6264 7.03345 11.2403 6.68294 11.1739 6.23177L11.1667 6.16667C11.1667 5.72057 11.5894 5.29829 12 5.33333H14.5V2.83333C14.4684 2.44167 14.8552 2.03676 15.3333 2Z"/></svg>`,
     reviewed: `<svg class="art__reviewed" viewBox="0 0 20 19" fill="none" aria-hidden="true"><rect class="art__reviewed-dot" x="1.03" y="1.03" width="17.25" height="16.55" rx="8.28" stroke-width="2.07"/><path d="M5.26 9.31 8.56 12.98 14.06 5.64" stroke="currentColor" stroke-width="1.26" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
     chat: `<svg class="art__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.7A8.38 8.38 0 0 1 4 11.5 8.5 8.5 0 0 1 12.5 3 8.38 8.38 0 0 1 21 11.5z"/></svg>`,
-    sparkle: `<svg class="art__ic" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.9 6.4L20 10l-6.1 1.6L12 18l-1.9-6.4L4 10l6.1-1.6L12 2z"/><path d="M19 3l.7 2.3L22 6l-2.3.7L19 9l-.7-2.3L16 6l2.3-.7L19 3z"/></svg>`,
     chevDown: `<svg class="art__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>`,
-    chevRight: `<svg class="art__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>`,
     arrow: `<svg class="art__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`,
   };
 
@@ -1806,11 +1804,10 @@ function render() {
   // hub and Topic Hubs) flow at natural height from the top.
   const bodyFill = !screen.modules && screen.id !== "advisors" && screen.id !== "community-overview" && screen.id !== "article" && !screen.topicHub && !screen.collection ? " screen__body--fill" : "";
 
-  // Chrome differs by layout mode. Desktop: one persistent horizontal header
-  // (renderDesktopHeader) with inline nav + breadcrumb — the mobile slide-out
-  // panel and level-up pill don't map to desktop, so this is a JS branch rather
-  // than a CSS reflow. Mobile: the auto-hiding top nav + (on detail screens) the
-  // level-up pill, as separate sticky elements. See attachAutoHide.
+  // Chrome differs by layout mode. Desktop: one horizontal header
+  // (renderDesktopHeader) with the sub-nav inline. Mobile: the top nav, then the
+  // sub-nav bar. Both add the uplevel row on detail screens and auto-hide the
+  // top bar on scroll (attachAutoHide).
   let chrome;
   if (isDesktop) {
     chrome = renderDesktopHeader(screen);
