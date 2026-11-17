@@ -3,8 +3,15 @@
    Regenerate:  node evals/gen-asset-manifest.js
    Verify:      node evals/gen-asset-manifest.js --check
 
-   53 assets in 9 groups. Consumed by system/assets/index.html. */
+   50 assets in 10 groups. Consumed by system/assets/index.html. */
 window.MHT_ASSETS = [
+  {
+    "file": "ad-article-300x250.png",
+    "ext": "png",
+    "bytes": 42363,
+    "group": "Ads",
+    "note": "Sample ad creatives for ad slots (the Article Show 300x250)."
+  },
   {
     "file": "advisor-1.jpg",
     "ext": "jpg",
@@ -81,6 +88,13 @@ window.MHT_ASSETS = [
     "bytes": 86783,
     "group": "Decoration",
     "note": "Background shapes for splash and community sections."
+  },
+  {
+    "file": "collection-icon.svg",
+    "ext": "svg",
+    "bytes": 4206,
+    "group": "Collection",
+    "note": "Illustration for the \"Part of a Collection\" card on a Collection article. Full-color, not tinted."
   },
   {
     "file": "community-1.png",
@@ -286,41 +300,6 @@ window.MHT_ASSETS = [
     "note": "Background shapes for splash and community sections."
   },
   {
-    "file": "listicles_flashes.svg",
-    "ext": "svg",
-    "bytes": 4877,
-    "group": "Listicle icons",
-    "note": "Splash Landing listicle module."
-  },
-  {
-    "file": "listicles_fog.svg",
-    "ext": "svg",
-    "bytes": 3218,
-    "group": "Listicle icons",
-    "note": "Splash Landing listicle module."
-  },
-  {
-    "file": "listicles_libido.svg",
-    "ext": "svg",
-    "bytes": 2026,
-    "group": "Listicle icons",
-    "note": "Splash Landing listicle module."
-  },
-  {
-    "file": "listicles_sleep.svg",
-    "ext": "svg",
-    "bytes": 4885,
-    "group": "Listicle icons",
-    "note": "Splash Landing listicle module."
-  },
-  {
-    "file": "listicles_weight.svg",
-    "ext": "svg",
-    "bytes": 3314,
-    "group": "Listicle icons",
-    "note": "Splash Landing listicle module."
-  },
-  {
     "file": "logomark.svg",
     "ext": "svg",
     "bytes": 9983,
@@ -358,21 +337,21 @@ window.MHT_ASSETS = [
   {
     "file": "tab-community.svg",
     "ext": "svg",
-    "bytes": 3698,
+    "bytes": 3703,
     "group": "Nav tab icons",
     "note": "Source files for the desktop nav tabs, inlined into main.js with currentColor."
   },
   {
     "file": "tab-home.svg",
     "ext": "svg",
-    "bytes": 1178,
+    "bytes": 1183,
     "group": "Nav tab icons",
     "note": "Source files for the desktop nav tabs, inlined into main.js with currentColor."
   },
   {
     "file": "tab-resources.svg",
     "ext": "svg",
-    "bytes": 1623,
+    "bytes": 1628,
     "group": "Nav tab icons",
     "note": "Source files for the desktop nav tabs, inlined into main.js with currentColor."
   }

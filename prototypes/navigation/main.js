@@ -61,8 +61,8 @@ const PROFILE_PLACEHOLDER = `${ASSET_BASE}/placeholder_profile.svg`;
 // --color-navy. That is what lets a theme swap re-skin the wordmark; a baked
 // a baked accent fill would leave the logo purple on a blue site. The knockout
 // fill="white" is deliberately left literal: it is a hole punched through the
-// mark, not a brand color. LOGO_FULL = stacked lockup (nav + desktop header);
-// LOGO_MARK = circular logomark (member nav); LOGO_WORDMARK = horizontal
+// mark, not a brand color. LOGO_FULL = stacked lockup (visitor desktop header);
+// LOGO_MARK = circular logomark (mobile nav, member header); LOGO_WORDMARK = horizontal
 // wordmark (slide-out panel + footer).
 const LOGO_FULL = `<svg width="133" height="44" viewBox="0 0 133 44" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_7418_4079)">
@@ -125,13 +125,6 @@ const HUBS = [
   { icon: "hub-6", label: "Topic Hub Longer Name" },
   { icon: "hub-7", label: "Topic Hub Short" },
   { icon: "hub-8", label: "Topic Hub Long Name" },
-];
-// The three top-level tabs at the top of the panel. Home resolves per-persona
-// (each persona's first screen); Resources / Community are shared destinations.
-const PANEL_TABS = [
-  { icon: "tab-home", label: "Home", target: "home" },        // resolved to persona.screens[0].id
-  { icon: "tab-resources", label: "Resources", target: "lib-all" },
-  { icon: "tab-community", label: "Community", target: "community-overview" },
 ];
 // The side panel's TOPICS list (Figma Global Navigation 7374:3421). Each of the
 // three topics opens its own Topic Hub page (titled by the topic — see
@@ -334,7 +327,11 @@ const SIGNUP_START_SCREEN = { id: "signup-start", label: "Sign Up Start", type: 
 // members. It belongs to Resources (see activeSectionTarget).
 const SYMPTOM_CHECKER_SCREEN = { id: "symptom-checker", label: "Symptom Checker", type: "page", title: "Symptom Checker" };
 
-const SHARED_TARGET_SCREENS = [COMMUNITY_OVERVIEW_SCREEN, ALL_ARTICLES_SCREEN, ADVISORS_SCREEN, LIB.all, LIB.hrt, LIB.mood, LIB.sleep, SIGNUP_START_SCREEN, SYMPTOM_CHECKER_SCREEN, ...COMMUNITY_SCREENS, ...TOPIC_HUB_PAGES];
+// Program Detail is open to everyone — the sub-nav's Resources menu links to it
+// for every persona, and programs are not behind the member wall.
+const PROGRAM_SCREEN = { id: "program", label: "Program Detail", type: "uplevel", title: "Program Detail", backLabel: "All Programs", upTo: "lib-all", upIcon: "up-programs" };
+
+const SHARED_TARGET_SCREENS = [PROGRAM_SCREEN, COMMUNITY_OVERVIEW_SCREEN, ALL_ARTICLES_SCREEN, ADVISORS_SCREEN, LIB.all, LIB.hrt, LIB.mood, LIB.sleep, SIGNUP_START_SCREEN, SYMPTOM_CHECKER_SCREEN, ...COMMUNITY_SCREENS, ...TOPIC_HUB_PAGES];
 
 // Home + splash-flow screens shared by Visitor and Subscriber (Subscriber
 // mirrors the Visitor landing). The splash content modules deep-link into these:
@@ -346,16 +343,16 @@ const SPLASH_FLOW_SCREENS = [
   SIGNUP_START_SCREEN,
   { id: "listicle-detail", label: "Listicle Detail", type: "page", title: "Listicle Detail" },
   ADVISORS_SCREEN,
-  { id: "article", label: "Article Show", type: "uplevel", title: "Article Show", backLabel: "Skin-related Hub", upTo: "topic-hub", upIcon: "derm" },
+  { id: "article", label: "Article Show", type: "uplevel", title: "Article Show", backLabel: "All Articles", upTo: "all-collections", upIcon: "tab-resources" },
   ALL_ARTICLES_SCREEN,
   // A Collection — the rebranded old "Topic Center": a collection of sponsored content.
-  { id: "collection", label: "Collection", type: "page", title: "Collection" },
+  { id: "collection", label: "Collection", type: "uplevel", title: "Collection", backLabel: "All Articles", upTo: "all-collections", upIcon: "tab-resources" },
   // Article Show that belongs to a Collection — no level-up pill; instead an
   // in-body "collection" callout box at the top links to its Collection.
-  { id: "article-collection", label: "Article Show (in Collection)", type: "page", title: "Article Show", collection: { screen: "collection" } },
+  { id: "article-collection", label: "Article Show (in Collection)", type: "uplevel", title: "Article Show", backLabel: "All Articles", upTo: "all-collections", upIcon: "tab-resources", collection: { screen: "collection", title: "Managing Menopause Symptoms: Your Complete Guide to Feeling Better" } },
   // Labelled placeholder for the non-featured Splash article cards (the built
   // skin-care article lives only on `article`; these stay placeholders as before).
-  { id: "article-placeholder", label: "Article Show", type: "uplevel", title: "Article Show", backLabel: "Skin-related Hub", upTo: "topic-hub", upIcon: "derm" },
+  { id: "article-placeholder", label: "Article Show", type: "uplevel", title: "Article Show", backLabel: "All Articles", upTo: "all-collections", upIcon: "tab-resources" },
   COMMUNITY_OVERVIEW_SCREEN,
   ...LIBRARY_SCREENS_FULL,
 ];
@@ -386,12 +383,12 @@ const PERSONAS = {
       // page with no level-up bar. Distinct from the "profile" screen below,
       // which is SOMEONE ELSE's profile (reached from Meet Others).
       { id: "my-profile", label: "My Profile", type: "page", title: "My Profile" },
-      { id: "article", label: "Article Show", type: "uplevel", title: "Article Show", backLabel: "Skin-related Hub", upTo: "topic-hub", upIcon: "derm" },
-      { id: "group", label: "Group Detail", type: "uplevel", title: "Group Detail", backLabel: "Groups", upTo: "com-groups", upIcon: "up-groups" },
-      { id: "program", label: "Program Detail", type: "uplevel", title: "Program Detail", backLabel: "Programs", upIcon: "up-programs" },
-      { id: "profile", label: "Member Profile", type: "uplevel", title: "Someone\u2019s Member Profile", backLabel: "Meet Others", upTo: "com-meet", upIcon: "up-meet" },
-      { id: "question", label: "Question Show", type: "uplevel", title: "Question Show", backLabel: "Questions & Answers", upTo: "com-questions", upIcon: "up-qa" },
-      { id: "activity", label: "Activity Show", type: "uplevel", title: "Activity Show", backLabel: "Activity", upTo: "com-activities", upIcon: "up-activity" },
+      { id: "article", label: "Article Show", type: "uplevel", title: "Article Show", backLabel: "All Articles", upTo: "all-collections", upIcon: "tab-resources" },
+      { id: "group", label: "Group Detail", type: "uplevel", title: "Group Detail", backLabel: "All Groups", upTo: "com-groups", upIcon: "up-groups" },
+      PROGRAM_SCREEN,
+      { id: "profile", label: "Member Profile", type: "uplevel", title: "Someone\u2019s Member Profile", backLabel: "All People", upTo: "com-meet", upIcon: "tab-community" },
+      { id: "question", label: "Question Show", type: "uplevel", title: "Question Show", backLabel: "All Questions", upTo: "com-questions", upIcon: "up-qa" },
+      { id: "activity", label: "Activity Show", type: "uplevel", title: "Activity Show", backLabel: "All Activity", upTo: "com-activities", upIcon: "up-activity" },
       ...LIBRARY_SCREENS_MEMBER,
       ...COMMUNITY_SCREENS,
       ...ACCOUNT_SCREENS,
@@ -474,6 +471,7 @@ let state = {
   prevScreenId: null,
   panelOpen: false,
   dropdownOpen: false,
+  subnavMenu: null,       // mobile sub-nav dropdown open: "resources" | "community" | null
   gateOpen: false,        // member sign-up gate modal (locked community features)
   gateFeature: "posts",   // which feature the gate is guarding (drives its copy)
 };
@@ -485,9 +483,10 @@ function go(screenId) {
   const slug = slugFor(screenId);
   if (window.location.hash === "#" + slug) {
     // Already on this screen (e.g. re-click) — just make sure overlays close.
-    if (state.panelOpen || state.dropdownOpen) {
+    if (state.panelOpen || state.dropdownOpen || state.subnavMenu) {
       state.panelOpen = false;
       state.dropdownOpen = false;
+      state.subnavMenu = null;
       render();
     }
     return;
@@ -503,6 +502,7 @@ window.addEventListener("hashchange", () => {
   }
   state.panelOpen = false;
   state.dropdownOpen = false;
+  state.subnavMenu = null;
   state.gateOpen = false;
   render();
 });
@@ -518,6 +518,7 @@ DESKTOP_MQ.addEventListener("change", (e) => {
   isDesktop = e.matches;
   state.panelOpen = false;   // the slide-out panel doesn't exist on desktop
   state.dropdownOpen = false;
+  state.subnavMenu = null;
   render();
 });
 
@@ -561,10 +562,9 @@ function attachCarousels() {
 function renderTopNav() {
   const isVisitor = persona.navVariant === "visitor";
 
-  const logoImg = isVisitor
-    ? `${inlineLogo(LOGO_FULL, "logo logo--full")}`
-    : `${inlineLogo(LOGO_MARK, "logo logo--mark")}`;
-  // The logotype / mark returns to the persona's home screen (go-home).
+  // Every persona's mobile nav shows the circular logomark (the visitor's
+  // stacked lockup is desktop-only). It returns to the persona's home (go-home).
+  const logoImg = inlineLogo(LOGO_MARK, "logo logo--mark");
   const left = `<button class="logo-btn" data-action="go-home" aria-label="Home">${logoImg}</button>`;
 
   // The nav pill is persona-aware within the shared `visitor` variant: a
@@ -599,19 +599,16 @@ function renderTopNav() {
 }
 
 // Desktop header (>=1024px): one persistent horizontal bar replacing the mobile
-// top nav + slide-out panel + level-up pill. Built from the SAME data as the
-// mobile panel (PANEL_TABS + HUBS) so the two stay in sync. Primary tabs sit
-// inline; the eight Topic Hubs (the primary content entry point) live in a
-// hover/focus "Topics" dropdown so they don't overflow the bar. The persona
-// right-side control mirrors renderTopNav (Join/Finish vs. profile+dropdown),
-// and detail screens get a breadcrumb row in place of the level-up pill.
+// top nav + sub-nav + level-up pill. The middle is the same sub-nav component
+// as mobile (renderSubnav: Home, Resources and Community menus), so the two
+// stay in sync. The persona right-side control mirrors renderTopNav
+// (Join/Finish vs. profile+dropdown).
 function renderDesktopHeader(screen) {
   const isVisitor = persona.navVariant === "visitor";
   const isSubscriber = LOCKED_PERSONA_KEY === "subscriber";
 
-  // Primary tabs only (Topic Hubs live in the slide-out panel). Each tab carries
-  // its section icon and highlights when the current screen belongs to it.
-  const tabs = renderSectionTabs(screen, "dnav__link");
+  // Home + the Resources / Community menus, shared with the mobile sub-nav.
+  const tabs = renderSubnav(screen);
 
   const right = isVisitor
     ? `<button class="join-btn" data-screen="${isSubscriber ? "registration-step" : "signup-start"}">${isSubscriber ? "Finish" : "Join"}</button>`
@@ -620,10 +617,6 @@ function renderDesktopHeader(screen) {
          <span class="badge"></span>
        </button>`;
 
-  // Breadcrumb bar dropped for now (2026-08-04) — detail screens no longer show a
-  // desktop breadcrumb. Re-add via screen.type === "uplevel" when the up-nav
-  // treatment is decided.
-  const crumb = "";
 
   return `
     <div class="dnav">
@@ -634,14 +627,13 @@ function renderDesktopHeader(screen) {
             ${isVisitor ? inlineLogo(LOGO_FULL, "logo logo--full") : inlineLogo(LOGO_MARK, "logo logo--mark")}
           </button>
         </div>
-        <nav class="dnav__nav">${tabs}</nav>
+        <div class="dnav__nav">${tabs}</div>
         <div class="dnav__right">
           <button class="icon-btn" aria-label="Search">${icon("search")}</button>
           <button class="icon-btn ai-btn" aria-label="Ask AI">${aiDuoStarsGradientSVG("ai-grad-nav", "ai-btn__stars")}<span class="ai-btn__label">Ask</span></button>
           ${right}
         </div>
       </div>
-      ${crumb}
     </div>
   `;
 }
@@ -654,53 +646,109 @@ function activeSectionTarget(screenId, homeId) {
   // articles, and the Symptom Checker — all live under Resources.
   if (/^lib-/.test(screenId) || /^article/.test(screenId) ||
       screenId === "all-collections" || screenId === "collection" ||
-      screenId === "symptom-checker" || /^topic-hub/.test(screenId)) {
+      screenId === "symptom-checker" || /^topic-hub/.test(screenId) ||
+      screenId === "program") {
     return "lib-all";
   }
   // Community stays selected for the overview, the com-* pages, and their
   // detail screens (a group / profile / question / activity / program page is
   // part of Community).
   if (screenId === "community-overview" || /^com-/.test(screenId) ||
-      ["group", "program", "profile", "question", "activity"].includes(screenId)) {
+      ["group", "profile", "question", "activity"].includes(screenId)) {
     return "community-overview";
   }
   return null;
 }
 
-// The three section tabs (Home / Resources / Community) with icons + active
-// state, shared by the desktop header and the mobile sub-nav. `cls` is the
-// per-context button class (dnav__link on desktop, subnav__link on mobile).
-function renderSectionTabs(screen, cls) {
+// Mobile sub-nav (Figma Global Navigation 7932:1084): Home, then Resources and
+// Community, which open dropdown menus (7899:360, 7899:378) instead of going
+// straight to a landing page. The desktop header uses the same component.
+// Icons reuse the UI glyphs that match the Figma drawings one-for-one.
+const SUBNAV_MENUS = {
+  resources: {
+    label: "Resources",
+    items: [
+      { icon: "tab-resources", label: "Library", screen: "lib-all" },
+      { icon: "hub-6", label: "Site Tool", screen: "symptom-checker" },
+      { icon: "hub-1", label: "Treatments A-Z", screen: "lib-hrt" },
+      { icon: "up-programs", label: "Programs", screen: "program" },
+    ],
+    ask: true,  // closing "Ask a question" row with the AI gradient
+  },
+  community: {
+    label: "Community",
+    items: [
+      { icon: "up-activity", label: "Activity", screen: "com-activities" },
+      { icon: "up-qa", label: "Questions & Answers", screen: "com-questions" },
+      { icon: "up-groups", label: "Groups", screen: "com-groups" },
+      { icon: "tab-community", label: "Meet Others", screen: "com-meet" },
+    ],
+  },
+};
+// Which sub-nav menu the current screen belongs to (for the selected pill).
+const SUBNAV_SECTION = { "lib-all": "resources", "community-overview": "community" };
+
+function renderSubnav(screen) {
   const homeId = persona.screens[0].id;
-  const NAV_ICONS = { "tab-home": "tabHome", "tab-resources": "tabResources", "tab-community": "tabCommunity" };
   const activeTarget = activeSectionTarget(screen.id, homeId);
-  return PANEL_TABS.map((t) => {
-    const target = t.target === "home" ? homeId : t.target;
-    const active = target === activeTarget ? " is-active" : "";
-    return `<button class="${cls}${active}" data-screen="${target}">${icon(NAV_ICONS[t.icon])}<span>${t.label}</span></button>`;
+  const home = `<button class="subnav__item${activeTarget === homeId ? " is-active" : ""}" data-screen="${homeId}">
+      <span class="subnav__home-icon">${iconSvg("tab-home")}</span><span>Home</span>
+    </button>`;
+  const menus = Object.entries(SUBNAV_MENUS).map(([key, m]) => {
+    const active = SUBNAV_SECTION[activeTarget] === key ? " is-active" : "";
+    const open = state.subnavMenu === key;
+    return `<button class="subnav__item subnav__item--menu${active}${open ? " is-open" : ""}"
+        data-action="toggle-subnav" data-menu="${key}" aria-haspopup="menu" aria-expanded="${open}">
+      <span>${m.label}</span><span class="subnav__chevron">${iconSvg("chevron-down")}</span>
+    </button>`;
   }).join("");
+  return `<nav class="subnav" aria-label="Sections">${home}${menus}</nav>`;
 }
 
-// Level-up pill (only on detail screens): a small blue pill (Figma Global
-// Navigation 7294:1952) — a section icon + the parent's name — that steps one
-// level up via data-screen (falls back to home if a screen has no `upTo`). Not a
-// "back" button — it always goes up a level. It sits in-page (top-left) but
-// sticks to the top on scroll (see .screen__uplevel + attachAutoHide), replacing
-// the old full-width level-up bar. Each screen's `upIcon` is a pre-tinted blue
-// SVG in assets/up-*.svg.
-function renderUplevel(screen) {
-  const upTo = screen.upTo || persona.screens[0].id;
-  // Inline SVG (fill=currentColor, tinted by CSS) when the icon is in ICON_SVGS;
-  // otherwise fall back to the pre-tinted assets/up-*.svg image.
-  const iconMarkup = screen.upIcon
-    ? (iconSvg(screen.upIcon)
-        ? `<span class="uplevel__icon">${iconSvg(screen.upIcon)}</span>`
-        : `<img class="uplevel__icon" src="${ASSET_BASE}/${screen.upIcon}.svg" alt="" />`)
+function renderSubnavMenu() {
+  const m = SUBNAV_MENUS[state.subnavMenu];
+  if (!m) return "";
+  const items = m.items.map((it) => {
+    const nav = `data-screen="${it.screen}"`;
+    return `<button class="subnav-menu__item" role="menuitem" ${nav}>
+        <span class="subnav-menu__icon">${iconSvg(it.icon)}</span><span>${it.label}</span>
+      </button>`;
+  }).join("");
+  const ask = m.ask
+    ? `<button class="subnav-menu__ask" role="menuitem" data-action="close-subnav-item">
+         ${aiDuoStarsGradientSVG("ai-grad-subnav", "subnav-menu__ask-icon")}<span>Ask a question</span>
+       </button>`
     : "";
   return `
+    <div class="subnav-overlay" data-action="close-subnav">
+      <div class="subnav-menu subnav-menu--${state.subnavMenu}" role="menu" data-stop>${items}${ask}</div>
+    </div>`;
+}
+
+// Anchor the open sub-nav menu under its trigger, kept inside the viewport.
+function positionSubnavMenu() {
+  const menu = document.querySelector(".subnav-menu");
+  const btn = document.querySelector(`.subnav__item[data-menu="${state.subnavMenu}"]`);
+  if (!menu || !btn) return;
+  const r = btn.getBoundingClientRect();
+  const w = menu.offsetWidth;
+  const left = Math.min(Math.max(12, r.left), window.innerWidth - w - 12);
+  menu.style.top = `${Math.round(r.bottom + 8)}px`;
+  menu.style.left = `${Math.round(left)}px`;
+}
+
+// Uplevel row (detail screens only; Figma Global Navigation 7981:5). A
+// full-width row under the sub-nav: the parent section's glyph in a light-blue
+// circle, then "All <section>" in blue. It steps one level up via data-screen
+// (falls back to home if a screen has no `upTo`). Sticky: it pins under the top
+// nav while scrolling (see attachAutoHide).
+function renderUplevel(screen) {
+  const upTo = screen.upTo || persona.screens[0].id;
+  const glyph = screen.upIcon ? iconSvg(screen.upIcon) : "";
+  return `
     <button class="uplevel" data-screen="${upTo}">
-      ${iconMarkup}
-      <span>${screen.backLabel}</span>
+      ${glyph ? `<span class="uplevel__icon">${glyph}</span>` : ""}
+      <span class="uplevel__label">${screen.backLabel}</span>
     </button>
   `;
 }
@@ -710,12 +758,17 @@ function renderUplevel(screen) {
 // shows a small box near the top linking to the full collection. `collection.screen`
 // is the Collection to open (in-page navigation via data-screen).
 function renderCollectionCallout(collection) {
+  // "Part of a Collection" card (Figma Global Navigation 7977:3599): the whole
+  // card links to the Collection. The title is clamped to two lines.
   return `
-    <div class="collection-callout">
-      <p class="collection-callout__label">Part of a collection</p>
-      <p class="collection-callout__text">This article is part of a collection.</p>
-      <button class="collection-callout__link" data-screen="${collection.screen}">Explore the full collection &rarr;</button>
-    </div>
+    <button class="collection-callout" data-screen="${collection.screen}">
+      <img class="collection-callout__icon" src="${ASSET_BASE}/collection-icon.svg" alt="" />
+      <span class="collection-callout__text">
+        <span class="collection-callout__label">Explore the full collection</span>
+        <span class="collection-callout__title">${collection.title || "Collection"}</span>
+      </span>
+      <svg class="collection-callout__chev" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M6.35184 2.84912C5.82915 3.35351 5.79701 4.16118 6.27807 4.70277L10.9834 10L6.27807 15.2972C5.79701 15.8388 5.82915 16.6465 6.35184 17.1509C6.83422 17.6164 7.6163 17.6164 8.09868 17.1509L8.14846 17.0999L13.5945 11.1877C14.2185 10.5104 14.2185 9.48965 13.5945 8.81231L8.14846 2.90007C7.69524 2.40806 6.91451 2.36374 6.40464 2.80108L6.35184 2.84912Z"/></svg>
+    </button>
   `;
 }
 
@@ -746,16 +799,25 @@ function renderCommunityHub() {
   `;
 }
 
-// Inline SVG feature illustrations for the Community Features page (magenta
-// line-art). Inlined (not <img>) so they travel with main.js and render over
-// file://; keyed by the COMMUNITY_FEATURES/COMMUNITY_PAIR `art` name.
+// Line illustrations come from system/icons/illustrations/*.svg via the
+// generated registry (system/icons/registry-illustrations.js), loaded before
+// this file. They are currentColor, so CSS tints them.
+const ILLUSTRATIONS = (window.MHT_ICONS && window.MHT_ICONS.illustrations) || {};
+// Community feature cards: each card's `art` key (also its CSS modifier) to the
+// illustration it shows.
+const FEAT_ILLOS = {
+  "community-feat-posts": "activity-timeline",
+  "community-feat-meet": "people-pair",
+  "community-feat-qa": "chat-question-wide",
+  "community-feat-groups": "groups-circles",
+  "community-feat-leadership": "leadership",
+  "community-feat-guidelines": "guidelines",
+};
+function illo(name) { return ILLUSTRATIONS[name] || ""; }
+
+// The feature cards' decorative panels and the small check glyph, inlined so
+// they travel with main.js and render over file://.
 const COMMUNITY_FEAT_SVGS = {
-  "community-feat-posts": `<svg viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M26 21V27M26 41V59M26 73V91M26 105V111" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M26 41C29.866 41 33 37.866 33 34C33 30.134 29.866 27 26 27C22.134 27 19 30.134 19 34C19 37.866 22.134 41 26 41Z" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M26 73C29.866 73 33 69.866 33 66C33 62.134 29.866 59 26 59C22.134 59 19 62.134 19 66C19 69.866 22.134 73 26 73Z" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M26 105C29.866 105 33 101.866 33 98C33 94.134 29.866 91 26 91C22.134 91 19 94.134 19 98C19 101.866 22.134 105 26 105Z" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M46 30H102M46 42H80M46 62H96M46 74H76M46 94H90M46 106H72" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g></svg>`,
-  "community-feat-meet": `<svg viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg"><g><g><path d="M70.4716 79.4716C74.0348 75.9085 78.8676 73.9067 83.9067 73.9067C88.9458 73.9067 93.7785 75.9085 97.3417 79.4716C100.905 83.0348 102.907 87.8676 102.907 92.9067M25 93.1733C25 86.8081 27.5286 80.7036 32.0294 76.2028C36.5303 71.7019 42.6348 69.1733 49 69.1733C55.3652 69.1733 61.4697 71.7019 65.9706 76.2028C70.4714 80.7036 73 86.8081 73 93.1733M96.9067 57.1467C96.9067 64.3264 91.0864 70.1467 83.9067 70.1467C76.727 70.1467 70.9067 64.3264 70.9067 57.1467C70.9067 49.967 76.727 44.1467 83.9067 44.1467C91.0864 44.1467 96.9067 49.967 96.9067 57.1467ZM65 50C65 58.8366 57.8366 66 49 66C40.1634 66 33 58.8366 33 50C33 41.1635 40.1634 34 49 34C57.8366 34 65 41.1635 65 50Z" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g></g></svg>`,
-  "community-feat-qa": `<svg viewBox="0 0 99 74" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M59.5 22.5H87.5C90.1522 22.5 92.6957 23.5536 94.5711 25.4289C96.4464 27.3043 97.5 29.8478 97.5 32.5V50.5C97.5 53.1522 96.4464 55.6957 94.5711 57.5711C92.6957 59.4464 90.1522 60.5 87.5 60.5H83.5V72.5L70.5 60.5H59.5C56.8478 60.5 54.3043 59.4464 52.4289 57.5711C50.5536 55.6957 49.5 53.1522 49.5 50.5V32.5C49.5 29.8478 50.5536 27.3043 52.4289 25.4289C54.3043 23.5536 56.8478 22.5 59.5 22.5Z" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.5 1.5H57.5C60.6826 1.5 63.7348 2.76428 65.9853 5.01472C68.2357 7.26516 69.5 10.3174 69.5 13.5V35.5C69.5 38.6826 68.2357 41.7348 65.9853 43.9853C63.7348 46.2357 60.6826 47.5 57.5 47.5H35.5L21.5 60.5V47.5H13.5C10.3174 47.5 7.26516 46.2357 5.01472 43.9853C2.76428 41.7348 1.5 38.6826 1.5 35.5V13.5C1.5 10.3174 2.76428 7.26516 5.01472 5.01472C7.26516 2.76428 10.3174 1.5 13.5 1.5Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M26.94 14.1533C27.6971 12.8749 28.8413 11.8706 30.2071 11.2856C31.5729 10.7007 33.0893 10.5655 34.537 10.8996C35.9847 11.2337 37.2886 12.0197 38.2599 13.144C39.2312 14.2683 39.8197 15.6724 39.94 17.1533C39.94 22.1533 33.94 22.1533 33.94 27.1533" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M33.94 36.3533C34.8789 36.3533 35.64 35.5922 35.64 34.6533C35.64 33.7145 34.8789 32.9533 33.94 32.9533C33.0011 32.9533 32.24 33.7145 32.24 34.6533C32.24 35.5922 33.0011 36.3533 33.94 36.3533Z" fill="currentColor"/></g></svg>`,
-  "community-feat-groups": `<svg viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M48 76C62.3594 76 74 64.3594 74 50C74 35.6406 62.3594 24 48 24C33.6406 24 22 35.6406 22 50C22 64.3594 33.6406 76 48 76Z" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M88 76C102.359 76 114 64.3594 114 50C114 35.6406 102.359 24 88 24C73.6406 24 62 35.6406 62 50C62 64.3594 73.6406 76 88 76Z" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M68 106C82.3594 106 94 94.3594 94 80C94 65.6406 82.3594 54 68 54C53.6406 54 42 65.6406 42 80C42 94.3594 53.6406 106 68 106Z" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g></svg>`,
-  "community-feat-leadership": `<svg viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M64 80C79.464 80 92 67.464 92 52C92 36.536 79.464 24 64 24C48.536 24 36 36.536 36 52C36 67.464 48.536 80 64 80Z" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M64 36L67.8 46.8L79.2 47.1L70.1 54L73.4 64.9L64 58.4L54.6 64.9L57.9 54L48.8 47.1L60.2 46.8L64 36Z" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M46 75L38 108L55 99L64 110L73 99L90 108L82 75" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g></svg>`,
-  "community-feat-guidelines": `<svg viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M64 18L102 32V64C102 87 86 102 64 110C42 102 26 87 26 64V32L64 18Z" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M64 84C51 76 44 69 44 61C44 55 49 50 55 50C59 50 62 52 64 55C66 52 69 50 73 50C79 50 84 55 84 61C84 69 77 76 64 84Z" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g></svg>`,
   "community-feat-panel": `<svg viewBox="0 0 235.918 320" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="Artboard 18" opacity="0.25"><path id="Vector" d="M43.8008 318.716C51.4361 319.106 59.0031 316.045 65.2714 311.188C71.5349 306.33 76.5926 299.759 80.8789 292.725C89.4466 278.655 95.2366 262.432 105.406 249.754C118.255 233.727 136.679 225.027 153.37 214.238C161.713 208.844 169.803 202.766 176.496 195.028C183.184 187.29 188.447 177.756 190.331 167.216C191.737 159.366 191.239 151.174 189.482 143.407C187.724 135.64 184.737 128.263 181.197 121.282C174.118 107.32 164.843 94.861 157.681 80.9573C147.087 60.3947 141.029 36.5564 126.583 19.1329C119.358 10.4235 109.946 3.55958 99.4399 1.64588C94.187 0.689023 88.729 0.996583 83.6616 2.79312C78.5941 4.58967 73.9368 7.89472 70.5146 12.4202C65.6278 18.8839 63.4895 27.4223 62.6987 35.829C61.9029 44.2356 62.3228 52.7301 61.8687 61.1709C60.2089 92.0685 47.0717 120.574 33.6025 147.625C20.1333 174.675 5.79518 202.112 1.338 232.653C-0.663583 246.356 -0.58547 260.572 2.70982 273.973C6.0051 287.374 12.6445 299.935 22.3253 308.718C28.4472 314.268 35.9214 318.311 43.8008 318.716Z" fill="#DBE6F2"/><path id="Vector_2" d="M210.698 188.764C210.02 203.322 209.971 217.919 208.565 232.428C207.159 246.937 204.318 261.515 198.44 274.427C192.469 287.53 183.453 298.578 172.888 306.326C162.324 314.073 150.26 318.555 138.1 319.702C113.783 321.997 89.6711 310.866 71.2078 292.324C53.1887 274.227 39.9587 248.612 36.473 220.219C34.7302 206.022 35.4234 191.264 38.7773 177.302C42.1263 163.339 48.1554 150.197 56.4205 139.526C64.4903 129.103 74.4835 121.214 83.3149 111.747C107.593 85.7269 122.463 48.5659 147.243 23.263C159.629 10.6091 174.782 1.0991 190.722 0.0885466C198.689 -0.419172 206.739 1.24556 213.838 5.36589C220.941 9.48621 227.053 16.1061 230.875 24.4493C233.907 31.074 235.455 38.6605 235.826 46.3153C236.197 53.9701 235.416 61.7031 234 69.2456C231.163 84.3258 225.823 98.6103 221.771 113.319C215.048 137.719 211.89 163.281 210.698 188.764Z" fill="url(#paint0_linear_0_38)"/></g><defs><linearGradient id="paint0_linear_0_38" x1="133.884" y1="320.028" x2="127" y2="1.48731" gradientUnits="userSpaceOnUse"><stop stop-color="#DBE6F2"/><stop offset="1" stop-color="#B3CAE3"/></linearGradient></defs></svg>`,
   "community-feat-panel2": `<svg viewBox="0 0 349.453 529.765" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="Artboard" opacity="0.25"><path id="Vector" d="M64.88 527.639C76.1898 528.285 87.3983 523.218 96.6833 515.176C105.961 507.135 113.453 496.256 119.802 484.61C132.493 461.317 141.069 434.461 156.132 413.472C175.165 386.938 202.456 372.536 227.18 354.674C239.538 345.744 251.52 335.682 261.435 322.872C271.341 310.061 279.137 294.277 281.928 276.828C284.011 263.832 283.273 250.27 280.67 237.412C278.067 224.553 273.641 212.341 268.398 200.784C257.913 177.669 244.173 157.044 233.565 134.026C217.873 99.9843 208.899 60.5196 187.502 31.6747C176.799 17.2563 162.857 5.89293 147.295 2.72476C139.514 1.14067 131.43 1.64984 123.924 4.62405C116.418 7.59825 109.519 13.0698 104.45 20.5619C97.2112 31.2625 94.0439 45.3981 92.8724 59.3154C91.6937 73.2327 92.3156 87.2955 91.6431 101.269C89.1844 152.421 69.7249 199.612 49.7737 244.395C29.8225 289.177 8.58411 334.599 1.98191 385.16C-0.982933 407.846 -0.867228 431.381 4.01392 453.567C8.89506 475.752 18.7297 496.547 33.0694 511.087C42.1374 520.276 53.2086 526.968 64.88 527.639Z" fill="#DBE6F2"/><path id="Vector_2" d="M312.097 312.502C311.092 336.603 311.02 360.768 308.937 384.788C306.854 408.808 302.646 432.941 293.939 454.318C285.095 476.011 271.739 494.3 256.09 507.126C240.442 519.953 222.573 527.372 204.56 529.271C168.541 533.07 132.825 514.643 105.476 483.947C78.7857 453.987 59.1888 411.58 54.0256 364.575C51.444 341.072 52.4709 316.64 57.4388 293.526C62.3995 270.411 71.3302 248.654 83.5728 230.987C95.5262 213.731 110.329 200.671 123.41 185C159.372 141.922 181.398 80.4015 218.104 38.5122C236.45 17.5634 258.896 1.81958 282.506 0.14659C294.308 -0.693945 306.232 2.06204 316.747 8.8833C327.268 15.7046 336.322 26.6638 341.984 40.4761C346.475 51.4435 348.767 64.003 349.317 76.6757C349.866 89.3483 348.709 102.15 346.612 114.637C342.411 139.603 334.5 163.251 328.498 187.602C318.54 227.996 313.861 270.314 312.097 312.502Z" fill="url(#paint0_linear_0_15)"/></g><defs><linearGradient id="paint0_linear_0_15" x1="198.315" y1="529.811" x2="185.579" y2="2.52359" gradientUnits="userSpaceOnUse"><stop stop-color="#DBE6F2"/><stop offset="1" stop-color="#B3CAE3"/></linearGradient></defs></svg>`,
   "community-feat-check": `<svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M6 12.1791L9.84 16L18 8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>`,
@@ -812,7 +874,7 @@ function renderCommunityFeatures() {
   const cards = COMMUNITY_FEATURES.map((f) => `
     <button class="feat-card feat-card--${f.art.replace("community-feat-", "")}" data-screen="${f.screen}">
       <span class="feat-card__panel">${panelSvg("community-feat-panel", f.art)}</span>
-      <span class="feat-card__illo">${COMMUNITY_FEAT_SVGS[f.art]}</span>
+      <span class="feat-card__illo">${illo(FEAT_ILLOS[f.art])}</span>
       <span class="feat-card__head">
         <span class="feat-card__cat">${f.cat}</span>
         <span class="feat-card__title">${f.title}</span>
@@ -838,7 +900,7 @@ function renderCommunityFeatures() {
     return `
       <div class="feat-pair-card">
         <span class="feat-pair-card__panel">${panelSvg("community-feat-panel2", c.art)}</span>
-        <span class="feat-pair-card__illo">${COMMUNITY_FEAT_SVGS[c.art]}</span>
+        <span class="feat-pair-card__illo">${illo(FEAT_ILLOS[c.art])}</span>
         <div class="feat-pair-card__head">
           <span class="feat-card__cat">${c.cat}</span>
           <span class="feat-card__title">${c.title}</span>
@@ -1220,14 +1282,14 @@ function renderModules() {
   // Five cards, matching the Figma desktop "Listicles" carousel (node 4113:51).
   // Cards 4 & 5 carry the frame's own "[symptom]" / "[Listicle]" placeholders —
   // kept verbatim rather than invented; the brackets signal they're not final.
-  // `img` points at a graphic in assets/listicles_<name>.svg; the icon degrades
-  // to an empty circle if a file is missing (onerror removes the <img>).
+  // `illo` names a line illustration in system/icons/illustrations/, inlined so
+  // it takes the card's accent color.
   const listicles = [
-    { img: "weight", title: "Ways to manage weight gain", cta: "Weight Tips" },
-    { img: "fog", title: "How to clear brain fog", cta: "Brain Fog Tips" },
-    { img: "flashes", title: "Ways to manage hot flashes", cta: "Hot Flashes Tips" },
-    { img: "sleep", title: "Ways to manage [symptom]", cta: "Sleep Tips" },
-    { img: "libido", title: "Ways to manage [symptom]", cta: "[Listicle] Tips" },
+    { illo: "weight", title: "Ways to manage weight gain", cta: "Weight Tips" },
+    { illo: "brain-fog", title: "How to clear brain fog", cta: "Brain Fog Tips" },
+    { illo: "hot-flashes", title: "Ways to manage hot flashes", cta: "Hot Flashes Tips" },
+    { illo: "sleep", title: "Ways to manage [symptom]", cta: "Sleep Tips" },
+    { illo: "libido", title: "Ways to manage [symptom]", cta: "[Listicle] Tips" },
   ];
 
   // Figma's Articles section is an image + title carousel ("Everything you need
@@ -1309,7 +1371,7 @@ function renderModules() {
           .map(
             (l) => `
           <div class="mod-listicle-card">
-            <span class="mod-listicle-card__icon"><img src="${ASSET_BASE}/listicles_${l.img}.svg" alt="" onerror="this.remove()" /></span>
+            <span class="mod-listicle-card__icon">${illo(l.illo)}</span>
             <p class="mod-listicle-card__title">${l.title}</p>
             <button class="mod-listicle-card__cta" data-screen="listicle-detail">${l.cta}</button>
           </div>`
@@ -1468,9 +1530,14 @@ function renderFooter() {
 // shared. renderArticle() = the skin-care article; renderCollectionArticle() =
 // the generic in-a-Collection article with a "Part of a collection" top card.
 function renderArticleShell(content) {
-  const { title, byline, takeaway, lede, midPara = [], sections, topCard = "" } = content;
+  const { title, posted, byline, reviewers = ["advisor-3", "advisor-4"], reactions = 12, comments = 34, takeaway, lede, midPara = [], sections, topCard = "" } = content;
   const ICON = {
-    bookmark: `<svg class="art__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z"/></svg>`,
+    // Figma "Articles" 1082:15 / 1082:20 / 1082:25 / 1082:132, paint → currentColor
+    // (the badge keeps its green and a page-colored ring via CSS).
+    thumb: `<svg class="art__ic" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11.7255 4.70923C11.681 4.77083 11.6365 4.83538 11.5914 4.90513L11.4847 5.07899L11.4616 5.11932C11.344 5.32902 11.2757 5.48915 11.2591 5.69733L11.1288 7.2044L11.1233 7.22139L11.073 7.30719C10.7146 7.89899 9.88908 8.8873 8.61779 10.2323L8.4576 10.4007H6.4C5.16505 10.4007 4 11.5999 4 12.8005V17.6002C4 18.8009 5.16505 20 6.4 20H16.8C18.0227 20 18.9091 19.0777 18.9091 17.893V17.7328L18.9025 17.5526C18.8981 17.4929 18.8915 17.4336 18.8828 17.3749L18.864 17.2762L18.9192 17.2012C19.1677 16.8353 19.3063 16.3807 19.3063 15.9056V15.7454L19.2991 15.5577C19.2943 15.4955 19.2871 15.4338 19.2777 15.3727L19.2504 15.2348L19.3262 15.1198C19.5368 14.7712 19.6531 14.3536 19.6531 13.9183V13.7581L19.6459 13.5704C19.6412 13.5082 19.634 13.4465 19.6245 13.3854L19.5976 13.2477L19.673 13.1325C19.8837 12.7839 20 12.3663 20 11.931L19.9988 11.6125C19.9775 10.2668 19.6669 9.60078 18.4 9.60078H15.2072L15.3872 9.17613C15.6854 8.34795 15.5959 7.23962 15.2538 6.09188C15.1652 5.68642 14.7846 4.82176 14.3146 4.45034C13.4822 3.77067 12.3804 3.86301 11.7255 4.70923ZM7.84 12.0003V18.4L6.4 18.4001C6.05923 18.4001 5.6 17.9275 5.6 17.6002V12.8005C5.6 12.4733 6.05923 12.0006 6.4 12.0006L7.84 12.0003ZM13.3126 5.69759C13.4092 5.77404 13.6283 6.25746 13.6915 6.44448L13.7064 6.49488C13.974 7.39951 14.0387 8.20027 13.8974 8.59435L12.7926 11.2007H18.3776L18.3814 11.2238C18.3907 11.2973 18.3962 11.4028 18.3986 11.5586L18.4 11.931C18.4 12.1521 18.3145 12.336 18.2065 12.4178L17.6732 12.822L17.9768 13.4183C18.0252 13.5132 18.0531 13.6313 18.0531 13.7581V13.9183C18.0531 14.1395 17.9676 14.3234 17.8597 14.4052L17.3263 14.8094L17.63 15.4056C17.6783 15.5005 17.7063 15.6187 17.7063 15.7454V15.9056C17.7063 16.1339 17.6152 16.3213 17.5086 16.3937L16.9366 16.7825L17.2386 17.4046C17.2832 17.4965 17.3091 17.611 17.3091 17.7328V17.893C17.3091 18.208 17.1245 18.4001 16.8 18.4001L9.12 18.4V12.0003L9.14084 12.0006L9.81309 11.297C11.2161 9.81089 12.1123 8.72402 12.522 7.99812C12.6363 7.78909 12.7035 7.56915 12.723 7.34115L12.8536 5.82987C12.846 5.92475 12.8514 5.91208 12.857 5.90206L12.8911 5.84399L12.9856 5.69758C12.9944 5.68463 13.0024 5.67318 13.0092 5.66367C13.0812 5.57165 13.1511 5.56579 13.3126 5.69759Z"/></svg>`,
+    comment: `<svg class="art__ic" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14.5909 4H9.40909C5.47757 4 2.5 7.06464 2.5 11.1111L2.50386 11.3275C2.63451 14.9905 6.06437 17.8692 9.47247 17.8692L10.5232 17.8684L10.6099 17.9552C11.9141 19.2125 13.708 20 15.4545 20C16.1622 20 16.702 19.5741 16.702 18.8313C16.702 18.6917 16.6839 18.5614 16.6491 18.4123L16.6088 18.2558C16.5837 18.1655 16.4874 17.8493 16.4737 17.8022L16.4149 17.5849L16.4888 17.566C19.4519 16.7398 21.5 14.452 21.5 11.1111C21.5 7.09218 18.467 4 14.5909 4ZM14.5909 5.77778C17.5167 5.77778 19.7727 8.07782 19.7727 11.1111C19.7727 13.8146 17.9834 15.5539 15.3126 16.0121L14.5909 16.1359V16.8889L14.5974 17.1265C14.6148 17.4389 14.6666 17.7372 14.7504 18.0629L14.779 18.1692C13.5731 17.9829 12.3649 17.3187 11.5198 16.3771L11.2633 16.0914H9.47247C6.88823 16.0914 4.22727 13.8146 4.22727 11.1111C4.22727 8.04648 6.43152 5.77778 9.40909 5.77778H14.5909ZM14.1591 11.1111H8.11364C7.63666 11.1111 7.25 11.5091 7.25 12C7.25 12.4909 7.63666 12.8889 8.11364 12.8889H14.1591C14.6361 12.8889 15.0227 12.4909 15.0227 12C15.0227 11.5091 14.6361 11.1111 14.1591 11.1111ZM15.8864 8.44444H8.11364C7.63666 8.44444 7.25 8.84241 7.25 9.33333C7.25 9.82425 7.63666 10.2222 8.11364 10.2222H15.8864C16.3633 10.2222 16.75 9.82425 16.75 9.33333C16.75 8.84241 16.3633 8.44444 15.8864 8.44444Z"/></svg>`,
+    save: `<svg class="art__ic" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11.1667 2C11.6269 2 12 2.3731 12 2.83333C12 3.29357 11.6269 3.66667 11.1667 3.66667V3.67917L9.01499 3.67933C7.4419 3.67933 6.16667 4.96425 6.16667 6.54928V19.7253C6.16667 19.8674 6.21712 20.0048 6.3089 20.1127C6.52126 20.3624 6.89425 20.3913 7.142 20.1773L9.44619 18.1873C10.9157 16.9181 13.0843 16.9181 14.5538 18.1873L16.858 20.1773C16.9651 20.2698 17.1015 20.3206 17.2425 20.3206C17.5688 20.3206 17.8333 20.0541 17.8333 19.7253V10.3333L17.8356 10.2711C17.8659 9.86048 18.1938 9.53258 18.6045 9.50229L18.6667 9.5C19.1269 9.5 19.5 9.8731 19.5 10.3333V19.7253C19.5 20.9816 18.4893 22 17.2425 22C16.7036 22 16.1825 21.8057 15.7733 21.4524L13.4692 19.4623C12.6237 18.7322 11.3763 18.7322 10.5308 19.4623L8.22665 21.4524C7.28003 22.2699 5.85487 22.1594 5.04348 21.2056C4.69277 20.7934 4.5 20.2683 4.5 19.7253V6.54928C4.5 4.03678 6.52143 2 9.01499 2H11.1667ZM15.3333 2C15.7756 2 16.1983 2.42228 16.1667 2.83333V5.33333H18.6667C19.0396 5.29988 19.4263 5.65182 19.4927 6.10175L19.5 6.16667C19.5 6.61105 19.0766 7.03504 18.6667 7H16.1667V9.5C16.1968 9.87386 15.8458 10.2598 15.3979 10.3261L15.3333 10.3333C14.8912 10.3333 14.4684 9.91106 14.5 9.5V7H12C11.6264 7.03345 11.2403 6.68294 11.1739 6.23177L11.1667 6.16667C11.1667 5.72057 11.5894 5.29829 12 5.33333H14.5V2.83333C14.4684 2.44167 14.8552 2.03676 15.3333 2Z"/></svg>`,
+    reviewed: `<svg class="art__reviewed" viewBox="0 0 20 19" fill="none" aria-hidden="true"><rect class="art__reviewed-dot" x="1.03" y="1.03" width="17.25" height="16.55" rx="8.28" stroke-width="2.07"/><path d="M5.26 9.31 8.56 12.98 14.06 5.64" stroke="currentColor" stroke-width="1.26" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
     chat: `<svg class="art__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.7A8.38 8.38 0 0 1 4 11.5 8.5 8.5 0 0 1 12.5 3 8.38 8.38 0 0 1 21 11.5z"/></svg>`,
     sparkle: `<svg class="art__ic" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.9 6.4L20 10l-6.1 1.6L12 18l-1.9-6.4L4 10l6.1-1.6L12 2z"/><path d="M19 3l.7 2.3L22 6l-2.3.7L19 9l-.7-2.3L16 6l2.3-.7L19 3z"/></svg>`,
     chevDown: `<svg class="art__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>`,
@@ -1510,11 +1577,28 @@ function renderArticleShell(content) {
     <article class="art">
       <div class="art__body">
         <header class="art__head">
-          <h1 class="art__title">${title}</h1>
-          <p class="art__byline">${byline}</p>
+          <!-- Ad slot (Figma Articles 1082:29): a 300x250 unit, labelled. -->
+          <div class="art-ad">
+            <img class="art-ad__slot" src="${ASSET_BASE}/ad-article-300x250.png" alt="Advertisement: What helped her might help you. See what's worked." />
+            <p class="art-ad__label">Advertisement</p>
+          </div>
+          <div class="art__titleblock">
+            <h1 class="art__title">${title}</h1>
+            <p class="art__posted">${posted}</p>
+          </div>
+          <div class="art__reviewers">
+            <span class="art__faces">
+              ${reviewers.map((r) => `<img class="art__face" src="${ASSET_BASE}/${r}.jpg" alt="" />`).join("")}
+              ${ICON.reviewed}
+            </span>
+            <p class="art__byline">${byline}</p>
+          </div>
           <div class="art__strip">
-            <span class="art__reaction"><img class="art__avatar" src="${ASSET_BASE}/community-1.png" alt="" />1 Reaction</span>
-            <span class="art__save">${ICON.bookmark}Save</span>
+            <span class="art__counts">
+              <span class="art__count">${ICON.thumb}${reactions}</span>
+              <span class="art__count">${ICON.comment}${comments}</span>
+            </span>
+            <button class="art__save">${ICON.save}Save</button>
           </div>
         </header>
 
@@ -1522,7 +1606,7 @@ function renderArticleShell(content) {
 
         <div class="art-note">
           <p class="art-note__title">Key Takeaways</p>
-          <div class="art-note__item"><span class="art-note__bullet">&bull;</span><p class="art-note__text">${takeaway}</p></div>
+          <div class="art-note__item"><span class="art-note__bullet" aria-hidden="true"></span><p class="art-note__text">${takeaway}</p></div>
           <button class="art-note__link">View all takeaways</button>
         </div>
 
@@ -1586,7 +1670,8 @@ function renderArticleShell(content) {
 function renderArticle() {
   return renderArticleShell({
     title: "Skin Care for Menopausal Skin: Best Ingredients and Routine",
-    byline: "Medically reviewed by Ellen Byars, MSN, WHNP, MSCP &middot; Written by Kate Harrison &middot; June 18, 2026",
+    posted: "Posted on June 18, 2026",
+    byline: "Medically reviewed by Ellen Byars, MSN, WHNP, MSCP&#12539;Written by Kate Harrison",
     takeaway:
       "Menopause can bring on noticeable skin changes, including dryness, sensitivity, and loss of firmness, largely due to falling estrogen levels that affect how skin produces moisture and collagen.",
     lede: [
@@ -1624,7 +1709,8 @@ function renderCollectionArticle(collection) {
   return renderArticleShell({
     topCard: renderCollectionCallout(collection),
     title: "Article Title Goes Here",
-    byline: "Medically reviewed by [Reviewer], MD &middot; Written by [Author] &middot; 2026",
+    posted: "Posted on [Date], 2026",
+    byline: "Medically reviewed by [Reviewer], MD&#12539;Written by [Author]",
     takeaway:
       "A short, one-sentence key takeaway summarizing the most important point of this article for the reader. (Placeholder copy.)",
     lede: [
@@ -1728,15 +1814,18 @@ function render() {
   let chrome;
   if (isDesktop) {
     chrome = renderDesktopHeader(screen);
+    if (screen.type === "uplevel") chrome += `<div class="screen__uplevel">${renderUplevel(screen)}</div>`;
   } else {
     chrome = `<div class="screen__nav">${renderTopNav()}</div>`;
-    // Sub-nav bar with the three sections under the top bar (like the live site).
-    chrome += `<div class="screen__subnav">${renderSectionTabs(screen, "subnav__link")}</div>`;
+    // Sub-nav bar: Home + the Resources / Community dropdowns (Figma 7932:1084).
+    chrome += `<div class="screen__subnav">${renderSubnav(screen)}</div>`;
+    if (screen.type === "uplevel") chrome += `<div class="screen__uplevel">${renderUplevel(screen)}</div>`;
   }
 
   let overlays = "";
   if (state.panelOpen) overlays += renderPanel();
   if (state.dropdownOpen && persona.navVariant !== "visitor") overlays += renderDropdown();
+  if (state.subnavMenu) overlays += renderSubnavMenu();
   if (state.gateOpen) overlays += renderMemberGate();
 
   document.getElementById("phone").innerHTML = `
@@ -1752,6 +1841,7 @@ function render() {
   attachAutoHide();
   attachCarousels();
   positionDropdown();
+  positionSubnavMenu();
   // Lock the document scroll (the app's scroller) while the gate modal is open so
   // the page behind the overlay doesn't scroll.
   document.documentElement.classList.toggle("is-modal-open", state.gateOpen);
@@ -1776,9 +1866,8 @@ function positionDropdown() {
 // the bar pins just below it (top = nav height); when the nav hides, the bar's
 // top animates to 0 so it docks to the top edge. Re-bound each render.
 function attachAutoHide() {
-  // Desktop has a persistent header (no auto-hide) — nothing to bind.
-  if (isDesktop) return;
-  const nav = document.querySelector(".screen__nav");
+  // Mobile top nav or desktop header: both auto-hide the same way.
+  const nav = document.querySelector(isDesktop ? ".dnav" : ".screen__nav");
   if (!nav) return;
   // Assistant flow keeps the top nav fixed (never auto-hides) so the AI icon —
   // and the greeting anchored under it — stay in view while the user scrolls.
@@ -1794,18 +1883,18 @@ function attachAutoHide() {
     nav.classList.toggle("is-hidden", hidden);
     if (uplevel) uplevel.style.top = hidden ? "0px" : navH + "px";
   };
+  // Place the row before turning its transition on, so it starts pinned under
+  // the nav rather than animating there from top 0.
   setHidden(false);
-  // The uplevel pill only casts its glow once it floats over scrolled content —
-  // no shadow while idle at the top on the white background.
-  const setLifted = (y) => { if (uplevel) uplevel.classList.toggle("is-lifted", y > 8); };
-  setLifted(window.scrollY);
+  if (uplevel) requestAnimationFrame(() => uplevel.classList.add("is-tracking"));
   let lastY = window.scrollY;
   // The document is the scroller now (the frame is gone), so listen on window.
   const onScroll = () => {
     const y = window.scrollY;
+    // Keep the bar while a sub-nav menu is open — the menu hangs off it.
+    if (state.subnavMenu) { lastY = y; return; }
     if (y > lastY && y > 80) setHidden(true);
     else if (y < lastY) setHidden(false);
-    setLifted(y);
     lastY = y;
   };
   window.addEventListener("scroll", onScroll, { passive: true });
@@ -1892,6 +1981,7 @@ document.addEventListener("click", (e) => {
       state.gateOpen = true;
       state.panelOpen = false;
       state.dropdownOpen = false;
+      state.subnavMenu = null;
       render();
       break;
     case "close-gate":
@@ -1901,6 +1991,24 @@ document.addEventListener("click", (e) => {
         state.gateOpen = false;
         render();
       }
+      break;
+    case "toggle-subnav":
+      state.subnavMenu = state.subnavMenu === actionEl.dataset.menu ? null : actionEl.dataset.menu;
+      state.panelOpen = false;
+      state.dropdownOpen = false;
+      render();
+      break;
+    case "close-subnav":
+      // Only when the scrim itself is tapped (not a click bubbling from the menu).
+      if (e.target.dataset.action === "close-subnav") {
+        state.subnavMenu = null;
+        render();
+      }
+      break;
+    case "close-subnav-item":
+      // "Ask a question" has no destination in the prototype yet; it just closes.
+      state.subnavMenu = null;
+      render();
       break;
     case "close-dropdown":
       if (e.target.dataset.action === "close-dropdown") {

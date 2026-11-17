@@ -19,7 +19,7 @@ authoritative about a different thing:
 | Decisions (`decisions/DECISIONS.md`) | Why a rule, exception or tradeoff exists |
 | Product context (`product/`) | Users, activities, outcomes, terminology |
 | Figma | Intended visual direction — not shipped behavior |
-| Live pages (`system/icons/sheet.html`, `system/tokens/reference.html`) | Rendered specimens of the real implementation |
+| Live pages (the launcher, `system/tokens/reference.html`) | Rendered specimens of the real implementation |
 | Brand (`system/brand/`) | Voice, positioning, messaging |
 | External references | Evidence and inspiration only, never a product rule |
 

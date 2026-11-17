@@ -87,7 +87,7 @@ what's **specific to the splash sections**:
 - **Hero avatar stack:** 24px circles with a `2px solid #6b3794` ring (Figma ring color — a dark navy ring read as an unwanted border on the gradient), overlapped `-8px`. Uses generic stock faces (`assets/community-{1..3}.png`) representing community members — **not** the named committee headshots (those are real advisors and shouldn't stand in for anonymous users).
 - **Carousels are full-bleed:** the horizontal scrollers (Listicles, Articles, Community quotes) use `margin: 0 -12px` + `padding: 0 12px` so they clip at the **device edges**, not at the section's 12px padding — the first/last card stays inset 12px while cards scroll in/out at the full width.
 - **Listicles:** 5 cards from the desktop frame (`4113:51`), left-aligned, wider
-  (210px), 80px icon circles using `assets/listicles_*.svg`, non-wrapping
+  (210px), 80px icon circles using the listicle illustrations in `system/icons/illustrations/`, non-wrapping
   buttons; rollover uses `--color-primary-soft` (not the panel pink).
 - **Articles:** horizontal carousel, 324×170 thumbnails (first two cards use
   real images `article-1`/`article-2`; others fall back to the diagonal-hatch
@@ -122,18 +122,20 @@ rendering plus the nav entry point — is specified in [onboarding.md](onboardin
 
 ---
 
-## Assets — listicles (`assets/`, flat folder)
+## Assets — listicles
 
-The 5 listicle icons are full-color SVGs exported from the desktop listicles
-frame (`4113:51`), rendered in 80px circles:
+The 5 listicle icons were exported from the desktop listicles frame (`4113:51`)
+and are rendered in 80px circles. Since 2026-11-16 they live in
+`system/icons/illustrations/` as `currentColor` line illustrations, inlined from
+the generated registry so they take the card's accent color:
 
 | File | Listicle |
 |---|---|
-| `listicles_flashes.svg` | Hot flashes |
-| `listicles_fog.svg` | Brain fog |
-| `listicles_libido.svg` | Libido |
-| `listicles_sleep.svg` | Sleep |
-| `listicles_weight.svg` | Weight |
+| `hot-flashes.svg` | Hot flashes |
+| `brain-fog.svg` | Brain fog |
+| `libido.svg` | Libido |
+| `sleep.svg` | Sleep |
+| `weight.svg` | Weight |
 
 Expert-card headshots **are** real — they reuse the committee's
 `assets/advisor-{1..3}.jpg` (see the Experts note above). Article thumbnails are

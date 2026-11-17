@@ -98,11 +98,9 @@ system/                        The design system
     <block>.md                   Hand-written contracts (one file each)
   AUTHORITY.md                 Authority model + preference grammar
   icons/
-    sheet.html                   Specimen page for both sets
-    editorial/*.svg              112 graphical line icons (display sizes)
-    ui/*.svg                     28 solid glyphs for interface chrome
-    categories.js                Authored grouping + display names
-    registry-*.js                GENERATED inline registries
+    ui/*.svg                     28 UI glyphs, all used by the pages
+    illustrations/*.svg          15 line illustrations, all used by the pages
+    registry-*.js                GENERATED inline registries, one per set
   motion/ai-pulse-spec.html    Ask AI pulse motion study
   brand/                       Brand strategy and voice
   docs/

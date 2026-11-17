@@ -11,7 +11,7 @@ work can feed back into components and decisions rather than being rebuilt.
 ## Before building
 
 1. **Check what exists.** [system/components/INDEX.md](../../../system/components/INDEX.md)
-   for blocks, `system/icons/sheet.html` for icons, `product/` for what the
+   for blocks, the launcher's Icons section for icons, `product/` for what the
    surface is supposed to do. Reuse beats reinvention — and a new block that
    duplicates an existing one is the main way a design system rots.
 2. **Read the product doc** for the surface if there is one, in `product/`.

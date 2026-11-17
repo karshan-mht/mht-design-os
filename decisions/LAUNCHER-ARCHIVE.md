@@ -172,3 +172,16 @@ door — the front door should answer "what can I open right now?".
 The test applied: does this section answer "what can I open right now?" If it
 answers "where do I read about X?", it is a document, and the docs viewer is
 the right home.
+
+---
+
+## Prototypes → Standalone (removed 2026-11-16)
+
+_Single surfaces built outside the persona shell._
+
+| Item | Where it lives | What it was |
+|---|---|---|
+| Community | `prototypes/community/index.html` | The Community page body — no nav, no footer. Data-driven from script.js. Still in the repo and still uses the illustrations registry. |
+| Resources | — (planned, never built) | The Resources surface. Was marked "Next prototype up." |
+
+To restore, add a `Standalone` group back to the Prototypes section in `launcher/manifest.js` with these two items.

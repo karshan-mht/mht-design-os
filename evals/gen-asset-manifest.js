@@ -25,11 +25,12 @@ const OUT = 'system/assets/manifest.js';
 const GROUPS = [
   [/^logotype|^logomark/,        'Brand marks',    'Wordmark and logomark. The nav inlines its own copies from main.js; these are the exported files.'],
   [/^advisor-/,                  'Advisors',       'Headshots for the Medical Advisory Committee page.'],
-  [/^listicles_/,                'Listicle icons', 'Splash Landing listicle module.'],
   [/^hero-rings|^factoid-blob|^closing-blob|^community-feat-panel/, 'Decoration', 'Background shapes for splash and community sections.'],
   [/^tab-/,                      'Nav tab icons',  'Source files for the desktop nav tabs, inlined into main.js with currentColor.'],
   [/^community-/,                'Community',      'Banner and upsell graphics for the community surface.'],
   [/^article-/,                  'Article',        'Imagery for the Article Show surface.'],
+  [/^ad-/,                       'Ads',            'Sample ad creatives for ad slots (the Article Show 300x250).'],
+  [/^collection-/,               'Collection',     'Illustration for the "Part of a Collection" card on a Collection article. Full-color, not tinted.'],
   [/^up-/,                       'Level-up icons', 'Per-screen icons for the parked level-up pill.'],
   [/^hub-/,                      'Topic hubs',     'Pre-tinted hub markers.'],
   [/^ai-/,                       'Assistant',      'Ask AI duo-star. main.js builds the gradient version inline; this is the flat export.'],

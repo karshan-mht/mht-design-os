@@ -101,11 +101,15 @@
 
   /* ---- views -------------------------------------------------------------- */
 
+  // Group heading: the eyebrow alone — no rule beside it, no note under it.
+  function eyebrow(text) {
+    return '<h2 class="group__title">' + esc(text) + '</h2>';
+  }
+
   function viewLinks(sec) {
     return sec.groups.map(function (g) {
       return '<section class="group">' +
-        '<div class="group__head"><h2 class="group__title">' + esc(g.title) + '</h2><span class="group__rule"></span></div>' +
-        (g.note ? '<p class="group__note">' + esc(g.note) + '</p>' : '') +
+        eyebrow(g.title) +
         '<div class="cards">' + g.items.map(function (i) {
           var inner = '<h3 class="card__title">' + esc(i.title) + '</h3>' +
             '<p class="card__desc">' + esc(i.desc) + '</p>' +
@@ -121,22 +125,44 @@
   // so what is shown is what the browser computes under the current mode.
   function live(name) { return getComputedStyle(root).getPropertyValue(name).trim(); }
 
+  /* The color view shows the palette from the Figma "Universal Colors" file
+     only: the Universal groups, then the loaded site's Theme and Content
+     colors. The older --color-* role tokens still exist for the prototypes
+     but are not the palette, so they are not shown here. */
+  var PALETTE = /^(Universal|Theme|Content) · /;
+  function swatchValue(v) {
+    if (/gradient\(/.test(v)) {
+      return (v.match(/#[0-9a-f]{3,8}\b/gi) || []).join(' \u2192 ');
+    }
+    // Interaction states are alpha over a base: label them the way Figma does.
+    var a = v.match(/^rgb\(from (#[0-9a-f]+) r g b \/ ([\d.]+)\)$/i);
+    if (a) {
+      return (/^#f/i.test(a[1]) ? 'alpha-white' : 'alpha-black') + ' \u00b7 ' + Math.round(a[2] * 100) + '%';
+    }
+    return v;
+  }
+
   function viewColor() {
     var tokens = (window.MHT_TOKENS || []).filter(function (t) {
+      if (!PALETTE.test(t.group)) return false;
       var v = live(t.name) || t.value;
-      return /^(#|rgb|color\(|hsl)/.test(v);
+      return /^(#|rgb|color\(|hsl|linear-gradient)/.test(v);
     });
     if (!tokens.length) return '<p class="empty">Token manifest not loaded.</p>';
-    var groups = {};
-    tokens.forEach(function (t) { (groups[t.group] = groups[t.group] || []).push(t); });
-    return Object.keys(groups).map(function (g) {
-      return '<section class="group">' +
-        '<div class="group__head"><h2 class="group__title">' + esc(g) + '</h2><span class="group__rule"></span></div>' +
+    var groups = {}, order = [];
+    tokens.forEach(function (t) {
+      if (!groups[t.group]) { groups[t.group] = []; order.push(t.group); }
+      groups[t.group].push(t);
+    });
+    return order.map(function (g) {
+      var label = g.replace(/^Universal · /, '');
+      return '<section class="group">' + eyebrow(label) +
         '<div class="swatches">' + groups[g].map(function (t) {
           var v = live(t.name) || t.value;
-          return '<div class="sw"><div class="sw__chip" style="background:' + esc(v) + '"></div>' +
-            '<div class="sw__meta"><div class="sw__name">' + esc(t.name) + '</div>' +
-            '<div class="sw__val">' + esc(v) + '</div></div></div>';
+          var wide = /gradient\(/.test(v) ? ' sw--wide' : '';
+          return '<div class="sw' + wide + '"><div class="sw__chip" style="background:' + esc(v) + '"></div>' +
+            '<div class="sw__meta"><div class="sw__name">' + esc(t.name.replace(/^--/, '')) + '</div>' +
+            '<div class="sw__val">' + esc(swatchValue(v)) + '</div></div></div>';
         }).join('') + '</div></section>';
     }).join('');
   }
@@ -166,13 +192,10 @@
           ';font-size:' + size + ';line-height:' + lh + ';letter-spacing:var(--display-tracking)">' +
           esc(r[0]) + '</p><div class="type-row__meta">' + esc(r[1]) + ' &middot; ' + size + ' / ' + lh + '</div></div>';
       }).join('');
-      return '<section class="group"><div class="group__head"><h2 class="group__title">' + esc(block[0]) +
-        '</h2><span class="group__rule"></span></div>' + rows + '</section>';
+      return '<section class="group">' + eyebrow(block[0]) + rows + '</section>';
     }).join('');
 
-    out += '<section class="group"><div class="group__head"><h2 class="group__title">Lato scale</h2>' +
-      '<span class="group__rule"></span></div>' +
-      '<p class="group__note">Fixed values from system/foundation/design.md, not tokens — the body scale is applied per component rather than through a variable.</p>' +
+    out += '<section class="group">' + eyebrow('Lato scale') +
       BODY_SCALE.map(function (r) {
         return '<div class="type-row"><p class="type-row__spec" style="font-family:var(--font-body);font-size:' +
           r[1] + 'px;line-height:' + r[2] + 'px;font-weight:' + r[3] + ';letter-spacing:-0.25px">' + esc(r[0]) +
@@ -182,24 +205,17 @@
   }
 
   /* ---- icons -------------------------------------------------------------
-     The editorial registry is ~160KB and most visits never open this section,
-     so it is injected on first use rather than loaded up front. */
-  var iconState = { set: 'editorial', size: 40, q: '' };
-  var editorialLoading = false;
+     The two sets the pages use, from the generated registries index.html
+     loads: UI glyphs (registry-ui.js) and line illustrations
+     (registry-illustrations.js). Every tile is a fixed 128px box, so the
+     largest size still fits with its label. */
+  var ICON_SETS = [['ui', 'UI glyphs'], ['illustrations', 'Illustrations']];
+  var iconState = { set: 'ui', size: 40, q: '' };
 
-  function ensureEditorial(done) {
-    if (window.MHT_ICONS && window.MHT_ICONS.editorial) return done();
-    if (editorialLoading) return;
-    editorialLoading = true;
-    var s = document.createElement('script');
-    s.src = 'system/icons/registry-editorial.js';
-    s.onload = function () { editorialLoading = false; done(); };
-    s.onerror = function () { editorialLoading = false; done(); };
-    document.head.appendChild(s);
-  }
+  function iconLib() { return (window.MHT_ICONS || {})[iconState.set] || {}; }
 
   function iconGrid() {
-    var lib = (window.MHT_ICONS || {})[iconState.set] || {};
+    var lib = iconLib();
     var names = Object.keys(lib).filter(function (n) { return n.indexOf(iconState.q) > -1; });
     if (!names.length) return '<p class="empty">No icon matches &ldquo;' + esc(iconState.q) + '&rdquo;.</p>';
     return '<div class="icon-grid" style="--icon-size:' + iconState.size + 'px">' + names.map(function (n) {
@@ -209,14 +225,13 @@
   }
 
   function viewIcons() {
-    var counts = window.MHT_ICONS || {};
+    var all = window.MHT_ICONS || {};
     return '<div class="icon-controls">' +
       '<div class="seg" id="icon-set">' +
-        ['editorial', 'ui'].map(function (k) {
-          var n = counts[k] ? Object.keys(counts[k]).length : '';
-          return '<button class="seg__btn" type="button" data-set="' + k + '" aria-pressed="' +
-            (iconState.set === k) + '">' + (k === 'ui' ? 'UI glyphs' : 'Editorial') +
-            (n ? ' (' + n + ')' : '') + '</button>';
+        ICON_SETS.map(function (k) {
+          var n = all[k[0]] ? Object.keys(all[k[0]]).length : 0;
+          return '<button class="seg__btn" type="button" data-set="' + k[0] + '" aria-pressed="' +
+            (iconState.set === k[0]) + '">' + k[1] + ' (' + n + ')</button>';
         }).join('') +
       '</div>' +
       '<div class="seg" id="icon-size">' +
@@ -241,7 +256,7 @@
       [].forEach.call(e.currentTarget.children, function (x) {
         x.setAttribute('aria-pressed', String(x.dataset.set === iconState.set));
       });
-      if (iconState.set === 'editorial') ensureEditorial(redraw); else redraw();
+      redraw();
     });
     document.getElementById('icon-size').addEventListener('click', function (e) {
       var b = e.target.closest('[data-size]'); if (!b) return;
@@ -257,8 +272,7 @@
     });
     host.addEventListener('click', function (e) {
       var b = e.target.closest('[data-icon]'); if (!b) return;
-      var lib = (window.MHT_ICONS || {})[iconState.set] || {};
-      var svgText = lib[b.dataset.icon] || '';
+      var svgText = iconLib()[b.dataset.icon] || '';
       if (navigator.clipboard) navigator.clipboard.writeText(svgText).catch(function () {});
       b.classList.add('is-copied');
       setTimeout(function () { b.classList.remove('is-copied'); }, 900);
@@ -272,18 +286,14 @@
 
     function paint(body) {
       main.innerHTML =
-        '<header class="hero"><h1 class="hero__title">' + esc(sec.title) + '</h1>' +
-        '<p class="hero__blurb">' + esc(sec.blurb) + '</p></header>' + body;
+        '<header class="hero"><h1 class="hero__title">' + esc(sec.title) + '</h1></header>' + body;
       if (sec.kind === 'icons') bindIcons();
     }
 
     if (sec.kind === 'links') paint(viewLinks(sec));
     else if (sec.kind === 'color') paint(viewColor());
     else if (sec.kind === 'type') paint(viewType());
-    else if (sec.kind === 'icons') {
-      paint(viewIcons());
-      ensureEditorial(function () { paint(viewIcons()); });
-    }
+    else if (sec.kind === 'icons') paint(viewIcons());
 
     [].forEach.call(nav.children, function (b) {
       b.setAttribute('aria-current', String(b.dataset.section === sec.id));

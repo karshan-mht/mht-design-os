@@ -1,19 +1,16 @@
 window.LAUNCHER_MANIFEST =
 {
-  "_comment": "The launcher renders from this file. Sections are either kind:'links' (a card grid, like Prototypes) or a built-in view rendered inline by launcher.js — color, type and icons all read the generated manifests, so nothing here duplicates the system. Adding a prototype is one entry in the Prototypes groups. This is a .js rather than a .json because Chrome blocks fetch() of local files over file://.",
+  "_comment": "The launcher renders from this file. Section and group headings are titles only — no blurbs or notes. Sections are either kind:'links' (a card grid, like Prototypes) or a built-in view rendered inline by launcher.js — color, type and icons all read the generated manifests, so nothing here duplicates the system. Adding a prototype is one entry in the Prototypes groups. This is a .js rather than a .json because Chrome blocks fetch() of local files over file://.",
   "title": "Design OS",
-  "subtitle": "Foundations and prototypes.",
   "sections": [
     {
       "id": "prototypes",
       "title": "Prototypes",
       "icon": "layers",
       "kind": "links",
-      "blurb": "Working prototypes built on the system. They open in this tab; the hidden hotspot in the top-left of any prototype brings you back.",
       "groups": [
         {
           "title": "User Types",
-          "note": "The four auth states of the global navigation.",
           "items": [
             {
               "title": "Anonymous Visitor",
@@ -47,7 +44,6 @@ window.LAUNCHER_MANIFEST =
         },
         {
           "title": "Entry Points",
-          "note": "Arriving from an external source onto a specific starting screen.",
           "items": [
             {
               "title": "Paid Social — Article",
@@ -81,7 +77,6 @@ window.LAUNCHER_MANIFEST =
         },
         {
           "title": "Personal Assistant",
-          "note": "Ask AI states, isolated for review.",
           "items": [
             {
               "title": "Assistant — Pulse",
@@ -105,26 +100,6 @@ window.LAUNCHER_MANIFEST =
               "status": "live"
             }
           ]
-        },
-        {
-          "title": "Standalone",
-          "note": "Single surfaces built outside the persona shell.",
-          "items": [
-            {
-              "title": "Community",
-              "desc": "The Community page body — no nav, no footer. Data-driven from script.js.",
-              "href": "prototypes/community/index.html",
-              "kind": "page",
-              "status": "live"
-            },
-            {
-              "title": "Resources",
-              "desc": "The Resources surface. Next prototype up.",
-              "href": null,
-              "kind": "page",
-              "status": "planned"
-            }
-          ]
         }
       ]
     },
@@ -132,22 +107,19 @@ window.LAUNCHER_MANIFEST =
       "id": "color",
       "title": "Color",
       "icon": "palette",
-      "kind": "color",
-      "blurb": "Every color token, resolved live from the loaded theme and mode. Values are what the browser computes, not a copy."
+      "kind": "color"
     },
     {
       "id": "type",
       "title": "Type",
       "icon": "type",
-      "kind": "type",
-      "blurb": "The type scale as specimens — display tiers in DM Serif Display, body and UI in Lato."
+      "kind": "type"
     },
     {
       "id": "icons",
       "title": "Icons",
       "icon": "shapes",
-      "kind": "icons",
-      "blurb": "Two sets with different jobs. Editorial icons are graphical and drawn for display sizes; UI glyphs are solid shapes for interface chrome at 16-44px."
+      "kind": "icons"
     }
   ]
 };

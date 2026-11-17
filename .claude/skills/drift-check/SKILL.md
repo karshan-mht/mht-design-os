@@ -59,10 +59,8 @@ generated mirror because Chrome blocks `fetch()` of local files.
 `system/assets/` changed. Regenerate. The asset one also reports a file that
 matches no grouping rule: add a rule rather than letting it fall into "Other".
 
-**gen-icon-registry --check** — an icon file changed, or one is uncategorised.
-Run `node evals/gen-icon-registry.js`. If an editorial icon is missing from
-`system/icons/categories.js`, add it there — the grouping is authored, not
-derived.
+**gen-icon-registry --check** — an icon file changed. Run
+`node evals/gen-icon-registry.js`.
 
 **lint-dead-code** — a CSS block nothing renders, or a function nothing calls.
 Advisory, because parked code is a legitimate state. The question to answer is

@@ -31,7 +31,7 @@ are in [landing.md](../../product/landing.md), [library.md](../../product/librar
 
 ## Interactions (as built)
 
-- **Top nav** → sticky at the top, but **auto-hides on scroll-down and returns on scroll-up** (`attachAutoHide()` toggles `.is-hidden` on the sticky `.screen__nav`). The **level-up pill** (`.screen__uplevel`) is a separate sticky element that **stays pinned** — it docks below the nav when the nav shows and rises to the top edge when the nav hides.
+- **Top nav** → sticky at the top, but **auto-hides on scroll-down and returns on scroll-up** (`attachAutoHide()` toggles `.is-hidden` on the sticky `.screen__nav` on mobile and on the `.dnav` header on desktop; it stays put while a sub-nav menu is open). The **uplevel row** (`.screen__uplevel`) is a separate sticky element that **stays pinned** — it docks below the nav when the nav shows and rises to the top edge when the nav hides.
 - **Hamburger (☰)** → opens the slide-out Panel for the current persona. Tapping the overlay (not the panel surface) closes it with a slower ease-out slide-out animation (`closePanel()`).
 - **Nav logotype / logomark** → returns to the persona's home screen (Splash Landing for Visitor and Subscriber, Home as a hub for the member states). In-page `go-home`.
 - **Hidden home hotspot** → a small circle fixed in the top-left corner of each flow page, invisible until hovered, that links back to the root launcher (`../index.html`). Uses a launchpad / 2×2 grid icon. Injected by `main.js`, so it only appears on flow pages (not the launcher).
@@ -69,30 +69,40 @@ The logotype/logomark is a button that returns to the persona's home screen (`go
 
 **Subscriber:** no subscriber-specific top-nav frame in the source file, so the prototype reuses the **`visitor`** variant (full logotype + Join CTA) and the Visitor landing. Its slide-out panel is the shared panel (the old subscriber "Finish up now" access card was removed in the 2026-08-03 redesign; the `registration-step` screen still exists for the sign-up flow). See [system.md](../../prototypes/navigation/ARCHITECTURE.md) → Personas.
 
+### Sub-nav (below the top nav on mobile, inline on desktop)
+
+**Redesign (2026-11-16, Figma Global Navigation `42yas7Q9FfwhL6xUocjEAl`, bar `7932:1084`, menus `7899:360` and `7899:378`).** A second row under the top nav: **Home**, then **Resources ▾** and **Community ▾**. Home goes home; the other two open dropdown menus rather than going to a landing page.
+
+- **Selected:** the current section gets a gray pill background (`core-default-100`). Every item keeps the same 12px side padding whether or not it is selected, so changing the selection never moves a label.
+- **Resources menu:** Library (`lib-all`), Site Tool (`symptom-checker`), Treatments A-Z (`lib-hrt`), Programs (`program`), then a divider and **Ask a question** with the AI gradient. Ask has no destination yet and only closes the menu. Programs is not behind the member wall: Program Detail is a shared screen, open to every persona.
+- **Community menu:** Activity, Questions & Answers, Groups, Meet Others (`com-activities`, `com-questions`, `com-groups`, `com-meet`). The Community Overview is no longer reachable from the sub-nav.
+- **Icons:** the existing UI glyphs, which match the Figma drawings one for one, plus a new `chevron-down` glyph.
+- **Desktop:** the same component sits in the middle of the desktop header, centered with Figma's 26px gaps, and opens the same menus. It replaced the old inline tabs, which had icons and a blue selected state.
+
 ---
 
-## 2. Level-up pill (one level up)
+## 2. Uplevel row (one level up)
 
-**Redesign (2026-08-03, Figma Global Navigation `42yas7Q9FfwhL6xUocjEAl`, pill `7294:1952`).** The old full-width level-up **bar** was replaced by a **pill** that sits in-page (top-left) but sticks to the top on scroll — same pinning behavior as the bar had.
+**Redesign (2026-11-16, Figma Global Navigation `42yas7Q9FfwhL6xUocjEAl`, section `7981:5`).** The floating pill (`7294:1952`) is replaced by a **full-width row** directly under the sub-nav: the parent section's glyph in a 32px light-blue circle (primary at 10%), then **"All <section>"** in Lato SemiBold 16/24, `#0f57a8`. Padding 8px 12px, 48px tall, the same translucent, blurred surface and bottom hairline as the sub-nav. It had not been rendered since 2026-08-04; it now shows on every detail screen, on mobile and desktop.
 
-**Pill:** an opaque blue-tinted pill (`background` = `--color-bg-blue-soft` `#EDF3F9`, `border` = `1px solid #d6e2f1`, `border-radius: 48px`, `padding: 6px 12px`, height 34px) holding a **section icon** (16px, inline `currentColor` from `ICON_SVGS`, tinted blue by the pill's `color`) + the parent's name (Lato Semibold 14px, `#0f57a8`, `-0.25px`). No chevron — the section icon + label convey the destination. The pill **floats** over content (its sticky container is transparent + `pointer-events:none`, so the pill's own opaque fill is what keeps text from bleeding through) and picks up a soft blue drop-shadow only once scrolled over content (`.screen__uplevel.is-lifted`, toggled in `attachAutoHide` — no glow while idle at the top).
+Only on **detail** screens (`type: "uplevel"`). It steps **one level up** (`upTo` → `data-screen`), not "back". It is sticky: it pins under the auto-hiding top nav (mobile) or header (desktop) and docks to the top edge when that bar hides (`attachAutoHide`).
 
-Only on **detail** screens. It steps **one level up** to the parent (`upTo` → `data-screen`), not "back" and not home. Top-level pages have no pill — the nav logo returns home. The nav and the level-up pill are **independent sticky elements**: the nav (`.screen__nav`) auto-hides on scroll-down and returns on scroll-up, while the pill's sticky container (`.screen__uplevel`, transparent so the pill floats in-page) **stays pinned**. While the nav shows, it pins just below it (its `top` = nav height); when the nav hides, it docks to the very top edge (`attachAutoHide` animates the `top`).
+| Screen | Label → up-to | Icon | Sub-nav selected |
+|---|---|---|---|
+| Article Show | All Articles → `all-collections` | `tab-resources` | Resources |
+| Article Show (in Collection) | All Articles → `all-collections` | `tab-resources` | Resources |
+| Collection | All Articles → `all-collections` | `tab-resources` | Resources |
+| Program Detail | All Programs → `lib-all` | `up-programs` | Resources |
+| Group Detail | All Groups → `com-groups` | `up-groups` | Community |
+| Someone's Member Profile | All People → `com-meet` | `tab-community` | Community |
+| Question Show | All Questions → `com-questions` | `up-qa` | Community |
+| Activity Show | All Activity → `com-activities` | `up-activity` | Community |
 
-| Screen | Pill label → up-to | Icon (inline, `ICON_SVGS`) |
-|---|---|---|
-| Visitor / Member — Article Show | Skin-related Hub → `topic-hub` | `derm` |
-| Member — Group Detail | Groups → `com-groups` | `up-groups` |
-| Member — Program Detail | Programs → home | `up-programs` |
-| Member — Someone's Member Profile | Meet Others → `com-meet` | `up-meet` |
-| Member — Question Show | Questions & Answers → `com-questions` | `up-qa` |
-| Member — Activity Show | Activity → `com-activities` | `up-activity` |
-
-Article Show levels up to a **Topic Hub** (`topic-hub`, §3, [topic-hub.md](../../product/topic-hub.md)) — an article belongs to a hub; the built skin-care article's pill reads **"Skin-related Hub"** with the `derm` icon. Activity Show levels up to **Activity** (`com-activities`) — after `com-stories`/"Posts" was retired and folded into Activity (2026-08-03), the `up-posts.svg` icon was renamed `up-activity.svg`. `Program Detail` has no Programs list, so it falls back to home.
+Article Show used to level up to its Topic Hub ("Skin-related Hub"). The new design levels it up to All Articles. There is no Programs list page, so All Programs goes to All Resources. Figma also shows **Group Post Show** ("Specific Group") and **Treatment** ("All Treatments"). The prototype has neither screen yet.
 
 **Topic Center folded into Collections (2026-08-04):** the old `topic` screen was retired. It was "a collection of sponsored content," so it's now simply a **Collection** (the `collection` screen). An article links **either** up to a Topic Hub (the pill above) **or** to a Collection (the callout below) — never to a standalone "Topic Center" any more.
 
-**Collection callout (in-page, non-sticky).** An article that belongs to a **Collection** carries `collection: { screen }`. The **Article Show (in Collection)** screen renders the **full article template** (shared `renderArticleShell` — same as the standalone Article Show, with generic placeholder copy) and inserts a small **callout box** directly **above Key Takeaways** (`.collection-callout` — "Part of a collection" / a line of copy / an **"Explore the full collection →"** link that navigates via `data-screen`), scrolling **with** the content. The callout links to its **Collection** (the rebranded old Topic Center — a curated set of sponsored content).
+**Collection callout (in-page, non-sticky).** An article that belongs to a **Collection** carries `collection: { screen }`. The **Article Show (in Collection)** screen renders the **full article template** (shared `renderArticleShell` — same as the standalone Article Show, with generic placeholder copy) and inserts the **"Part of a Collection" card** directly **above Key Takeaways** (`.collection-callout`, Figma Global Navigation `7977:3599` — the collection illustration, an "Explore the full collection" eyebrow, the collection's name clamped to two lines, and a chevron; the whole card navigates via `data-screen`), scrolling **with** the content. The name comes from `collection.title` on the screen. The callout links to its **Collection** (the rebranded old Topic Center — a curated set of sponsored content).
 
 ---
 

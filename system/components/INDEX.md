@@ -11,7 +11,7 @@ There is no extracted component layer yet — this index is what makes the
 monolith addressable in the meantime. See [README.md](README.md) for what the
 tiers mean and how to add a contract.
 
-- **77** blocks total
+- **80** blocks total
 - **5** with a contract
 - **JS** = rendered from `main.js`; blank = styled only
 
@@ -22,7 +22,7 @@ Small reusable controls. These are the real candidates for extraction into stand
 | Block | Rules | Parts | Variants | JS | Contract |
 |---|--:|--:|--:|:-:|:-:|
 | `.ai-btn` | 9 | 2 | 0 | • | [yes](ai-btn.md) |
-| `.uplevel` | 6 | 1 | 0 | • | [yes](uplevel.md) |
+| `.uplevel` | 8 | 2 | 0 | • | [yes](uplevel.md) |
 | `.mod-btn-primary` | 5 | 0 | 0 | • | [yes](mod-btn-primary.md) |
 | `.mod-btn-secondary` | 5 | 0 | 0 | • | [yes](mod-btn-secondary.md) |
 | `.mod-carousel-arrow` | 5 | 0 | 0 | • | — |
@@ -47,13 +47,13 @@ Global navigation furniture — typically one instance per page.
 |---|--:|--:|--:|:-:|:-:|
 | `.panel` | 29 | 19 | 2 | • | — |
 | `.footer` | 24 | 13 | 1 | • | — |
-| `.screen` | 16 | 6 | 2 | • | — |
+| `.screen` | 15 | 6 | 2 | • | — |
 | `.gate` | 15 | 10 | 0 | • | — |
-| `.dnav` | 15 | 8 | 0 | • | — |
 | `.dropdown` | 13 | 4 | 2 | • | — |
+| `.dnav` | 12 | 7 | 0 | • | — |
+| `.subnav` | 10 | 3 | 0 | • | — |
 | `.nav` | 8 | 3 | 0 | • | — |
 | `.launcher-hotspot` | 5 | 0 | 0 | • | — |
-| `.subnav` | 4 | 1 | 0 | • | — |
 | `.phone` | 3 | 0 | 0 | • | — |
 | `.panel-overlay` | 3 | 0 | 0 | • | — |
 | `.flow-close` | 2 | 0 | 0 | • | — |
@@ -86,13 +86,13 @@ Splash Landing content modules (`mod-*`). Composed, not primitive.
 | `.mod-quotes` | 2 | 1 | 0 | • | — |
 | `.mod-disclaimer-note` | 2 | 0 | 0 | • | — |
 
-## surface (27)
+## surface (30)
 
 Blocks belonging to a single product surface. Documented in `product/`, not extracted.
 
 | Block | Rules | Parts | Variants | JS | Contract |
 |---|--:|--:|--:|:-:|:-:|
-| `.art` | 21 | 13 | 0 | • | — |
+| `.art` | 33 | 20 | 0 | • | — |
 | `.feat-card` | 17 | 6 | 0 | • | — |
 | `.comm-preview` | 16 | 11 | 0 | • | — |
 | `.comm-feed` | 16 | 9 | 1 | • | — |
@@ -103,20 +103,23 @@ Blocks belonging to a single product surface. Documented in `product/`, not extr
 | `.topic-hub-mod` | 12 | 6 | 1 | • | — |
 | `.comm-group` | 11 | 8 | 0 | • | — |
 | `.art-keep` | 11 | 5 | 0 | • | — |
+| `.subnav-menu` | 10 | 4 | 1 | • | — |
 | `.advisor-card` | 10 | 8 | 0 | • | — |
 | `.comm-person` | 10 | 6 | 0 | • | — |
 | `.topic-hub` | 10 | 5 | 0 | • | — |
 | `.art-answered` | 10 | 6 | 0 | • | — |
 | `.comm-post` | 7 | 4 | 0 | • | — |
 | `.comm-q` | 7 | 4 | 0 | • | — |
+| `.collection-callout` | 6 | 5 | 0 | • | — |
 | `.comm-mod` | 6 | 4 | 0 | • | — |
 | `.art-note` | 6 | 5 | 0 | • | — |
 | `.comm-ic` | 5 | 5 | 0 | • | — |
 | `.comm-hub` | 5 | 2 | 0 | • | — |
 | `.art-conv` | 5 | 2 | 0 | • | — |
-| `.collection-callout` | 4 | 3 | 0 | • | — |
 | `.feat` | 4 | 2 | 0 | • | — |
 | `.art-collapse` | 4 | 1 | 0 | • | — |
+| `.art-ad` | 3 | 2 | 0 | • | — |
 | `.ai-grad` | 2 | 2 | 0 | • | — |
+| `.subnav-overlay` | 1 | 0 | 0 | • | — |
 | `.art-access` | 1 | 0 | 0 | • | — |
 
