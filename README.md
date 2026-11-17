@@ -10,6 +10,11 @@ a Design OS rather than a design system repo.
 
 Plain HTML/CSS/JS. No framework, no build step — open a file in a browser.
 
+**Live:** <https://karshan-mht.github.io/mht-design-os/>, published by GitHub
+Pages from `main`. A change appears there only once it is merged into `main`;
+work on a branch is local until then. After a publish, hard-reload
+(Cmd+Shift+R) if the browser shows an older copy.
+
 Start at the **launcher** (`index.html`). A collapsible sidebar moves between
 four sections:
 
@@ -29,9 +34,10 @@ neutrals only, and the brand hue appears where it is the subject (a swatch, a
 specimen) rather than as furniture. A tool serving two sites should not look
 like one of them.
 
-It supports **light and dark**, following the OS by default with a switch at
-the bottom of the sidebar. Dark mode is opt-in by attribute so the prototypes,
-which are light-only product surfaces, are never dragged into it.
+It supports **light and dark**. It opens in **light** by default; dark applies
+only when chosen with the switch at the bottom of the sidebar, and the choice is
+remembered. The OS setting is ignored. Dark mode is opt-in by attribute so the
+prototypes, which are light-only product surfaces, are never dragged into it.
 
 Sections for Components, Brand, Product and Decisions were removed on
 2026-09-21 to keep the front door to the basics. Nothing was deleted — see
@@ -59,12 +65,14 @@ Then open the four flows from the launcher, or directly:
 `prototypes/navigation/visitor/`, `.../logged-out-member/`,
 `.../logged-in-member/`, `.../subscriber/`.
 
-The launcher has a second section, **Entry Points** — four specific traffic
+The Prototypes section also has an **Entry Points** group — four traffic
 sources, each starting from a mocked-up external page (a Google search result
 page, a Facebook ad, a Gmail inbox) that clicks through into a persona flow on a
 specific starting screen instead of its default home: Paid Social (a specific
-article), Organic + Paid Search (article variant and home variant), and a
-member opening a content email. The external mocks live in `prototypes/entry-points/`;
+article), Search (article variant and home variant), and Content Email. Content
+Email has an extra step: the inbox row opens the email itself
+(`gmail-message.html`, a placeholder newsletter), whose links go on to the
+article as a logged-in member. The external mocks live in `prototypes/entry-points/`;
 the click-through uses a `?start=<screen-id>` query param read by `main.js` at
 boot (falls back to the normal home if the param is missing or doesn't match a
 real screen in that persona).
@@ -110,17 +118,19 @@ system/                        The design system
     index.html                   Graphics gallery, grouped by purpose
     manifest.js                  GENERATED asset inventory
                                  Real assets exported from Figma (flat folder):
-                               logotype/logomark, advisor headshots, listicle
-                               icons, splash decoration. Nav/UI icons are
-                               inlined in main.js, not files.
+                               logotype/logomark, advisor headshots, article
+                               and community imagery, the sample ad, splash
+                               decoration. Icons and illustrations live in
+                               system/icons/, not here.
 
 prototypes/                    Working prototypes, built on the system
   navigation/                  The four-persona global-nav prototype
     main.css  main.js            Styles and behavior (shared by its pages)
     ARCHITECTURE.md              Render model, screen types, persona model
     visitor/ subscriber/ logged-in-member/ logged-out-member/
-  entry-points/                Mock external pages (Google, Facebook, Gmail)
-                               that click through into a persona flow
+  entry-points/                Mock external pages (Google, Facebook, Gmail
+                               inbox and message) that click through into a
+                               persona flow
   community/                   Standalone Community surface
 
 product/                       Product surfaces (the what):
@@ -142,6 +152,7 @@ evals/
   lint-links.js                Fails on an internal reference that does not resolve
   gen-component-index.js       Regenerates system/components/INDEX.md (--check)
   gen-icon-registry.js         Regenerates the icon registries (--check)
+  lint-icon-paint.js           Fails on an icon with its own color (must be currentColor)
   gen-token-manifest.js        Regenerates the token manifest (--check)
   gen-asset-manifest.js        Regenerates the asset inventory (--check)
   gen-docs.js                  Regenerates the docs viewer content (--check)
