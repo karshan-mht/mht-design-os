@@ -61,8 +61,8 @@ own **My Profile**, which is an Account screen; see [account.md](account.md).)
 | **Logged-In Member** | Activity **feed**, live — Figma `34:609` / `34:536` | `renderCommunityFeed(false)` |
 
 `renderCommunityHub()` (old wireframe menu) and `renderCommunityPreview()` (the
-stats/upsell preview + member-gate) are no longer reached by any persona — kept as
-fallbacks / reference only.
+stats/upsell preview) are no longer reached by any persona — kept as fallbacks /
+reference only. The member-gate modal itself is live again (see the cards below).
 
 ### Visitor + Subscriber — the Community Features tour (`renderCommunityFeatures`)
 
@@ -76,8 +76,8 @@ illustration bleeding off the top-right over a faint blue panel:
 
 | Card | Category | Title | → screen |
 |---|---|---|---|
-| Posts | POSTS | What people are talking about | `com-activities` |
-| Meet Others | MEET OTHERS | Discover women like you | `com-meet` |
+| Posts | POSTS | What people are talking about | **member gate** ("…to view posts") |
+| Meet Others | MEET OTHERS | Discover women like you | **member gate** ("…to view member profiles") |
 | Q&A | Q&A | Ask, answer, and be heard | `com-questions` |
 | Groups | GROUPS | Find the circle that fits your journey | `com-groups` |
 
@@ -91,7 +91,13 @@ four, **side-by-side on desktop** (`.feat-pair` row, equal width/height) and
   Guidelines" wrapped in the narrow desktop column) — "How we look after each other"
   + a four-item checklist (magenta check + rule) → **View guidelines →** (`com-values`).
 
-No stats, lock, member-gate, or upsell. **Every graphic on this page is inline SVG**
+**Member gate (2026-11-16):** Posts and Meet Others are members-only. Tapping
+either opens the "This is for members only!" sign-up gate (`data-action="member-gate"`,
+`data-gate="posts"` / `"people"`; `renderMemberGate`), whose three "Continue with …"
+options go to `signup-start`. Q&A and Groups still open their pages, and the
+"View people" link in the pair still goes to `com-meet`.
+
+No stats, lock badges or upsell. **Every graphic on this page is inline SVG**
 (`COMMUNITY_FEAT_SVGS` in `main.js`, keyed by name) — the line-art illustrations, the
 checklist check, and the faint blue panels; only the person avatars stay `<img>` (PNGs).
 The panels carry a `userSpaceOnUse` linear gradient, so `panelSvg(name, uid)` suffixes
@@ -111,9 +117,9 @@ Reached from:
 ### (Superseded) Preview page + member-gate (`renderCommunityPreview`)
 
 > **Superseded (2026-08-14):** the Subscriber now gets the Community Features tour
-> above, so this preview — and the member-gate modal it triggered from the locked
-> Posts card — is **no longer reached by any persona**. Kept as reference (and the
-> `.gate` modal styles/handlers remain in place should a gate be wired up again).
+> above, so this preview is **no longer reached by any persona**. Kept as
+> reference. Its member-gate modal is reused by the Community Features page's Posts
+> and Meet Others cards (2026-11-16).
 
 A "get a glimpse what's happening inside" marketing preview (added 2026-08-13,
 Figma Community `5:2` desktop / `6:68` mobile), not the orientation menu. Data-driven

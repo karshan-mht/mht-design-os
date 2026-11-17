@@ -71,13 +71,14 @@ The logotype/logomark is a button that returns to the persona's home screen (`go
 
 ### Sub-nav (below the top nav on mobile, inline on desktop)
 
-**Redesign (2026-11-16, Figma Global Navigation `42yas7Q9FfwhL6xUocjEAl`, bar `7932:1084`, menus `7899:360` and `7899:378`).** A second row under the top nav: **Home**, then **Resources ▾** and **Community ▾**. Home goes home; the other two open dropdown menus rather than going to a landing page.
+**Redesign (2026-11-16, Figma Global Navigation `42yas7Q9FfwhL6xUocjEAl`, bar `7932:1084`, menus `7899:360` and `7899:378`).** A second row under the top nav: **Home**, then **Resources ▾** and **Community**. Home goes home; Resources opens a dropdown menu, and Community opens one for members or goes straight to Community Features for visitors.
 
 - **Selected:** the current section gets a gray pill background (`core-default-100`). Every item keeps the same 12px side padding whether or not it is selected, so changing the selection never moves a label.
 - **Resources menu:** Library (`lib-all`), Site Tool (`symptom-checker`), Treatments A-Z (`lib-hrt`), Programs (`program`), then a divider and **Ask a question** with the AI gradient. Ask has no destination yet and only closes the menu. Programs is not behind the member wall: Program Detail is a shared screen, open to every persona.
-- **Community menu:** Activity, Questions & Answers, Groups, Meet Others (`com-activities`, `com-questions`, `com-groups`, `com-meet`). The Community Overview is no longer reachable from the sub-nav.
+- **Community menu (members):** Logged In and Logged Out Member get a dropdown: Activity, Questions & Answers, Groups, Meet Others (`com-activities`, `com-questions`, `com-groups`, `com-meet`).
+- **Community link (visitors):** the Visitor and Subscriber navs (`navVariant: "visitor"`) show Community without a chevron, as a plain link to the Community Features page (`community-overview`), which stays selected there.
 - **Icons:** the existing UI glyphs, which match the Figma drawings one for one, plus a new `chevron-down` glyph.
-- **Desktop:** the same component sits in the middle of the desktop header, centered with Figma's 26px gaps, and opens the same menus. It replaced the old inline tabs, which had icons and a blue selected state.
+- **Desktop:** the same component sits in the middle of the desktop header, and behaves the same per persona. It replaced the old inline tabs, which had icons and a blue selected state.
 
 ---
 

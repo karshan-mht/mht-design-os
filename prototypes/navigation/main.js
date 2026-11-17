@@ -703,8 +703,14 @@ function renderSubnav(screen) {
   const home = `<button class="subnav__item${activeTarget === homeId ? " is-active" : ""}" data-screen="${homeId}">
       <span class="subnav__home-icon">${iconSvg("tab-home")}</span><span>Home</span>
     </button>`;
+  // Visitors (the Visitor and Subscriber navs) get Community as a plain link to
+  // the Community Features page; members get the dropdown.
+  const communityIsLink = persona.navVariant === "visitor";
   const menus = Object.entries(SUBNAV_MENUS).map(([key, m]) => {
     const active = SUBNAV_SECTION[activeTarget] === key ? " is-active" : "";
+    if (key === "community" && communityIsLink) {
+      return `<button class="subnav__item${active}" data-screen="community-overview"><span>${m.label}</span></button>`;
+    }
     const open = state.subnavMenu === key;
     return `<button class="subnav__item subnav__item--menu${active}${open ? " is-open" : ""}"
         data-action="toggle-subnav" data-menu="${key}" aria-haspopup="menu" aria-expanded="${open}">
@@ -839,10 +845,11 @@ const COMMUNITY_FEAT_SVGS = {
 // No stats/lock/upsell. Visitor AND Subscriber both get this — confirmed
 // 2026-09-18. It superseded an older renderCommunityPreview() that had already
 // stopped being called; the stale comment here claimed Subscriber still used
-// it. Cards link to the com-* pages.
+// it. Cards link to the com-* pages, except Posts and Meet Others, which are
+// members-only: a `gate` opens the member sign-up gate (renderMemberGate).
 const COMMUNITY_FEATURES = [
-  { art: "community-feat-posts", cat: "Posts", title: "What people are talking about", desc: "See the latest community updates — feelings, milestones, and conversations from women experiencing menopause.", screen: "com-activities" },
-  { art: "community-feat-meet", cat: "Meet Others", title: "Discover women like you", desc: "Find members who share your symptoms, your stage, or your corner of the world. Make connections that last.", screen: "com-meet" },
+  { art: "community-feat-posts", cat: "Posts", title: "What people are talking about", desc: "See the latest community updates — feelings, milestones, and conversations from women experiencing menopause.", screen: "com-activities", gate: "posts" },
+  { art: "community-feat-meet", cat: "Meet Others", title: "Discover women like you", desc: "Find members who share your symptoms, your stage, or your corner of the world. Make connections that last.", screen: "com-meet", gate: "people" },
   { art: "community-feat-qa", cat: "Q&A", title: "Ask, answer, and be heard", desc: "Ask a question. Contribute a reply that helps a fellow member. Browse featured topics curated by our community team.", screen: "com-questions" },
   { art: "community-feat-groups", cat: "Groups", title: "Find the circle that fits your journey", desc: "Join conversations on the topics that matter to you — from perimenopause and HRT to sleep, mood, and caring for someone else.", screen: "com-groups" },
 ];
@@ -881,7 +888,7 @@ function panelSvg(name, uid) {
 }
 function renderCommunityFeatures() {
   const cards = COMMUNITY_FEATURES.map((f) => `
-    <button class="feat-card feat-card--${f.art.replace("community-feat-", "")}" data-screen="${f.screen}">
+    <button class="feat-card feat-card--${f.art.replace("community-feat-", "")}" ${f.gate ? `data-action="member-gate" data-gate="${f.gate}"` : `data-screen="${f.screen}"`}>
       <span class="feat-card__panel">${panelSvg("community-feat-panel", f.art)}</span>
       <span class="feat-card__illo">${illo(FEAT_ILLOS[f.art])}</span>
       <span class="feat-card__head">
