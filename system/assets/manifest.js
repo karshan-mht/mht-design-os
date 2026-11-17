@@ -3,7 +3,7 @@
    Regenerate:  node evals/gen-asset-manifest.js
    Verify:      node evals/gen-asset-manifest.js --check
 
-   50 assets in 10 groups. Consumed by system/assets/index.html. */
+   48 assets in 9 groups. Consumed by system/assets/index.html. */
 window.MHT_ASSETS = [
   {
     "file": "ad-article-300x250.png",
@@ -48,13 +48,6 @@ window.MHT_ASSETS = [
     "note": "Headshots for the Medical Advisory Committee page."
   },
   {
-    "file": "ai-stars.svg",
-    "ext": "svg",
-    "bytes": 2960,
-    "group": "Assistant",
-    "note": "Ask AI duo-star. main.js builds the gradient version inline; this is the flat export."
-  },
-  {
     "file": "article-1.png",
     "ext": "png",
     "bytes": 14806,
@@ -72,13 +65,6 @@ window.MHT_ASSETS = [
     "file": "article-3.png",
     "ext": "png",
     "bytes": 25812,
-    "group": "Article",
-    "note": "Imagery for the Article Show surface."
-  },
-  {
-    "file": "article-4.png",
-    "ext": "png",
-    "bytes": 25782,
     "group": "Article",
     "note": "Imagery for the Article Show surface."
   },
@@ -106,7 +92,7 @@ window.MHT_ASSETS = [
   {
     "file": "community-2.png",
     "ext": "png",
-    "bytes": 367230,
+    "bytes": 104723,
     "group": "Community",
     "note": "Banner and upsell graphics for the community surface."
   },

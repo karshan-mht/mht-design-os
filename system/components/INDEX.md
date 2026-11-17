@@ -11,7 +11,7 @@ There is no extracted component layer yet — this index is what makes the
 monolith addressable in the meantime. See [README.md](README.md) for what the
 tiers mean and how to add a contract.
 
-- **80** blocks total
+- **79** blocks total
 - **5** with a contract
 - **JS** = rendered from `main.js`; blank = styled only
 
@@ -22,7 +22,7 @@ Small reusable controls. These are the real candidates for extraction into stand
 | Block | Rules | Parts | Variants | JS | Contract |
 |---|--:|--:|--:|:-:|:-:|
 | `.ai-btn` | 9 | 2 | 0 | • | [yes](ai-btn.md) |
-| `.uplevel` | 8 | 2 | 0 | • | [yes](uplevel.md) |
+| `.uplevel` | 7 | 2 | 0 | • | [yes](uplevel.md) |
 | `.mod-btn-primary` | 5 | 0 | 0 | • | [yes](mod-btn-primary.md) |
 | `.mod-btn-secondary` | 5 | 0 | 0 | • | [yes](mod-btn-secondary.md) |
 | `.mod-carousel-arrow` | 5 | 0 | 0 | • | — |
@@ -45,13 +45,13 @@ Global navigation furniture — typically one instance per page.
 
 | Block | Rules | Parts | Variants | JS | Contract |
 |---|--:|--:|--:|:-:|:-:|
-| `.panel` | 29 | 19 | 2 | • | — |
 | `.footer` | 24 | 13 | 1 | • | — |
-| `.screen` | 15 | 6 | 2 | • | — |
+| `.panel` | 21 | 14 | 2 | • | — |
+| `.screen` | 16 | 6 | 2 | • | — |
 | `.gate` | 15 | 10 | 0 | • | — |
 | `.dropdown` | 13 | 4 | 2 | • | — |
-| `.dnav` | 12 | 7 | 0 | • | — |
 | `.subnav` | 10 | 3 | 0 | • | — |
+| `.dnav` | 9 | 5 | 0 | • | — |
 | `.nav` | 8 | 3 | 0 | • | — |
 | `.launcher-hotspot` | 5 | 0 | 0 | • | — |
 | `.phone` | 3 | 0 | 0 | • | — |
@@ -61,13 +61,13 @@ Global navigation furniture — typically one instance per page.
 | `.gate-overlay` | 1 | 0 | 0 | • | — |
 | `.dropdown-overlay` | 1 | 0 | 0 | • | — |
 
-## module (18)
+## module (17)
 
 Splash Landing content modules (`mod-*`). Composed, not primitive.
 
 | Block | Rules | Parts | Variants | JS | Contract |
 |---|--:|--:|--:|:-:|:-:|
-| `.mod-hero` | 19 | 9 | 2 | • | — |
+| `.mod-hero` | 17 | 8 | 2 | • | — |
 | `.mod-advisors` | 13 | 9 | 1 | • | — |
 | `.mod-cta-card` | 11 | 5 | 2 | • | — |
 | `.mod-factoid` | 8 | 3 | 0 | • | — |
@@ -77,7 +77,6 @@ Splash Landing content modules (`mod-*`). Composed, not primitive.
 | `.mod-listicles` | 6 | 1 | 0 | • | — |
 | `.mod-articles` | 6 | 1 | 0 | • | — |
 | `.mod-experts` | 5 | 1 | 0 | • | — |
-| `.mod-article` | 5 | 3 | 0 |  | — |
 | `.mod-section-text` | 5 | 2 | 0 | • | — |
 | `.mod-expert-card` | 5 | 4 | 0 | • | — |
 | `.mod-stat-card` | 5 | 3 | 1 | • | — |
@@ -94,12 +93,12 @@ Blocks belonging to a single product surface. Documented in `product/`, not extr
 |---|--:|--:|--:|:-:|:-:|
 | `.art` | 33 | 20 | 0 | • | — |
 | `.feat-card` | 17 | 6 | 0 | • | — |
-| `.comm-preview` | 16 | 11 | 0 | • | — |
 | `.comm-feed` | 16 | 9 | 1 | • | — |
 | `.feat-pair-card` | 14 | 5 | 1 | • | — |
 | `.assistant-nudge` | 13 | 4 | 1 | • | — |
 | `.feat-pair` | 13 | 7 | 0 | • | — |
 | `.comm-reminder` | 13 | 5 | 2 | • | — |
+| `.comm-preview` | 12 | 9 | 0 | • | — |
 | `.topic-hub-mod` | 12 | 6 | 1 | • | — |
 | `.comm-group` | 11 | 8 | 0 | • | — |
 | `.art-keep` | 11 | 5 | 0 | • | — |

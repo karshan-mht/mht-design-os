@@ -33,7 +33,6 @@ const GROUPS = [
   [/^collection-/,               'Collection',     'Illustration for the "Part of a Collection" card on a Collection article. Full-color, not tinted.'],
   [/^up-/,                       'Level-up icons', 'Per-screen icons for the parked level-up pill.'],
   [/^hub-/,                      'Topic hubs',     'Pre-tinted hub markers.'],
-  [/^ai-/,                       'Assistant',      'Ask AI duo-star. main.js builds the gradient version inline; this is the flat export.'],
   [/^placeholder|^privacy/,      'Utility',        'Profile placeholder and the privacy-choices mark.'],
 ];
 

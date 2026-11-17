@@ -104,7 +104,6 @@ html.is-modal-open { overflow: hidden; }
   margin-inline: auto;
 }
 
-
 /* Nav and level-up bar are independent sticky elements. The nav auto-hides on
    scroll-down (slides up) and returns on scroll-up. The level-up bar STAYS
    pinned: while the nav shows, the bar pins just below it (its `top` is set to
@@ -328,51 +327,6 @@ html.is-modal-open { overflow: hidden; }
   margin: 0 0 12px;
 }
 .mod-hero__sub { font-size: 20px; line-height: 1.4; letter-spacing: -0.75px; margin: 0 0 20px; opacity: 0.9; }
-.mod-hero__cta {
-  height: 48px;
-  padding: 0 24px;
-  border: none;
-  border-radius: var(--radius-pill);
-  background: var(--color-surface);
-  color: var(--color-primary);
-  font-family: var(--font-body);
-  font-size: 16px;
-  font-weight: 400;
-  cursor: pointer;
-}
-.mod-hero__cta:active { filter: brightness(0.97); }
-
-.mod-article {
-  display: block;
-  width: 100%;
-  text-align: left;
-  padding: 20px 16px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-card);
-  background: var(--color-surface);
-  cursor: pointer;
-  font-family: var(--font-body);
-  transition: border-color 0.15s ease, transform 0.15s ease;
-}
-.mod-article:active { border-color: var(--color-primary); transform: scale(0.99); }
-.mod-article__eyebrow {
-  display: block;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--color-accent);
-  margin-bottom: 6px;
-}
-.mod-article__title {
-  display: block;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.3;
-  color: var(--color-text);
-  margin-bottom: 8px;
-}
-.mod-article__meta { display: block; font-size: 14px; color: var(--color-text-secondary); }
 
 /* ---- Checker card (inside .mod-hero) — symptom pills + CTA, Figma 4101:30 ---- */
 
@@ -1309,9 +1263,6 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
 .comm-mod__desc { font-size: 16px; line-height: 1.35; color: var(--color-text-secondary); }
 
 /* ---- Community preview (Visitor + Subscriber) — Figma Community 5:2 / 6:68 ---- */
-/* A "get a glimpse" content preview: a beige intro banner, four feature preview
-   cards, and a join upsell. Distinct from the wireframe hub above (members). */
-.comm-preview { display: flex; flex-direction: column; }
 
 /* Beige intro banner — full-bleed; its inner content caps to the reading column. */
 .comm-preview__banner {
@@ -1339,7 +1290,6 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   letter-spacing: var(--display-tracking);
   color: var(--color-text);
 }
-.comm-preview__sub { margin: 0; font-size: 18px; line-height: 24px; color: var(--color-text-secondary); }
 .comm-preview__status { display: flex; align-items: center; gap: 10px; }
 .comm-preview__avatars { display: flex; align-items: center; }
 .comm-preview__avatar {
@@ -1368,17 +1318,6 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
      pulls it back to the reading-column edge below. */
   top: -2px;
   right: -132px;
-}
-
-/* Card list — a centered reading column. */
-.comm-preview__list {
-  max-width: var(--content-column);
-  margin-inline: auto;
-  width: 100%;
-  padding: 24px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
 }
 
 /* Feature preview card: icon + title/stat + chevron, then a summary line. */
@@ -1952,7 +1891,6 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   padding: 1px 8px;
 }
 
-
 /* ---- Slide-out Panel ---- */
 
 .panel-overlay {
@@ -1979,11 +1917,6 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   animation: slideIn 0.24s ease-out;
 }
 
-.panel__top {
-  display: flex;
-  flex-direction: column;
-}
-
 .panel__brand {
   height: 56px;
   display: flex;
@@ -1991,34 +1924,6 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   justify-content: center;
 }
 .panel__logotype { height: 36px; width: auto; }  /* panel wordmark (overrides .logo--full) */
-
-/* Home / Resources / Community tab card (bordered, rounded) */
-.panel__tabs {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px;
-  border: 1px solid rgb(from var(--color-text-secondary) r g b / 0.1);
-  border-radius: 16px;
-}
-.panel__tab {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: var(--font-body);
-  font-size: 14px;
-  letter-spacing: -0.25px;
-  color: var(--color-text-secondary);
-  transition: color 0.18s ease;
-}
-.panel__tab:active { color: var(--color-text); }
-.panel__tab-icon { width: 44px; height: 44px; display: block; border-radius: 50%; }
-/* Press feedback matching the top-nav icons (light gray circle on tap). */
-.panel__tab:active .panel__tab-icon { background: rgb(from var(--color-text) r g b / 0.05); }
 
 /* Topic-hub list — the new primary entry point */
 .panel__hubs {
@@ -2111,24 +2016,6 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   color: var(--color-text-secondary);
 }
 .panel__topics .panel__hubs { width: 100%; }
-
-/* Explore (ToC) — outline pill below the hubs */
-.panel__explore {
-  align-self: flex-start;
-  height: 44px;
-  margin-top: 0;
-  padding: 0 24px;
-  border: 1px solid var(--color-primary);
-  border-radius: var(--radius-pill);
-  background: none;
-  color: var(--color-primary);
-  font-family: var(--font-body);
-  font-size: 16px;
-  letter-spacing: -0.25px;
-  cursor: pointer;
-  transition: background 0.18s ease;
-}
-.panel__explore:active { background: var(--color-primary-soft); }
 
 .panel__footer {
   margin-top: auto;
@@ -2227,12 +2114,10 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   .dropdown__item--notif .icon svg { animation: none; }
 }
 
-/* The level-up pill animates height, padding, radius, background and border as
-   it docks on scroll. main.css has four reduced-motion blocks but all were
-   narrowly scoped to the assistant and the notification badge, so this one ran
-   regardless — found while writing system/components/uplevel/docs.md. */
+/* The uplevel row slides to the top edge when the bar hides; with reduced
+   motion it just moves. */
 @media (prefers-reduced-motion: reduce) {
-  .uplevel { transition: none; }
+  .screen__uplevel.is-tracking { transition: none; }
 }
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -2445,27 +2330,6 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   .subnav__item:not(.is-active):hover { color: var(--color-primary); }
   .dnav__right { justify-self: end; display: flex; align-items: center; gap: 10px; }
 
-  /* Breadcrumb bar — replaces the mobile level-up pill on detail screens. */
-  .dnav__crumbbar {
-    border-top: 1px solid var(--color-border);
-  }
-  .dnav__crumb {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 10px var(--content-pad);
-    border: none;
-    background: none;
-    cursor: pointer;
-    color: var(--color-primary);
-    font-family: var(--font-body);
-    font-size: 15px;
-    font-weight: 400;
-  }
-  .dnav__crumb svg { width: 18px; height: 18px; }
-
   /* ---- Footer: constrain + center, keep the two-column link block ---- */
   /* Keep clear space above the divider on desktop too, so content never crowds
      the footer (the divider itself is the border-top set in the base rule). */
@@ -2635,7 +2499,7 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   .comm-preview__banner { padding-block: 40px; }
   /* Banner graphic sits at the reading column's right edge, bled slightly off. */
   .comm-preview__banner-graphic { top: -24px; right: -48px; }
-  .comm-preview__list { padding-block: 24px 40px; }
+
   /* Community feed: show the carousel arrows; drop the mobile full-bleed scroller
      so the carousels align to the 728px column and peek the next card. Login
      reminder reflows to a row (copy left, button right). */
