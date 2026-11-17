@@ -241,18 +241,26 @@ const TOPIC_HUBS = [
   makeTopicHub("topic-hub-mood", "Mood & Mental Health"),
   makeTopicHub("topic-hub-sleep", "Sleep & Insomnia"),
 ];
+// Profile dropdown (Figma Global Navigation 7921:813). Icons are the Figma
+// drawings, inlined with currentColor. A rule sits above Notifications and
+// above Log out.
+const DROPDOWN_ICONS = {
+  notifications: `<svg viewBox="0 0 20 22" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M0.772289 8.29594C1.286 3.57547 5.26305 0 10 0C14.7369 0 18.714 3.57547 19.2277 8.29594L19.9865 15.2681C20.1318 16.6032 19.0886 17.7692 17.7488 17.7692H15.45C14.8254 20.2022 12.6221 22 10 22C7.37789 22 5.17465 20.2022 4.54995 17.7692H2.25119C0.911406 17.7692 -0.131763 16.6032 0.0135335 15.2681L0.772289 8.29594ZM6.92975 17.7692C7.46323 18.9344 8.63734 19.7436 10 19.7436C11.3627 19.7436 12.5368 18.9344 13.0702 17.7692H6.92975ZM10 2.25641C6.41173 2.25641 3.39908 4.96485 3.00995 8.54064L2.25119 15.5128L17.7488 15.5128L16.9901 8.54064C16.6009 4.96485 13.5883 2.25641 10 2.25641Z"/></svg>`,
+  messages: `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.7174 4.07079L20.7868 4.24617C22.1226 4.7433 23.0505 6.03215 22.9979 7.51048L22.5976 18.7524C22.5315 20.6097 20.9426 22.0628 19.0489 21.9979L5.92073 21.5483C4.81802 21.5105 3.85507 20.9664 3.25604 20.1518C2.31687 19.5945 1.66685 18.6051 1.60506 17.4488L1.00479 6.21546C0.905614 4.35956 2.35926 2.77621 4.25159 2.67895L17.3697 2.0047C18.8584 1.92818 20.1752 2.79422 20.7174 4.07079ZM6.38569 5.27281L6.4638 5.27377L19.52 5.72339C20.4618 5.75582 21.1985 6.53493 21.1656 7.46359L20.7675 18.7055C20.7346 19.6342 19.9446 20.3607 19.0029 20.3283L5.94662 19.8786C5.00492 19.8462 4.26817 19.0671 4.30106 18.1384L4.69915 6.89654C4.73112 5.99367 5.47879 5.28186 6.38569 5.27281ZM7.0089 14.3641C6.63971 14.3499 6.32997 14.6682 6.31708 15.0752C6.30419 15.4821 6.59302 15.8235 6.96221 15.8377L15.8911 16.1814C16.2603 16.1956 16.57 15.8772 16.5829 15.4703C16.5958 15.0634 16.307 14.722 15.9378 14.7078L7.0089 14.3641ZM7.18311 11.8186C6.81879 11.8049 6.51313 12.1127 6.50041 12.5061C6.48769 12.8995 6.77271 13.2295 7.13703 13.2433L17.5502 13.6359C17.9145 13.6497 18.2202 13.3419 18.2329 12.9485C18.2456 12.5551 17.9606 12.225 17.5963 12.2113L7.18311 11.8186ZM7.38812 9.2732C7.01224 9.25849 6.69688 9.58817 6.68376 10.0096C6.67063 10.431 6.9647 10.7845 7.34059 10.7992L14.7785 11.0904C15.1544 11.1052 15.4698 10.7755 15.4829 10.3541C15.496 9.93266 15.202 9.57911 14.8261 9.5644L7.38812 9.2732Z"/></svg>`,
+  saved: `<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="0.5" aria-hidden="true"><path d="M11.1667 2C11.6269 2 12 2.3731 12 2.83333C12 3.29357 11.6269 3.66667 11.1667 3.66667V3.67917L9.01499 3.67933C7.4419 3.67933 6.16667 4.96425 6.16667 6.54928V19.7253C6.16667 19.8674 6.21712 20.0048 6.3089 20.1127C6.52126 20.3624 6.89425 20.3913 7.142 20.1773L9.44619 18.1873C10.9157 16.9181 13.0843 16.9181 14.5538 18.1873L16.858 20.1773C16.9651 20.2698 17.1015 20.3206 17.2425 20.3206C17.5688 20.3206 17.8333 20.0541 17.8333 19.7253V10.3333L17.8356 10.2711C17.8659 9.86048 18.1938 9.53258 18.6045 9.50229L18.6667 9.5C19.1269 9.5 19.5 9.8731 19.5 10.3333V19.7253C19.5 20.9816 18.4893 22 17.2425 22C16.7036 22 16.1825 21.8057 15.7733 21.4524L13.4692 19.4623C12.6237 18.7322 11.3763 18.7322 10.5308 19.4623L8.22665 21.4524C7.28003 22.2699 5.85487 22.1594 5.04348 21.2056C4.69277 20.7934 4.5 20.2683 4.5 19.7253V6.54928C4.5 4.03678 6.52143 2 9.01499 2H11.1667ZM15.3333 2C15.7756 2 16.1983 2.42228 16.1667 2.83333V5.33333H18.6667C19.0396 5.29988 19.4263 5.65182 19.4927 6.10175L19.5 6.16667C19.5 6.61105 19.0766 7.03504 18.6667 7H16.1667V9.5C16.1968 9.87386 15.8458 10.2598 15.3979 10.3261L15.3333 10.3333C14.8912 10.3333 14.4684 9.91106 14.5 9.5V7H12C11.6264 7.03345 11.2403 6.68294 11.1739 6.23177L11.1667 6.16667C11.1667 5.72057 11.5894 5.29829 12 5.33333H14.5V2.83333C14.4684 2.44167 14.8552 2.03676 15.3333 2Z"/></svg>`,
+  health: `<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="0.5" aria-hidden="true"><path d="M16.5375 2.5L16.3129 2.50516C14.7477 2.57729 13.338 3.40544 12.0931 4.93047L12 5.04696L11.9069 4.93047C10.6027 3.33282 9.11763 2.5 7.4625 2.5C3.82131 2.5 1 5.68339 1 8.77679C1 11.2483 2.28719 13.417 5.10519 15.7285L8.2823 18.2682C8.88507 18.7562 9.19936 19.0221 9.44164 19.2436L9.82856 19.6155L11.3465 21.2161C11.7064 21.5954 12.2967 21.5945 12.6555 21.2142L13.8655 19.9319C15.1415 18.5855 16.2224 17.6475 18.5664 15.9912C21.6131 13.8384 23 11.4817 23 8.77679C23 5.68339 20.1787 2.5 16.5375 2.5ZM16.5375 4.40001C19.1297 4.40001 21.1667 6.69837 21.1667 8.77679C21.1667 10.7351 20.1813 12.477 17.7947 14.2332L16.8976 14.8755C14.8754 16.3365 13.7935 17.2964 12.5566 18.6016L12 19.1906L11.3226 18.4749L10.975 18.1226L10.5859 17.756C10.0596 17.2816 9.21977 16.6083 6.5079 14.4525C3.9004 12.3797 2.83333 10.648 2.83333 8.77679C2.83333 6.69837 4.87027 4.40001 7.4625 4.40001C8.79231 4.40001 10.0421 5.28313 11.2321 7.17505C11.5937 7.75002 12.4063 7.75002 12.7679 7.17505C13.9579 5.28313 15.2077 4.40001 16.5375 4.40001Z"/></svg>`,
+  settings: `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.19231 12.4286C10.0867 12.4286 11.6903 13.6898 12.2294 15.4286L21.7308 15.4286C22.4317 15.4286 23 16.0042 23 16.7143C23 17.4244 22.4317 18 21.7308 18L12.2293 18.0004C11.69 19.7389 10.0866 21 8.19231 21C6.29806 21 4.69457 19.7389 4.15534 18.0004L2.26923 18L2.19465 17.9978C1.52839 17.9587 1 17.399 1 16.7143C1 16.0042 1.56825 15.4286 2.26923 15.4286L4.15521 15.4286C4.6943 13.6898 6.2979 12.4286 8.19231 12.4286ZM8.19231 14.5714C7.02401 14.5714 6.07692 15.5308 6.07692 16.7143C6.07692 17.8978 7.02401 18.8571 8.19231 18.8571C9.3606 18.8571 10.3077 17.8978 10.3077 16.7143C10.3077 15.5308 9.3606 14.5714 8.19231 14.5714ZM15.8077 3C17.7021 3 19.3057 4.26126 19.8448 6.00005L21.7308 6C22.4317 6 23 6.57563 23 7.28571C23 7.99579 22.4317 8.57143 21.7308 8.57143L19.8447 8.57181C19.3054 10.3104 17.7019 11.5714 15.8077 11.5714C13.9134 11.5714 12.31 10.3104 11.7707 8.57181L2.26923 8.57143L2.19465 8.56925C1.52839 8.53014 1 7.97043 1 7.28571C1 6.57563 1.56825 6 2.26923 6L11.7706 6.00005C12.3097 4.26126 13.9133 3 15.8077 3ZM15.8077 5.14286C14.6394 5.14286 13.6923 6.10225 13.6923 7.28571C13.6923 8.46918 14.6394 9.42857 15.8077 9.42857C16.976 9.42857 17.9231 8.46918 17.9231 7.28571C17.9231 6.10225 16.976 5.14286 15.8077 5.14286Z"/></svg>`,
+  logout: `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.642 11.1358C23.1193 11.6131 23.1193 12.3869 22.642 12.8642L17.7531 17.7531C17.2758 18.2304 16.502 18.2304 16.0246 17.7531C15.5473 17.2758 15.5473 16.502 16.0246 16.0246L18.8271 13.2222H8.33333C7.65832 13.2222 7.11111 12.675 7.11111 12C7.11111 11.325 7.65832 10.7778 8.33333 10.7778H18.8271L16.0246 7.97535C15.5473 7.49805 15.5473 6.72418 16.0246 6.24687C16.502 5.76956 17.2758 5.76956 17.7531 6.24687L22.642 11.1358ZM9.55556 2.22222C9.55556 2.89724 9.00835 3.44445 8.33333 3.44445H8.08889C7.04196 3.44445 6.33027 3.4454 5.78016 3.49034C5.24432 3.53412 4.97029 3.61348 4.77913 3.71087C4.31918 3.94523 3.94523 4.31918 3.71087 4.77914C3.61347 4.97029 3.53412 5.24432 3.49034 5.78016C3.44539 6.33027 3.44444 7.04196 3.44444 8.08889V15.9111C3.44444 16.958 3.44539 17.6697 3.49034 18.2198C3.53412 18.7557 3.61347 19.0297 3.71087 19.2209C3.94523 19.6808 4.31918 20.0548 4.77913 20.2891C4.97029 20.3865 5.24432 20.4659 5.78016 20.5097C6.33027 20.5546 7.04196 20.5556 8.08889 20.5556H8.33333C9.00835 20.5556 9.55556 21.1028 9.55556 21.7778C9.55556 22.4528 9.00835 23 8.33333 23H8.03838C7.05454 23 6.24256 23 5.5811 22.946C4.89409 22.8899 4.26257 22.7694 3.66938 22.4671C2.74948 21.9984 2.00157 21.2505 1.53286 20.3306C1.23061 19.7374 1.11015 19.1059 1.05401 18.4189C0.999971 17.7574 0.999985 16.9455 1 15.9616V8.03838C0.999985 7.05454 0.999971 6.24256 1.05401 5.5811C1.11015 4.89409 1.23061 4.26257 1.53286 3.66938C2.00157 2.74948 2.74948 2.00157 3.66938 1.53286C4.26257 1.23061 4.89409 1.11015 5.5811 1.05402C6.24256 0.999972 7.05456 0.999985 8.03841 1L8.33333 1C9.00835 1 9.55556 1.54721 9.55556 2.22222Z"/></svg>`,
+};
 const DROPDOWN_MENU = [
-  // Notifications sits above the divider as a distinct orange "chip" (its own
-  // pill styling reflects the orange badge color); the divider sits below it,
-  // above the rest of the menu.
-  { icon: "notifications", label: "Notifications (5)", screenId: "acct-notifications", iconMod: "notif" },
-  { icon: "myHealth", label: "My Health", screenId: "acct-health", divider: true },
-  { icon: "messages", label: "Messages", screenId: "acct-messages" },
+  { icon: "notifications", label: "Notifications (10+)", screenId: "acct-notifications", divider: true },
+  { icon: "messages", label: "My Messages (4)", screenId: "acct-messages" },
+  { icon: "saved", label: "Saved", screenId: "acct-saved" },
+  { icon: "health", label: "Health Journey", screenId: "acct-health" },
   { icon: "settings", label: "Settings", screenId: "acct-settings" },
-  // Log out is an auth transition, not an in-page screen — it crosses into the
-  // Logged Out Member flow (see the "log-out" action), like the Join / Log in /
-  // Finish up CTAs cross into Logged In Member. Its own divider sits above it.
-  { icon: "logout", label: "Log out", action: "log-out", divider: true, iconMod: "logout" },
+  // Log out is an auth transition, not a screen; "log-out" has no handler yet
+  // (see product/account.md).
+  { icon: "logout", label: "Log out", action: "log-out", divider: true },
 ];
 
 /* ---------------- Persona / screen model ---- */
@@ -291,8 +299,9 @@ const COMMUNITY_SCREENS = [
 ];
 
 const ACCOUNT_SCREENS = [
-  { id: "acct-health", label: "My Health", type: "page", title: "My Health" },
-  { id: "acct-messages", label: "Messages", type: "page", title: "Messages" },
+  { id: "acct-health", label: "Health Journey", type: "page", title: "Health Journey" },
+  { id: "acct-messages", label: "My Messages", type: "page", title: "My Messages" },
+  { id: "acct-saved", label: "Saved", type: "page", title: "Saved" },
   { id: "acct-notifications", label: "Notifications", type: "page", title: "Notifications" },
   { id: "acct-settings", label: "Settings", type: "page", title: "Settings" },
   // No acct-logout screen: "Log out" navigates out to the Logged Out Member flow.
@@ -443,7 +452,7 @@ const SCREEN_SLUGS = {
   "all-collections": "all-articles", advisors: "advisors", "topic-hub": "topic-hub",
   "symptom-checker": "symptom-checker", "signup-start": "sign-up", "listicle-detail": "listicle",
   article: "article", collection: "collection", "article-collection": "sponsored-article", "article-placeholder": "sample-article",
-  "acct-health": "my-health", "acct-messages": "messages", "acct-notifications": "notifications", "acct-settings": "settings",
+  "acct-health": "my-health", "acct-messages": "messages", "acct-saved": "saved", "acct-notifications": "notifications", "acct-settings": "settings",
   "my-profile": "profile", group: "group", program: "program", profile: "member-profile", question: "question", activity: "activity",
   "registration-step": "register",
 };
@@ -1218,8 +1227,7 @@ function renderDropdown() {
         <div class="dropdown__menu">
           ${DROPDOWN_MENU.map((it) => {
             const nav = it.action ? `data-action="${it.action}"` : `data-screen="${it.screenId}"`;
-            const mod = it.iconMod ? ` dropdown__item--${it.iconMod}` : "";
-            return `<button class="dropdown__item${it.divider ? " dropdown__divider" : ""}${mod}" ${nav}>${icon(it.icon)}<span>${it.label}</span></button>`;
+            return `<button class="dropdown__item${it.divider ? " dropdown__divider" : ""}" ${nav}><span class="dropdown__icon">${DROPDOWN_ICONS[it.icon]}</span><span>${it.label}</span></button>`;
           }).join("")}
         </div>
       </div>

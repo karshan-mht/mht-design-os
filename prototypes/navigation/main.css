@@ -2146,6 +2146,8 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   z-index: 20;
 }
 
+/* Profile dropdown (Figma Global Navigation 7921:813): the member block, then
+   the account menu, with a rule above Notifications and above Log out. */
 .dropdown {
   position: absolute;
   /* Fallback anchor; positionDropdown() overrides top/right inline each render so
@@ -2153,11 +2155,12 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
      per-breakpoint override needed). */
   top: 60px;
   right: 12px;
-  width: 246px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-card);
-  box-shadow: 0 0 8px rgb(from var(--color-text) r g b / 0.1);
+  width: 301px;
+  max-width: calc(100vw - 24px);
+  background: var(--core-background-card);
+  border: 1px solid var(--core-default-300);
+  border-radius: 16px;
+  box-shadow: 0 0 8px rgb(from var(--core-default-900) r g b / 0.1);
   padding: 24px;
   display: flex;
   flex-direction: column;
@@ -2169,20 +2172,15 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   display: flex;
   flex-direction: column;
   letter-spacing: -0.25px;
-  line-height: 28px; /* Figma: three 28px-tall rows, unhurried spacing at top */
 }
-.dropdown__user strong { font-size: 18px; }
-.dropdown__user span { font-size: 16px; color: var(--color-text-secondary); }
-.dropdown__user a {
-  font-size: 18px;
-  color: var(--color-primary);
-  text-decoration: none;
-}
+.dropdown__user strong { height: 28px; font-size: 18px; font-weight: 600; line-height: 28px; color: var(--core-default-900); }
+.dropdown__user span { height: 28px; font-size: 16px; line-height: 28px; color: var(--core-default-700); }
+.dropdown__user a { height: 28px; font-size: 18px; line-height: 28px; color: var(--color-primary); text-decoration: none; }
 
 .dropdown__menu {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
 }
 .dropdown__item {
   display: flex;
@@ -2193,39 +2191,16 @@ body[data-flow="assistant"].assistant-onepulse .ai-btn {
   cursor: pointer;
   font-family: var(--font-body);
   font-size: 18px;
-  color: var(--color-text);
+  line-height: 24px;
+  letter-spacing: -0.25px;
+  color: var(--core-default-900);
   padding: 0;
   text-align: left;
 }
-.dropdown__item .icon { width: 29px; height: 29px; }
-.dropdown__divider { border-top: 1px solid var(--color-border); padding-top: 16px; }
-
-/* Log out icon points right (arrow leaving the door), matching Figma. */
-.dropdown__item--logout .icon svg { transform: rotate(90deg); }
-
-/* Notifications is a distinct orange "chip" above the divider (matches Figma):
-   faint orange fill, rounded, orange bell + label. */
-.dropdown__item--notif {
-  background: var(--color-badge-soft);
-  color: var(--color-badge);
-  border-radius: 16px;
-  padding: 12px;
-}
-/* Notifications bell wiggles periodically to draw the eye to the unread count. */
-.dropdown__item--notif .icon svg {
-  transform-origin: 50% 18%;
-  animation: bell-wiggle 2.6s ease-in-out infinite;
-}
-@keyframes bell-wiggle {
-  0%, 14%, 100% { transform: rotate(0deg); }
-  2%  { transform: rotate(15deg); }
-  5%  { transform: rotate(-13deg); }
-  8%  { transform: rotate(9deg); }
-  11% { transform: rotate(-5deg); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .dropdown__item--notif .icon svg { animation: none; }
-}
+.dropdown__icon { display: grid; place-items: center; flex: none; width: 24px; height: 24px; }
+.dropdown__icon svg { display: block; width: 24px; height: 24px; }
+.dropdown__icon svg[viewBox="0 0 20 22"] { width: 20px; height: 22px; }   /* the bell is drawn 20x22 */
+.dropdown__divider { border-top: 1px solid var(--core-default-300); padding-top: 17px; }
 
 /* The level-up pill animates height, padding, radius, background and border as
    it docks on scroll. main.css has four reduced-motion blocks but all were

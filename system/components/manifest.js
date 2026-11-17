@@ -301,23 +301,6 @@ window.MHT_COMPONENTS = [
     "contract": null
   },
   {
-    "block": "dropdown",
-    "tier": "chrome",
-    "rules": 13,
-    "parts": [
-      "divider",
-      "item",
-      "menu",
-      "user"
-    ],
-    "variants": [
-      "logout",
-      "notif"
-    ],
-    "inJs": true,
-    "contract": null
-  },
-  {
     "block": "topic-hub-mod",
     "tier": "surface",
     "rules": 12,
@@ -383,6 +366,21 @@ window.MHT_COMPONENTS = [
       "meta",
       "name",
       "text"
+    ],
+    "variants": [],
+    "inJs": true,
+    "contract": null
+  },
+  {
+    "block": "dropdown",
+    "tier": "chrome",
+    "rules": 11,
+    "parts": [
+      "divider",
+      "icon",
+      "item",
+      "menu",
+      "user"
     ],
     "variants": [],
     "inJs": true,

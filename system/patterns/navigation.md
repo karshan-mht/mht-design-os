@@ -143,7 +143,7 @@ Card data lives in `PANEL_CARDS` (`main.js`); the whole panel is one `renderPane
 
 The account menu opened from the top-nav profile avatar. It's a single-surface
 component (it serves only Account), so its full spec — container styling, menu
-structure, item→screen map, Notifications-above-divider, bell wiggle, Log-out
+structure, item→screen map, the two rules, Log-out
 no-op, "View Profile" → My Profile, dropdown icons, and persona availability —
 lives in **[account.md](../../product/account.md)**. The nav's role is just the trigger: the
 profile avatar (§1, member/subscriber personas) toggles it open.

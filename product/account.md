@@ -1,7 +1,7 @@
 # TIM Account — spec
 
 The Account surface: the **profile dropdown** menu and the destination screens it
-opens (My Health / Messages / Notifications / Settings) plus the member's own
+opens (Notifications / My Messages / Saved / Health Journey / Settings) plus the member's own
 **My Profile**. The dropdown is triggered from the top-nav profile avatar — that
 trigger is nav chrome, spec'd in [navigation.md](../system/patterns/navigation.md) §1 (Top Nav) /
 Interactions. **Log out** lives here structurally but is an auth transition — see
@@ -14,26 +14,30 @@ All destination screens here are **labelled placeholders** — real UI is not bu
 
 ## Profile dropdown
 
-Anchored card, top-right under the profile avatar, 246px wide, white, `#dbdddf`
-border, `0 0 8px rgba(13,27,41,0.1)` shadow, 24px padding. The user block uses
-28px line rows for unhurried spacing at the top (matches Figma).
+Figma Global Navigation `7921:813`. Anchored card, top-right under the profile
+avatar, 301px wide (capped at the viewport less 24px), `core-default-300` border,
+`0 0 8px` navy-at-10% shadow, 16px radius, 24px padding, 16px between the user
+block and the menu.
 
-**Structure:** `User block → Notifications chip → divider → My Health · Messages · Settings → divider → Log out`
+**Structure:** `User block → rule → Notifications · My Messages · Saved · Health Journey · Settings → rule → Log out`
 
-- **User block:** name ("Janet Smithsonian"), handle ("@jannie1234"), "View Profile" link (`#0f57a8`) → navigates to the member's own **My Profile** (`my-profile`, via `data-action="go-profile"`) — a page with **no** level-up pill, distinct from "Someone's Member Profile" reached via Meet Others (see [community.md](community.md)).
-- **Notifications (5)** → `acct-notifications` — sits **above the first divider** as a distinct orange **chip**: faint orange fill (`--color-badge-soft`), orange bell + label (`--color-badge`, `#ff741d`), `16px` radius, `12px` padding — matching the orange notification badge. Its bell **wiggles periodically** (`bell-wiggle`, disabled under `prefers-reduced-motion`).
-- Top divider sits **below** the Notifications chip, separating it from the rest of the menu.
-- Then: My Health → `acct-health`, Messages → `acct-messages`, Settings → `acct-settings`.
-- Bottom divider (sits **above** Log out), then: **Log out** → currently a **no-op** (`data-action="log-out"` with no handler — auth transition not wired; see [onboarding.md](onboarding.md)). Its icon is rotated 90° so the arrow points **right** (matches Figma).
+- **User block:** three 28px rows: name ("Janet Smithsonian", SemiBold 18), handle ("@jannie1234", 16, `core-default-700`), "View Profile" (18, action blue) → the member's own **My Profile** (`my-profile`, via `data-action="go-profile"`), a page distinct from "Someone's Member Profile" reached via Meet Others (see [community.md](community.md)).
+- **Menu:** 18/24 rows, 24px apart, each a 24px icon + label (12px gap), all in the dark navy. A 1px rule sits above Notifications and above Log out, 17px above the item.
+  - Notifications (10+) → `acct-notifications`
+  - My Messages (4) → `acct-messages`
+  - Saved → `acct-saved`
+  - Health Journey → `acct-health`
+  - Settings → `acct-settings`
+  - **Log out** → `data-action="log-out"`, currently a **no-op** (auth transition not wired; see [onboarding.md](onboarding.md)).
 
 The `acct-*` rows carry a `data-screen` and navigate to a placeholder destination
-screen within the persona (in-page state change; the dropdown closes on click).
-**Log out** is the exception (see above).
+screen within the persona (the dropdown closes on click). The counts are
+placeholder copy.
 
-**Persona availability:** only defined for **Logged In Member** in the source file
-(node 7042:711). Logged Out Member has a profile-style icon in the nav but no
-corresponding dropdown content in Figma — not built. Subscriber uses the Visitor
-nav (Join button, no profile icon), so it has no dropdown either.
+**Persona availability:** Logged In Member only. Logged Out Member has a
+profile-style icon in the nav but no dropdown content in Figma — not built.
+Subscriber uses the Visitor nav (Join button, no profile icon), so it has no
+dropdown either.
 
 ---
 
@@ -41,9 +45,10 @@ nav (Join button, no profile icon), so it has no dropdown either.
 
 | Screen | id | Reached from |
 |---|---|---|
-| My Health | `acct-health` | dropdown |
-| Messages | `acct-messages` | dropdown |
 | Notifications | `acct-notifications` | dropdown |
+| My Messages | `acct-messages` | dropdown |
+| Saved | `acct-saved` | dropdown |
+| Health Journey | `acct-health` | dropdown |
 | Settings | `acct-settings` | dropdown |
 | My Profile | `my-profile` | dropdown "View Profile" (`go-profile`) |
 
@@ -55,13 +60,8 @@ no-op (see [onboarding.md](onboarding.md)).
 
 ## Assets — dropdown icons
 
-From the Logged-In Member dropdown `7042:711 → 7042:776`. Monochrome SVGs, tinted
-ink via CSS (see [design.md](../system/foundation/design.md) → icon-tinting system):
-
-| File | Label | Source node |
-|---|---|---|
-| `menu-myhealth.svg` | My Health | 7042:785 |
-| `menu-messages.svg` | Messages | 7042:789 |
-| `menu-notifications.svg` | Notifications | 7042:793 |
-| `menu-settings.svg` | Settings | 7042:797 |
-| `menu-logout.svg` | Log out | 7042:806 |
+The six menu icons are the Figma drawings from `7921:813` (Notifications
+`7921:823`, My Messages `7921:826`, Saved `7921:830`, Health Journey `7921:834`,
+Settings `7921:838`, Log out `7921:844`), inlined in `main.js` as
+`DROPDOWN_ICONS` with `currentColor` paint. The bell is drawn 20x22; the rest
+are 24x24.
