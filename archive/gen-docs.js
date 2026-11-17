@@ -14,15 +14,17 @@
    clutter than a single 330KB payload costs on an internal tool, and it avoids
    dynamic script injection.
 
-     node evals/gen-docs.js
-     node evals/gen-docs.js --check
+     node archive/gen-docs.js
+     node archive/gen-docs.js --check
    ========================================================================== */
 
 const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
-const OUT = 'system/docs/content.js';
+// ARCHIVED 2026-11-16 with the docs viewer (archive/docs/). Not run by
+// evals/check-all.js; run it by hand only to refresh the archived viewer.
+const OUT = 'archive/docs/content.js';
 
 // Skipped: generated files (read the source instead) and the viewer's own docs.
 const SKIP = new Set(['system/components/INDEX.md']);

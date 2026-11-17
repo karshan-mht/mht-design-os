@@ -1,5 +1,10 @@
 # Launcher archive
 
+> **Update 2026-11-16:** the docs viewer and the component gallery were themselves
+> archived, to `archive/docs/index.html` and `archive/components/index.html`. The
+> paths below point there. They are snapshots: the viewer's markdown copy is no longer
+> regenerated, so read the `.md` files for current content.
+
 On 2026-09-21 the launcher was cut back to four sections — Prototypes, Color,
 Type, Icons — so it surfaces the basics rather than everything. This records
 what was removed and where it still lives, because the curation (the grouping,
@@ -7,7 +12,7 @@ the descriptions, the deliberate `planned` placeholders) is work in its own
 right and is not recoverable from a file listing.
 
 **Nothing was deleted.** Every file below is still in the repo and still
-reachable through the docs viewer at `system/docs/index.html`, which indexes
+reachable through the docs viewer at `archive/docs/index.html`, which indexes
 all 31 markdown documents. The standalone pages — the component gallery, the
 graphics gallery, the token reference — are also still there and still pass
 their checks.
@@ -27,7 +32,7 @@ _The universal layer every site and prototype shares — color, type, space and 
 
 | Item | Where it lives | What it was |
 |---|---|---|
-| Authority & preference | `system/docs/index.html?doc=system/AUTHORITY.md` | Which source wins when artifacts disagree, and the Preferred / Allowed / Avoid / Prohibited grammar. |
+| Authority & preference | `archive/docs/index.html?doc=system/AUTHORITY.md` | Which source wins when artifacts disagree, and the Preferred / Allowed / Avoid / Prohibited grammar. |
 
 ### Sites
 
@@ -35,7 +40,7 @@ _The universal layer every site and prototype shares — color, type, space and 
 
 | Item | Where it lives | What it was |
 |---|---|---|
-| Site & theme guide | `system/docs/index.html?doc=system/tokens/themes/README.md` | What each site is, what belongs in a theme, and how to add site 81. |
+| Site & theme guide | `archive/docs/index.html?doc=system/tokens/themes/README.md` | What each site is, what belongs in a theme, and how to add site 81. |
 | ThisIsMenopause | `system/tokens/themes/menopause.css` | Purple hue family. Production values, Figma-confirmed. The theme every prototype here is built against. |
 | Legacy condition sites | `system/tokens/themes/legacy.css` | Blue hue family for the 80+ existing condition sites, migrating onto Menopause styling. Placeholder values — only the accent is sourced. |
 | Legacy site template | _not built_ | A prototype shell running the Legacy hue end to end. Not built yet. |
@@ -48,7 +53,7 @@ _The universal layer every site and prototype shares — color, type, space and 
 |---|---|---|
 | Token reference | `system/tokens/reference.html` | Every token, rendered from tokens.css itself with live computed values and a theme switcher. |
 | tokens.css | `system/tokens/tokens.css` | The universal palette. Source of truth; names no hue. |
-| Design language | `system/docs/index.html?doc=system/foundation/design.md` | Color tokens, type scale, tinting, chrome asset provenance. |
+| Design language | `archive/docs/index.html?doc=system/foundation/design.md` | Color tokens, type scale, tinting, chrome asset provenance. |
 
 ### Motion
 
@@ -60,7 +65,7 @@ _The universal layer every site and prototype shares — color, type, space and 
 
 | Item | Where it lives | What it was |
 |---|---|---|
-| Global navigation | `system/docs/index.html?doc=system/patterns/navigation.md` | Top nav, slide-out panel, level-up pill, footer. |
+| Global navigation | `archive/docs/index.html?doc=system/patterns/navigation.md` | Top nav, slide-out panel, level-up pill, footer. |
 
 ---
 
@@ -74,10 +79,10 @@ _The monolith made addressable. A generated index of every CSS block, plus hand-
 
 | Item | Where it lives | What it was |
 |---|---|---|
-| Component gallery | `system/components/index.html` | Live specimens rendered from the real main.css, plus every block by tier. Theme switcher included. |
+| Component gallery | `archive/components/index.html` | Live specimens rendered from the real main.css, plus every block by tier. Theme switcher included. |
 | Component index (markdown) | `system/components/INDEX.md` | The same inventory as a file, for reading in an editor or a diff. |
-| How components work here | `system/docs/index.html?doc=system/components/README.md` | What the tiers mean, how to add a contract, and the known gaps. |
-| Contract template | `system/docs/index.html?doc=system/components/_TEMPLATE.md` | The schema for a component contract, using the preference grammar. |
+| How components work here | `archive/docs/index.html?doc=system/components/README.md` | What the tiers mean, how to add a contract, and the known gaps. |
+| Contract template | `archive/docs/index.html?doc=system/components/_TEMPLATE.md` | The schema for a component contract, using the preference grammar. |
 
 ### Contracts
 
@@ -85,7 +90,7 @@ _The monolith made addressable. A generated index of every CSS block, plus hand-
 
 | Item | Where it lives | What it was |
 |---|---|---|
-| Ask AI button | `system/docs/index.html?doc=system/components/ai-btn.md` | The assistant entry point — states, pulse motion, reduced-motion and accessibility. |
+| Ask AI button | `archive/docs/index.html?doc=system/components/ai-btn.md` | The assistant entry point — states, pulse motion, reduced-motion and accessibility. |
 | More contracts | _not built_ | Buttons, the level-up pill and icon-btn are the next candidates. |
 
 ### Figma parity
@@ -107,8 +112,8 @@ _Who the brand is and how it sounds. Strategy, voice, messaging and copy guardra
 
 | Item | Where it lives | What it was |
 |---|---|---|
-| Brand source of truth | `system/docs/index.html?doc=system/brand/brand-source-of-truth.md` | Positioning, values, voice pillars, tone spectrum, messaging architecture. |
-| Site design language | `system/docs/index.html?doc=system/brand/site-design-language.md` | thisismenopause.com — color roles, components, layout rules. |
+| Brand source of truth | `archive/docs/index.html?doc=system/brand/brand-source-of-truth.md` | Positioning, values, voice pillars, tone spectrum, messaging architecture. |
+| Site design language | `archive/docs/index.html?doc=system/brand/site-design-language.md` | thisismenopause.com — color roles, components, layout rules. |
 | MHT Style Guide (Figma) | _not built_ | The live style guide. The v1 PDF was removed as outdated — link to be added. |
 
 ---
@@ -121,19 +126,19 @@ _What each surface is and how it behaves — the product knowledge behind the pr
 
 | Item | Where it lives | What it was |
 |---|---|---|
-| Landing | `system/docs/index.html?doc=product/landing.md` | Splash Landing — six content modules and its deep-links. |
-| Library / Resources | `system/docs/index.html?doc=product/library.md` | Topic pages, Topic Center, Article Show. |
-| Community | `system/docs/index.html?doc=product/community.md` | Posts, Q&A, Groups, Meet-Others and their detail screens. |
-| Topic Hub | `system/docs/index.html?doc=product/topic-hub.md` | Per-concern hub aggregating Q&A, conversations, groups, resources. |
-| Advisors | `system/docs/index.html?doc=product/advisors.md` | Medical Advisory Committee page. |
-| Account | `system/docs/index.html?doc=product/account.md` | Profile dropdown and its destination screens. |
-| Onboarding | `system/docs/index.html?doc=product/onboarding.md` | Sign Up Start and Registration Step. |
+| Landing | `archive/docs/index.html?doc=product/landing.md` | Splash Landing — six content modules and its deep-links. |
+| Library / Resources | `archive/docs/index.html?doc=product/library.md` | Topic pages, Topic Center, Article Show. |
+| Community | `archive/docs/index.html?doc=product/community.md` | Posts, Q&A, Groups, Meet-Others and their detail screens. |
+| Topic Hub | `archive/docs/index.html?doc=product/topic-hub.md` | Per-concern hub aggregating Q&A, conversations, groups, resources. |
+| Advisors | `archive/docs/index.html?doc=product/advisors.md` | Medical Advisory Committee page. |
+| Account | `archive/docs/index.html?doc=product/account.md` | Profile dropdown and its destination screens. |
+| Onboarding | `archive/docs/index.html?doc=product/onboarding.md` | Sign Up Start and Registration Step. |
 
 ### Architecture
 
 | Item | Where it lives | What it was |
 |---|---|---|
-| System & persona model | `system/docs/index.html?doc=prototypes/navigation/ARCHITECTURE.md` | The data-persona render model, screen types, responsive layout. |
+| System & persona model | `archive/docs/index.html?doc=prototypes/navigation/ARCHITECTURE.md` | The data-persona render model, screen types, responsive layout. |
 
 ---
 
@@ -145,10 +150,10 @@ _Why things are the way they are. Append-only: older entries record what was tru
 
 | Item | Where it lives | What it was |
 |---|---|---|
-| Docs viewer | `system/docs/index.html` | Every markdown document in the repo, rendered and cross-linked, with a sidebar. |
-| Decisions log | `system/docs/index.html?doc=decisions/DECISIONS.md` | Every design and build decision, interleaved in time order. |
-| Restructure plan | `system/docs/index.html?doc=decisions/RESTRUCTURE-PLAN.md` | The six-phase plan this home is part of, with findings and status. |
-| Manual | `system/docs/index.html?doc=MANUAL.md` | Index of the spec docs. |
+| Docs viewer | `archive/docs/index.html` | Every markdown document in the repo, rendered and cross-linked, with a sidebar. |
+| Decisions log | `archive/docs/index.html?doc=decisions/DECISIONS.md` | Every design and build decision, interleaved in time order. |
+| Restructure plan | `archive/docs/index.html?doc=decisions/RESTRUCTURE-PLAN.md` | The six-phase plan this home is part of, with findings and status. |
+| Manual | `archive/docs/index.html?doc=MANUAL.md` | Index of the spec docs. |
 
 ---
 

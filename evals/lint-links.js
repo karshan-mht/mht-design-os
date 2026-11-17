@@ -43,11 +43,11 @@ const BASE_OVERRIDES = {
 };
 
 // Documentation examples that intentionally name files which do not exist.
-// system/docs/content.js is a generated mirror of every .md in the repo. Its
+// archive/docs/content.js is a generated mirror of every .md in the repo. Its
 // "paths" are prose mentions, and even the real links inside it are relative to
-// each ORIGINAL document, not to system/docs/. The source .md files are checked
+// each ORIGINAL document, not to archive/docs/. The source .md files are checked
 // directly, so checking the mirror would double-count and mis-resolve.
-const SKIP_FILES = new Set(['system/docs/content.js']);
+const SKIP_FILES = new Set(['archive/docs/content.js', 'archive/gen-docs.js']);  // gen-docs names its output by repo-root path
 
 const IGNORE = new Set([
   'photos/stories.jpg',  // script.js: sample data showing the expected image shape
