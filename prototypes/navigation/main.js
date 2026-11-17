@@ -139,7 +139,7 @@ const PANEL_TOPICS = [
 // The persona-specific card at the top of the side panel (Figma Global
 // Navigation). Every persona's panel shares the same layout — brand + this card
 // + a TOPICS list + footer — so only the card differs. `cta` is the white pill
-// (screen = in-persona nav, action = a data-action like the no-op "log-in");
+// (screen = in-persona nav, action = a data-action like "log-in" or "log-in-other");
 // `link` is the secondary text button below it.
 const PANEL_CARDS = {
   visitor: {
@@ -159,7 +159,7 @@ const PANEL_CARDS = {
     title: "Welcome back, Jannie123!",
     sub: "You’re not logged in.",
     cta: { label: "Log in now", action: "log-in" },
-    link: { label: "Other ways to log in", screen: "signup-start" },
+    link: { label: "Other ways to log in", action: "log-in-other" },
   },
   // Logged-in card (7417:3712) — Share posts to Activity, Ask a question to Q&A.
   "logged-in-member": {
@@ -347,6 +347,8 @@ const SHARED_TARGET_SCREENS = [PROGRAM_SCREEN, COMMUNITY_OVERVIEW_SCREEN, ALL_AR
 // mirrors the Visitor landing). The splash content modules deep-link into these:
 // the symptom-checker CTA, the listicle detail page, Article Show (levels up to a
 // Topic Hub) and a second Article Show that belongs to a Collection.
+// Article Show as both member personas see it.
+const MEMBER_ARTICLE_SCREEN = { id: "article", label: "Article Show", type: "uplevel", title: "Article Show", backLabel: "All Articles", upTo: "all-collections", upIcon: "tab-resources" };
 const SPLASH_FLOW_SCREENS = [
   { id: "splash", label: "Splash Landing", type: "tabs", title: "Splash Landing", modules: true },
   SYMPTOM_CHECKER_SCREEN,
@@ -378,6 +380,9 @@ const PERSONAS = {
     navVariant: "member",
     screens: [
       { id: "home-gated", label: "Home (gated)", type: "tabs", title: "Home as a hub\n(gated)" },
+      // Articles are public, so a logged-out member can read one too (the
+      // community detail pages stay member-only).
+      MEMBER_ARTICLE_SCREEN,
       ...LIBRARY_SCREENS_MEMBER,
       ...COMMUNITY_SCREENS,
     ],
@@ -393,7 +398,7 @@ const PERSONAS = {
       // page with no level-up bar. Distinct from the "profile" screen below,
       // which is SOMEONE ELSE's profile (reached from Meet Others).
       { id: "my-profile", label: "My Profile", type: "page", title: "My Profile" },
-      { id: "article", label: "Article Show", type: "uplevel", title: "Article Show", backLabel: "All Articles", upTo: "all-collections", upIcon: "tab-resources" },
+      MEMBER_ARTICLE_SCREEN,
       { id: "group", label: "Group Detail", type: "uplevel", title: "Group Detail", backLabel: "All Groups", upTo: "com-groups", upIcon: "up-groups" },
       PROGRAM_SCREEN,
       { id: "profile", label: "Member Profile", type: "uplevel", title: "Someone\u2019s Member Profile", backLabel: "All People", upTo: "com-meet", upIcon: "tab-community" },
@@ -588,7 +593,7 @@ function renderTopNav() {
     ? `<button class="join-btn" data-screen="${isSubscriber ? "registration-step" : "signup-start"}">${isSubscriber ? "Finish" : "Join"}</button>`
     : `<button class="profile-btn" data-action="toggle-dropdown" aria-label="Account menu">
          <span class="profile-avatar"><img class="profile-img" src="${PROFILE_PLACEHOLDER}" alt="" /></span>
-         <span class="badge"></span>
+         ${LOCKED_PERSONA_KEY === "logged-out-member" ? "" : `<span class="badge"></span>`}
        </button>`;
 
   return `
@@ -624,7 +629,7 @@ function renderDesktopHeader(screen) {
     ? `<button class="join-btn" data-screen="${isSubscriber ? "registration-step" : "signup-start"}">${isSubscriber ? "Finish" : "Join"}</button>`
     : `<button class="profile-btn" data-action="toggle-dropdown" aria-label="Account menu">
          <span class="profile-avatar"><img class="profile-img" src="${PROFILE_PLACEHOLDER}" alt="" /></span>
-         <span class="badge"></span>
+         ${LOCKED_PERSONA_KEY === "logged-out-member" ? "" : `<span class="badge"></span>`}
        </button>`;
 
 
@@ -2025,6 +2030,23 @@ function closePanel() {
 // Logging in from the login card: cross into the Logged In Member prototype,
 // keeping the current page (same hash slug; it falls back to home if that
 // persona has no such screen). No real auth.
+// Open the login card from anywhere (not just the profile button), optionally
+// with "Other ways to log in" already expanded.
+function openLoginCard(showOther) {
+  state.panelOpen = false;
+  state.gateOpen = false;
+  state.subnavMenu = null;
+  state.dropdownOpen = true;
+  render();
+  const card = document.querySelector(".login");
+  if (!card) return;
+  if (showOther) {
+    card.classList.add("is-other");
+    card.querySelector(".login__other-toggle").setAttribute("aria-expanded", "true");
+  } else {
+    card.querySelector(".login__input[name=password]").focus();
+  }
+}
 function logIn() {
   window.location.href = `../logged-in-member/index.html${window.location.hash}`;
 }
@@ -2092,6 +2114,17 @@ document.addEventListener("click", (e) => {
     }
     case "log-in-with":
       logIn();
+      break;
+    // "Log in now" (panel card, Community reminder) and the gate's "Log In".
+    // A logged-out member gets the login card; anyone else (the gate is only
+    // shown to visitors) goes straight into the logged-in flow, since the card
+    // is pre-filled with a known member's email.
+    case "log-in":
+      if (LOCKED_PERSONA_KEY === "logged-out-member") openLoginCard(false);
+      else logIn();
+      break;
+    case "log-in-other":
+      openLoginCard(true);
       break;
     case "member-gate":
       state.gateFeature = actionEl.dataset.gate || "posts";

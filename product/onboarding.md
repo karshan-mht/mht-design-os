@@ -59,21 +59,23 @@ For the Visitor they're **Join** / **Join for free** → `signup-start`.
 
 ---
 
-## Auth transitions — intentionally not wired
+## Auth transitions
 
-Two CTAs *look* like auth transitions but are **currently no-ops** — they carry a
-`data-action` that has **no matching case** in the click handler, so nothing
-happens (`main.js:732–734`: "Cross-flow auth transitions … are intentionally
-no-ops in this prototype — these CTAs no longer jump to another persona's page;
-each flow stays self-contained").
+Logging **in** is wired (2026-11-16); logging **out** is not. There is no real
+auth: logging in is a client-side jump into the `../logged-in-member/` flow on
+the same page (`logIn()` in `main.js`; it falls back to that persona's home if
+the page doesn't exist there).
 
 | CTA | Where | Action | Behavior today |
 |---|---|---|---|
-| **Log in now** | Logged Out Member panel access card | `data-action="log-in"` | no-op |
+| **Log in now** | Logged Out Member panel access card; Community login reminder | `data-action="log-in"` | opens the login card (see [account.md](account.md)) |
+| **Other ways to log in** | Logged Out Member panel access card | `data-action="log-in-other"` | opens the login card with Google and Facebook showing |
+| **Log In** | Member gate ("Already a member?"), Visitor and Subscriber | `data-action="log-in"` | goes straight into the logged-in flow (the card is pre-filled with a known member's email, so it is skipped for visitors) |
+| **Log in** / **Continue with Google / Facebook** | The login card | form submit / `log-in-with` | into the logged-in flow |
 | **Log out** | Logged In Member profile dropdown | `data-action="log-out"` | no-op |
 
-This **supersedes** the earlier (2026-07-24) design in which Log out did a real
-cross-folder navigation into the `../logged-out-member/` flow — see
-[decisions/DECISIONS.md](../decisions/DECISIONS.md). A real implementation would replace these no-ops
+Log out staying a no-op **supersedes** the earlier (2026-07-24) design in which
+it did a real cross-folder navigation into the `../logged-out-member/` flow — see
+[decisions/DECISIONS.md](../decisions/DECISIONS.md). A real implementation would replace these jumps
 with an actual auth flow rather than a client-side folder swap; that decision is
 still open ("on the horizon" in [decisions/DECISIONS.md](../decisions/DECISIONS.md)).
