@@ -147,8 +147,8 @@ Figma Community `5:2` desktop / `6:68` mobile), not the orientation menu. Data-d
   members only!"** and a smaller Lato-gray subline **"Join for free to view posts."**
   (`state.gateFeature` fills the feature word — `GATE_FEATURES` map), three "Continue
   with …" options (Facebook / Google / Email — all → `signup-start`), and an "Already
-  a member? **Log In**" link that is a **no-op** (`data-action="log-in"` — no login
-  screen exists in this prototype). Dismissed via the top-left ✕ or the scrim (both
+  a member? **Log In**" link (`data-action="log-in"`) that goes straight into the
+  Logged In Member flow on the same page. Dismissed via the top-left ✕ or the scrim (both
   `data-action="close-gate"`). While open, the document scroll is **locked**
   (`html.is-modal-open { overflow: hidden }`, toggled in `render()`), so the page
   behind doesn't scroll. Brand glyphs (`gate-facebook/google/email`) are inlined in
@@ -195,8 +195,8 @@ mobile is swipe. The **"Post" button** and cards point at the `com-*` list pages
 **Logged-Out vs Logged-In:** the logged-out member sees the feed **gated** —
 `renderCommunityFeed(true)` adds the `.comm-feed--gated` class (blurs the card
 content 4px and makes it non-interactive) and prepends a **login-reminder card**
-("Welcome back, Jannie123! / You're not logged in. / **Log in now**", the
-`data-action="log-in"` no-op auth transition — mirrors the panel access card). The
+("Welcome back, Jannie123! / You're not logged in. / **Log in now**", which opens
+the login card — mirrors the panel access card). The
 logged-in member sees it live, no reminder. Both share all four sections' content.
 
 **Counts** are the literal **`[TBD]`** placeholder ("[TBD] members", "[TBD] team

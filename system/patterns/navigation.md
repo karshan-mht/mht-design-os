@@ -39,7 +39,7 @@ are in [landing.md](../../product/landing.md), [library.md](../../product/librar
 - **Profile avatar** (member nav variant) → opens the account **Dropdown** (wired for Logged In Member; tapping outside closes it). The dropdown's menu and its destination screens are spec'd in [account.md](../../product/account.md).
 - **Level-up pill** → only on *detail* screens (Article/Group/Program/Profile/Question/Activity). It steps **one level up** to the parent list/topic (via `upTo` → `data-screen`, e.g. Group Detail → Groups, Article Show → its topic page), not "back" and not necessarily home. Top-level pages (the panel/dropdown destinations) have no level-up pill — the nav logo returns home instead. (`program` has no list parent in the source, so it falls back to home.)
 - **Nav pill** → opens the chromeless sign-up flow **in-persona**. Persona-aware: **Join** → `Sign Up Start` for the Visitor; **Finish** → `Registration Step` for the Subscriber (both share the `visitor` nav variant). Full spec in [onboarding.md](../../product/onboarding.md). *(The panel's old Join for free / Finish up now access cards were removed in the 2026-08-03 shared-panel redesign; those roles moved to the nav pill + splash closing card — see §3.)*
-- **"Log in now"** (Logged Out Member's panel access card — see §3) and **"Log out"** (dropdown) → currently **no-ops** (auth not wired); see [onboarding.md](../../product/onboarding.md).
+- **"Log in now"** (Logged Out Member's panel access card — see §3) opens the login card; **"Log out"** (dropdown) is still a **no-op**. See [onboarding.md](../../product/onboarding.md).
 
 ---
 
@@ -59,7 +59,7 @@ The logotype/logomark is a button that returns to the persona's home screen (`go
 
 ### Variant: `member` (logged-out and logged-in, non-photo state)
 - Logo slot: compact **Logomark** (circle mark, ~47×44), not the full wordmark
-- Right slot: Search icon, AI icon, **Profile** avatar (self-contained circular placeholder silhouette — no button border/background) + orange notification badge (`--color-badge`, `#ff741d`) that sits **outside, on top of** the avatar's top-right edge (11px dot with a 2px white ring). The circular crop is on an inner `.profile-avatar` wrapper so the badge (a sibling) isn't clipped by it.
+- Right slot: Search icon, AI icon, **Profile** avatar (self-contained circular placeholder silhouette — no button border/background) + orange notification badge (`--color-badge`, `#ff741d`) that sits **outside, on top of** the avatar's top-right edge (11px dot with a 2px white ring). The Logged Out Member has no badge (no notifications while logged out). The circular crop is on an inner `.profile-avatar` wrapper so the badge (a sibling) isn't clipped by it.
 - No Join button
 - Node ref: 6960:52 (Logged Out Member — Home gated)
 
@@ -123,7 +123,7 @@ Full-height overlay: `rgba(0,0,0,0.75)` scrim + 300px white panel sliding from l
 |---|---|---|---|
 | Visitor | "Don't miss out!" / join copy | **Join for free** → `signup-start` | Get a preview first → `community-overview` |
 | Subscriber | "Don't miss out!" / finish copy | **Finish up now** → `registration-step` | Get a preview first → `community-overview` |
-| **Logged Out Member** (Figma `7417:3673`, "Access") | "Welcome back, Jannie123!" / "You're not logged in." | **Log in now** → `data-action="log-in"` (no-op — auth not wired) | Join for free → `signup-start` |
+| **Logged Out Member** (Figma `7417:3673`, "Access") | "Welcome back, Jannie123!" / "You're not logged in." | **Log in now** → `data-action="log-in"` (opens the login card) | Other ways to log in → `data-action="log-in-other"` (the login card, Google and Facebook showing) |
 | **Logged In Member** (Figma `7417:3712`) | "Jannie123, how are you today?" / "It's okay to open up." | **Share now** → `com-activities` (Activity) | Ask a question → `com-questions` (Q&A) |
 
 Card data lives in `PANEL_CARDS` (`main.js`); the whole panel is one `renderPanel()`.

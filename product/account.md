@@ -56,6 +56,10 @@ them as returning:
 - Below a rule, **Other ways to log in** reveals **Continue with Google** and
   **Continue with Facebook** inside the card. It toggles a class rather than
   re-rendering, so anything typed stays.
+- **Other ways in:** the card also opens from "Log in now" on the panel card and
+  the Community reminder, and with Google and Facebook already showing from the
+  panel's "Other ways to log in".
+- **No notification dot** on the logged-out avatar.
 - Logging in by any route (the button, Enter, Google, Facebook) crosses into the
   **Logged In Member** prototype on the same page (same hash; home if that
   persona has no such screen). There is no real auth, and the fields are not
